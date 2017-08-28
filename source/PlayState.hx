@@ -18,6 +18,9 @@ class PlayState extends FlxState {
 	var battleScreen:FlxSprite;
 	var battleScreenBG:FlxSprite;
 	
+	var battleScreen2:FlxSprite;
+	var battleScreenBG2:FlxSprite;
+	
 	override public function create():Void {
 		super.create();
 		
@@ -32,16 +35,28 @@ class PlayState extends FlxState {
 		battleScreenBG.loadGraphic("assets/images/BattleBackgrounds/BattleBackground-" + Std.string(FlxG.random.int(1, 16)) + ".png");
 		add(battleScreenBG);
 		
-		text1 = new FlxText(200, 100);
+		
+		battleScreen2 = new FlxSprite(300, 25);
+		battleScreen2.loadGraphic("assets/images/BattleScreen.png");
+		battleScreen2.centerOffsets();
+		add(battleScreen2);
+		
+		battleScreenBG2 = new FlxSprite(battleScreen2.x + 7, battleScreen2.y + 5);
+		battleScreenBG2.centerOffsets();
+		battleScreenBG2.loadGraphic("assets/images/BattleBackgrounds/BattleBackground-" + Std.string(FlxG.random.int(1, 16)) + ".png");
+		add(battleScreenBG2);
+		
+		text1 = new FlxText(battleScreen.x, 175);
 		add(text1);
-		text2 = new FlxText(200, 150);
+		
+		text2 = new FlxText(battleScreen2.x, 175);
 		add(text2);
 		
 		var btn:FlxButton = new FlxButton(200, 50, "Get Moves", getMonsterActions);
 		add(btn);
 		
 		monster1 = new Monster(battleScreen.x + 7, battleScreen.y + 38, "Tyro");
-		monster2 = new Monster(battleScreen.x + 65, battleScreen.y + 38, "Eye");
+		monster2 = new Monster(battleScreen2.x + 7, battleScreen2.y + 38, "Eye");
 		monster2.facing = FlxObject.LEFT;
 		
 		add(monster1);
@@ -56,13 +71,13 @@ class PlayState extends FlxState {
 	
 	private function getMonsterActions():Void {
 		text1.text = monster1.getAction();
-		text1.text += "\r\ntarget:" + getMonsterTarget([1, 0, 0, 0]);
+		text1.text += "\r\ntarget : " + getMonsterTarget([1, 0, 0, 0]);
 		
 		text2.text = monster2.getAction();
-		text2.text += "\r\ntarget:" + getMonsterTarget([1, 0, 0, 0]);
+		text2.text += "\r\ntarget : " + getMonsterTarget([1, 0, 0, 0]);
 		
-		
-		// battleScreenBG.loadGraphic("assets/images/BattleBackgrounds/BattleBackground-" + Std.string(FlxG.random.int(1, 16)) + ".png");
+		battleScreenBG.loadGraphic("assets/images/BattleBackgrounds/BattleBackground-" + Std.string(FlxG.random.int(1, 16)) + ".png");
+		battleScreenBG2.loadGraphic("assets/images/BattleBackgrounds/BattleBackground-" + Std.string(FlxG.random.int(1, 16)) + ".png");
 	}
 	
 	private function getMonsterTarget(teamSlots:Array<Int>):Int {

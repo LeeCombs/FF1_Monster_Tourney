@@ -86,7 +86,7 @@ class Monster extends FlxSprite {
 		var outputString:String = "";
 		if (spell.length > 0) {
 			if (FlxG.random.int(0, 128) <= spellChance) {
-				outputString += "spell:" + spell[spellIndex];
+				outputString += "spell : " + spell[spellIndex];
 				spellIndex++;
 				if (spellIndex >= spell.length) spellIndex = 0;
 				return outputString;
@@ -95,14 +95,14 @@ class Monster extends FlxSprite {
 		
 		if (skill.length > 0) {
 			if (FlxG.random.int(0, 128) <= skillChance) {
-				outputString += "skill:" + skill[skillIndex];
+				outputString += "skill : " + skill[skillIndex];
 				skillIndex++;
 				if (skillIndex >= skill.length) skillIndex = 0;
 				return outputString;
 			}
 		}
 		
-		return "attack:attack";
+		return "attack : attack";
 	}
 	
 }
