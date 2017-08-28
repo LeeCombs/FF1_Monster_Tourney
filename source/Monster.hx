@@ -1,6 +1,7 @@
 package;
 
 import flixel.FlxG;
+import flixel.FlxObject;
 import flixel.FlxSprite;
 import flixel.system.FlxAssets.FlxGraphicAsset;
 
@@ -36,6 +37,7 @@ class Monster extends FlxSprite {
 		super(X, Y);
 		
 		loadGraphic("assets/images/" + Name + "-ff1-nes.png");
+		setFacingFlip(FlxObject.LEFT, true, false);
 		
 		switch Name {
 			case "Tyro":
@@ -67,8 +69,8 @@ class Monster extends FlxSprite {
 	}
 	
 	public function getAction():String {
-		var outputString:String = "";
-		/*
+		/* Monster Action Logic
+		* 
 		* Priority: Run, Spell, Skill, Attack
 		* Run if: Morale - 2*[Leader's Level] + (0...50) < 80
 		* Spells? roll 0...128. If equal or less than spell chance, cast spell
@@ -79,41 +81,26 @@ class Monster extends FlxSprite {
 		* - Start from 0, continue sequentially
 		* Regular Attack
 		*/
+		var outputString:String = "";
 		if (spell.length > 0) {
 			if (FlxG.random.int(0, 128) <= spellChance) {
 				outputString += "spell:" + spell[spellIndex];
 				spellIndex++;
 				if (spellIndex >= spell.length) spellIndex = 0;
+				return outputString;
 			}
 		}
 		
-		if (outputString == "" && skill.length > 0) {
+		if (skill.length > 0) {
 			if (FlxG.random.int(0, 128) <= skillChance) {
 				outputString += "skill:" + skill[skillIndex];
 				skillIndex++;
 				if (skillIndex >= skill.length) skillIndex = 0;
+				return outputString;
 			}
 		}
 		
-		if (outputString == "") outputString += "attack:attack";
-		outputString += ",";
-		
-		/*
-		* Targeting
-		* Roll 1...8
-		* Slot 1: 1-4
-		* Slot 2: 5-6
-		* Slot 3: 7
-		* Slot 4: 8
-		* If target is dead/petrified, reroll until valid
-		*/
-		var targetRoll:Int = FlxG.random.int(1, 8);
-		if (targetRoll == 8) outputString += "target:4";
-		else if (targetRoll == 7) outputString += "target:3";
-		else if (targetRoll >= 5) outputString += "target:2";
-		else outputString += "target:1";
-		
-		return outputString;
+		return "attack:attack";
 	}
 	
 }

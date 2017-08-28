@@ -76,7 +76,7 @@ ApplicationMain.init = function() {
 	}
 };
 ApplicationMain.main = function() {
-	ApplicationMain.config = { build : "29", company : "HaxeFlixel", file : "FF1_Monster_Tourney", fps : 60, name : "FF1_Monster_Tourney", orientation : "", packageName : "com.example.myapp", version : "0.0.1", windows : [{ antialiasing : 0, background : 0, borderless : false, depthBuffer : false, display : 0, fullscreen : false, hardware : false, height : 480, parameters : "{}", resizable : false, stencilBuffer : true, title : "FF1_Monster_Tourney", vsync : true, width : 640, x : null, y : null}]};
+	ApplicationMain.config = { build : "40", company : "HaxeFlixel", file : "FF1_Monster_Tourney", fps : 60, name : "FF1_Monster_Tourney", orientation : "", packageName : "com.example.myapp", version : "0.0.1", windows : [{ antialiasing : 0, background : 0, borderless : false, depthBuffer : false, display : 0, fullscreen : false, hardware : false, height : 480, parameters : "{}", resizable : false, stencilBuffer : true, title : "FF1_Monster_Tourney", vsync : true, width : 640, x : null, y : null}]};
 };
 ApplicationMain.start = function() {
 	var hasMain = false;
@@ -4981,6 +4981,7 @@ var Monster = function(X,Y,Name) {
 	this.hp = 0;
 	flixel_FlxSprite.call(this,X,Y);
 	this.loadGraphic("assets/images/" + Name + "-ff1-nes.png");
+	this._facingFlip.set(1,{ x : true, y : false});
 	if(Name == null) {
 		return;
 	} else {
@@ -5027,32 +5028,20 @@ Monster.prototype = $extend(flixel_FlxSprite.prototype,{
 				if(this.spellIndex >= this.spell.length) {
 					this.spellIndex = 0;
 				}
+				return outputString;
 			}
 		}
-		if(outputString == "" && this.skill.length > 0) {
+		if(this.skill.length > 0) {
 			if(flixel_FlxG.random["int"](0,128) <= this.skillChance) {
 				outputString += "skill:" + this.skill[this.skillIndex];
 				this.skillIndex++;
 				if(this.skillIndex >= this.skill.length) {
 					this.skillIndex = 0;
 				}
+				return outputString;
 			}
 		}
-		if(outputString == "") {
-			outputString += "attack:attack";
-		}
-		outputString += ",";
-		var targetRoll = flixel_FlxG.random["int"](1,8);
-		if(targetRoll == 8) {
-			outputString += "target:4";
-		} else if(targetRoll == 7) {
-			outputString += "target:3";
-		} else if(targetRoll >= 5) {
-			outputString += "target:2";
-		} else {
-			outputString += "target:1";
-		}
-		return outputString;
+		return "attack:attack";
 	}
 	,__class__: Monster
 });
@@ -5698,8 +5687,8 @@ PlayState.prototype = $extend(flixel_FlxState.prototype,{
 		this.add(this.text2);
 		var btn = new flixel_ui_FlxButton(125,50,"Get Moves",$bind(this,this.getMonsterActions));
 		this.add(btn);
-		this.monster1 = new Monster(0,0,"Tyro");
-		this.monster2 = new Monster(250,0,"Eye");
+		this.monster1 = new Monster(0,20,"Tyro");
+		this.monster2 = new Monster(250,20,"Eye");
 		this.monster2.set_facing(1);
 		this.add(this.monster1);
 		this.add(this.monster2);
@@ -5707,7 +5696,29 @@ PlayState.prototype = $extend(flixel_FlxState.prototype,{
 	}
 	,getMonsterActions: function() {
 		this.text1.set_text(this.monster1.getAction());
+		var _g = this.text1;
+		_g.set_text(_g.text + ("\r\ntarget:" + this.getMonsterTarget([1,0,0,0])));
 		this.text2.set_text(this.monster2.getAction());
+		var _g1 = this.text2;
+		_g1.set_text(_g1.text + ("\r\ntarget:" + this.getMonsterTarget([1,0,0,0])));
+	}
+	,getMonsterTarget: function(teamSlots) {
+		var targetSlot;
+		while(true) {
+			var targetRoll = flixel_FlxG.random["int"](1,8);
+			if(targetRoll <= 4) {
+				targetSlot = 0;
+			} else if(targetRoll <= 6) {
+				targetSlot = 1;
+			} else if(targetRoll == 7) {
+				targetSlot = 2;
+			} else {
+				targetSlot = 3;
+			}
+			if(teamSlots[targetSlot] == 1) {
+				return targetSlot;
+			}
+		}
 	}
 	,update: function(elapsed) {
 		flixel_FlxState.prototype.update.call(this,elapsed);
