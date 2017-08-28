@@ -76,7 +76,7 @@ ApplicationMain.init = function() {
 	}
 };
 ApplicationMain.main = function() {
-	ApplicationMain.config = { build : "15", company : "HaxeFlixel", file : "FF1_Monster_Tourney", fps : 60, name : "FF1_Monster_Tourney", orientation : "", packageName : "com.example.myapp", version : "0.0.1", windows : [{ antialiasing : 0, background : 0, borderless : false, depthBuffer : false, display : 0, fullscreen : false, hardware : false, height : 480, parameters : "{}", resizable : false, stencilBuffer : true, title : "FF1_Monster_Tourney", vsync : true, width : 640, x : null, y : null}]};
+	ApplicationMain.config = { build : "20", company : "HaxeFlixel", file : "FF1_Monster_Tourney", fps : 60, name : "FF1_Monster_Tourney", orientation : "", packageName : "com.example.myapp", version : "0.0.1", windows : [{ antialiasing : 0, background : 0, borderless : false, depthBuffer : false, display : 0, fullscreen : false, hardware : false, height : 480, parameters : "{}", resizable : false, stencilBuffer : true, title : "FF1_Monster_Tourney", vsync : true, width : 640, x : null, y : null}]};
 };
 ApplicationMain.start = function() {
 	var hasMain = false;
@@ -4959,6 +4959,24 @@ var Monster = function(X,Y,Name) {
 	if(X == null) {
 		X = 0;
 	}
+	this.skillChance = 0;
+	this.skill = [];
+	this.magicChance = 0;
+	this.magic = [];
+	this.resi = "";
+	this.weak = "";
+	this.type = "";
+	this.eatk = "";
+	this.satk = "";
+	this.mor = 0;
+	this.mdef = 0;
+	this.eva = 0;
+	this.def = 0;
+	this.crt = 0;
+	this.hits = 0;
+	this.acc = 0;
+	this.atk = 0;
+	this.hp = 0;
 	flixel_FlxSprite.call(this,X,Y);
 	this.loadGraphic("assets/images/" + Name + "-ff1-nes.png");
 	if(Name == null) {
@@ -4966,14 +4984,16 @@ var Monster = function(X,Y,Name) {
 	} else {
 		switch(Name) {
 		case "Eye":
-			this.setStats(162,30,42,1,30,12,92,200);
+			this.setStats(162,30,42,1,1,30,12,92,200);
 			this.type = "Mage";
 			this.resi = "Earth";
 			this.magic = ["XXXX","BRAK","RUB","LIT2","HOLD","MUTE","SLOW","SLEP"];
+			this.magicChance = 80;
 			this.skill = ["GLANCE","SQUINT","GAZE","STARE"];
+			this.skillChance = 80;
 			break;
 		case "Tyro":
-			this.setStats(480,65,133,1,10,60,200,144);
+			this.setStats(480,65,133,1,1,10,60,200,144);
 			this.type = "Dragon";
 			break;
 		default:
@@ -4985,15 +5005,19 @@ $hxClasses["Monster"] = Monster;
 Monster.__name__ = ["Monster"];
 Monster.__super__ = flixel_FlxSprite;
 Monster.prototype = $extend(flixel_FlxSprite.prototype,{
-	setStats: function(HP,ATK,ACC,CRT,DEF,EVA,MDEF,MOR) {
+	setStats: function(HP,ATK,ACC,HITS,CRT,DEF,EVA,MDEF,MOR) {
 		this.hp = HP;
 		this.atk = ATK;
 		this.acc = ACC;
+		this.hits = HITS;
 		this.crt = CRT;
 		this.def = DEF;
 		this.eva = EVA;
 		this.mdef = MDEF;
 		this.mor = MOR;
+	}
+	,getAction: function() {
+		return "";
 	}
 	,__class__: Monster
 });
