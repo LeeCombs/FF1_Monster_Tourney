@@ -98,13 +98,6 @@ class Monster extends FlxSprite {
 		if (outputString == "") outputString += "attack:attack";
 		outputString += ",";
 		
-		var targetRoll:Int = FlxG.random.int(1, 8);
-		if (targetRoll == 8) outputString += "target:4";
-		else if (targetRoll == 7) outputString += "target:3";
-		else if (targetRoll >= 5) outputString += "target:2";
-		else outputString += "target:1";
-		
-		
 		/*
 		* Targeting
 		* Roll 1...8
@@ -114,6 +107,11 @@ class Monster extends FlxSprite {
 		* Slot 4: 8
 		* If target is dead/petrified, reroll until valid
 		*/
+		var targetRoll:Int = FlxG.random.int(1, 8);
+		if (targetRoll == 8) outputString += "target:4";
+		else if (targetRoll == 7) outputString += "target:3";
+		else if (targetRoll >= 5) outputString += "target:2";
+		else outputString += "target:1";
 		
 		return outputString;
 	}
