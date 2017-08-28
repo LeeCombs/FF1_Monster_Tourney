@@ -76,7 +76,7 @@ ApplicationMain.init = function() {
 	}
 };
 ApplicationMain.main = function() {
-	ApplicationMain.config = { build : "20", company : "HaxeFlixel", file : "FF1_Monster_Tourney", fps : 60, name : "FF1_Monster_Tourney", orientation : "", packageName : "com.example.myapp", version : "0.0.1", windows : [{ antialiasing : 0, background : 0, borderless : false, depthBuffer : false, display : 0, fullscreen : false, hardware : false, height : 480, parameters : "{}", resizable : false, stencilBuffer : true, title : "FF1_Monster_Tourney", vsync : true, width : 640, x : null, y : null}]};
+	ApplicationMain.config = { build : "29", company : "HaxeFlixel", file : "FF1_Monster_Tourney", fps : 60, name : "FF1_Monster_Tourney", orientation : "", packageName : "com.example.myapp", version : "0.0.1", windows : [{ antialiasing : 0, background : 0, borderless : false, depthBuffer : false, display : 0, fullscreen : false, hardware : false, height : 480, parameters : "{}", resizable : false, stencilBuffer : true, title : "FF1_Monster_Tourney", vsync : true, width : 640, x : null, y : null}]};
 };
 ApplicationMain.start = function() {
 	var hasMain = false;
@@ -4959,10 +4959,12 @@ var Monster = function(X,Y,Name) {
 	if(X == null) {
 		X = 0;
 	}
+	this.skillIndex = 0;
 	this.skillChance = 0;
 	this.skill = [];
-	this.magicChance = 0;
-	this.magic = [];
+	this.spellIndex = 0;
+	this.spellChance = 0;
+	this.spell = [];
 	this.resi = "";
 	this.weak = "";
 	this.type = "";
@@ -4987,8 +4989,8 @@ var Monster = function(X,Y,Name) {
 			this.setStats(162,30,42,1,1,30,12,92,200);
 			this.type = "Mage";
 			this.resi = "Earth";
-			this.magic = ["XXXX","BRAK","RUB","LIT2","HOLD","MUTE","SLOW","SLEP"];
-			this.magicChance = 80;
+			this.spell = ["XXXX","BRAK","RUB","LIT2","HOLD","MUTE","SLOW","SLEP"];
+			this.spellChance = 80;
 			this.skill = ["GLANCE","SQUINT","GAZE","STARE"];
 			this.skillChance = 80;
 			break;
@@ -5017,7 +5019,40 @@ Monster.prototype = $extend(flixel_FlxSprite.prototype,{
 		this.mor = MOR;
 	}
 	,getAction: function() {
-		return "";
+		var outputString = "";
+		if(this.spell.length > 0) {
+			if(flixel_FlxG.random["int"](0,128) <= this.spellChance) {
+				outputString += "spell:" + this.spell[this.spellIndex];
+				this.spellIndex++;
+				if(this.spellIndex >= this.spell.length) {
+					this.spellIndex = 0;
+				}
+			}
+		}
+		if(outputString == "" && this.skill.length > 0) {
+			if(flixel_FlxG.random["int"](0,128) <= this.skillChance) {
+				outputString += "skill:" + this.skill[this.skillIndex];
+				this.skillIndex++;
+				if(this.skillIndex >= this.skill.length) {
+					this.skillIndex = 0;
+				}
+			}
+		}
+		if(outputString == "") {
+			outputString += "attack:attack";
+		}
+		outputString += ",";
+		var targetRoll = flixel_FlxG.random["int"](1,8);
+		if(targetRoll == 8) {
+			outputString += "target:4";
+		} else if(targetRoll == 7) {
+			outputString += "target:3";
+		} else if(targetRoll >= 5) {
+			outputString += "target:2";
+		} else {
+			outputString += "target:1";
+		}
+		return outputString;
 	}
 	,__class__: Monster
 });
@@ -5657,14 +5692,25 @@ PlayState.__super__ = flixel_FlxState;
 PlayState.prototype = $extend(flixel_FlxState.prototype,{
 	create: function() {
 		flixel_FlxState.prototype.create.call(this);
+		this.text1 = new flixel_text_FlxText(0,150);
+		this.add(this.text1);
+		this.text2 = new flixel_text_FlxText(250,150);
+		this.add(this.text2);
+		var btn = new flixel_ui_FlxButton(125,50,"Get Moves",$bind(this,this.getMonsterActions));
+		this.add(btn);
+		this.monster1 = new Monster(0,0,"Tyro");
+		this.monster2 = new Monster(250,0,"Eye");
+		this.monster2.set_facing(1);
+		this.add(this.monster1);
+		this.add(this.monster2);
+		this.getMonsterActions();
+	}
+	,getMonsterActions: function() {
+		this.text1.set_text(this.monster1.getAction());
+		this.text2.set_text(this.monster2.getAction());
 	}
 	,update: function(elapsed) {
 		flixel_FlxState.prototype.update.call(this,elapsed);
-		var tyro = new Monster(0,0,"Tyro");
-		var eye = new Monster(200,0,"Eye");
-		eye.set_facing(1);
-		this.add(tyro);
-		this.add(eye);
 	}
 	,__class__: PlayState
 });

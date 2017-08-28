@@ -1,5 +1,6 @@
 package;
 
+import flixel.FlxG;
 import flixel.FlxSprite;
 import flixel.system.FlxAssets.FlxGraphicAsset;
 
@@ -23,11 +24,13 @@ class Monster extends FlxSprite {
 	var weak:String = "";
 	var resi:String = "";
 	
-	var magic:Array<String> = new Array<String>();
-	var magicChance:Int = 0;
+	var spell:Array<String> = new Array<String>();
+	var spellChance:Int = 0;
+	var spellIndex:Int = 0;
 	
 	var skill:Array<String> = new Array<String>();
 	var skillChance:Int = 0;
+	var skillIndex:Int = 0;
 
 	public function new(?X:Float=0, ?Y:Float=0, ?Name:String) {
 		super(X, Y);
@@ -42,8 +45,8 @@ class Monster extends FlxSprite {
 				setStats(162, 30, 42, 1, 1, 30, 12, 92, 200);
 				type = "Mage";
 				resi = "Earth";
-				magic = ["XXXX", "BRAK", "RUB", "LIT2", "HOLD", "MUTE", "SLOW", "SLEP"];
-				magicChance = 80;
+				spell = ["XXXX", "BRAK", "RUB", "LIT2", "HOLD", "MUTE", "SLOW", "SLEP"];
+				spellChance = 80;
 				skill = ["GLANCE", "SQUINT", "GAZE", "STARE"];
 				skillChance = 80;
 			default:
@@ -64,6 +67,7 @@ class Monster extends FlxSprite {
 	}
 	
 	public function getAction():String {
+		var outputString:String = "";
 		/*
 		* Priority: Run, Spell, Skill, Attack
 		* Run if: Morale - 2*[Leader's Level] + (0...50) < 80
@@ -75,6 +79,31 @@ class Monster extends FlxSprite {
 		* - Start from 0, continue sequentially
 		* Regular Attack
 		*/
+		if (spell.length > 0) {
+			if (FlxG.random.int(0, 128) <= spellChance) {
+				outputString += "spell:" + spell[spellIndex];
+				spellIndex++;
+				if (spellIndex >= spell.length) spellIndex = 0;
+			}
+		}
+		
+		if (outputString == "" && skill.length > 0) {
+			if (FlxG.random.int(0, 128) <= skillChance) {
+				outputString += "skill:" + skill[skillIndex];
+				skillIndex++;
+				if (skillIndex >= skill.length) skillIndex = 0;
+			}
+		}
+		
+		if (outputString == "") outputString += "attack:attack";
+		outputString += ",";
+		
+		var targetRoll:Int = FlxG.random.int(1, 8);
+		if (targetRoll == 8) outputString += "target:4";
+		else if (targetRoll == 7) outputString += "target:3";
+		else if (targetRoll >= 5) outputString += "target:2";
+		else outputString += "target:1";
+		
 		
 		/*
 		* Targeting
@@ -86,7 +115,7 @@ class Monster extends FlxSprite {
 		* If target is dead/petrified, reroll until valid
 		*/
 		
-		return "";
+		return outputString;
 	}
 	
 }
