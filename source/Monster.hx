@@ -36,14 +36,16 @@ class Monster extends FlxSprite {
 	public function new(?X:Float=0, ?Y:Float=0, ?Name:String) {
 		super(X, Y);
 		
-		loadGraphic("assets/images/" + Name + "-ff1-nes.png");
+		var monsterName:String = Name.toUpperCase();
+		
+		loadGraphic("assets/images/" + monsterName + ".png");
 		setFacingFlip(FlxObject.LEFT, true, false);
 		
-		switch Name {
-			case "Tyro":
+		switch monsterName {
+			case "TYRO":
 				setStats(480, 65, 133, 1, 1, 10, 60, 200, 144);
 				type = "Dragon";
-			case "Eye":
+			case "EYE":
 				setStats(162, 30, 42, 1, 1, 30, 12, 92, 200);
 				type = "Mage";
 				resi = "Earth";

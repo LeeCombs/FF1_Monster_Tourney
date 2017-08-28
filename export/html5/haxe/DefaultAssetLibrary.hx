@@ -59,6 +59,22 @@ class DefaultAssetLibrary extends AssetLibrary {
 		
 		
 		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
 		openfl.text.Font.registerFont (__ASSET__OPENFL__flixel_fonts_nokiafc22_ttf);
 		openfl.text.Font.registerFont (__ASSET__OPENFL__flixel_fonts_monsterrat_ttf);
 		
@@ -70,12 +86,44 @@ class DefaultAssetLibrary extends AssetLibrary {
 		
 		className.set ("assets/data/data-goes-here.txt", __ASSET__assets_data_data_goes_here_txt);
 		type.set ("assets/data/data-goes-here.txt", AssetType.TEXT);
-		className.set ("assets/images/Eye-ff1-nes.png", __ASSET__assets_images_eye_ff1_nes_png);
-		type.set ("assets/images/Eye-ff1-nes.png", AssetType.IMAGE);
-		className.set ("assets/images/images-go-here.txt", __ASSET__assets_images_images_go_here_txt);
-		type.set ("assets/images/images-go-here.txt", AssetType.TEXT);
-		className.set ("assets/images/Tyro-ff1-nes.png", __ASSET__assets_images_tyro_ff1_nes_png);
-		type.set ("assets/images/Tyro-ff1-nes.png", AssetType.IMAGE);
+		className.set ("assets/images/BattleBackgrounds/BattleBackground-1.png", __ASSET__assets_images_battlebackgrounds_battlebackground_1_png);
+		type.set ("assets/images/BattleBackgrounds/BattleBackground-1.png", AssetType.IMAGE);
+		className.set ("assets/images/BattleBackgrounds/BattleBackground-10.png", __ASSET__assets_images_battlebackgrounds_battlebackground_10_png);
+		type.set ("assets/images/BattleBackgrounds/BattleBackground-10.png", AssetType.IMAGE);
+		className.set ("assets/images/BattleBackgrounds/BattleBackground-11.png", __ASSET__assets_images_battlebackgrounds_battlebackground_11_png);
+		type.set ("assets/images/BattleBackgrounds/BattleBackground-11.png", AssetType.IMAGE);
+		className.set ("assets/images/BattleBackgrounds/BattleBackground-12.png", __ASSET__assets_images_battlebackgrounds_battlebackground_12_png);
+		type.set ("assets/images/BattleBackgrounds/BattleBackground-12.png", AssetType.IMAGE);
+		className.set ("assets/images/BattleBackgrounds/BattleBackground-13.png", __ASSET__assets_images_battlebackgrounds_battlebackground_13_png);
+		type.set ("assets/images/BattleBackgrounds/BattleBackground-13.png", AssetType.IMAGE);
+		className.set ("assets/images/BattleBackgrounds/BattleBackground-14.png", __ASSET__assets_images_battlebackgrounds_battlebackground_14_png);
+		type.set ("assets/images/BattleBackgrounds/BattleBackground-14.png", AssetType.IMAGE);
+		className.set ("assets/images/BattleBackgrounds/BattleBackground-15.png", __ASSET__assets_images_battlebackgrounds_battlebackground_15_png);
+		type.set ("assets/images/BattleBackgrounds/BattleBackground-15.png", AssetType.IMAGE);
+		className.set ("assets/images/BattleBackgrounds/BattleBackground-16.png", __ASSET__assets_images_battlebackgrounds_battlebackground_16_png);
+		type.set ("assets/images/BattleBackgrounds/BattleBackground-16.png", AssetType.IMAGE);
+		className.set ("assets/images/BattleBackgrounds/BattleBackground-2.png", __ASSET__assets_images_battlebackgrounds_battlebackground_2_png);
+		type.set ("assets/images/BattleBackgrounds/BattleBackground-2.png", AssetType.IMAGE);
+		className.set ("assets/images/BattleBackgrounds/BattleBackground-3.png", __ASSET__assets_images_battlebackgrounds_battlebackground_3_png);
+		type.set ("assets/images/BattleBackgrounds/BattleBackground-3.png", AssetType.IMAGE);
+		className.set ("assets/images/BattleBackgrounds/BattleBackground-4.png", __ASSET__assets_images_battlebackgrounds_battlebackground_4_png);
+		type.set ("assets/images/BattleBackgrounds/BattleBackground-4.png", AssetType.IMAGE);
+		className.set ("assets/images/BattleBackgrounds/BattleBackground-5.png", __ASSET__assets_images_battlebackgrounds_battlebackground_5_png);
+		type.set ("assets/images/BattleBackgrounds/BattleBackground-5.png", AssetType.IMAGE);
+		className.set ("assets/images/BattleBackgrounds/BattleBackground-6.png", __ASSET__assets_images_battlebackgrounds_battlebackground_6_png);
+		type.set ("assets/images/BattleBackgrounds/BattleBackground-6.png", AssetType.IMAGE);
+		className.set ("assets/images/BattleBackgrounds/BattleBackground-7.png", __ASSET__assets_images_battlebackgrounds_battlebackground_7_png);
+		type.set ("assets/images/BattleBackgrounds/BattleBackground-7.png", AssetType.IMAGE);
+		className.set ("assets/images/BattleBackgrounds/BattleBackground-8.png", __ASSET__assets_images_battlebackgrounds_battlebackground_8_png);
+		type.set ("assets/images/BattleBackgrounds/BattleBackground-8.png", AssetType.IMAGE);
+		className.set ("assets/images/BattleBackgrounds/BattleBackground-9.png", __ASSET__assets_images_battlebackgrounds_battlebackground_9_png);
+		type.set ("assets/images/BattleBackgrounds/BattleBackground-9.png", AssetType.IMAGE);
+		className.set ("assets/images/BattleScreen.png", __ASSET__assets_images_battlescreen_png);
+		type.set ("assets/images/BattleScreen.png", AssetType.IMAGE);
+		className.set ("assets/images/EYE.png", __ASSET__assets_images_eye_png);
+		type.set ("assets/images/EYE.png", AssetType.IMAGE);
+		className.set ("assets/images/TYRO.png", __ASSET__assets_images_tyro_png);
+		type.set ("assets/images/TYRO.png", AssetType.IMAGE);
 		className.set ("assets/music/music-goes-here.txt", __ASSET__assets_music_music_goes_here_txt);
 		type.set ("assets/music/music-goes-here.txt", AssetType.TEXT);
 		className.set ("assets/sounds/sounds-go-here.txt", __ASSET__assets_sounds_sounds_go_here_txt);
@@ -101,15 +149,79 @@ class DefaultAssetLibrary extends AssetLibrary {
 		path.set (id, id);
 		
 		type.set (id, AssetType.TEXT);
-		id = "assets/images/Eye-ff1-nes.png";
+		id = "assets/images/BattleBackgrounds/BattleBackground-1.png";
 		path.set (id, id);
 		
 		type.set (id, AssetType.IMAGE);
-		id = "assets/images/images-go-here.txt";
+		id = "assets/images/BattleBackgrounds/BattleBackground-10.png";
 		path.set (id, id);
 		
-		type.set (id, AssetType.TEXT);
-		id = "assets/images/Tyro-ff1-nes.png";
+		type.set (id, AssetType.IMAGE);
+		id = "assets/images/BattleBackgrounds/BattleBackground-11.png";
+		path.set (id, id);
+		
+		type.set (id, AssetType.IMAGE);
+		id = "assets/images/BattleBackgrounds/BattleBackground-12.png";
+		path.set (id, id);
+		
+		type.set (id, AssetType.IMAGE);
+		id = "assets/images/BattleBackgrounds/BattleBackground-13.png";
+		path.set (id, id);
+		
+		type.set (id, AssetType.IMAGE);
+		id = "assets/images/BattleBackgrounds/BattleBackground-14.png";
+		path.set (id, id);
+		
+		type.set (id, AssetType.IMAGE);
+		id = "assets/images/BattleBackgrounds/BattleBackground-15.png";
+		path.set (id, id);
+		
+		type.set (id, AssetType.IMAGE);
+		id = "assets/images/BattleBackgrounds/BattleBackground-16.png";
+		path.set (id, id);
+		
+		type.set (id, AssetType.IMAGE);
+		id = "assets/images/BattleBackgrounds/BattleBackground-2.png";
+		path.set (id, id);
+		
+		type.set (id, AssetType.IMAGE);
+		id = "assets/images/BattleBackgrounds/BattleBackground-3.png";
+		path.set (id, id);
+		
+		type.set (id, AssetType.IMAGE);
+		id = "assets/images/BattleBackgrounds/BattleBackground-4.png";
+		path.set (id, id);
+		
+		type.set (id, AssetType.IMAGE);
+		id = "assets/images/BattleBackgrounds/BattleBackground-5.png";
+		path.set (id, id);
+		
+		type.set (id, AssetType.IMAGE);
+		id = "assets/images/BattleBackgrounds/BattleBackground-6.png";
+		path.set (id, id);
+		
+		type.set (id, AssetType.IMAGE);
+		id = "assets/images/BattleBackgrounds/BattleBackground-7.png";
+		path.set (id, id);
+		
+		type.set (id, AssetType.IMAGE);
+		id = "assets/images/BattleBackgrounds/BattleBackground-8.png";
+		path.set (id, id);
+		
+		type.set (id, AssetType.IMAGE);
+		id = "assets/images/BattleBackgrounds/BattleBackground-9.png";
+		path.set (id, id);
+		
+		type.set (id, AssetType.IMAGE);
+		id = "assets/images/BattleScreen.png";
+		path.set (id, id);
+		
+		type.set (id, AssetType.IMAGE);
+		id = "assets/images/EYE.png";
+		path.set (id, id);
+		
+		type.set (id, AssetType.IMAGE);
+		id = "assets/images/TYRO.png";
 		path.set (id, id);
 		
 		type.set (id, AssetType.IMAGE);
@@ -166,14 +278,62 @@ class DefaultAssetLibrary extends AssetLibrary {
 		className.set ("assets/data/data-goes-here.txt", __ASSET__assets_data_data_goes_here_txt);
 		type.set ("assets/data/data-goes-here.txt", AssetType.TEXT);
 		
-		className.set ("assets/images/Eye-ff1-nes.png", __ASSET__assets_images_eye_ff1_nes_png);
-		type.set ("assets/images/Eye-ff1-nes.png", AssetType.IMAGE);
+		className.set ("assets/images/BattleBackgrounds/BattleBackground-1.png", __ASSET__assets_images_battlebackgrounds_battlebackground_1_png);
+		type.set ("assets/images/BattleBackgrounds/BattleBackground-1.png", AssetType.IMAGE);
 		
-		className.set ("assets/images/images-go-here.txt", __ASSET__assets_images_images_go_here_txt);
-		type.set ("assets/images/images-go-here.txt", AssetType.TEXT);
+		className.set ("assets/images/BattleBackgrounds/BattleBackground-10.png", __ASSET__assets_images_battlebackgrounds_battlebackground_10_png);
+		type.set ("assets/images/BattleBackgrounds/BattleBackground-10.png", AssetType.IMAGE);
 		
-		className.set ("assets/images/Tyro-ff1-nes.png", __ASSET__assets_images_tyro_ff1_nes_png);
-		type.set ("assets/images/Tyro-ff1-nes.png", AssetType.IMAGE);
+		className.set ("assets/images/BattleBackgrounds/BattleBackground-11.png", __ASSET__assets_images_battlebackgrounds_battlebackground_11_png);
+		type.set ("assets/images/BattleBackgrounds/BattleBackground-11.png", AssetType.IMAGE);
+		
+		className.set ("assets/images/BattleBackgrounds/BattleBackground-12.png", __ASSET__assets_images_battlebackgrounds_battlebackground_12_png);
+		type.set ("assets/images/BattleBackgrounds/BattleBackground-12.png", AssetType.IMAGE);
+		
+		className.set ("assets/images/BattleBackgrounds/BattleBackground-13.png", __ASSET__assets_images_battlebackgrounds_battlebackground_13_png);
+		type.set ("assets/images/BattleBackgrounds/BattleBackground-13.png", AssetType.IMAGE);
+		
+		className.set ("assets/images/BattleBackgrounds/BattleBackground-14.png", __ASSET__assets_images_battlebackgrounds_battlebackground_14_png);
+		type.set ("assets/images/BattleBackgrounds/BattleBackground-14.png", AssetType.IMAGE);
+		
+		className.set ("assets/images/BattleBackgrounds/BattleBackground-15.png", __ASSET__assets_images_battlebackgrounds_battlebackground_15_png);
+		type.set ("assets/images/BattleBackgrounds/BattleBackground-15.png", AssetType.IMAGE);
+		
+		className.set ("assets/images/BattleBackgrounds/BattleBackground-16.png", __ASSET__assets_images_battlebackgrounds_battlebackground_16_png);
+		type.set ("assets/images/BattleBackgrounds/BattleBackground-16.png", AssetType.IMAGE);
+		
+		className.set ("assets/images/BattleBackgrounds/BattleBackground-2.png", __ASSET__assets_images_battlebackgrounds_battlebackground_2_png);
+		type.set ("assets/images/BattleBackgrounds/BattleBackground-2.png", AssetType.IMAGE);
+		
+		className.set ("assets/images/BattleBackgrounds/BattleBackground-3.png", __ASSET__assets_images_battlebackgrounds_battlebackground_3_png);
+		type.set ("assets/images/BattleBackgrounds/BattleBackground-3.png", AssetType.IMAGE);
+		
+		className.set ("assets/images/BattleBackgrounds/BattleBackground-4.png", __ASSET__assets_images_battlebackgrounds_battlebackground_4_png);
+		type.set ("assets/images/BattleBackgrounds/BattleBackground-4.png", AssetType.IMAGE);
+		
+		className.set ("assets/images/BattleBackgrounds/BattleBackground-5.png", __ASSET__assets_images_battlebackgrounds_battlebackground_5_png);
+		type.set ("assets/images/BattleBackgrounds/BattleBackground-5.png", AssetType.IMAGE);
+		
+		className.set ("assets/images/BattleBackgrounds/BattleBackground-6.png", __ASSET__assets_images_battlebackgrounds_battlebackground_6_png);
+		type.set ("assets/images/BattleBackgrounds/BattleBackground-6.png", AssetType.IMAGE);
+		
+		className.set ("assets/images/BattleBackgrounds/BattleBackground-7.png", __ASSET__assets_images_battlebackgrounds_battlebackground_7_png);
+		type.set ("assets/images/BattleBackgrounds/BattleBackground-7.png", AssetType.IMAGE);
+		
+		className.set ("assets/images/BattleBackgrounds/BattleBackground-8.png", __ASSET__assets_images_battlebackgrounds_battlebackground_8_png);
+		type.set ("assets/images/BattleBackgrounds/BattleBackground-8.png", AssetType.IMAGE);
+		
+		className.set ("assets/images/BattleBackgrounds/BattleBackground-9.png", __ASSET__assets_images_battlebackgrounds_battlebackground_9_png);
+		type.set ("assets/images/BattleBackgrounds/BattleBackground-9.png", AssetType.IMAGE);
+		
+		className.set ("assets/images/BattleScreen.png", __ASSET__assets_images_battlescreen_png);
+		type.set ("assets/images/BattleScreen.png", AssetType.IMAGE);
+		
+		className.set ("assets/images/EYE.png", __ASSET__assets_images_eye_png);
+		type.set ("assets/images/EYE.png", AssetType.IMAGE);
+		
+		className.set ("assets/images/TYRO.png", __ASSET__assets_images_tyro_png);
+		type.set ("assets/images/TYRO.png", AssetType.IMAGE);
 		
 		className.set ("assets/music/music-goes-here.txt", __ASSET__assets_music_music_goes_here_txt);
 		type.set ("assets/music/music-goes-here.txt", AssetType.TEXT);
@@ -844,9 +1004,25 @@ class DefaultAssetLibrary extends AssetLibrary {
 #if flash
 
 @:keep @:bind #if display private #end class __ASSET__assets_data_data_goes_here_txt extends null { }
-@:keep @:bind #if display private #end class __ASSET__assets_images_eye_ff1_nes_png extends flash.display.BitmapData { public function new () { super (0, 0, true, 0); } }
-@:keep @:bind #if display private #end class __ASSET__assets_images_images_go_here_txt extends null { }
-@:keep @:bind #if display private #end class __ASSET__assets_images_tyro_ff1_nes_png extends flash.display.BitmapData { public function new () { super (0, 0, true, 0); } }
+@:keep @:bind #if display private #end class __ASSET__assets_images_battlebackgrounds_battlebackground_1_png extends flash.display.BitmapData { public function new () { super (0, 0, true, 0); } }
+@:keep @:bind #if display private #end class __ASSET__assets_images_battlebackgrounds_battlebackground_10_png extends flash.display.BitmapData { public function new () { super (0, 0, true, 0); } }
+@:keep @:bind #if display private #end class __ASSET__assets_images_battlebackgrounds_battlebackground_11_png extends flash.display.BitmapData { public function new () { super (0, 0, true, 0); } }
+@:keep @:bind #if display private #end class __ASSET__assets_images_battlebackgrounds_battlebackground_12_png extends flash.display.BitmapData { public function new () { super (0, 0, true, 0); } }
+@:keep @:bind #if display private #end class __ASSET__assets_images_battlebackgrounds_battlebackground_13_png extends flash.display.BitmapData { public function new () { super (0, 0, true, 0); } }
+@:keep @:bind #if display private #end class __ASSET__assets_images_battlebackgrounds_battlebackground_14_png extends flash.display.BitmapData { public function new () { super (0, 0, true, 0); } }
+@:keep @:bind #if display private #end class __ASSET__assets_images_battlebackgrounds_battlebackground_15_png extends flash.display.BitmapData { public function new () { super (0, 0, true, 0); } }
+@:keep @:bind #if display private #end class __ASSET__assets_images_battlebackgrounds_battlebackground_16_png extends flash.display.BitmapData { public function new () { super (0, 0, true, 0); } }
+@:keep @:bind #if display private #end class __ASSET__assets_images_battlebackgrounds_battlebackground_2_png extends flash.display.BitmapData { public function new () { super (0, 0, true, 0); } }
+@:keep @:bind #if display private #end class __ASSET__assets_images_battlebackgrounds_battlebackground_3_png extends flash.display.BitmapData { public function new () { super (0, 0, true, 0); } }
+@:keep @:bind #if display private #end class __ASSET__assets_images_battlebackgrounds_battlebackground_4_png extends flash.display.BitmapData { public function new () { super (0, 0, true, 0); } }
+@:keep @:bind #if display private #end class __ASSET__assets_images_battlebackgrounds_battlebackground_5_png extends flash.display.BitmapData { public function new () { super (0, 0, true, 0); } }
+@:keep @:bind #if display private #end class __ASSET__assets_images_battlebackgrounds_battlebackground_6_png extends flash.display.BitmapData { public function new () { super (0, 0, true, 0); } }
+@:keep @:bind #if display private #end class __ASSET__assets_images_battlebackgrounds_battlebackground_7_png extends flash.display.BitmapData { public function new () { super (0, 0, true, 0); } }
+@:keep @:bind #if display private #end class __ASSET__assets_images_battlebackgrounds_battlebackground_8_png extends flash.display.BitmapData { public function new () { super (0, 0, true, 0); } }
+@:keep @:bind #if display private #end class __ASSET__assets_images_battlebackgrounds_battlebackground_9_png extends flash.display.BitmapData { public function new () { super (0, 0, true, 0); } }
+@:keep @:bind #if display private #end class __ASSET__assets_images_battlescreen_png extends flash.display.BitmapData { public function new () { super (0, 0, true, 0); } }
+@:keep @:bind #if display private #end class __ASSET__assets_images_eye_png extends flash.display.BitmapData { public function new () { super (0, 0, true, 0); } }
+@:keep @:bind #if display private #end class __ASSET__assets_images_tyro_png extends flash.display.BitmapData { public function new () { super (0, 0, true, 0); } }
 @:keep @:bind #if display private #end class __ASSET__assets_music_music_goes_here_txt extends null { }
 @:keep @:bind #if display private #end class __ASSET__assets_sounds_sounds_go_here_txt extends null { }
 @:keep @:bind #if display private #end class __ASSET__flixel_sounds_beep_ogg extends null { }
@@ -858,6 +1034,22 @@ class DefaultAssetLibrary extends AssetLibrary {
 
 
 #elseif html5
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -881,9 +1073,25 @@ class DefaultAssetLibrary extends AssetLibrary {
 
 
 @:file("assets/data/data-goes-here.txt") #if display private #end class __ASSET__assets_data_data_goes_here_txt extends lime.utils.Bytes {}
-@:image("assets/images/Eye-ff1-nes.png") #if display private #end class __ASSET__assets_images_eye_ff1_nes_png extends lime.graphics.Image {}
-@:file("assets/images/images-go-here.txt") #if display private #end class __ASSET__assets_images_images_go_here_txt extends lime.utils.Bytes {}
-@:image("assets/images/Tyro-ff1-nes.png") #if display private #end class __ASSET__assets_images_tyro_ff1_nes_png extends lime.graphics.Image {}
+@:image("assets/images/BattleBackgrounds/BattleBackground-1.png") #if display private #end class __ASSET__assets_images_battlebackgrounds_battlebackground_1_png extends lime.graphics.Image {}
+@:image("assets/images/BattleBackgrounds/BattleBackground-10.png") #if display private #end class __ASSET__assets_images_battlebackgrounds_battlebackground_10_png extends lime.graphics.Image {}
+@:image("assets/images/BattleBackgrounds/BattleBackground-11.png") #if display private #end class __ASSET__assets_images_battlebackgrounds_battlebackground_11_png extends lime.graphics.Image {}
+@:image("assets/images/BattleBackgrounds/BattleBackground-12.png") #if display private #end class __ASSET__assets_images_battlebackgrounds_battlebackground_12_png extends lime.graphics.Image {}
+@:image("assets/images/BattleBackgrounds/BattleBackground-13.png") #if display private #end class __ASSET__assets_images_battlebackgrounds_battlebackground_13_png extends lime.graphics.Image {}
+@:image("assets/images/BattleBackgrounds/BattleBackground-14.png") #if display private #end class __ASSET__assets_images_battlebackgrounds_battlebackground_14_png extends lime.graphics.Image {}
+@:image("assets/images/BattleBackgrounds/BattleBackground-15.png") #if display private #end class __ASSET__assets_images_battlebackgrounds_battlebackground_15_png extends lime.graphics.Image {}
+@:image("assets/images/BattleBackgrounds/BattleBackground-16.png") #if display private #end class __ASSET__assets_images_battlebackgrounds_battlebackground_16_png extends lime.graphics.Image {}
+@:image("assets/images/BattleBackgrounds/BattleBackground-2.png") #if display private #end class __ASSET__assets_images_battlebackgrounds_battlebackground_2_png extends lime.graphics.Image {}
+@:image("assets/images/BattleBackgrounds/BattleBackground-3.png") #if display private #end class __ASSET__assets_images_battlebackgrounds_battlebackground_3_png extends lime.graphics.Image {}
+@:image("assets/images/BattleBackgrounds/BattleBackground-4.png") #if display private #end class __ASSET__assets_images_battlebackgrounds_battlebackground_4_png extends lime.graphics.Image {}
+@:image("assets/images/BattleBackgrounds/BattleBackground-5.png") #if display private #end class __ASSET__assets_images_battlebackgrounds_battlebackground_5_png extends lime.graphics.Image {}
+@:image("assets/images/BattleBackgrounds/BattleBackground-6.png") #if display private #end class __ASSET__assets_images_battlebackgrounds_battlebackground_6_png extends lime.graphics.Image {}
+@:image("assets/images/BattleBackgrounds/BattleBackground-7.png") #if display private #end class __ASSET__assets_images_battlebackgrounds_battlebackground_7_png extends lime.graphics.Image {}
+@:image("assets/images/BattleBackgrounds/BattleBackground-8.png") #if display private #end class __ASSET__assets_images_battlebackgrounds_battlebackground_8_png extends lime.graphics.Image {}
+@:image("assets/images/BattleBackgrounds/BattleBackground-9.png") #if display private #end class __ASSET__assets_images_battlebackgrounds_battlebackground_9_png extends lime.graphics.Image {}
+@:image("assets/images/BattleScreen.png") #if display private #end class __ASSET__assets_images_battlescreen_png extends lime.graphics.Image {}
+@:image("assets/images/EYE.png") #if display private #end class __ASSET__assets_images_eye_png extends lime.graphics.Image {}
+@:image("assets/images/TYRO.png") #if display private #end class __ASSET__assets_images_tyro_png extends lime.graphics.Image {}
 @:file("assets/music/music-goes-here.txt") #if display private #end class __ASSET__assets_music_music_goes_here_txt extends lime.utils.Bytes {}
 @:file("assets/sounds/sounds-go-here.txt") #if display private #end class __ASSET__assets_sounds_sounds_go_here_txt extends lime.utils.Bytes {}
 @:file("D:/HaxeToolkit/haxe/lib/flixel/4,2,0/assets/sounds/beep.ogg") #if display private #end class __ASSET__flixel_sounds_beep_ogg extends lime.utils.Bytes {}

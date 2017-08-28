@@ -34,15 +34,79 @@ class ApplicationMain {
 		types.push (lime.Assets.AssetType.TEXT);
 		
 		
-		urls.push ("assets/images/Eye-ff1-nes.png");
+		urls.push ("assets/images/BattleBackgrounds/BattleBackground-1.png");
 		types.push (lime.Assets.AssetType.IMAGE);
 		
 		
-		urls.push ("assets/images/images-go-here.txt");
-		types.push (lime.Assets.AssetType.TEXT);
+		urls.push ("assets/images/BattleBackgrounds/BattleBackground-10.png");
+		types.push (lime.Assets.AssetType.IMAGE);
 		
 		
-		urls.push ("assets/images/Tyro-ff1-nes.png");
+		urls.push ("assets/images/BattleBackgrounds/BattleBackground-11.png");
+		types.push (lime.Assets.AssetType.IMAGE);
+		
+		
+		urls.push ("assets/images/BattleBackgrounds/BattleBackground-12.png");
+		types.push (lime.Assets.AssetType.IMAGE);
+		
+		
+		urls.push ("assets/images/BattleBackgrounds/BattleBackground-13.png");
+		types.push (lime.Assets.AssetType.IMAGE);
+		
+		
+		urls.push ("assets/images/BattleBackgrounds/BattleBackground-14.png");
+		types.push (lime.Assets.AssetType.IMAGE);
+		
+		
+		urls.push ("assets/images/BattleBackgrounds/BattleBackground-15.png");
+		types.push (lime.Assets.AssetType.IMAGE);
+		
+		
+		urls.push ("assets/images/BattleBackgrounds/BattleBackground-16.png");
+		types.push (lime.Assets.AssetType.IMAGE);
+		
+		
+		urls.push ("assets/images/BattleBackgrounds/BattleBackground-2.png");
+		types.push (lime.Assets.AssetType.IMAGE);
+		
+		
+		urls.push ("assets/images/BattleBackgrounds/BattleBackground-3.png");
+		types.push (lime.Assets.AssetType.IMAGE);
+		
+		
+		urls.push ("assets/images/BattleBackgrounds/BattleBackground-4.png");
+		types.push (lime.Assets.AssetType.IMAGE);
+		
+		
+		urls.push ("assets/images/BattleBackgrounds/BattleBackground-5.png");
+		types.push (lime.Assets.AssetType.IMAGE);
+		
+		
+		urls.push ("assets/images/BattleBackgrounds/BattleBackground-6.png");
+		types.push (lime.Assets.AssetType.IMAGE);
+		
+		
+		urls.push ("assets/images/BattleBackgrounds/BattleBackground-7.png");
+		types.push (lime.Assets.AssetType.IMAGE);
+		
+		
+		urls.push ("assets/images/BattleBackgrounds/BattleBackground-8.png");
+		types.push (lime.Assets.AssetType.IMAGE);
+		
+		
+		urls.push ("assets/images/BattleBackgrounds/BattleBackground-9.png");
+		types.push (lime.Assets.AssetType.IMAGE);
+		
+		
+		urls.push ("assets/images/BattleScreen.png");
+		types.push (lime.Assets.AssetType.IMAGE);
+		
+		
+		urls.push ("assets/images/EYE.png");
+		types.push (lime.Assets.AssetType.IMAGE);
+		
+		
+		urls.push ("assets/images/TYRO.png");
 		types.push (lime.Assets.AssetType.IMAGE);
 		
 		
@@ -139,7 +203,7 @@ class ApplicationMain {
 		
 		config = {
 			
-			build: "40",
+			build: "69",
 			company: "HaxeFlixel",
 			file: "FF1_Monster_Tourney",
 			fps: 60,

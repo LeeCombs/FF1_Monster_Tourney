@@ -1,6 +1,7 @@
 package;
 
 import flixel.FlxGame;
+import flixel.FlxCamera;
 import openfl.Lib;
 import openfl.display.Sprite;
 
@@ -10,5 +11,6 @@ class Main extends Sprite
 	{
 		super();
 		addChild(new FlxGame(0, 0, PlayState));
+		
 	}
 }
