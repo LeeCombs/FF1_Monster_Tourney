@@ -108,7 +108,7 @@ ApplicationMain.init = function() {
 	}
 };
 ApplicationMain.main = function() {
-	ApplicationMain.config = { build : "69", company : "HaxeFlixel", file : "FF1_Monster_Tourney", fps : 60, name : "FF1_Monster_Tourney", orientation : "", packageName : "com.example.myapp", version : "0.0.1", windows : [{ antialiasing : 0, background : 0, borderless : false, depthBuffer : false, display : 0, fullscreen : false, hardware : false, height : 480, parameters : "{}", resizable : false, stencilBuffer : true, title : "FF1_Monster_Tourney", vsync : true, width : 640, x : null, y : null}]};
+	ApplicationMain.config = { build : "73", company : "HaxeFlixel", file : "FF1_Monster_Tourney", fps : 60, name : "FF1_Monster_Tourney", orientation : "", packageName : "com.example.myapp", version : "0.0.1", windows : [{ antialiasing : 0, background : 0, borderless : false, depthBuffer : false, display : 0, fullscreen : false, hardware : false, height : 480, parameters : "{}", resizable : false, stencilBuffer : true, title : "FF1_Monster_Tourney", vsync : true, width : 640, x : null, y : null}]};
 };
 ApplicationMain.start = function() {
 	var hasMain = false;
@@ -5607,7 +5607,7 @@ Monster.prototype = $extend(flixel_FlxSprite.prototype,{
 		var outputString = "";
 		if(this.spell.length > 0) {
 			if(flixel_FlxG.random["int"](0,128) <= this.spellChance) {
-				outputString += "spell:" + this.spell[this.spellIndex];
+				outputString += "spell : " + this.spell[this.spellIndex];
 				this.spellIndex++;
 				if(this.spellIndex >= this.spell.length) {
 					this.spellIndex = 0;
@@ -5617,7 +5617,7 @@ Monster.prototype = $extend(flixel_FlxSprite.prototype,{
 		}
 		if(this.skill.length > 0) {
 			if(flixel_FlxG.random["int"](0,128) <= this.skillChance) {
-				outputString += "skill:" + this.skill[this.skillIndex];
+				outputString += "skill : " + this.skill[this.skillIndex];
 				this.skillIndex++;
 				if(this.skillIndex >= this.skill.length) {
 					this.skillIndex = 0;
@@ -5625,7 +5625,7 @@ Monster.prototype = $extend(flixel_FlxSprite.prototype,{
 				return outputString;
 			}
 		}
-		return "attack:attack";
+		return "attack : attack";
 	}
 	,__class__: Monster
 });
@@ -6281,6 +6281,8 @@ PlayState.prototype = $extend(flixel_FlxState.prototype,{
 	,monster2: null
 	,battleScreen: null
 	,battleScreenBG: null
+	,battleScreen2: null
+	,battleScreenBG2: null
 	,create: function() {
 		flixel_FlxState.prototype.create.call(this);
 		this.battleScreen = new flixel_FlxSprite(25,25);
@@ -6291,14 +6293,22 @@ PlayState.prototype = $extend(flixel_FlxState.prototype,{
 		this.battleScreenBG.centerOffsets();
 		this.battleScreenBG.loadGraphic("assets/images/BattleBackgrounds/BattleBackground-" + Std.string(flixel_FlxG.random["int"](1,16)) + ".png");
 		this.add(this.battleScreenBG);
-		this.text1 = new flixel_text_FlxText(200,100);
+		this.battleScreen2 = new flixel_FlxSprite(300,25);
+		this.battleScreen2.loadGraphic("assets/images/BattleScreen.png");
+		this.battleScreen2.centerOffsets();
+		this.add(this.battleScreen2);
+		this.battleScreenBG2 = new flixel_FlxSprite(this.battleScreen2.x + 7,this.battleScreen2.y + 5);
+		this.battleScreenBG2.centerOffsets();
+		this.battleScreenBG2.loadGraphic("assets/images/BattleBackgrounds/BattleBackground-" + Std.string(flixel_FlxG.random["int"](1,16)) + ".png");
+		this.add(this.battleScreenBG2);
+		this.text1 = new flixel_text_FlxText(this.battleScreen.x,175);
 		this.add(this.text1);
-		this.text2 = new flixel_text_FlxText(200,150);
+		this.text2 = new flixel_text_FlxText(this.battleScreen2.x,175);
 		this.add(this.text2);
 		var btn = new flixel_ui_FlxButton(200,50,"Get Moves",$bind(this,this.getMonsterActions));
 		this.add(btn);
 		this.monster1 = new Monster(this.battleScreen.x + 7,this.battleScreen.y + 38,"Tyro");
-		this.monster2 = new Monster(this.battleScreen.x + 65,this.battleScreen.y + 38,"Eye");
+		this.monster2 = new Monster(this.battleScreen2.x + 7,this.battleScreen2.y + 38,"Eye");
 		this.monster2.set_facing(1);
 		this.add(this.monster1);
 		this.add(this.monster2);
@@ -6307,10 +6317,12 @@ PlayState.prototype = $extend(flixel_FlxState.prototype,{
 	,getMonsterActions: function() {
 		this.text1.set_text(this.monster1.getAction());
 		var _g = this.text1;
-		_g.set_text(_g.text + ("\r\ntarget:" + this.getMonsterTarget([1,0,0,0])));
+		_g.set_text(_g.text + ("\r\ntarget : " + this.getMonsterTarget([1,0,0,0])));
 		this.text2.set_text(this.monster2.getAction());
 		var _g1 = this.text2;
-		_g1.set_text(_g1.text + ("\r\ntarget:" + this.getMonsterTarget([1,0,0,0])));
+		_g1.set_text(_g1.text + ("\r\ntarget : " + this.getMonsterTarget([1,0,0,0])));
+		this.battleScreenBG.loadGraphic("assets/images/BattleBackgrounds/BattleBackground-" + Std.string(flixel_FlxG.random["int"](1,16)) + ".png");
+		this.battleScreenBG2.loadGraphic("assets/images/BattleBackgrounds/BattleBackground-" + Std.string(flixel_FlxG.random["int"](1,16)) + ".png");
 	}
 	,getMonsterTarget: function(teamSlots) {
 		var targetSlot;
