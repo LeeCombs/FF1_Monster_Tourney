@@ -8,13 +8,16 @@ class BattleScene extends FlxGroup {
 	public var x:Int;
 	public var y:Int;
 	
-	public var text:FlxText;
+	public var sceneText:FlxText;
 	public var scene:FlxSprite;
 	public var sceneBackground:FlxSprite;
-	public var monsters:FlxGroup;
+	public var monsters:FlxTypedGroup<Monster>;
 	
 	
-	public function new(x:Int, y:Int) {
+	public function new(X:Int, Y:Int) {
+		super();
+		x = X;
+		y = Y;
 		
 		scene = new FlxSprite(x, y);
 		scene.loadGraphic("assets/images/BattleScreen.png");
@@ -25,11 +28,28 @@ class BattleScene extends FlxGroup {
 		sceneBackground.loadGraphic("assets/images/BattleBackgrounds/BattleBackground-" + Std.string(FlxG.random.int(1, 16)) + ".png");
 		add(sceneBackground);
 		
-		text = new FlxSprite(x, y + 175);
-		add(text);
+		sceneText = new FlxText(x, y + 175);
+		add(sceneText);
 		
-		monsters = new FlxGroup();
+		monsters = new FlxTypedGroup<Monster>();
 		add(monsters);
+	}
+	
+	public function addMonster(monster:Monster):Bool {
+		if (monster == null) return false;
+		
+		if (monsters.length < 4) {
+			monster.x = x + 7;
+			monster.y = y + 38;
+			monsters.add(monster);
+			return true;
+		}
+		
+		return false;
+	}
+	
+	public function getMonster(index:Int):Monster {
+		return monsters.members[index];
 	}
 	
 }

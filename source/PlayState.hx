@@ -21,57 +21,42 @@ class PlayState extends FlxState {
 	var battleScreen2:FlxSprite;
 	var battleScreenBG2:FlxSprite;
 	
+	var playerOneScene:BattleScene;
+	var playerTwoScene:BattleScene;
+	
+	
 	override public function create():Void {
 		super.create();
 		
-		battleScreen = new FlxSprite(25, 25);
-		battleScreen.loadGraphic("assets/images/BattleScreen.png");
-		add(battleScreen);
+		playerOneScene = new BattleScene(25, 25);
+		add(playerOneScene);
 		
-		battleScreenBG = new FlxSprite(battleScreen.x + 7, battleScreen.y + 5);
-		battleScreenBG.centerOffsets();
-		battleScreenBG.loadGraphic("assets/images/BattleBackgrounds/BattleBackground-" + Std.string(FlxG.random.int(1, 16)) + ".png");
-		add(battleScreenBG);
+		playerTwoScene = new BattleScene(300, 25);
+		add(playerTwoScene);
 		
+		monster1 = new Monster(0, 0, "Tyro");
+		playerOneScene.addMonster(monster1);
 		
-		battleScreen2 = new FlxSprite(300, 25);
-		battleScreen2.loadGraphic("assets/images/BattleScreen.png");
-		battleScreen2.centerOffsets();
-		add(battleScreen2);
+		monster2 = new Monster(0, 0, "Eye");
+		monster2.facing = FlxObject.LEFT;
+		playerTwoScene.addMonster(monster2);
 		
-		battleScreenBG2 = new FlxSprite(battleScreen2.x + 7, battleScreen2.y + 5);
-		battleScreenBG2.centerOffsets();
-		battleScreenBG2.loadGraphic("assets/images/BattleBackgrounds/BattleBackground-" + Std.string(FlxG.random.int(1, 16)) + ".png");
-		add(battleScreenBG2);
-		
-		text1 = new FlxText(battleScreen.x, 175);
-		add(text1);
-		
-		text2 = new FlxText(battleScreen2.x, 175);
-		add(text2);
 		
 		var btn:FlxButton = new FlxButton(200, 50, "Get Moves", getMonsterActions);
 		add(btn);
-		
-		monster1 = new Monster(battleScreen.x + 7, battleScreen.y + 38, "Tyro");
-		monster2 = new Monster(battleScreen2.x + 7, battleScreen2.y + 38, "Eye");
-		monster2.facing = FlxObject.LEFT;
-		
-		add(monster1);
-		add(monster2);
 		
 		getMonsterActions();
 	}
 	
 	private function getMonsterActions():Void {
-		text1.text = monster1.getAction();
-		text1.text += "\r\ntarget : " + getMonsterTarget([1, 0, 0, 0]);
+		playerOneScene.sceneText.text = playerOneScene.getMonster(0).getAction();
+		playerOneScene.sceneText.text += "\r\ntarget : " + getMonsterTarget([1, 0, 0, 0]);
 		
-		text2.text = monster2.getAction();
-		text2.text += "\r\ntarget : " + getMonsterTarget([1, 0, 0, 0]);
+		playerTwoScene.sceneText.text = playerTwoScene.getMonster(0).getAction();
+		playerTwoScene.sceneText.text += "\r\ntarget : " + getMonsterTarget([1, 0, 0, 0]);
 		
-		battleScreenBG.loadGraphic("assets/images/BattleBackgrounds/BattleBackground-" + Std.string(FlxG.random.int(1, 16)) + ".png");
-		battleScreenBG2.loadGraphic("assets/images/BattleBackgrounds/BattleBackground-" + Std.string(FlxG.random.int(1, 16)) + ".png");
+		playerOneScene.sceneBackground.loadGraphic("assets/images/BattleBackgrounds/BattleBackground-" + Std.string(FlxG.random.int(1, 16)) + ".png");
+		playerTwoScene.sceneBackground.loadGraphic("assets/images/BattleBackgrounds/BattleBackground-" + Std.string(FlxG.random.int(1, 16)) + ".png");
 	}
 	
 	private function getMonsterTarget(teamSlots:Array<Int>):Int {
