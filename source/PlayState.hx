@@ -24,10 +24,8 @@ class PlayState extends FlxState {
 	override public function create():Void {
 		super.create();
 		
-		
 		battleScreen = new FlxSprite(25, 25);
 		battleScreen.loadGraphic("assets/images/BattleScreen.png");
-		battleScreen.centerOffsets();
 		add(battleScreen);
 		
 		battleScreenBG = new FlxSprite(battleScreen.x + 7, battleScreen.y + 5);
@@ -64,10 +62,6 @@ class PlayState extends FlxState {
 		
 		getMonsterActions();
 	}
-	
-	
-	
-	
 	
 	private function getMonsterActions():Void {
 		text1.text = monster1.getAction();

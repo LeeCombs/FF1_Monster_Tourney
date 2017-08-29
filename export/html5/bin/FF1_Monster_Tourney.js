@@ -108,7 +108,7 @@ ApplicationMain.init = function() {
 	}
 };
 ApplicationMain.main = function() {
-	ApplicationMain.config = { build : "73", company : "HaxeFlixel", file : "FF1_Monster_Tourney", fps : 60, name : "FF1_Monster_Tourney", orientation : "", packageName : "com.example.myapp", version : "0.0.1", windows : [{ antialiasing : 0, background : 0, borderless : false, depthBuffer : false, display : 0, fullscreen : false, hardware : false, height : 480, parameters : "{}", resizable : false, stencilBuffer : true, title : "FF1_Monster_Tourney", vsync : true, width : 640, x : null, y : null}]};
+	ApplicationMain.config = { build : "76", company : "HaxeFlixel", file : "FF1_Monster_Tourney", fps : 60, name : "FF1_Monster_Tourney", orientation : "", packageName : "com.example.myapp", version : "0.0.1", windows : [{ antialiasing : 0, background : 0, borderless : false, depthBuffer : false, display : 0, fullscreen : false, hardware : false, height : 480, parameters : "{}", resizable : false, stencilBuffer : true, title : "FF1_Monster_Tourney", vsync : true, width : 640, x : null, y : null}]};
 };
 ApplicationMain.start = function() {
 	var hasMain = false;
@@ -6287,7 +6287,6 @@ PlayState.prototype = $extend(flixel_FlxState.prototype,{
 		flixel_FlxState.prototype.create.call(this);
 		this.battleScreen = new flixel_FlxSprite(25,25);
 		this.battleScreen.loadGraphic("assets/images/BattleScreen.png");
-		this.battleScreen.centerOffsets();
 		this.add(this.battleScreen);
 		this.battleScreenBG = new flixel_FlxSprite(this.battleScreen.x + 7,this.battleScreen.y + 5);
 		this.battleScreenBG.centerOffsets();
