@@ -48,6 +48,36 @@ class PlayState extends FlxState {
 		add(btn);
 		
 		getMonsterActions();
+		
+		FlxG.log.add(getTurnSchedule());
+	}
+	
+	private function getTurnSchedule():Array<Int> {
+		/* Turn Order Logic
+		* Every creature (alive, dead, statused) gets a turn
+		* 
+		* Scheduling is done by starting with:
+		* 00 01 02 03 04 05 06 07 08 80 81 82 83
+		* 00-08 Represent Enemies
+		* 80-83 Represent PCs
+		* 
+		* Pick two random numbers 0...12, and swap numbers at those positions
+		* Do this 17 times
+		*/
+		
+		var turnOrder:Array<Int> = [10, 11, 12, 13, 20, 21, 22, 23];
+		
+		for (i in 0...17) {
+			// Get the two indexs to swap, then swap them
+			var posOne:Int = FlxG.random.int(0, turnOrder.length - 1);
+			var posTwo:Int = FlxG.random.int(0, turnOrder.length - 1);
+			
+			var tempVal:Int = turnOrder[posOne];
+			turnOrder[posOne] = turnOrder[posTwo];
+			turnOrder[posTwo] = tempVal;
+		}
+		
+		return turnOrder;
 	}
 	
 	private function getMonsterActions():Void {
