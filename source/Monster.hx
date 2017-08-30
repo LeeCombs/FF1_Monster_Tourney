@@ -10,6 +10,8 @@ import flixel.system.FlxAssets.FlxGraphicAsset;
  * @author HellaBored
  */
 class Monster extends FlxSprite {
+	public var monsterName:String;
+	
 	var hp:Int = 0;
 	var atk:Int = 0;
 	var acc:Int = 0;
@@ -36,7 +38,7 @@ class Monster extends FlxSprite {
 	public function new(?X:Float=0, ?Y:Float=0, ?Name:String) {
 		super(X, Y);
 		
-		var monsterName:String = Name.toUpperCase();
+		monsterName = Name.toUpperCase();
 		
 		loadGraphic("assets/images/" + monsterName + ".png");
 		setFacingFlip(FlxObject.LEFT, true, false);

@@ -36,7 +36,7 @@ class PlayState extends FlxState {
 		playerTwoScene = new BattleScene(300, 25);
 		add(playerTwoScene);
 		
-		for (i in 0...4) {
+		for (i in 0...3) {
 			monster1 = new Monster(0, 0, "Tyro");
 			playerOneScene.addMonster(monster1);
 			
@@ -45,19 +45,29 @@ class PlayState extends FlxState {
 			playerTwoScene.addMonster(monster2);
 		}
 		
-		
-		var btn:FlxButton = new FlxButton(200, 50, "Get Moves", getMonsterActions);
+		var btn:FlxButton = new FlxButton(200, 50, "Get Moves", takeTurn);
 		add(btn);
 		
-		getMonsterActions();
+	}
+	
+	private function takeTurn():Void {
+		playerOneScene.sceneBackground.loadGraphic("assets/images/BattleBackgrounds/BattleBackground-" + Std.string(FlxG.random.int(1, 16)) + ".png");
+		playerTwoScene.sceneBackground.loadGraphic("assets/images/BattleBackgrounds/BattleBackground-" + Std.string(FlxG.random.int(1, 16)) + ".png");
 		
 		var sceneArray:Array<BattleScene> = [playerOneScene, playerTwoScene];
 		var turnSchedule:Array<Int> = getTurnSchedule();
 		for (turn in turnSchedule) {
-			FlxG.log.add("Scene:" + Std.int(turn / 10) + ", Slot:" + turn % 10);
+			// Scene # = Std.Int(turn / 10)
+			// Slot #  = turn % 10
 			
-			FlxG.log.add(sceneArray[Std.int(turn / 10) - 1].getMonster(turn % 10).getAction());
+			var monstersArray:Array<Monster> = sceneArray[Std.int(turn / 10) - 1].getMonsters();
+			var monster:Monster = monstersArray[turn % 10];
+			if (monster != null) {
+				FlxG.log.add(monster.monsterName + " - " + monster.getAction());
+				FlxG.log.add("Wants to attack slot: " + getMonsterTarget([1, 1, 1, 1]));
+			}
 		}
+		FlxG.log.add("---");
 	}
 	
 	private function getTurnSchedule():Array<Int> {
@@ -88,17 +98,6 @@ class PlayState extends FlxState {
 		return turnOrder;
 	}
 	
-	private function getMonsterActions():Void {
-		playerOneScene.sceneText.text = playerOneScene.getMonster(0).getAction();
-		playerOneScene.sceneText.text += "\r\ntarget : " + getMonsterTarget([1, 0, 0, 0]);
-		
-		playerTwoScene.sceneText.text = playerTwoScene.getMonster(0).getAction();
-		playerTwoScene.sceneText.text += "\r\ntarget : " + getMonsterTarget([1, 0, 0, 0]);
-		
-		playerOneScene.sceneBackground.loadGraphic("assets/images/BattleBackgrounds/BattleBackground-" + Std.string(FlxG.random.int(1, 16)) + ".png");
-		playerTwoScene.sceneBackground.loadGraphic("assets/images/BattleBackgrounds/BattleBackground-" + Std.string(FlxG.random.int(1, 16)) + ".png");
-	}
-	
 	private function getMonsterTarget(teamSlots:Array<Int>):Int {
 		/* Targeting Logic
 		* 
@@ -107,8 +106,10 @@ class PlayState extends FlxState {
 		* Slot 2: 5-6
 		* Slot 3: 7
 		* Slot 4: 8
+		* 
 		* If target is dead/petrified, reroll until valid
 		*/
+		
 		var targetSlot:Int;
 		while(true) {
 			var targetRoll:Int = FlxG.random.int(1, 8);

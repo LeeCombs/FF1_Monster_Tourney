@@ -47,8 +47,8 @@ class BattleScene extends FlxGroup {
 		return true;
 	}
 	
-	public function getMonster(index:Int):Monster {
-		return monsters.members[index];
+	public function getMonsters():Array<Monster> {
+		return monsters.members;
 	}
 	
 }
