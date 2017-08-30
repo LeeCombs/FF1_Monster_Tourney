@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<root>
+	<spells>
+		<spell>
+			<name>SLEP</name>
+			<id>06</id>
+			<effectivity>Sleep</effectivity>
+			<accuracy>24</accuracy>
+			<element>Status</element>
+			<target>AllEnemies</target>
+			<effect>StatusAilment</effect>
+		</spell>
+		<spell>
+			<name>MUTE</name>
+			<id>0A</id>
+			<effectivity>Silence</effectivity>
+			<accuracy>64</accuracy>
+			<element>Status</element>
+			<target>AllEnemies</target>
+			<effect>StatusAilment</effect>
+		</spell>
+	</spells>
+
+</root>

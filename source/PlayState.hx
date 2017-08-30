@@ -24,9 +24,14 @@ class PlayState extends FlxState {
 	var playerOneScene:BattleScene;
 	var playerTwoScene:BattleScene;
 	
+	private var magicManager:MagicManager;
+	
 	
 	override public function create():Void {
 		super.create();
+		
+		magicManager = new MagicManager();
+		magicManager.castSpell("XXXX");
 		
 		FlxG.sound.playMusic("assets/music/Battle_Scene.ogg", 0.1);
 		

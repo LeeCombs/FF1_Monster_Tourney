@@ -1,5 +1,7 @@
 package;
 import flixel.FlxG;
+import haxe.xml.Fast;
+import openfl.Assets;
 
 /**
  * ...
@@ -11,8 +13,28 @@ class MagicManager {
 	// MD = Magic Defense. Determined by Target.
 	// BC = Base Chance to Hit = 148
 	
+	private var spellDataXML:Xml;
+	
 	public function new() {
+		var sdXML = Assets.getText("assets/data/spellData.xml");
+		spellDataXML = Xml.parse(sdXML);
+		var fast:Fast = new Fast(spellDataXML.firstElement());
+		var spells:Fast = fast.node.spells;
+		for (spell in spells.nodes.spell) {
+			trace(spell.node.name.innerData);
+			trace(spell.node.id.innerData);
+			trace(spell.node.effectivity.innerData);
+			trace(spell.node.accuracy.innerData);
+			trace(spell.node.element.innerData);
+			trace(spell.node.target.innerData);
+			trace(spell.node.effect.innerData);
+			trace("-------------");
+		}
 		
+	}
+	
+	public function castSpell(spellName:String) {
+		var sn = spellName.toUpperCase();
 	}
 	
 	public function heal(e:Int) {
