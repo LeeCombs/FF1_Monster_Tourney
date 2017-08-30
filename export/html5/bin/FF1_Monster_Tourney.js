@@ -108,7 +108,7 @@ ApplicationMain.init = function() {
 	}
 };
 ApplicationMain.main = function() {
-	ApplicationMain.config = { build : "90", company : "HaxeFlixel", file : "FF1_Monster_Tourney", fps : 60, name : "FF1_Monster_Tourney", orientation : "", packageName : "com.example.myapp", version : "0.0.1", windows : [{ antialiasing : 0, background : 0, borderless : false, depthBuffer : false, display : 0, fullscreen : false, hardware : false, height : 480, parameters : "{}", resizable : false, stencilBuffer : true, title : "FF1_Monster_Tourney", vsync : true, width : 640, x : null, y : null}]};
+	ApplicationMain.config = { build : "101", company : "HaxeFlixel", file : "FF1_Monster_Tourney", fps : 60, name : "FF1_Monster_Tourney", orientation : "", packageName : "com.example.myapp", version : "0.0.1", windows : [{ antialiasing : 0, background : 0, borderless : false, depthBuffer : false, display : 0, fullscreen : false, hardware : false, height : 480, parameters : "{}", resizable : false, stencilBuffer : true, title : "FF1_Monster_Tourney", vsync : true, width : 640, x : null, y : null}]};
 };
 ApplicationMain.start = function() {
 	var hasMain = false;
@@ -2752,6 +2752,7 @@ flixel_group_FlxTypedGroup.prototype = $extend(flixel_FlxBasic.prototype,{
 	,__properties__: $extend(flixel_FlxBasic.prototype.__properties__,{set_maxSize:"set_maxSize"})
 });
 var BattleScene = function(X,Y) {
+	this.monsterPositions = [[7,38],[72,38],[7,86],[72,86]];
 	flixel_group_FlxTypedGroup.call(this);
 	this.x = X;
 	this.y = Y;
@@ -2777,17 +2778,15 @@ BattleScene.prototype = $extend(flixel_group_FlxTypedGroup.prototype,{
 	,scene: null
 	,sceneBackground: null
 	,monsters: null
+	,monsterPositions: null
 	,addMonster: function(monster) {
-		if(monster == null) {
+		if(monster == null || this.monsters.length >= 4) {
 			return false;
 		}
-		if(this.monsters.length < 4) {
-			monster.set_x(this.x + 7);
-			monster.set_y(this.y + 38);
-			this.monsters.add(monster);
-			return true;
-		}
-		return false;
+		monster.set_x(this.x + this.monsterPositions[this.monsters.length][0]);
+		monster.set_y(this.y + this.monsterPositions[this.monsters.length][1]);
+		this.monsters.add(monster);
+		return true;
 	}
 	,getMonster: function(index) {
 		return this.monsters.members[index];
@@ -6334,11 +6333,15 @@ PlayState.prototype = $extend(flixel_FlxState.prototype,{
 		this.add(this.playerOneScene);
 		this.playerTwoScene = new BattleScene(300,25);
 		this.add(this.playerTwoScene);
-		this.monster1 = new Monster(0,0,"Tyro");
-		this.playerOneScene.addMonster(this.monster1);
-		this.monster2 = new Monster(0,0,"Eye");
-		this.monster2.set_facing(1);
-		this.playerTwoScene.addMonster(this.monster2);
+		var _g = 0;
+		while(_g < 4) {
+			var i = _g++;
+			this.monster1 = new Monster(0,0,"Tyro");
+			this.playerOneScene.addMonster(this.monster1);
+			this.monster2 = new Monster(0,0,"Eye");
+			this.monster2.set_facing(1);
+			this.playerTwoScene.addMonster(this.monster2);
+		}
 		var btn = new flixel_ui_FlxButton(200,50,"Get Moves",$bind(this,this.getMonsterActions));
 		this.add(btn);
 		this.getMonsterActions();

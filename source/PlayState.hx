@@ -34,12 +34,14 @@ class PlayState extends FlxState {
 		playerTwoScene = new BattleScene(300, 25);
 		add(playerTwoScene);
 		
-		monster1 = new Monster(0, 0, "Tyro");
-		playerOneScene.addMonster(monster1);
-		
-		monster2 = new Monster(0, 0, "Eye");
-		monster2.facing = FlxObject.LEFT;
-		playerTwoScene.addMonster(monster2);
+		for (i in 0...4) {
+			monster1 = new Monster(0, 0, "Tyro");
+			playerOneScene.addMonster(monster1);
+			
+			monster2 = new Monster(0, 0, "Eye");
+			monster2.facing = FlxObject.LEFT;
+			playerTwoScene.addMonster(monster2);
+		}
 		
 		
 		var btn:FlxButton = new FlxButton(200, 50, "Get Moves", getMonsterActions);

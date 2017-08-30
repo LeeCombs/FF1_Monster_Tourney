@@ -203,7 +203,7 @@ class ApplicationMain {
 		
 		config = {
 			
-			build: "90",
+			build: "101",
 			company: "HaxeFlixel",
 			file: "FF1_Monster_Tourney",
 			fps: 60,

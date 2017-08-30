@@ -2,6 +2,7 @@ package;
 import flixel.FlxG;
 import flixel.FlxSprite;
 import flixel.group.FlxGroup;
+import flixel.math.FlxPoint;
 import flixel.text.FlxText;
 
 class BattleScene extends FlxGroup {
@@ -11,7 +12,10 @@ class BattleScene extends FlxGroup {
 	public var sceneText:FlxText;
 	public var scene:FlxSprite;
 	public var sceneBackground:FlxSprite;
+	
+	
 	public var monsters:FlxTypedGroup<Monster>;
+	private var monsterPositions:Array<Array<Int>> = [[7, 38], [72, 38], [7, 86], [72, 86]];
 	
 	
 	public function new(X:Int, Y:Int) {
@@ -36,16 +40,11 @@ class BattleScene extends FlxGroup {
 	}
 	
 	public function addMonster(monster:Monster):Bool {
-		if (monster == null) return false;
-		
-		if (monsters.length < 4) {
-			monster.x = x + 7;
-			monster.y = y + 38;
-			monsters.add(monster);
-			return true;
-		}
-		
-		return false;
+		if (monster == null || monsters.length >= 4) return false;
+		monster.x = x + monsterPositions[monsters.length][0];
+		monster.y = y + monsterPositions[monsters.length][1];
+		monsters.add(monster);
+		return true;
 	}
 	
 	public function getMonster(index:Int):Monster {
