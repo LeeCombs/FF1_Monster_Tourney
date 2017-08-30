@@ -28,6 +28,8 @@ class PlayState extends FlxState {
 	override public function create():Void {
 		super.create();
 		
+		FlxG.sound.playMusic("assets/music/Battle_Scene.ogg", 0.1);
+		
 		playerOneScene = new BattleScene(25, 25);
 		add(playerOneScene);
 		
@@ -49,7 +51,13 @@ class PlayState extends FlxState {
 		
 		getMonsterActions();
 		
-		FlxG.log.add(getTurnSchedule());
+		var sceneArray:Array<BattleScene> = [playerOneScene, playerTwoScene];
+		var turnSchedule:Array<Int> = getTurnSchedule();
+		for (turn in turnSchedule) {
+			FlxG.log.add("Scene:" + Std.int(turn / 10) + ", Slot:" + turn % 10);
+			
+			FlxG.log.add(sceneArray[Std.int(turn / 10) - 1].getMonster(turn % 10).getAction());
+		}
 	}
 	
 	private function getTurnSchedule():Array<Int> {
