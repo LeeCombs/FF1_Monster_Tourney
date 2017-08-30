@@ -108,7 +108,7 @@ ApplicationMain.init = function() {
 	}
 };
 ApplicationMain.main = function() {
-	ApplicationMain.config = { build : "101", company : "HaxeFlixel", file : "FF1_Monster_Tourney", fps : 60, name : "FF1_Monster_Tourney", orientation : "", packageName : "com.example.myapp", version : "0.0.1", windows : [{ antialiasing : 0, background : 0, borderless : false, depthBuffer : false, display : 0, fullscreen : false, hardware : false, height : 480, parameters : "{}", resizable : false, stencilBuffer : true, title : "FF1_Monster_Tourney", vsync : true, width : 640, x : null, y : null}]};
+	ApplicationMain.config = { build : "106", company : "HaxeFlixel", file : "FF1_Monster_Tourney", fps : 60, name : "FF1_Monster_Tourney", orientation : "", packageName : "com.example.myapp", version : "0.0.1", windows : [{ antialiasing : 0, background : 0, borderless : false, depthBuffer : false, display : 0, fullscreen : false, hardware : false, height : 720, parameters : "{}", resizable : false, stencilBuffer : true, title : "FF1_Monster_Tourney", vsync : true, width : 1280, x : null, y : null}]};
 };
 ApplicationMain.start = function() {
 	var hasMain = false;
@@ -2151,7 +2151,7 @@ openfl_display_Sprite.prototype = $extend(openfl_display_DisplayObjectContainer.
 });
 var Main = function() {
 	openfl_display_Sprite.call(this);
-	this.addChild(new flixel_FlxGame(0,0,PlayState));
+	this.addChild(new flixel_FlxGame(640,360,PlayState));
 };
 $hxClasses["Main"] = Main;
 Main.__name__ = ["Main"];
@@ -6189,7 +6189,7 @@ NMEPreloader.prototype = $extend(openfl_display_Sprite.prototype,{
 		return 0;
 	}
 	,getHeight: function() {
-		var height = 480;
+		var height = 720;
 		if(height > 0) {
 			return height;
 		} else {
@@ -6197,7 +6197,7 @@ NMEPreloader.prototype = $extend(openfl_display_Sprite.prototype,{
 		}
 	}
 	,getWidth: function() {
-		var width = 640;
+		var width = 1280;
 		if(width > 0) {
 			return width;
 		} else {
