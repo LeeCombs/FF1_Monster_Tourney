@@ -10,6 +10,7 @@
 			<target>AllEnemies</target>
 			<effect>StatusAilment</effect>
 		</spell>
+		
 		<spell>
 			<name>MUTE</name>
 			<id>0A</id>
@@ -19,6 +20,67 @@
 			<target>AllEnemies</target>
 			<effect>StatusAilment</effect>
 		</spell>
+		
+		<spell>
+			<name>SLOW</name>
+			<id>10</id>
+			<effectivity>0</effectivity>
+			<accuracy>64</accuracy>
+			<element>Status</element>
+			<target>AllEnemies</target>
+			<effect>HitMultiplierDown</effect>
+		</spell>
+		
+		<spell>
+			<name>HOLD</name>
+			<id>16</id>
+			<effectivity>Paralyze</effectivity>
+			<accuracy>64</accuracy>
+			<element>Status</element>
+			<target>SingleEnemy</target>
+			<effect>StatusAilment</effect>
+		</spell>
+		
+		<spell>
+			<name>LIT2</name>
+			<id>17</id>
+			<effectivity>30</effectivity>
+			<accuracy>24</accuracy>
+			<element>Lightning</element>
+			<target>AllEnemies</target>
+			<effect>Damage</effect>
+		</spell>
+		
+		<spell>
+			<name>RUB</name>
+			<id>2E</id>
+			<effectivity>Death</effectivity>
+			<accuracy>24</accuracy>
+			<element>Death</element>
+			<target>AllEnemies</target>
+			<effect>StatusAilment</effect>
+		</spell>
+		
+		<spell>
+			<name>BRAK</name>
+			<id>36</id>
+			<effectivity>Petrify</effectivity>
+			<accuracy>64</accuracy>
+			<element>Poison, Stone</element>
+			<target>SingleEnemy</target>
+			<effect>StatusAilment</effect>
+		</spell>
+		
+		<spell>
+			<name>XXXX</name>
+			<id>40</id>
+			<effectivity>Death</effectivity>
+			<accuracy>0</accuracy>
+			<element>Death</element>
+			<target>SingleEnemy</target>
+			<effect>StatusAilment</effect>
+		</spell>
+		
 	</spells>
 
 </root>

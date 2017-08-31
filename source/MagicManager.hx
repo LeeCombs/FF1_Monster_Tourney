@@ -13,28 +13,35 @@ class MagicManager {
 	// MD = Magic Defense. Determined by Target.
 	// BC = Base Chance to Hit = 148
 	
-	private var spellDataXML:Xml;
+	private var spells:Fast;
 	
 	public function new() {
 		var sdXML = Assets.getText("assets/data/spellData.xml");
-		spellDataXML = Xml.parse(sdXML);
+		var spellDataXML = Xml.parse(sdXML);
 		var fast:Fast = new Fast(spellDataXML.firstElement());
-		var spells:Fast = fast.node.spells;
-		for (spell in spells.nodes.spell) {
-			trace(spell.node.name.innerData);
-			trace(spell.node.id.innerData);
-			trace(spell.node.effectivity.innerData);
-			trace(spell.node.accuracy.innerData);
-			trace(spell.node.element.innerData);
-			trace(spell.node.target.innerData);
-			trace(spell.node.effect.innerData);
-			trace("-------------");
-		}
-		
+		spells = fast.node.spells;
 	}
 	
-	public function castSpell(spellName:String) {
+	public function castSpell(spellName:String):Spell {
 		var sn = spellName.toUpperCase();
+		
+		var spell:Spell = new Spell();
+		
+		for (s in spells.nodes.spell) {
+			if (s.node.name.innerData == sn) {
+				spell.name = s.node.name.innerData;
+				spell.id = s.node.id.innerData;
+				spell.effectivity = s.node.effectivity.innerData;
+				spell.accuracy = Std.parseInt(s.node.accuracy.innerData);
+				spell.element = s.node.element.innerData;
+				spell.target = s.node.target.innerData;
+				spell.effect = s.node.effect.innerData;
+				trace(spell);
+				return spell;
+			}
+		}
+		
+		return null;
 	}
 	
 	public function heal(e:Int) {
