@@ -72,7 +72,7 @@ class Monster extends FlxSprite {
 		mor = MOR;
 	}
 	
-	public function getAction():String {
+	public function getAction():Action {
 		/* Monster Action Logic
 		* 
 		* Priority: Run, Spell, Skill, Attack
@@ -85,26 +85,28 @@ class Monster extends FlxSprite {
 		* - Start from 0, continue sequentially
 		* Regular Attack
 		*/
-		var outputString:String = "";
+		var action:Action = { actionType: "SETME", actionName: "SETME" };
+		
 		if (spell.length > 0) {
 			if (FlxG.random.int(0, 128) <= spellChance) {
-				outputString += "spell : " + spell[spellIndex];
-				spellIndex++;
-				if (spellIndex >= spell.length) spellIndex = 0;
-				return outputString;
+				action.actionType = "spell";
+				action.actionName = spell[spellIndex];
+				return action;
 			}
 		}
 		
 		if (skill.length > 0) {
 			if (FlxG.random.int(0, 128) <= skillChance) {
-				outputString += "skill : " + skill[skillIndex];
-				skillIndex++;
-				if (skillIndex >= skill.length) skillIndex = 0;
-				return outputString;
+				action.actionType = "skill";
+				action.actionName = skill[skillIndex];
+				return action;
 			}
 		}
 		
-		return "attack : attack";
+		// Default attack action
+		action.actionType = "attack";
+		action.actionName = "attack";
+		return action;
 	}
 	
 }

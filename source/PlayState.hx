@@ -9,6 +9,7 @@ import flixel.text.FlxText;
 import flixel.ui.FlxButton;
 import flixel.math.FlxMath;
 
+
 class PlayState extends FlxState {
 	var text1:FlxText;
 	var text2:FlxText;
@@ -32,7 +33,7 @@ class PlayState extends FlxState {
 		super.create();
 		
 		magicManager = new MagicManager();
-		magicManager.castSpell("XXXX");
+		magicManager.getSpell("XXXX");
 		
 		FlxG.sound.playMusic("assets/music/Battle_Scene.ogg", 0.1);
 		
@@ -73,7 +74,11 @@ class PlayState extends FlxState {
 			var monster:Monster = monstersArray[slotNum];
 			if (monster != null) {
 				// Get the action and target of the monster
-				var action:String = monster.getAction();
+				var action:Action = monster.getAction();
+				
+				// TODO - Get the target type from the action first, then get who to target
+				// Target Types: Single Enemy, Single Ally, All Enemies, All Allies, Caster (Self)
+				
 				var targetSlot:Int = getMonsterTarget(targetScene.getMonsters());
 				
 				FlxG.log.add(monster.monsterName + " - " + action);

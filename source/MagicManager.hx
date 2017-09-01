@@ -22,7 +22,7 @@ class MagicManager {
 		spells = fast.node.spells;
 	}
 	
-	public function castSpell(spellName:String):Spell {
+	public function getSpell(spellName:String):Spell {
 		var sn = spellName.toUpperCase();
 		
 		var spell:Spell = new Spell();
