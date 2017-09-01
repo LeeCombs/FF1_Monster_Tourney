@@ -48,10 +48,11 @@ class PlayState extends FlxState {
 			monster1 = new Monster(0, 0, "Tyro");
 			playerOneScene.addMonster(monster1, i);
 			
-			if (i > 1) continue;
-			monster2 = new Monster(0, 0, "Eye");
-			monster2.facing = FlxObject.LEFT;
-			playerTwoScene.addMonster(monster2, i);
+			if (i == 2) {
+				monster2 = new Monster(0, 0, "Eye");
+				monster2.facing = FlxObject.LEFT;
+				playerTwoScene.addMonster(monster2, i);
+			}
 		}
 		
 		var btn:FlxButton = new FlxButton(200, 50, "Get Moves", takeTurn);
@@ -62,16 +63,23 @@ class PlayState extends FlxState {
 		
 		var turnSchedule:Array<Int> = getTurnSchedule();
 		for (turn in turnSchedule) {
-			var sceneNum:Int = Std.int(turn / 10) - 1;
+			// Set up the active/target scene, and which monster slot is taking action
+			var activeScene:BattleScene = sceneArray[Std.int(turn / 10) - 1];
+			var targetScene:BattleScene = sceneArray[(Std.int(turn / 10)) % 2];
 			var slotNum:Int = turn % 10;
 			
 			// Grab the monster that will take the action
-			var monstersArray:Array<Monster> = sceneArray[sceneNum].getMonsters();
-			var monster:Monster = monstersArray[turn % 10];
+			var monstersArray:Array<Monster> = activeScene.getMonsters();
+			var monster:Monster = monstersArray[slotNum];
 			if (monster != null) {
 				// Get the action and target of the monster
-				FlxG.log.add(monster.monsterName + " - " + monster.getAction());
-				FlxG.log.add("Wants to attack slot: " + getMonsterTarget(sceneArray[(sceneNum + 1) % 2].getMonsters()));
+				var action:String = monster.getAction();
+				var targetSlot:Int = getMonsterTarget(targetScene.getMonsters());
+				
+				FlxG.log.add(monster.monsterName + " - " + action);
+				FlxG.log.add("Wants to attack slot: " + targetSlot);
+				
+				targetScene.attackMonster(targetSlot, action);
 			}
 		}
 		FlxG.log.add("---");

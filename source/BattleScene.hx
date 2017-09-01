@@ -50,19 +50,19 @@ class BattleScene extends FlxGroup {
 		return true;
 	}
 	
-	public function attackMonster(position:Int) {
+	public function attackMonster(position:Int, attack:String) {
+		if (position < 0 || position > 4 || attack == "" || attack == null) return;
+		
 		var monster:Monster = getMonster(position);
 		if (monster == null) return;
-	}
-	
-	public function useSpellOnMonster(position:Int) {
-		var monster:Monster = getMonster(position);
-		if (monster == null) return;
-	}
-	
-	public function useSkillOnMonster(position:Int) {
-		var monster:Monster = getMonster(position);
-		if (monster == null) return;
+		
+		var attackType:String = attack.split(":")[0];
+		var attackName:String = attack.split(":")[1];
+		
+		FlxG.log.add("attacking position: " + position + " monster: " + monster.monsterName);
+		FlxG.log.add("attackType: " + attackType);
+		FlxG.log.add("attackName: " + attackName);
+		
 	}
 	
 	public function clearScene() {
