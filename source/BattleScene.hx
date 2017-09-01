@@ -14,7 +14,7 @@ class BattleScene extends FlxGroup {
 	public var sceneBackground:FlxSprite;
 	
 	
-	public var monsters:FlxTypedGroup<Monster>;
+	public var monsters:Array<Monster>;
 	private var monsterPositions:Array<Array<Int>> = [[7, 38], [72, 38], [7, 86], [72, 86]];
 	
 	
@@ -35,20 +35,51 @@ class BattleScene extends FlxGroup {
 		sceneText = new FlxText(x, y + 175);
 		add(sceneText);
 		
-		monsters = new FlxTypedGroup<Monster>();
-		add(monsters);
+		monsters = [null, null, null, null];
 	}
 	
-	public function addMonster(monster:Monster):Bool {
-		if (monster == null || monsters.length >= 4) return false;
-		monster.x = x + monsterPositions[monsters.length][0];
-		monster.y = y + monsterPositions[monsters.length][1];
-		monsters.add(monster);
+	public function addMonster(monster:Monster, position:Int):Bool {
+		
+		if (monster == null || position < 0 || position > 4) return false;
+		
+		monsters[position] = monster;
+		add(monster);
+		monster.x = x + monsterPositions[position][0];
+		monster.y = y + monsterPositions[position][1];
+		
 		return true;
 	}
 	
+	public function attackMonster(position:Int) {
+		var monster:Monster = getMonster(position);
+		if (monster == null) return;
+	}
+	
+	public function useSpellOnMonster(position:Int) {
+		var monster:Monster = getMonster(position);
+		if (monster == null) return;
+	}
+	
+	public function useSkillOnMonster(position:Int) {
+		var monster:Monster = getMonster(position);
+		if (monster == null) return;
+	}
+	
+	public function clearScene() {
+		for (monster in monsters) {
+			monster.destroy();
+			monster = null;
+			remove(monster);
+		}
+	}
+	
 	public function getMonsters():Array<Monster> {
-		return monsters.members;
+		return monsters;
+	}
+	
+	private function getMonster(position:Int):Monster {
+		if (position < 0 || position > 4) return null;
+		return monsters[position];
 	}
 	
 }

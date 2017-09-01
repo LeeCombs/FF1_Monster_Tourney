@@ -21,6 +21,7 @@ class PlayState extends FlxState {
 	var battleScreen2:FlxSprite;
 	var battleScreenBG2:FlxSprite;
 	
+	private var sceneArray:Array<BattleScene>;
 	var playerOneScene:BattleScene;
 	var playerTwoScene:BattleScene;
 	
@@ -41,35 +42,36 @@ class PlayState extends FlxState {
 		playerTwoScene = new BattleScene(300, 25);
 		add(playerTwoScene);
 		
-		for (i in 0...3) {
+		sceneArray = [playerOneScene, playerTwoScene];
+		
+		for (i in 0...4) {
 			monster1 = new Monster(0, 0, "Tyro");
-			playerOneScene.addMonster(monster1);
+			playerOneScene.addMonster(monster1, i);
 			
+			if (i > 1) continue;
 			monster2 = new Monster(0, 0, "Eye");
 			monster2.facing = FlxObject.LEFT;
-			playerTwoScene.addMonster(monster2);
+			playerTwoScene.addMonster(monster2, i);
 		}
 		
 		var btn:FlxButton = new FlxButton(200, 50, "Get Moves", takeTurn);
 		add(btn);
-		
 	}
 	
 	private function takeTurn():Void {
-		playerOneScene.sceneBackground.loadGraphic("assets/images/BattleBackgrounds/BattleBackground-" + Std.string(FlxG.random.int(1, 16)) + ".png");
-		playerTwoScene.sceneBackground.loadGraphic("assets/images/BattleBackgrounds/BattleBackground-" + Std.string(FlxG.random.int(1, 16)) + ".png");
 		
-		var sceneArray:Array<BattleScene> = [playerOneScene, playerTwoScene];
 		var turnSchedule:Array<Int> = getTurnSchedule();
 		for (turn in turnSchedule) {
-			// Scene # = Std.Int(turn / 10)
-			// Slot #  = turn % 10
+			var sceneNum:Int = Std.int(turn / 10) - 1;
+			var slotNum:Int = turn % 10;
 			
-			var monstersArray:Array<Monster> = sceneArray[Std.int(turn / 10) - 1].getMonsters();
+			// Grab the monster that will take the action
+			var monstersArray:Array<Monster> = sceneArray[sceneNum].getMonsters();
 			var monster:Monster = monstersArray[turn % 10];
 			if (monster != null) {
+				// Get the action and target of the monster
 				FlxG.log.add(monster.monsterName + " - " + monster.getAction());
-				FlxG.log.add("Wants to attack slot: " + getMonsterTarget([1, 1, 1, 1]));
+				FlxG.log.add("Wants to attack slot: " + getMonsterTarget(sceneArray[(sceneNum + 1) % 2].getMonsters()));
 			}
 		}
 		FlxG.log.add("---");
@@ -103,7 +105,7 @@ class PlayState extends FlxState {
 		return turnOrder;
 	}
 	
-	private function getMonsterTarget(teamSlots:Array<Int>):Int {
+	private function getMonsterTarget(teamSlots:Array<Monster>):Int {
 		/* Targeting Logic
 		* 
 		* Roll 1...8
@@ -124,7 +126,7 @@ class PlayState extends FlxState {
 			else if (targetRoll == 7) targetSlot = 2;
 			else targetSlot = 3;
 			
-			if (teamSlots[targetSlot] == 1) return targetSlot;
+			if (teamSlots[targetSlot] != null) return targetSlot;
 		}
 	}
 
