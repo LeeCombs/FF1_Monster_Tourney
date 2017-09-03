@@ -1,66 +1,15 @@
+Elements:
+	Status, Poison/Stone, Time, Death, Fire, Ice, Lightning, Earth, Non-Elemental (?)
 
-A = Attack
-D = Defense
-H = Hit %
-E = Evasion
-BC = Base hit chance
+Statuses:
+	Death
+	Petrification (Death)
+	Poison
+	Blind 
+	Paralysis
+	Sleep
+	Silence
+	Confusion
 
-
----------------------
--- DAMAGE FORMULAS --
----------------------
-
-Damage calculated per hit
-Minimum damage for each hit is 1
-Total damage is sum of successful hits
-
-Physical Damage: Damage = A...2A - D
-Critical Hits: (A...2A) + (A...2A - D) -- Both sets of A...2A are same value
-
------------------------
--- ACCURACY FORMULAS --
------------------------
-
--- BASE CHANCE --
-
-Base Chance to hit = 168
-Attacker Blind: -40
-Target Blind: +40
-Target Weak to Attack: +40
-
--- CHANCE TO HIT --
-
-Chance to hit = (BC + H) - E -- BC + H capped at 255
-
-HitRoll = 0...200
-
-if HitRoll <= Chance to Hit, Hit Connects
-0 - Auto Hit, 200 - Auto Miss
-
-%Chance = [Chance to Hit + 1]/201
-
--- CRITICAL CHANCE --
-
-If HitRoll <= Critical Rate, Hit is crit
-
---------------------
--- STATUS ATTACKS --
---------------------
-
--- BASE CHANCE TO INFLICT --
-
-Base = 100
-If target is resistance to attack element, Base = 0
-
--- CHANCE TO INFLICT --
-
-Chance = Base - Defense
-Roll 0...200, if less or equal, apply status
-Calculated per hit
-
-H = Hit
-M = Normal Miss
-X = Miss from rolling 200
-* = Chance to inflict status
-
-M M H* M M X M* X
+Enemy Types:
+	Magical, Dragon, Giant, Undead, Were, Aquatic, Mage, Regenerative (2HP/turn)

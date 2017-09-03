@@ -5,27 +5,24 @@ import flixel.FlxObject;
 import flixel.FlxSprite;
 import flixel.system.FlxAssets.FlxGraphicAsset;
 
-/**
- * ...
- * @author HellaBored
- */
 class Monster extends FlxSprite {
 	public var monsterName:String;
 	
-	var hp:Int = 0;
-	var atk:Int = 0;
-	var acc:Int = 0;
-	var hits:Int = 0;
-	var crt:Int = 0;
-	var def:Int = 0;
-	var eva:Int = 0;
-	var mdef:Int = 0;
-	var mor:Int = 0;
-	var satk:String = "";
-	var eatk:String = "";
-	var type:String = "";
-	var weak:String = "";
-	var resi:String = "";
+	public var hp:Int = 0;
+	public var hpMax:Int = 0;
+	public var atk:Int = 0;
+	public var acc:Int = 0;
+	public var hits:Int = 0;
+	public var crt:Int = 0;
+	public var def:Int = 0;
+	public var eva:Int = 0;
+	public var mdef:Int = 0;
+	public var mor:Int = 0;
+	public var satk:String = "";
+	public var eatk:String = "";
+	public var type:String = "";
+	public var weak:Array<String> = [];
+	public var resi:Array<String> = [];
 	
 	var spell:Array<String> = new Array<String>();
 	var spellChance:Int = 0;
@@ -34,6 +31,9 @@ class Monster extends FlxSprite {
 	var skill:Array<String> = new Array<String>();
 	var skillChance:Int = 0;
 	var skillIndex:Int = 0;
+	
+	private var statuses:Array<String> = [];
+	private var buffs:Array<String> = [];
 
 	public function new(?X:Float=0, ?Y:Float=0, ?Name:String) {
 		super(X, Y);
@@ -50,7 +50,7 @@ class Monster extends FlxSprite {
 			case "EYE":
 				setStats(162, 30, 42, 1, 1, 30, 12, 92, 200);
 				type = "Mage";
-				resi = "Earth";
+				resi = ["Earth"];
 				spell = ["XXXX", "BRAK", "RUB", "LIT2", "HOLD", "MUTE", "SLOW", "SLEP"];
 				spellChance = 80;
 				skill = ["GLANCE", "SQUINT", "GAZE", "STARE"];
@@ -60,18 +60,10 @@ class Monster extends FlxSprite {
 		}
 	}
 	
-	private function setStats(HP:Int, ATK:Int, ACC:Int, HITS:Int, CRT:Int, DEF:Int, EVA:Int, MDEF:Int, MOR:Int) {
-		hp = HP;
-		atk = ATK;
-		acc = ACC;
-		hits = HITS;
-		crt = CRT;
-		def = DEF;
-		eva = EVA;
-		mdef = MDEF;
-		mor = MOR;
-	}
-	
+	/**
+	 * Return the monster's next action
+	 * @return
+	 */
 	public function getAction():Action {
 		/* Monster Action Logic
 		* 
@@ -90,7 +82,8 @@ class Monster extends FlxSprite {
 		if (spell.length > 0) {
 			if (FlxG.random.int(0, 128) <= spellChance) {
 				action.actionType = "spell";
-				action.actionName = spell[spellIndex];
+				action.actionName = spell[spellIndex++];
+				if (spellIndex >= spell.length) spellIndex = 0;
 				return action;
 			}
 		}
@@ -98,7 +91,8 @@ class Monster extends FlxSprite {
 		if (skill.length > 0) {
 			if (FlxG.random.int(0, 128) <= skillChance) {
 				action.actionType = "skill";
-				action.actionName = skill[skillIndex];
+				action.actionName = skill[skillIndex++];
+				if (skillIndex >= skill.length) skillIndex = 0;
 				return action;
 			}
 		}
@@ -109,4 +103,48 @@ class Monster extends FlxSprite {
 		return action;
 	}
 	
+	/**
+	 * Damage monster a given value, killing it if hp drops to or below 0
+	 * 
+	 * @param	value	Amount to damage
+	 */
+	public function damage(value:Int) {
+		if (value < 0) return;
+		
+		hp -= value;
+		if (hp <= 0) kill();
+	}
+	
+	/**
+	 * Heal monster a given amount, up to max
+	 * 
+	 * @param	value	Amount to heal
+	 */
+	public function heal(value:Int) {
+		if (value < 0) return;
+		
+		hp += value;
+		if (hp > hpMax) hp = hpMax;
+	}
+	
+	/**
+	 * Set hp to max and remove bad statuses
+	 */
+	public function fullHeal() {
+		hp = hpMax;
+		statuses = [];
+	}
+	
+	private function setStats(HP:Int, ATK:Int, ACC:Int, HITS:Int, CRT:Int, DEF:Int, EVA:Int, MDEF:Int, MOR:Int) {
+		hp = HP;
+		hpMax = hp;
+		atk = ATK;
+		acc = ACC;
+		hits = HITS;
+		crt = CRT;
+		def = DEF;
+		eva = EVA;
+		mdef = MDEF;
+		mor = MOR;
+	}
 }

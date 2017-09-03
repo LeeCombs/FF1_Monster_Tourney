@@ -74,6 +74,32 @@ class PlayState extends FlxState {
 				// TODO - Get the target type from the action first, then get who to target
 				// Target Types: Single Enemy, Single Ally, All Enemies, All Allies, Caster (Self)
 				
+				switch(action.actionType) {
+					case "spell":
+						var spell:Spell = magicManager.getSpell(action.actionName);
+						
+						switch(spell.target) {
+							case "Caster":
+								// 
+							case "Single Enemy":
+								// 
+							case "Single Ally":
+								// 
+							case "All Enemies":
+								// 
+							case "All Allies":
+								// 
+							default:
+								trace("Invalid spell target: " + spell.target);
+						}
+					case "skill":
+						//
+					case "attack":
+						//
+					default:
+						trace("Invalid actionType: " + action.actionType);
+				}
+				
 				var targetSlot:Int = getMonsterTarget(targetScene.getMonsters());
 				targetScene.attackMonster(targetSlot, action);
 			}
@@ -81,6 +107,11 @@ class PlayState extends FlxState {
 		FlxG.log.add("---");
 	}
 	
+	/**
+	 * Return's the turn order of the monsters for both sides
+	 * 
+	 * @return
+	 */
 	private function getTurnSchedule():Array<Int> {
 		/* Turn Order Logic
 		* Every creature (alive, dead, statused) gets a turn
@@ -109,6 +140,12 @@ class PlayState extends FlxState {
 		return turnOrder;
 	}
 	
+	/**
+	 * Determine what slow the monster will target
+	 * 
+	 * @param	teamSlots
+	 * @return
+	 */
 	private function getMonsterTarget(teamSlots:Array<Monster>):Int {
 		/* Targeting Logic
 		* 

@@ -33,7 +33,6 @@ class MagicManager {
 				spell.element = s.node.element.innerData;
 				spell.target = s.node.target.innerData;
 				spell.effect = s.node.effect.innerData;
-				trace(spell);
 				return spell;
 			}
 		}
@@ -46,60 +45,61 @@ class MagicManager {
 			case "Nothing":
 				//
 			case "Damage":
-				//
+				// FIRE, LIT, ICE, FIR2, LIT2, ICE2, FIR3, LIT3, ICE3, FADE, NUKE
 			case "Undead Damage":
-				//
+				// HARM, HRM2, HRM3, HRM4
 			case "Status Ailment":
-				//
+				// SLEP, MUTE, DARK, HOLD, SLP2, CONF
+				// BANE, RUB, QAKE, BRAK, STOP, ZAP!, XXXX
 			case "Hit Multiplier Down":
-				//
+				// SLOW, SLO2
 			case "Morale Down":
-				//
+				// FEAR
 			case "[Unused]":
 				//
 			case "HP Recovery":
+				// CURE, CUR2, HEAL, CURE3, HEL2, HEL3
 				healSpell(spell, target);
 			case "Restore Status":
-				//
+				// LAMP, PURE, AMUT
 			case "Defense Up":
-				//
+				// FOG, FOG2
 			case "Attack Up":
-				//
+				// TMPR (fix)
 			case "Hit Multiplier Up":
-				//
+				// FAST
 			case "Attack/Accuracy Up":
-				//
+				// SABR
+			case "Evasion Down":
+				// LOCK, LOK2
 			case "Full HP/Status Recovery":
+				// CUR4
 				fullHeal(target);
 			case "Evasion Up":
-				//
+				// RUSE, INVS, INV2
 			case "Remove Resistance":
-				//
-			case "300 HP Status":
-				//
+				// XFER
+			case "300HP Status":
+				// STUN, BLND
 			default:
 				FlxG.log.add("Invalid spell effect: " + spell.effect);
 		}
 	}
 	
-	private function attackSpell(e:Int):Int {
-		/*
-		Resisted Attack Spell
-		Damage = E...2E
-		
-		Unresisted Attack Spell
-		Damage = 2(E...2E)
-		
-		--If target is resistant to spell element, divide effectivity by 2
-		--If the target is weak to spell element, multiply effectivity by 1.5
-		
-		To determine whether a spell is resisted, look to whether the hit roll 
-		(described in B below) succeeds. If it does, the E...2E value is doubled. If
-		it does not, the value remains E...2E.
-		*/
+	private function attackSpell(spell:Spell, target:Monster) {
+		var e:Int = Std.parseInt(spell.effectivity);
 		var damage = FlxG.random.int(e, e * 2);
 		
-		return damage;
+		// If target is resistant to spell element, divide effectivity by 2
+		// If the target is weak to spell element, multiply effectivity by 1.5
+		
+		// if (target.resists == spell.element) e *= 0.5;
+		// if (target.weak == spell.element) e *= 1.5;
+		
+		// Double damage if not 'resisted'
+		if (checkForHit(spell.accuracy, target.mdef, false, false)) damage *= 2;
+		
+		// monster.damage(damage);
 	}
 	
 	private function statusSpell(spell:Spell, target:Monster) {
@@ -112,11 +112,10 @@ class MagicManager {
 	 * @param	target
 	 */
 	private function healSpell(spell:Spell, target:Monster) {
-		// CURE, CUR2, HEAL, CURE3, HEL2, HEL3
 		var e:Int = Std.parseInt(spell.effectivity);
 		var healAmount = FlxG.random.int(e, e * 2);
 		if (healAmount > 255) healAmount = 255;
-		// monster.recover(healAmount);
+		// monster.heal(healAmount);
 	}
 	
 	/**
@@ -124,10 +123,17 @@ class MagicManager {
 	 * @param	target
 	 */
 	private function fullHeal(target:Monster) {
-		// CUR4
 		// monster.fullHeal();
 	}
 	
+	/**
+	 * 
+	 * @param	SA			Spell's Accuracy
+	 * @param	MD			Target's Magic Defense
+	 * @param	resistant
+	 * @param	weak
+	 * @return
+	 */
 	private function checkForHit(SA:Int, MD:Int, resistant:Bool, weak:Bool):Bool {
 		/*
 		NOTE: Status spells can hit or miss, which is determined by this calculation.
