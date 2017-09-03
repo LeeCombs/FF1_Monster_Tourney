@@ -13,6 +13,8 @@ class BattleScene extends FlxGroup {
 	public var scene:FlxSprite;
 	public var sceneBackground:FlxSprite;
 	
+	public var magicManager:MagicManager;
+	
 	
 	public var monsters:Array<Monster>;
 	private var monsterPositions:Array<Array<Int>> = [[7, 38], [72, 38], [7, 86], [72, 86]];
@@ -22,6 +24,8 @@ class BattleScene extends FlxGroup {
 		super();
 		x = X;
 		y = Y;
+		
+		magicManager = new MagicManager();
 		
 		scene = new FlxSprite(x, y);
 		scene.loadGraphic("assets/images/BattleScreen.png");
@@ -59,6 +63,10 @@ class BattleScene extends FlxGroup {
 		FlxG.log.add("attacking position: " + position + " monster: " + monster.monsterName);
 		FlxG.log.add("actionType: " + action.actionType);
 		FlxG.log.add("actionName: " + action.actionName);
+		
+		if (action.actionType == "spell") {
+			var spell:Spell = magicManager.getSpell(action.actionName);
+		}
 		
 	}
 	

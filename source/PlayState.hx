@@ -32,9 +32,6 @@ class PlayState extends FlxState {
 	override public function create():Void {
 		super.create();
 		
-		magicManager = new MagicManager();
-		magicManager.getSpell("XXXX");
-		
 		FlxG.sound.playMusic("assets/music/Battle_Scene.ogg", 0.1);
 		
 		playerOneScene = new BattleScene(25, 25);
@@ -49,11 +46,9 @@ class PlayState extends FlxState {
 			monster1 = new Monster(0, 0, "Tyro");
 			playerOneScene.addMonster(monster1, i);
 			
-			if (i == 2) {
-				monster2 = new Monster(0, 0, "Eye");
-				monster2.facing = FlxObject.LEFT;
-				playerTwoScene.addMonster(monster2, i);
-			}
+			monster2 = new Monster(0, 0, "Eye");
+			monster2.facing = FlxObject.LEFT;
+			playerTwoScene.addMonster(monster2, i);
 		}
 		
 		var btn:FlxButton = new FlxButton(200, 50, "Get Moves", takeTurn);
@@ -80,10 +75,6 @@ class PlayState extends FlxState {
 				// Target Types: Single Enemy, Single Ally, All Enemies, All Allies, Caster (Self)
 				
 				var targetSlot:Int = getMonsterTarget(targetScene.getMonsters());
-				
-				FlxG.log.add(monster.monsterName + " - " + action);
-				FlxG.log.add("Wants to attack slot: " + targetSlot);
-				
 				targetScene.attackMonster(targetSlot, action);
 			}
 		}

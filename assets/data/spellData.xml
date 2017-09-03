@@ -2,13 +2,23 @@
 <root>
 	<spells>
 		<spell>
+			<name>CURE</name>
+			<id>01</id>
+			<effectivity>16</effectivity>
+			<accuracy>0</accuracy>
+			<element>None</element>
+			<target>Single Ally</target>
+			<effect>Hp Recovery</effect>
+		</spell>
+		
+		<spell>
 			<name>SLEP</name>
 			<id>06</id>
 			<effectivity>Sleep</effectivity>
 			<accuracy>24</accuracy>
 			<element>Status</element>
-			<target>AllEnemies</target>
-			<effect>StatusAilment</effect>
+			<target>All Enemies</target>
+			<effect>Status Ailment</effect>
 		</spell>
 		
 		<spell>
@@ -17,8 +27,8 @@
 			<effectivity>Silence</effectivity>
 			<accuracy>64</accuracy>
 			<element>Status</element>
-			<target>AllEnemies</target>
-			<effect>StatusAilment</effect>
+			<target>All Enemies</target>
+			<effect>Status Ailment</effect>
 		</spell>
 		
 		<spell>
@@ -27,8 +37,8 @@
 			<effectivity>0</effectivity>
 			<accuracy>64</accuracy>
 			<element>Status</element>
-			<target>AllEnemies</target>
-			<effect>HitMultiplierDown</effect>
+			<target>All Enemies</target>
+			<effect>Hit Multiplier Down</effect>
 		</spell>
 		
 		<spell>
@@ -37,8 +47,8 @@
 			<effectivity>Paralyze</effectivity>
 			<accuracy>64</accuracy>
 			<element>Status</element>
-			<target>SingleEnemy</target>
-			<effect>StatusAilment</effect>
+			<target>Single Enemy</target>
+			<effect>Status Ailment</effect>
 		</spell>
 		
 		<spell>
@@ -47,7 +57,7 @@
 			<effectivity>30</effectivity>
 			<accuracy>24</accuracy>
 			<element>Lightning</element>
-			<target>AllEnemies</target>
+			<target>All Enemies</target>
 			<effect>Damage</effect>
 		</spell>
 		
@@ -57,8 +67,8 @@
 			<effectivity>Death</effectivity>
 			<accuracy>24</accuracy>
 			<element>Death</element>
-			<target>AllEnemies</target>
-			<effect>StatusAilment</effect>
+			<target>All Enemies</target>
+			<effect>Status Ailment</effect>
 		</spell>
 		
 		<spell>
@@ -67,8 +77,8 @@
 			<effectivity>Petrify</effectivity>
 			<accuracy>64</accuracy>
 			<element>Poison, Stone</element>
-			<target>SingleEnemy</target>
-			<effect>StatusAilment</effect>
+			<target>Single Enemy</target>
+			<effect>Status Ailment</effect>
 		</spell>
 		
 		<spell>
@@ -77,8 +87,8 @@
 			<effectivity>Death</effectivity>
 			<accuracy>0</accuracy>
 			<element>Death</element>
-			<target>SingleEnemy</target>
-			<effect>StatusAilment</effect>
+			<target>Single Enemy</target>
+			<effect>Status Ailment</effect>
 		</spell>
 		
 	</spells>

@@ -3,10 +3,6 @@ import flixel.FlxG;
 import haxe.xml.Fast;
 import openfl.Assets;
 
-/**
- * ...
- * @author HellaBored
- */
 class MagicManager {
 	// E = Effectivity. Determined by Spell. (Effectively capped at 255)
 	// SA = Spell Accuracy. Determined by Spell.
@@ -23,10 +19,11 @@ class MagicManager {
 	}
 	
 	public function getSpell(spellName:String):Spell {
-		var sn = spellName.toUpperCase();
+		trace("Get Spell: " + spellName.toUpperCase());
 		
 		var spell:Spell = new Spell();
 		
+		var sn = spellName.toUpperCase();
 		for (s in spells.nodes.spell) {
 			if (s.node.name.innerData == sn) {
 				spell.name = s.node.name.innerData;
@@ -44,23 +41,48 @@ class MagicManager {
 		return null;
 	}
 	
-	public function heal(e:Int) {
-		/*
-		HP Recovered = E...2E (max 255)
-		
-		CUR4 does not use this formula, but rather, sets HP to max and clears 
-		negative status.
-		
-		Note that out-of-battle, healing magic does not use these formulas. Rather,
-		each spell is programmed to restore a set amount of HP, plus a variable
-		range. These values are listing in F(1) below.
-		*/
-		var recovered = FlxG.random.int(e, e * 2);
-		if (recovered > 255) recovered = 255;
-		return recovered;
+	public function castSpell(spell:Spell, target:Monster) {
+		switch (spell.effect) {
+			case "Nothing":
+				//
+			case "Damage":
+				//
+			case "Undead Damage":
+				//
+			case "Status Ailment":
+				//
+			case "Hit Multiplier Down":
+				//
+			case "Morale Down":
+				//
+			case "[Unused]":
+				//
+			case "HP Recovery":
+				healSpell(spell, target);
+			case "Restore Status":
+				//
+			case "Defense Up":
+				//
+			case "Attack Up":
+				//
+			case "Hit Multiplier Up":
+				//
+			case "Attack/Accuracy Up":
+				//
+			case "Full HP/Status Recovery":
+				fullHeal(target);
+			case "Evasion Up":
+				//
+			case "Remove Resistance":
+				//
+			case "300 HP Status":
+				//
+			default:
+				FlxG.log.add("Invalid spell effect: " + spell.effect);
+		}
 	}
 	
-	public function attack():Int {
+	private function attackSpell(e:Int):Int {
 		/*
 		Resisted Attack Spell
 		Damage = E...2E
@@ -75,16 +97,49 @@ class MagicManager {
 		(described in B below) succeeds. If it does, the E...2E value is doubled. If
 		it does not, the value remains E...2E.
 		*/
-		return 0;
+		var damage = FlxG.random.int(e, e * 2);
+		
+		return damage;
 	}
 	
-	public function getChanceToHit(SA:Int, MD:Int, resistant:Bool, weak:Bool):Int {
+	private function statusSpell(spell:Spell, target:Monster) {
+		//
+	}
+	
+	/**
+	 * Recover the target's HP based on the spell's effectiveness
+	 * @param	spell
+	 * @param	target
+	 */
+	private function healSpell(spell:Spell, target:Monster) {
+		// CURE, CUR2, HEAL, CURE3, HEL2, HEL3
+		var e:Int = Std.parseInt(spell.effectivity);
+		var healAmount = FlxG.random.int(e, e * 2);
+		if (healAmount > 255) healAmount = 255;
+		// monster.recover(healAmount);
+	}
+	
+	/**
+	 * Fully target's HP and clear negative statuses
+	 * @param	target
+	 */
+	private function fullHeal(target:Monster) {
+		// CUR4
+		// monster.fullHeal();
+	}
+	
+	private function checkForHit(SA:Int, MD:Int, resistant:Bool, weak:Bool):Bool {
 		/*
 		NOTE: Status spells can hit or miss, which is determined by this calculation.
 		Damaging spells always "hit," but may be "resisted," in which case the doubling
 		component of the damage calculation does not occur, and the spell does only
 		half of its potential damage.
 		*/
+		
+		// Exceptions
+		// - Positivity effects always hit
+		// -- HP Recovery, Restore Status, Defense Up, Resist Element, Attack Up, Hit Up, Attak/Acc Up, FullHp/StatusRecovery, Evasion Up
+		// - 300HP Threshold Spells (STUN, BLND, XXXX) always hit if not resistant and current HP <= 300, always miss otherwise
 		
 		// Base Chance to Hit
 		var BC:Int = 148; // Base Chance
@@ -94,11 +149,10 @@ class MagicManager {
 		// Chance to Hit
 		var chanceToHit = BC + SA - MD;
 		
-		// Exceptions
-		// - Positivity effects always hit
-		// -- HP Recovery, Restore Status, Defense Up, Resist Element, Attack Up, Hit Up, Attak/Acc Up, FullHp/StatusRecovery, Evasion Up
-		// - 300HP Threshold Spells (STUN, BLND, XXXX) always hit if not resistant and current HP <= 300, always miss otherwise
+		var hitRoll = FlxG.random.int(0, 200);
 		
-		return 0;
+		if (hitRoll <= chanceToHit) return true;
+		return false;
+		
 	}
 }
