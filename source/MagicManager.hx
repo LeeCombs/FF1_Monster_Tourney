@@ -41,11 +41,13 @@ class MagicManager {
 	}
 	
 	public function castSpell(spell:Spell, target:Monster) {
+		trace("Casting spell: " + spell.name + ", effect: " + spell.effect);
 		switch (spell.effect) {
 			case "Nothing":
 				//
 			case "Damage":
 				// FIRE, LIT, ICE, FIR2, LIT2, ICE2, FIR3, LIT3, ICE3, FADE, NUKE
+				attackSpell(spell, target);
 			case "Undead Damage":
 				// HARM, HRM2, HRM3, HRM4
 			case "Status Ailment":
@@ -87,20 +89,26 @@ class MagicManager {
 		}
 	}
 	
+	/**
+	 * Cast a damaging spell against a target
+	 * 
+	 * @param	spell
+	 * @param	target
+	 */
 	private function attackSpell(spell:Spell, target:Monster) {
+		trace("Casting attack spell: " + spell.name);
+		
 		var e:Int = Std.parseInt(spell.effectivity);
+		
+		// Check for resistances/weaknesses. Half for resist, 1.5x for weak.
+		if (target.isResistantTo(spell.element)) e = Std.int(e * 0.5);
+		if (target.isWeakTo(spell.element)) e = Std.int(e * 1.5);
+		
+		// Determine damage, and double it if the monster doesn't 'resist' the spell
 		var damage = FlxG.random.int(e, e * 2);
+		if (checkForHit(spell, target)) damage *= 2;
 		
-		// If target is resistant to spell element, divide effectivity by 2
-		// If the target is weak to spell element, multiply effectivity by 1.5
-		
-		// if (target.resists == spell.element) e *= 0.5;
-		// if (target.weak == spell.element) e *= 1.5;
-		
-		// Double damage if not 'resisted'
-		// if (checkForHit(spell.accuracy, target.mdef, false, false)) damage *= 2;
-		
-		// monster.damage(damage);
+		target.damage(damage);
 	}
 	
 	/**

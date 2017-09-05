@@ -91,7 +91,7 @@ class PlayState extends FlxState {
 							case "Single Ally":
 								// 
 							case "All Enemies":
-								// 
+								targetScene.attackAllMonsters(action);
 							case "All Allies":
 								// 
 							default:

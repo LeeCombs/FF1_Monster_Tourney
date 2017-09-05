@@ -28,19 +28,18 @@ class Monster extends FlxSprite {
 	public var weak:Array<String> = [];
 	public var resi:Array<String> = [];
 	
-	var spell:Array<String> = new Array<String>();
-	var spellChance:Int = 0;
-	var spellIndex:Int = 0;
+	private var spell:Array<String> = new Array<String>();
+	private var spellChance:Int = 0;
+	private var spellIndex:Int = 0;
 	
-	var skill:Array<String> = new Array<String>();
-	var skillChance:Int = 0;
-	var skillIndex:Int = 0;
+	private var skill:Array<String> = new Array<String>();
+	private var skillChance:Int = 0;
+	private var skillIndex:Int = 0;
 	
 	private var statuses:Array<Status> = [];
 	private var buffs:Array<String> = [];
 	private var debuffs:Array<String> = [];
 	
-
 	public function new(?X:Float=0, ?Y:Float=0, ?Name:String) {
 		super(X, Y);
 		
@@ -118,6 +117,8 @@ class Monster extends FlxSprite {
 	 */
 	public function damage(value:Int) {
 		if (value < 0) return;
+		
+		trace("Damaging monster for: " + value);
 		
 		hp -= value;
 		if (hp <= 0) destroy();
