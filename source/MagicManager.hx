@@ -51,6 +51,7 @@ class MagicManager {
 			case "Status Ailment":
 				// SLEP, MUTE, DARK, HOLD, SLP2, CONF
 				// BANE, RUB, QAKE, BRAK, STOP, ZAP!, XXXX
+				statusSpell(spell, target);
 			case "Hit Multiplier Down":
 				// SLOW, SLO2
 			case "Morale Down":
@@ -97,13 +98,37 @@ class MagicManager {
 		// if (target.weak == spell.element) e *= 1.5;
 		
 		// Double damage if not 'resisted'
-		if (checkForHit(spell.accuracy, target.mdef, false, false)) damage *= 2;
+		// if (checkForHit(spell.accuracy, target.mdef, false, false)) damage *= 2;
 		
 		// monster.damage(damage);
 	}
 	
 	private function statusSpell(spell:Spell, target:Monster) {
-		//
+		// SLEP, MUTE, DARK, HOLD, SLP2, CONF
+		// BANE, RUB, QAKE, BRAK, STOP, ZAP!, XXXX
+		
+		// Get element/accuracy and check for hit
+		// If hit, apply the status
+		
+		if (checkForHit(spell, target)) {
+			switch(spell.effectivity.toUpperCase()) {
+				case "DEATH":
+					// 
+				case "PARALYZE":
+					//
+				case "PETRIFY":
+					//
+				case "BLIND":
+					//
+				case "SLEEP":
+					//
+				case "CONFUSE":
+					//
+				case "SILENCE":
+					//
+			}
+		}
+		
 	}
 	
 	/**
@@ -134,7 +159,7 @@ class MagicManager {
 	 * @param	weak
 	 * @return
 	 */
-	private function checkForHit(SA:Int, MD:Int, resistant:Bool, weak:Bool):Bool {
+	private function checkForHit(spell:Spell, target:Monster):Bool {
 		/*
 		NOTE: Status spells can hit or miss, which is determined by this calculation.
 		Damaging spells always "hit," but may be "resisted," in which case the doubling
@@ -149,11 +174,14 @@ class MagicManager {
 		
 		// Base Chance to Hit
 		var BC:Int = 148; // Base Chance
-		if (resistant) BC = 0;
-		if (weak) BC += 40;
+		if (target.resi.indexOf(spell.element) != -1) BC = 0;
+		if (target.weak.indexOf(spell.element) != -1) BC += 40;
+		// if (resistant) BC = 0;
+		// if (weak) BC += 40;
 		
 		// Chance to Hit
-		var chanceToHit = BC + SA - MD;
+		// var chanceToHit = BC + SA - MD;
+		var chanceToHit = 0;
 		
 		var hitRoll = FlxG.random.int(0, 200);
 		

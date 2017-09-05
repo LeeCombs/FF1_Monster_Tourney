@@ -5,6 +5,10 @@ import flixel.FlxObject;
 import flixel.FlxSprite;
 import flixel.system.FlxAssets.FlxGraphicAsset;
 
+enum Status {
+	Dead; Petrified; Poisoned; Blind; Paralyzed; Asleep; Silenced; Confused;
+}
+
 class Monster extends FlxSprite {
 	public var monsterName:String;
 	
@@ -32,8 +36,10 @@ class Monster extends FlxSprite {
 	var skillChance:Int = 0;
 	var skillIndex:Int = 0;
 	
-	private var statuses:Array<String> = [];
+	private var statuses:Array<Status> = [];
 	private var buffs:Array<String> = [];
+	private var debuffs:Array<String> = [];
+	
 
 	public function new(?X:Float=0, ?Y:Float=0, ?Name:String) {
 		super(X, Y);
@@ -79,6 +85,8 @@ class Monster extends FlxSprite {
 		*/
 		var action:Action = { actionType: "SETME", actionName: "SETME" };
 		
+		// TODO - run logic?
+		
 		if (spell.length > 0) {
 			if (FlxG.random.int(0, 128) <= spellChance) {
 				action.actionType = "spell";
@@ -112,7 +120,7 @@ class Monster extends FlxSprite {
 		if (value < 0) return;
 		
 		hp -= value;
-		if (hp <= 0) kill();
+		if (hp <= 0) destroy();
 	}
 	
 	/**
@@ -133,6 +141,48 @@ class Monster extends FlxSprite {
 	public function fullHeal() {
 		hp = hpMax;
 		statuses = [];
+	}
+	
+	public function addBuff(buff:String) {
+		
+		/*
+		* FOG  - +8 defense
+		* FOG2 - +12 defense
+		* 
+		* INVS - +40 evade
+		* INV2 - +40 evade
+		* RUSE - +80 evade
+		* 
+		* TMPR - +14 damage
+		* SABR - +16 damage, + <<FIND HIT UP>>
+		* FAST - Doubles hits per round
+		* 
+		* WALL - Resist element
+		*/
+		
+		// Check for buffs that DO NOT stack
+		switch(buff.toUpperCase()) {
+			case "FAST":
+				//
+		}
+		buffs.push(buff);
+	}
+	
+	public function addDebuff(debuff:String) {
+		/*
+		* 
+		* LOCK - -20 evade
+		* LOK2 - -20 evade
+		* FEAR - -40 morale
+		* SLOW - Reduce attack # to 1, or counters FAST
+		* SLO2 - Reduce attack # to 1, or counters FAST
+		* XFER - Remove Resistance
+		*/
+	}
+	
+	public function addStatus(status:Status) {
+		// Statuses do not stack, so only apply if necessary
+		if (statuses.indexOf(status) == -1) statuses.push(status);
 	}
 	
 	private function setStats(HP:Int, ATK:Int, ACC:Int, HITS:Int, CRT:Int, DEF:Int, EVA:Int, MDEF:Int, MOR:Int) {
