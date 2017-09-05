@@ -179,7 +179,7 @@ class MagicManager {
 	 */
 	private function fullHeal(target:Monster) {
 		// monster.fullHeal();
-		target.
+		target.fullHeal();
 	}
 	
 	/**

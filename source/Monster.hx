@@ -83,13 +83,13 @@ class Monster extends FlxSprite {
 		* - Start from 0, continue sequentially
 		* Regular Attack
 		*/
-		var action:Action = { actionType: "SETME", actionName: "SETME" };
+		var action:Action = { actionType: null, actionName: "SETME" };
 		
 		// TODO - run logic?
 		
 		if (spell.length > 0) {
 			if (FlxG.random.int(0, 128) <= spellChance) {
-				action.actionType = "spell";
+				action.actionType = Action.ActionType.Spell;
 				action.actionName = spell[spellIndex++];
 				if (spellIndex >= spell.length) spellIndex = 0;
 				return action;
@@ -98,7 +98,7 @@ class Monster extends FlxSprite {
 		
 		if (skill.length > 0) {
 			if (FlxG.random.int(0, 128) <= skillChance) {
-				action.actionType = "skill";
+				action.actionType = Action.ActionType.Skill;
 				action.actionName = skill[skillIndex++];
 				if (skillIndex >= skill.length) skillIndex = 0;
 				return action;
@@ -106,7 +106,7 @@ class Monster extends FlxSprite {
 		}
 		
 		// Default attack action
-		action.actionType = "attack";
+		action.actionType = Action.ActionType.Attack;
 		action.actionName = "attack";
 		return action;
 	}
@@ -196,6 +196,7 @@ class Monster extends FlxSprite {
 	 * @param	status
 	 */
 	public function addStatus(status:Status) {
+		trace("Adding status: " + status);
 		// Statuses do not stack, so only apply if necessary
 		if (statuses.indexOf(status) == -1) statuses.push(status);
 		

@@ -32,6 +32,8 @@ class PlayState extends FlxState {
 	override public function create():Void {
 		super.create();
 		
+		magicManager = new MagicManager();
+		
 		FlxG.sound.playMusic("assets/music/Battle_Scene.ogg", 0.1);
 		
 		playerOneScene = new BattleScene(25, 25);
@@ -75,14 +77,17 @@ class PlayState extends FlxState {
 				// Target Types: Single Enemy, Single Ally, All Enemies, All Allies, Caster (Self)
 				
 				switch(action.actionType) {
-					case "spell":
+					case Action.ActionType.Attack:
+						// 
+					case Action.ActionType.Spell:
 						var spell:Spell = magicManager.getSpell(action.actionName);
 						
 						switch(spell.target) {
 							case "Caster":
 								// 
 							case "Single Enemy":
-								// 
+								var targetSlot:Int = getMonsterTarget(targetScene.getMonsters());
+								targetScene.attackMonster(targetSlot, action);
 							case "Single Ally":
 								// 
 							case "All Enemies":
@@ -92,16 +97,12 @@ class PlayState extends FlxState {
 							default:
 								trace("Invalid spell target: " + spell.target);
 						}
-					case "skill":
-						//
-					case "attack":
+					case Action.ActionType.Skill:
 						//
 					default:
 						trace("Invalid actionType: " + action.actionType);
 				}
 				
-				var targetSlot:Int = getMonsterTarget(targetScene.getMonsters());
-				targetScene.attackMonster(targetSlot, action);
 			}
 		}
 		FlxG.log.add("---");

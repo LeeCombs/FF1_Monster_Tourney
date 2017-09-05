@@ -64,10 +64,30 @@ class BattleScene extends FlxGroup {
 		FlxG.log.add("actionType: " + action.actionType);
 		FlxG.log.add("actionName: " + action.actionName);
 		
-		if (action.actionType == "spell") {
-			var spell:Spell = magicManager.getSpell(action.actionName);
+		switch (action.actionType) {
+			case Action.ActionType.Attack:
+				//
+			case Action.ActionType.Spell:
+				var spell:Spell = magicManager.getSpell(action.actionName);
+				magicManager.castSpell(spell, monster);
+			case Action.ActionType.Skill:
+				// 
 		}
-		
+	}
+	
+	public function attackAllMonsters(action:Action) {
+		for (monster in monsters) {
+			
+			switch (action.actionType) {
+				case Action.ActionType.Attack:
+					//
+				case Action.ActionType.Spell:
+					var spell:Spell = magicManager.getSpell(action.actionName);
+					magicManager.castSpell(spell, monster);
+				case Action.ActionType.Skill:
+					// 
+			}
+		}
 	}
 	
 	public function clearScene() {
