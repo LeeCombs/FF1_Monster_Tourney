@@ -41,23 +41,25 @@ class MagicManager {
 	}
 	
 	public function castSpell(spell:Spell, target:Monster) {
-		trace("Casting spell: " + spell.name + ", effect: " + spell.effect);
 		switch (spell.effect) {
 			case "Nothing":
 				//
 			case "Damage":
 				// FIRE, LIT, ICE, FIR2, LIT2, ICE2, FIR3, LIT3, ICE3, FADE, NUKE
-				attackSpell(spell, target);
+				damageSpell(spell, target);
 			case "Undead Damage":
 				// HARM, HRM2, HRM3, HRM4
+				if (target.type == "Undead") damageSpell(spell, target);
 			case "Status Ailment":
 				// SLEP, MUTE, DARK, HOLD, SLP2, CONF
 				// BANE, RUB, QAKE, BRAK, STOP, ZAP!, XXXX
 				statusSpell(spell, target);
 			case "Hit Multiplier Down":
 				// SLOW, SLO2
+				debuffSpell(spell, target);
 			case "Morale Down":
 				// FEAR
+				debuffSpell(spell, target);
 			case "[Unused]":
 				//
 			case "HP Recovery":
@@ -65,25 +67,34 @@ class MagicManager {
 				healSpell(spell, target);
 			case "Restore Status":
 				// LAMP, PURE, AMUT
+				restoreStatus(spell, target);
 			case "Defense Up":
 				// FOG, FOG2
+				buffSpell(spell, target);
 			case "Attack Up":
 				// TMPR (fix)
+				buffSpell(spell, target);
 			case "Hit Multiplier Up":
 				// FAST
+				buffSpell(spell, target);
 			case "Attack/Accuracy Up":
 				// SABR
+				buffSpell(spell, target);
 			case "Evasion Down":
 				// LOCK, LOK2
+				debuffSpell(spell, target);
 			case "Full HP/Status Recovery":
 				// CUR4
 				fullHeal(target);
 			case "Evasion Up":
 				// RUSE, INVS, INV2
+				buffSpell(spell, target);
 			case "Remove Resistance":
 				// XFER
+				debuffSpell(spell, target);
 			case "300HP Status":
 				// STUN, BLND
+				statusSpell(spell, target);
 			default:
 				FlxG.log.add("Invalid spell effect: " + spell.effect);
 		}
@@ -95,7 +106,7 @@ class MagicManager {
 	 * @param	spell
 	 * @param	target
 	 */
-	private function attackSpell(spell:Spell, target:Monster) {
+	private function damageSpell(spell:Spell, target:Monster) {
 		trace("Casting attack spell: " + spell.name);
 		
 		var e:Int = Std.parseInt(spell.effectivity);
@@ -124,14 +135,12 @@ class MagicManager {
 		switch(spell.name.toUpperCase()) {
 			case "STUN":
 				if (target.hp <= 300 && !target.isResistantTo(spell.element)) {
-					// Apply Paralysis status
 					target.addStatus(Monster.Status.Paralyzed);
 					return true;
 				}
 				return false;
 			case "BLND":
 				if (target.hp <= 300 && !target.isResistantTo(spell.element)) {
-					// Apply Blind status
 					target.addStatus(Monster.Status.Blind);
 					return true;
 				}
@@ -169,8 +178,20 @@ class MagicManager {
 		return false; 
 	}
 	
+	private function restoreStatus(spell:Spell, target:Monster) {
+		switch(spell.name.toUpperCase()) {
+			case "AMUT":
+				target.removeStatus(Monster.Status.Silenced);
+			case "PURE":
+				target.removeStatus(Monster.Status.Poisoned);
+			case "LAMP":
+				target.removeStatus(Monster.Status.Blind);
+		}
+	}
+	
 	/**
-	 * Recover the target's HP based on the spell's effectiveness
+	 * Recover the target's HP based on the spell's effectiveness, capped at 255
+	 * 
 	 * @param	spell
 	 * @param	target
 	 */
@@ -178,25 +199,44 @@ class MagicManager {
 		var e:Int = Std.parseInt(spell.effectivity);
 		var healAmount = FlxG.random.int(e, e * 2);
 		if (healAmount > 255) healAmount = 255;
-		// monster.heal(healAmount);
+		target.heal(healAmount);
+	}
+	
+	/**
+	 * Attempt to apply a buff to the target
+	 * 
+	 * @param	spell
+	 * @param	target
+	 */
+	private function buffSpell(spell:Spell, target:Monster) {
+		target.addBuff(spell.name);
+	}
+	
+	/**
+	 * Attempt to apply a debuff to the target
+	 * 
+	 * @param	spell
+	 * @param	target
+	 */
+	private function debuffSpell(spell:Spell, target:Monster) {
+		target.addDebuff(spell.name);
 	}
 	
 	/**
 	 * Fully target's HP and clear negative statuses
+	 * 
 	 * @param	target
 	 */
 	private function fullHeal(target:Monster) {
-		// monster.fullHeal();
 		target.fullHeal();
 	}
 	
 	/**
+	 * Check for a spell "hit". Determines if Status spells hit, or if Damage spells are resisted
 	 * 
-	 * @param	SA			Spell's Accuracy
-	 * @param	MD			Target's Magic Defense
-	 * @param	resistant
-	 * @param	weak
-	 * @return
+	 * @param	spell
+	 * @param	target
+	 * @return	True: Hit, False: Miss
 	 */
 	private function checkForHit(spell:Spell, target:Monster):Bool {
 		/*

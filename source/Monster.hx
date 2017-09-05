@@ -205,6 +205,15 @@ class Monster extends FlxSprite {
 	}
 	
 	/**
+	 * Remove a status effect from the monster
+	 * 
+	 * @param	status
+	 */
+	public function removeStatus(status:Status) {
+		statuses.remove(status);
+	}
+	
+	/**
 	 * Check if the monster is resistant to a given element
 	 * 
 	 * @param	element
