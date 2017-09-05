@@ -103,32 +103,62 @@ class MagicManager {
 		// monster.damage(damage);
 	}
 	
-	private function statusSpell(spell:Spell, target:Monster) {
-		// SLEP, MUTE, DARK, HOLD, SLP2, CONF
-		// BANE, RUB, QAKE, BRAK, STOP, ZAP!, XXXX
+	/**
+	 * Attempt to cast a status spell against a target. Returns true if successful, false for miss
+	 * 
+	 * @param	spell
+	 * @param	target
+	 * @return	True: Success, False: Miss
+	 */
+	private function statusSpell(spell:Spell, target:Monster):Bool {
+		// 300HP Exceptions (STUN, BLND, XXXX) always hit if target HP is <= 300
+		// and is not resistant to the spell element. Otherwise is always misses
+		switch(spell.name.toUpperCase()) {
+			case "STUN":
+				if (target.hp <= 300 && !target.isResistantTo(spell.element)) {
+					// Apply Paralysis status
+					target.addStatus(Monster.Status.Paralyzed);
+					return true;
+				}
+				return false;
+			case "BLND":
+				if (target.hp <= 300 && !target.isResistantTo(spell.element)) {
+					// Apply Blind status
+					target.addStatus(Monster.Status.Blind);
+					return true;
+				}
+				return false;
+			case "XXXX":
+				if (target.hp <= 300 && !target.isResistantTo(spell.element)) {
+					target.addStatus(Monster.Status.Death);
+					return true;
+				}
+				return false;
+		}
 		
-		// Get element/accuracy and check for hit
-		// If hit, apply the status
-		
+		// Check for a spell hit, and apply the status as necessary
 		if (checkForHit(spell, target)) {
 			switch(spell.effectivity.toUpperCase()) {
 				case "DEATH":
-					// 
+					target.addStatus(Monster.Status.Death);
 				case "PARALYZE":
-					//
+					target.addStatus(Monster.Status.Paralyzed);
 				case "PETRIFY":
-					//
+					target.addStatus(Monster.Status.Petrified);
 				case "BLIND":
-					//
+					target.addStatus(Monster.Status.Blind);
 				case "SLEEP":
-					//
+					target.addStatus(Monster.Status.Asleep);
 				case "CONFUSE":
-					//
+					target.addStatus(Monster.Status.Confused);
 				case "SILENCE":
-					//
+					target.addStatus(Monster.Status.Silenced);
 			}
+			return true;
 		}
 		
+		// Spell missed
+		return false; 
 	}
 	
 	/**
@@ -149,6 +179,7 @@ class MagicManager {
 	 */
 	private function fullHeal(target:Monster) {
 		// monster.fullHeal();
+		target.
 	}
 	
 	/**
@@ -174,19 +205,19 @@ class MagicManager {
 		
 		// Base Chance to Hit
 		var BC:Int = 148; // Base Chance
-		if (target.resi.indexOf(spell.element) != -1) BC = 0;
-		if (target.weak.indexOf(spell.element) != -1) BC += 40;
-		// if (resistant) BC = 0;
-		// if (weak) BC += 40;
+		
+		// If the target is both resistant and weak, the BC will be 40
+		if (target.isResistantTo(spell.element)) BC = 40;
+		if (target.isWeakTo(spell.element)) BC += 40;
 		
 		// Chance to Hit
-		// var chanceToHit = BC + SA - MD;
-		var chanceToHit = 0;
+		var chanceToHit = BC + spell.accuracy - target.mdef;
+		if (chanceToHit < 0) chanceToHit = 0;
 		
+		// 0 always hits, 200 always misses
 		var hitRoll = FlxG.random.int(0, 200);
-		
+		if (hitRoll == 200) return false;
 		if (hitRoll <= chanceToHit) return true;
 		return false;
-		
 	}
 }

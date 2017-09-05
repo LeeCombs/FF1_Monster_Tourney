@@ -6,7 +6,7 @@ import flixel.FlxSprite;
 import flixel.system.FlxAssets.FlxGraphicAsset;
 
 enum Status {
-	Dead; Petrified; Poisoned; Blind; Paralyzed; Asleep; Silenced; Confused;
+	Death; Petrified; Poisoned; Blind; Paralyzed; Asleep; Silenced; Confused;
 }
 
 class Monster extends FlxSprite {
@@ -143,8 +143,12 @@ class Monster extends FlxSprite {
 		statuses = [];
 	}
 	
+	/**
+	 * Add a buff to the monster
+	 * 
+	 * @param	buff
+	 */
 	public function addBuff(buff:String) {
-		
 		/*
 		* FOG  - +8 defense
 		* FOG2 - +12 defense
@@ -162,15 +166,21 @@ class Monster extends FlxSprite {
 		
 		// Check for buffs that DO NOT stack
 		switch(buff.toUpperCase()) {
-			case "FAST":
-				//
+			case "FAST", "WALL":
+				if (buffs.indexOf(buff) != -1) return;
 		}
+		
+		// Add the buff
 		buffs.push(buff);
 	}
 	
+	/**
+	 * Add a debuff to the monster
+	 * 
+	 * @param	debuff
+	 */
 	public function addDebuff(debuff:String) {
 		/*
-		* 
 		* LOCK - -20 evade
 		* LOK2 - -20 evade
 		* FEAR - -40 morale
@@ -180,9 +190,38 @@ class Monster extends FlxSprite {
 		*/
 	}
 	
+	/**
+	 * Add a status to the monster
+	 * 
+	 * @param	status
+	 */
 	public function addStatus(status:Status) {
 		// Statuses do not stack, so only apply if necessary
 		if (statuses.indexOf(status) == -1) statuses.push(status);
+		
+		if (status == Status.Death) destroy();
+	}
+	
+	/**
+	 * Check if the monster is resistant to a given element
+	 * 
+	 * @param	element
+	 * @return
+	 */
+	public function isResistantTo(element:String):Bool {
+		if (resi.indexOf(element) == -1) return false;
+		return true;
+	}
+	
+	/**
+	 * Check if the monster is weak to a given element
+	 * 
+	 * @param	element
+	 * @return
+	 */
+	public function isWeakTo(element:String):Bool {
+		if (weak.indexOf(element) == -1) return false;
+		return true;
 	}
 	
 	private function setStats(HP:Int, ATK:Int, ACC:Int, HITS:Int, CRT:Int, DEF:Int, EVA:Int, MDEF:Int, MOR:Int) {
