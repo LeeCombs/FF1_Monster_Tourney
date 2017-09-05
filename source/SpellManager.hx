@@ -3,7 +3,7 @@ import flixel.FlxG;
 import haxe.xml.Fast;
 import openfl.Assets;
 
-class MagicManager {
+class SpellManager {
 	// E = Effectivity. Determined by Spell. (Effectively capped at 255)
 	// SA = Spell Accuracy. Determined by Spell.
 	// MD = Magic Defense. Determined by Target.
@@ -18,7 +18,13 @@ class MagicManager {
 		spells = fast.node.spells;
 	}
 	
-	public function getSpell(spellName:String):Spell {
+	/**
+	 * Retrieve a spell by it's name
+	 * 
+	 * @param	spellName
+	 * @return
+	 */
+	public function getSpellByName(spellName:String):Spell {
 		trace("Get Spell: " + spellName.toUpperCase());
 		
 		var spell:Spell = new Spell();
@@ -40,6 +46,12 @@ class MagicManager {
 		return null;
 	}
 	
+	/**
+	 * Cast a spell on a target monster.
+	 * 
+	 * @param	spell
+	 * @param	target
+	 */
 	public function castSpell(spell:Spell, target:Monster) {
 		switch (spell.effect) {
 			case "Nothing":
@@ -178,6 +190,12 @@ class MagicManager {
 		return false; 
 	}
 	
+	/**
+	 * Remove a status from the target monster
+	 * 
+	 * @param	spell
+	 * @param	target
+	 */
 	private function restoreStatus(spell:Spell, target:Monster) {
 		switch(spell.name.toUpperCase()) {
 			case "AMUT":

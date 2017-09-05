@@ -26,13 +26,15 @@ class PlayState extends FlxState {
 	var playerOneScene:BattleScene;
 	var playerTwoScene:BattleScene;
 	
-	private var magicManager:MagicManager;
+	private var spellManager:SpellManager;
+	private var skillManager:SkillManager;
+	private var attackManager:AttackManager;
 	
 	
 	override public function create():Void {
 		super.create();
 		
-		magicManager = new MagicManager();
+		spellManager = new SpellManager();
 		
 		FlxG.sound.playMusic("assets/music/Battle_Scene.ogg", 0.1);
 		
@@ -73,14 +75,12 @@ class PlayState extends FlxState {
 				// Get the action and target of the monster
 				var action:Action = monster.getAction();
 				
-				// TODO - Get the target type from the action first, then get who to target
-				// Target Types: Single Enemy, Single Ally, All Enemies, All Allies, Caster (Self)
 				
 				switch(action.actionType) {
 					case Action.ActionType.Attack:
 						// 
 					case Action.ActionType.Spell:
-						var spell:Spell = magicManager.getSpell(action.actionName);
+						var spell:Spell = spellManager.getSpellByName(action.actionName);
 						
 						switch(spell.target) {
 							case "Caster":
@@ -102,7 +102,6 @@ class PlayState extends FlxState {
 					default:
 						trace("Invalid actionType: " + action.actionType);
 				}
-				
 			}
 		}
 		FlxG.log.add("---");
