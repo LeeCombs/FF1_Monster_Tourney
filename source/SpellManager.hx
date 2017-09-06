@@ -55,8 +55,7 @@ class SpellManager {
 	 */
 	public function castSpell(spell:Spell, target:Monster):String {
 		switch (spell.effect) {
-			// case "Nothing":
-				//
+			// Damage Spells
 			case "Damage":
 				// FIRE, LIT, ICE, FIR2, LIT2, ICE2, FIR3, LIT3, ICE3, FADE, NUKE
 				return Std.string(damageSpell(spell, target));
@@ -66,51 +65,37 @@ class SpellManager {
 					return Std.string(damageSpell(spell, target));
 				}
 				return "0";
+			
+			// Status Effects
 			case "Status Ailment":
 				// SLEP, MUTE, DARK, HOLD, SLP2, CONF
 				// BANE, RUB, QAKE, BRAK, STOP, ZAP!, XXXX
 				return Std.string(statusSpell(spell, target));
-			case "Hit Multiplier Down":
-				// SLOW, SLO2
-				return Std.string(debuffSpell(spell, target));
-			case "Morale Down":
-				// FEAR
-				return Std.string(debuffSpell(spell, target));
-			// case "[Unused]":
-				//
-			case "HP Recovery":
-				// CURE, CUR2, HEAL, CURE3, HEL2, HEL3
-				return Std.string(healSpell(spell, target));
-			case "Restore Status":
-				// LAMP, PURE, AMUT
-				return Std.string(restoreStatus(spell, target));
-			case "Defense Up":
-				// FOG, FOG2
-				return Std.string(buffSpell(spell, target));
-			case "Attack Up":
-				// TMPR (fix)
-				return Std.string(buffSpell(spell, target));
-			case "Hit Multiplier Up":
-				// FAST
-				return Std.string(buffSpell(spell, target));
-			case "Attack/Accuracy Up":
-				// SABR
-				return Std.string(buffSpell(spell, target));
-			case "Evasion Down":
-				// LOCK, LOK2
-				return Std.string(debuffSpell(spell, target));
-			case "Full HP/Status Recovery":
-				// CUR4
-				return Std.string(fullHeal(target));
-			case "Evasion Up":
-				// RUSE, INVS, INV2
-				return Std.string(buffSpell(spell, target));
-			case "Remove Resistance":
-				// XFER
-				return Std.string(debuffSpell(spell, target));
 			case "300HP Status":
 				// STUN, BLND
 				return Std.string(statusSpell(spell, target));
+			
+			// Healing
+			case "HP Recovery":
+				// CURE, CUR2, HEAL, CURE3, HEL2, HEL3
+				return Std.string(healSpell(spell, target));
+			case "Full HP/Status Recovery":
+				// CUR4
+				return Std.string(fullHeal(target));
+			case "Restore Status":
+				// LAMP, PURE, AMUT
+				return Std.string(restoreStatus(spell, target));
+			
+			// Buffs and Debuffs
+			case "Defense Up", "Attack Up", "Hit Multiplier Up", "Attack/Accuracy Up", "Evasion Up":
+				// FOG, FOG2 - TMPR (fix) - FAST - SABR - RUSE, INVS, INV2
+				return Std.string(buffSpell(spell, target));
+			case "Hit Multiplier Down", "Morale Down", "Evasion Down", "Remove Resistance":
+				// SLOW, SLO2 - FEAR - LOCK, LOK2 - XFER
+				return Std.string(debuffSpell(spell, target));
+			
+			// case "Nothing":
+			// case "[Unused]":
 			default:
 				FlxG.log.add("Invalid spell effect: " + spell.effect);
 				return "";
