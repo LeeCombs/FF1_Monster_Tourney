@@ -51,74 +51,81 @@ class SpellManager {
 	 * 
 	 * @param	spell
 	 * @param	target
+	 * @return	Result message
 	 */
-	public function castSpell(spell:Spell, target:Monster) {
+	public function castSpell(spell:Spell, target:Monster):String {
 		switch (spell.effect) {
-			case "Nothing":
+			// case "Nothing":
 				//
 			case "Damage":
 				// FIRE, LIT, ICE, FIR2, LIT2, ICE2, FIR3, LIT3, ICE3, FADE, NUKE
-				damageSpell(spell, target);
+				return Std.string(damageSpell(spell, target));
 			case "Undead Damage":
 				// HARM, HRM2, HRM3, HRM4
-				if (target.type == "Undead") damageSpell(spell, target);
+				if (target.type == "Undead") {
+					return Std.string(damageSpell(spell, target));
+				}
+				return "0";
 			case "Status Ailment":
 				// SLEP, MUTE, DARK, HOLD, SLP2, CONF
 				// BANE, RUB, QAKE, BRAK, STOP, ZAP!, XXXX
-				statusSpell(spell, target);
+				return Std.string(statusSpell(spell, target));
 			case "Hit Multiplier Down":
 				// SLOW, SLO2
-				debuffSpell(spell, target);
+				return Std.string(debuffSpell(spell, target));
 			case "Morale Down":
 				// FEAR
-				debuffSpell(spell, target);
-			case "[Unused]":
+				return Std.string(debuffSpell(spell, target));
+			// case "[Unused]":
 				//
 			case "HP Recovery":
 				// CURE, CUR2, HEAL, CURE3, HEL2, HEL3
-				healSpell(spell, target);
+				return Std.string(healSpell(spell, target));
 			case "Restore Status":
 				// LAMP, PURE, AMUT
-				restoreStatus(spell, target);
+				return Std.string(restoreStatus(spell, target));
 			case "Defense Up":
 				// FOG, FOG2
-				buffSpell(spell, target);
+				return Std.string(buffSpell(spell, target));
 			case "Attack Up":
 				// TMPR (fix)
-				buffSpell(spell, target);
+				return Std.string(buffSpell(spell, target));
 			case "Hit Multiplier Up":
 				// FAST
-				buffSpell(spell, target);
+				return Std.string(buffSpell(spell, target));
 			case "Attack/Accuracy Up":
 				// SABR
-				buffSpell(spell, target);
+				return Std.string(buffSpell(spell, target));
 			case "Evasion Down":
 				// LOCK, LOK2
-				debuffSpell(spell, target);
+				return Std.string(debuffSpell(spell, target));
 			case "Full HP/Status Recovery":
 				// CUR4
-				fullHeal(target);
+				return Std.string(fullHeal(target));
 			case "Evasion Up":
 				// RUSE, INVS, INV2
-				buffSpell(spell, target);
+				return Std.string(buffSpell(spell, target));
 			case "Remove Resistance":
 				// XFER
-				debuffSpell(spell, target);
+				return Std.string(debuffSpell(spell, target));
 			case "300HP Status":
 				// STUN, BLND
-				statusSpell(spell, target);
+				return Std.string(statusSpell(spell, target));
 			default:
 				FlxG.log.add("Invalid spell effect: " + spell.effect);
+				return "";
 		}
 	}
 	
+
 	/**
 	 * Cast a damaging spell against a target
 	 * 
 	 * @param	spell
 	 * @param	target
+	 * @return	Damage amount
 	 */
-	private function damageSpell(spell:Spell, target:Monster) {
+	private function damageSpell(spell:Spell, target:Monster):Int {
 		trace("Casting attack spell: " + spell.name);
 		
 		var e:Int = Std.parseInt(spell.effectivity);
@@ -132,6 +139,7 @@ class SpellManager {
 		if (checkForHit(spell, target)) damage *= 2;
 		
 		target.damage(damage);
+		return damage;
 	}
 	
 	/**
@@ -196,7 +204,7 @@ class SpellManager {
 	 * @param	spell
 	 * @param	target
 	 */
-	private function restoreStatus(spell:Spell, target:Monster) {
+	private function restoreStatus(spell:Spell, target:Monster):Bool {
 		switch(spell.name.toUpperCase()) {
 			case "AMUT":
 				target.removeStatus(Monster.Status.Silenced);
@@ -205,6 +213,7 @@ class SpellManager {
 			case "LAMP":
 				target.removeStatus(Monster.Status.Blind);
 		}
+		return true;
 	}
 	
 	/**
@@ -212,22 +221,27 @@ class SpellManager {
 	 * 
 	 * @param	spell
 	 * @param	target
+	 * @return	Heal amount
 	 */
-	private function healSpell(spell:Spell, target:Monster) {
+	private function healSpell(spell:Spell, target:Monster):Int {
 		var e:Int = Std.parseInt(spell.effectivity);
 		var healAmount = FlxG.random.int(e, e * 2);
 		if (healAmount > 255) healAmount = 255;
-		target.heal(healAmount);
+		
+		target.heal(healAmount); // TODO - Move this out of this class
+		
+		return healAmount;
 	}
 	
 	/**
-	 * Attempt to apply a buff to the target
+	 * Apply a buff to the target
 	 * 
 	 * @param	spell
 	 * @param	target
 	 */
-	private function buffSpell(spell:Spell, target:Monster) {
+	private function buffSpell(spell:Spell, target:Monster):Bool {
 		target.addBuff(spell.name);
+		return true;
 	}
 	
 	/**
@@ -236,8 +250,12 @@ class SpellManager {
 	 * @param	spell
 	 * @param	target
 	 */
-	private function debuffSpell(spell:Spell, target:Monster) {
-		target.addDebuff(spell.name);
+	private function debuffSpell(spell:Spell, target:Monster):Bool {
+		if (checkForHit(spell, target)) {
+			target.addDebuff(spell.name);
+			return true;
+		}
+		return false;
 	}
 	
 	/**
@@ -245,8 +263,9 @@ class SpellManager {
 	 * 
 	 * @param	target
 	 */
-	private function fullHeal(target:Monster) {
+	private function fullHeal(target:Monster):Bool {
 		target.fullHeal();
+		return true;
 	}
 	
 	/**

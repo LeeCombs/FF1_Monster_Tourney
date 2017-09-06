@@ -9,7 +9,6 @@ import flixel.text.FlxText;
 import flixel.ui.FlxButton;
 import flixel.math.FlxMath;
 
-
 class PlayState extends FlxState {
 	var text1:FlxText;
 	var text2:FlxText;
