@@ -59,6 +59,23 @@ class PlayState extends FlxState {
 	}
 	
 	private function takeTurn():Void {
+		/*
+		 * Hey SceneA, how is Monster 3 doing?
+		 * - It's poisoned and takes 5 damage
+		 * Okay, let's display this...
+		 * 
+		 * What does it want to do?
+		 * - Cast LIT
+		 * Okay, I'll decide where that goes...
+		 * 
+		 * SceneB, your monster 2 is the target
+		 * SpellManager, what's the effect of LIT on this monster?
+		 * - It will take 126 damage
+		 * Thanks, I'll deal the damage to it and display it.
+		 * Did it die? Yeah, let's update the scene and display that...
+		 * 
+		 * Alright, next turn
+		 */
 		
 		var turnSchedule:Array<Int> = getTurnSchedule();
 		for (turn in turnSchedule) {
@@ -71,10 +88,10 @@ class PlayState extends FlxState {
 			var monstersArray:Array<Monster> = activeScene.getMonsters();
 			var monster:Monster = monstersArray[slotNum];
 			if (monster != null) {
+				// TODO: Get the status of the monster, and deal with it
+				
 				// Get the action and target of the monster
 				var action:Action = monster.getAction();
-				
-				
 				switch(action.actionType) {
 					case Action.ActionType.Attack:
 						// 
@@ -86,7 +103,7 @@ class PlayState extends FlxState {
 								// 
 							case "Single Enemy":
 								var targetSlot:Int = getMonsterTarget(targetScene.getMonsters());
-								targetScene.attackMonster(targetSlot, action);
+								spellManager.castSpell(spell, monster);
 							case "Single Ally":
 								// 
 							case "All Enemies":
@@ -97,7 +114,7 @@ class PlayState extends FlxState {
 								trace("Invalid spell target: " + spell.target);
 						}
 					case Action.ActionType.Skill:
-						//
+						// 
 					default:
 						trace("Invalid actionType: " + action.actionType);
 				}

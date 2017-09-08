@@ -13,7 +13,7 @@ class BattleScene extends FlxGroup {
 	public var scene:FlxSprite;
 	public var sceneBackground:FlxSprite;
 	
-	public var magicManager:SpellManager;
+	public var spellManager:SpellManager;
 	
 	
 	public var monsters:Array<Monster>;
@@ -25,7 +25,7 @@ class BattleScene extends FlxGroup {
 		x = X;
 		y = Y;
 		
-		magicManager = new SpellManager();
+		spellManager = new SpellManager();
 		
 		scene = new FlxSprite(x, y);
 		scene.loadGraphic("assets/images/BattleScreen.png");
@@ -68,8 +68,8 @@ class BattleScene extends FlxGroup {
 			case Action.ActionType.Attack:
 				//
 			case Action.ActionType.Spell:
-				var spell:Spell = magicManager.getSpellByName(action.actionName);
-				magicManager.castSpell(spell, monster);
+				var spell:Spell = spellManager.getSpellByName(action.actionName);
+				spellManager.castSpell(spell, monster);
 			case Action.ActionType.Skill:
 				// 
 		}
@@ -82,8 +82,8 @@ class BattleScene extends FlxGroup {
 				case Action.ActionType.Attack:
 					//
 				case Action.ActionType.Spell:
-					var spell:Spell = magicManager.getSpellByName(action.actionName);
-					magicManager.castSpell(spell, monster);
+					var spell:Spell = spellManager.getSpellByName(action.actionName);
+					spellManager.castSpell(spell, monster);
 				case Action.ActionType.Skill:
 					// 
 			}

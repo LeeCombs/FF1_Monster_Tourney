@@ -2,6 +2,7 @@ package;
 import flixel.FlxG;
 import haxe.xml.Fast;
 import openfl.Assets;
+import Action;
 
 class SpellManager {
 	// E = Effectivity. Determined by Spell. (Effectively capped at 255)
@@ -47,59 +48,65 @@ class SpellManager {
 	}
 	
 	/**
+	 * 
 	 * Cast a spell on a target monster.
 	 * 
 	 * @param	spell
 	 * @param	target
-	 * @return	Result message
+	 * @return	Result of the action { message, value }
 	 */
-	public function castSpell(spell:Spell, target:Monster):String {
+	public function castSpell(spell:Spell, target:Monster):ActionResult {
+		var result:ActionResult = { message: "Success", value: 0 };
+		
 		switch (spell.effect) {
 			// Damage Spells
 			case "Damage":
 				// FIRE, LIT, ICE, FIR2, LIT2, ICE2, FIR3, LIT3, ICE3, FADE, NUKE
-				return Std.string(damageSpell(spell, target));
+				result.value = damageSpell(spell, target);
 			case "Undead Damage":
 				// HARM, HRM2, HRM3, HRM4
 				if (target.type == "Undead") {
-					return Std.string(damageSpell(spell, target));
+					result.value = damageSpell(spell, target);
 				}
-				return "0";
+				else {
+					result.message = "Ineffective";
+				}
 			
 			// Status Effects
 			case "Status Ailment":
 				// SLEP, MUTE, DARK, HOLD, SLP2, CONF
 				// BANE, RUB, QAKE, BRAK, STOP, ZAP!, XXXX
-				return Std.string(statusSpell(spell, target));
+				result.message = Std.string(statusSpell(spell, target));
 			case "300HP Status":
 				// STUN, BLND
-				return Std.string(statusSpell(spell, target));
+				result.message = Std.string(statusSpell(spell, target));
 			
 			// Healing
 			case "HP Recovery":
 				// CURE, CUR2, HEAL, CURE3, HEL2, HEL3
-				return Std.string(healSpell(spell, target));
+				result.message = Std.string(healSpell(spell, target));
 			case "Full HP/Status Recovery":
 				// CUR4
-				return Std.string(fullHeal(target));
+				result.message = Std.string(fullHeal(target));
 			case "Restore Status":
 				// LAMP, PURE, AMUT
-				return Std.string(restoreStatus(spell, target));
+				result.message = Std.string(healSpell(spell, target));
 			
 			// Buffs and Debuffs
 			case "Defense Up", "Attack Up", "Hit Multiplier Up", "Attack/Accuracy Up", "Evasion Up":
 				// FOG, FOG2 - TMPR (fix) - FAST - SABR - RUSE, INVS, INV2
-				return Std.string(buffSpell(spell, target));
+				result.message = Std.string(buffSpell(spell, target));
 			case "Hit Multiplier Down", "Morale Down", "Evasion Down", "Remove Resistance":
 				// SLOW, SLO2 - FEAR - LOCK, LOK2 - XFER
-				return Std.string(debuffSpell(spell, target));
+				result.message = Std.string(debuffSpell(spell, target));
 			
 			// case "Nothing":
 			// case "[Unused]":
 			default:
 				FlxG.log.add("Invalid spell effect: " + spell.effect);
-				return "";
 		}
+		
+		return result;
 	}
 	
 
