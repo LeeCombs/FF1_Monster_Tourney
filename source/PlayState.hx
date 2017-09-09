@@ -98,51 +98,27 @@ class PlayState extends FlxState {
 						// 
 					case ActionType.Spell:
 						var spell:Spell = spellManager.getSpellByName(action.actionName);
-						trace(spell.target);
-						
 						switch(spell.target) {
 							case "Caster":
-								// 
+								var result:ActionResult = spellManager.castSpell(spell, activeMonster);
+								handleResult(result, activeMonster);
 							case "Single Enemy":
 								var targetMonster:Monster = getMonsterTarget(targetScene.getMonsters());
 								var result:ActionResult = spellManager.castSpell(spell, targetMonster);
-								if (result.success) {
-									// Display value/effect
-								}
-								else { 
-									// Display "Ineffective"
-								}
+								handleResult(result, targetMonster);
 							case "Single Ally":
 								var targetMonster:Monster = getMonsterTarget(activeScene.getMonsters());
 								var result:ActionResult = spellManager.castSpell(spell, targetMonster);
-								// These should always succeed, but just in case...
-								if (result.success) {
-									// Display value/effect
-								}
-								else { 
-									// Display "Ineffective"
-								}
+								handleResult(result, targetMonster);
 							case "All Enemies":
-								for (activeMonster in targetScene.getMonsters()) {
-									trace(activeMonster.monsterName);
-									var result:ActionResult = spellManager.castSpell(spell, activeMonster);
-									if (result.success) {
-									// Display value/effect
-									}
-									else {
-									// Display "Ineffective"
-									}
+								for (monster in targetScene.getMonsters()) {
+									var result:ActionResult = spellManager.castSpell(spell, monster);
+									handleResult(result, monster);
 								}
 							case "All Allies":
-								for (activeMonster in activeScene.getMonsters()) {
-									var result:ActionResult = spellManager.castSpell(spell, activeMonster);
-									// These should always succeed, but just in case...
-									if (result.success) {
-									// Display value/effect
-									}
-									else {
-									// Display "Ineffective"
-									}
+								for (monster in activeScene.getMonsters()) {
+									var result:ActionResult = spellManager.castSpell(spell, monster);
+									handleResult(result, monster);
 								}
 							default:
 								trace("Invalid spell target: " + spell.target);
@@ -155,6 +131,22 @@ class PlayState extends FlxState {
 			}
 		}
 		FlxG.log.add("---");
+	}
+	
+	/**
+	 * Display/Deal with action results
+	 * 
+	 * @param	result
+	 */
+	private function handleResult(result:ActionResult, monster:Monster) {
+		// TODO - Here is where damage values/effects from actions would be applied to the
+		// target of that action, then displayed in a text manager of sorts.
+		if (result.success) {
+			// Display value/effect
+		}
+		else {
+			// Display "Ineffective"
+		}
 	}
 	
 	/**
