@@ -8,6 +8,7 @@ import flixel.math.FlxPoint;
 import flixel.text.FlxText;
 import flixel.ui.FlxButton;
 import flixel.math.FlxMath;
+import Action;
 
 class PlayState extends FlxState {
 	var text1:FlxText;
@@ -86,34 +87,67 @@ class PlayState extends FlxState {
 			
 			// Grab the monster that will take the action
 			var monstersArray:Array<Monster> = activeScene.getMonsters();
-			var monster:Monster = monstersArray[slotNum];
-			if (monster != null) {
+			var activeMonster:Monster = monstersArray[slotNum];
+			if (activeMonster != null) {
 				// TODO: Get the status of the monster, and deal with it
 				
 				// Get the action and target of the monster
-				var action:Action = monster.getAction();
+				var action:Action = activeMonster.getAction();
 				switch(action.actionType) {
-					case Action.ActionType.Attack:
+					case ActionType.Attack:
 						// 
-					case Action.ActionType.Spell:
+					case ActionType.Spell:
 						var spell:Spell = spellManager.getSpellByName(action.actionName);
+						trace(spell.target);
 						
 						switch(spell.target) {
 							case "Caster":
 								// 
 							case "Single Enemy":
-								var targetSlot:Int = getMonsterTarget(targetScene.getMonsters());
-								spellManager.castSpell(spell, monster);
+								var targetMonster:Monster = getMonsterTarget(targetScene.getMonsters());
+								var result:ActionResult = spellManager.castSpell(spell, targetMonster);
+								if (result.success) {
+									// Display value/effect
+								}
+								else { 
+									// Display "Ineffective"
+								}
 							case "Single Ally":
-								// 
+								var targetMonster:Monster = getMonsterTarget(activeScene.getMonsters());
+								var result:ActionResult = spellManager.castSpell(spell, targetMonster);
+								// These should always succeed, but just in case...
+								if (result.success) {
+									// Display value/effect
+								}
+								else { 
+									// Display "Ineffective"
+								}
 							case "All Enemies":
-								targetScene.attackAllMonsters(action);
+								for (activeMonster in targetScene.getMonsters()) {
+									trace(activeMonster.monsterName);
+									var result:ActionResult = spellManager.castSpell(spell, activeMonster);
+									if (result.success) {
+									// Display value/effect
+									}
+									else {
+									// Display "Ineffective"
+									}
+								}
 							case "All Allies":
-								// 
+								for (activeMonster in activeScene.getMonsters()) {
+									var result:ActionResult = spellManager.castSpell(spell, activeMonster);
+									// These should always succeed, but just in case...
+									if (result.success) {
+									// Display value/effect
+									}
+									else {
+									// Display "Ineffective"
+									}
+								}
 							default:
 								trace("Invalid spell target: " + spell.target);
 						}
-					case Action.ActionType.Skill:
+					case ActionType.Skill:
 						// 
 					default:
 						trace("Invalid actionType: " + action.actionType);
@@ -162,7 +196,7 @@ class PlayState extends FlxState {
 	 * @param	teamSlots
 	 * @return
 	 */
-	private function getMonsterTarget(teamSlots:Array<Monster>):Int {
+	private function getMonsterTarget(teamSlots:Array<Monster>):Monster {
 		/* Targeting Logic
 		* 
 		* Roll 1...8
@@ -183,7 +217,7 @@ class PlayState extends FlxState {
 			else if (targetRoll == 7) targetSlot = 2;
 			else targetSlot = 3;
 			
-			if (teamSlots[targetSlot] != null) return targetSlot;
+			if (teamSlots[targetSlot] != null) return teamSlots[targetSlot];
 		}
 	}
 

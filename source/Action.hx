@@ -10,6 +10,6 @@ typedef Action = {
 }
 
 typedef ActionResult = {
-	var message:String;
+	var success:Bool;
 	var value:Int;
 }

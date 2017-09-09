@@ -56,49 +56,50 @@ class SpellManager {
 	 * @return	Result of the action { message, value }
 	 */
 	public function castSpell(spell:Spell, target:Monster):ActionResult {
-		var result:ActionResult = { message: "Success", value: 0 };
+		var result:ActionResult = { success: false, value: 0 };
 		
 		switch (spell.effect) {
 			// Damage Spells
 			case "Damage":
 				// FIRE, LIT, ICE, FIR2, LIT2, ICE2, FIR3, LIT3, ICE3, FADE, NUKE
+				result.success = true;
 				result.value = damageSpell(spell, target);
 			case "Undead Damage":
 				// HARM, HRM2, HRM3, HRM4
 				if (target.type == "Undead") {
+					result.success = true;
 					result.value = damageSpell(spell, target);
-				}
-				else {
-					result.message = "Ineffective";
 				}
 			
 			// Status Effects
 			case "Status Ailment":
 				// SLEP, MUTE, DARK, HOLD, SLP2, CONF
 				// BANE, RUB, QAKE, BRAK, STOP, ZAP!, XXXX
-				result.message = Std.string(statusSpell(spell, target));
+				result.success = statusSpell(spell, target);
 			case "300HP Status":
 				// STUN, BLND
-				result.message = Std.string(statusSpell(spell, target));
+				result.success = statusSpell(spell, target);
 			
 			// Healing
 			case "HP Recovery":
 				// CURE, CUR2, HEAL, CURE3, HEL2, HEL3
-				result.message = Std.string(healSpell(spell, target));
+				result.success = true;
+				result.value = healSpell(spell, target);
 			case "Full HP/Status Recovery":
 				// CUR4
-				result.message = Std.string(fullHeal(target));
+				result.success = fullHeal(target);
 			case "Restore Status":
 				// LAMP, PURE, AMUT
-				result.message = Std.string(healSpell(spell, target));
+				result.success = true;
+				result.value = healSpell(spell, target);
 			
 			// Buffs and Debuffs
 			case "Defense Up", "Attack Up", "Hit Multiplier Up", "Attack/Accuracy Up", "Evasion Up":
 				// FOG, FOG2 - TMPR (fix) - FAST - SABR - RUSE, INVS, INV2
-				result.message = Std.string(buffSpell(spell, target));
+				result.success = buffSpell(spell, target);
 			case "Hit Multiplier Down", "Morale Down", "Evasion Down", "Remove Resistance":
 				// SLOW, SLO2 - FEAR - LOCK, LOK2 - XFER
-				result.message = Std.string(debuffSpell(spell, target));
+				result.success = debuffSpell(spell, target);
 			
 			// case "Nothing":
 			// case "[Unused]":
