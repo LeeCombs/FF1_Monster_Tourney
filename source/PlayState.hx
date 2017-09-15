@@ -30,22 +30,49 @@ class PlayState extends FlxState {
 	private var skillManager:SkillManager;
 	private var attackManager:AttackManager;
 	
+	private var actorTextBox:TextBox;	// Top left
+	private var targetTextBox:TextBox;	// Mid left
+	private var actionTextBox:TextBox;	// Top right
+	private var resultTextBox:TextBox;	// Mid right
+	private var infoTextBox:TextBox;	// Bottom box
+	
+	
 	
 	override public function create():Void {
 		super.create();
 		
 		spellManager = new SpellManager();
+		// attackManager
+		// skillManager
 		
 		FlxG.sound.playMusic("assets/music/Battle_Scene.ogg", 0.1);
 		
-		playerOneScene = new BattleScene(25, 25);
+		// Battle Scenes
+		playerOneScene = new BattleScene(25, 50);
 		add(playerOneScene);
 		
-		playerTwoScene = new BattleScene(300, 25);
+		playerTwoScene = new BattleScene(155, 50);
 		add(playerTwoScene);
 		
 		sceneArray = [playerOneScene, playerTwoScene];
 		
+		// Text display
+		actorTextBox = new TextBox(25, 195);
+		add(actorTextBox);
+		
+		targetTextBox = new TextBox(25, 225);
+		add(targetTextBox);
+		
+		actionTextBox = new TextBox(120, 195);
+		add(actionTextBox);
+		
+		resultTextBox = new TextBox(120, 225);
+		add(resultTextBox);
+		
+		infoTextBox = new TextBox(25, 255, true);
+		add(infoTextBox);
+		
+		// Add monsters
 		for (i in 0...4) {
 			monster1 = new Monster(0, 0, "Tyro");
 			playerOneScene.addMonster(monster1, i);
@@ -55,8 +82,16 @@ class PlayState extends FlxState {
 			playerTwoScene.addMonster(monster2, i);
 		}
 		
-		var btn:FlxButton = new FlxButton(200, 50, "Get Moves", takeTurn);
+		var btn:FlxButton = new FlxButton(25, 25, "Get Moves", takeTurn);
 		add(btn);
+		
+		// Testing
+		actorTextBox.displayText("TYRO");
+		targetTextBox.displayText("EYE");
+		actionTextBox.displayText("2 hits");
+		resultTextBox.displayText("103");
+		infoTextBox.displayText("Terminated");
+		
 	}
 	
 	private function takeTurn():Void {
