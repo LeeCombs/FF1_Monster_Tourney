@@ -9,23 +9,18 @@ class BattleScene extends FlxGroup {
 	public var x:Int;
 	public var y:Int;
 	
-	public var sceneText:FlxText;
-	public var scene:FlxSprite;
-	public var sceneBackground:FlxSprite;
+	private var scene:FlxSprite;
+	private var sceneBackground:FlxSprite;
 	
-	public var spellManager:SpellManager;
-	
-	
-	public var monsters:Array<Monster>;
+	private var monsters:Array<Monster>;
 	private var monsterPositions:Array<Array<Int>> = [[7, 38], [72, 38], [7, 86], [72, 86]];
 	
+	public var spellManager:SpellManager; // TODO: Necessary?
 	
 	public function new(X:Int, Y:Int) {
 		super();
 		x = X;
 		y = Y;
-		
-		spellManager = new SpellManager();
 		
 		scene = new FlxSprite(x, y);
 		scene.loadGraphic("assets/images/BattleScreen.png");
@@ -36,15 +31,21 @@ class BattleScene extends FlxGroup {
 		sceneBackground.loadGraphic("assets/images/BattleBackgrounds/BattleBackground-" + Std.string(FlxG.random.int(1, 16)) + ".png");
 		add(sceneBackground);
 		
-		sceneText = new FlxText(x, y + 175);
-		add(sceneText);
-		
 		monsters = [null, null, null, null];
+		
+		spellManager = new SpellManager();
 	}
 	
+	/**
+	 * Add a monster to the given position
+	 * 
+	 * @param	monster		Monster to add
+	 * @param	position	Index to add it true
+	 * @return	True: Success, False: Error
+	 */
 	public function addMonster(monster:Monster, position:Int):Bool {
-		
 		if (monster == null || position < 0 || position > 4) return false;
+		if (monsters[position] != null) return false;
 		
 		monsters[position] = monster;
 		add(monster);
@@ -54,57 +55,61 @@ class BattleScene extends FlxGroup {
 		return true;
 	}
 	
-	public function attackMonster(position:Int, action:Action) {
-		if (position < 0 || position > 4 || action == null) return;
+	/**
+	 * Remove the monster at the supplied position
+	 * 
+	 * @param	position	Index of monster
+	 * @return	True: Success, False: Error
+	 */
+	public function removeMonster(position:Int):Bool {
+		if (position < 0 || position > 4) return false;
 		
 		var monster:Monster = getMonster(position);
-		if (monster == null) return;
+		monster.destroy();
+		remove(monster);
+		monster = null;
+		monsters[position] = null;
 		
-		FlxG.log.add("attacking position: " + position + " monster: " + monster.monsterName);
-		FlxG.log.add("actionType: " + action.actionType);
-		FlxG.log.add("actionName: " + action.actionName);
-		
-		switch (action.actionType) {
-			case Action.ActionType.Attack:
-				//
-			case Action.ActionType.Spell:
-				var spell:Spell = spellManager.getSpellByName(action.actionName);
-				spellManager.castSpell(spell, monster);
-			case Action.ActionType.Skill:
-				// 
-		}
+		return true;
 	}
 	
-	public function attackAllMonsters(action:Action) {
-		for (monster in monsters) {
-			
-			switch (action.actionType) {
-				case Action.ActionType.Attack:
-					//
-				case Action.ActionType.Spell:
-					var spell:Spell = spellManager.getSpellByName(action.actionName);
-					spellManager.castSpell(spell, monster);
-				case Action.ActionType.Skill:
-					// 
-			}
-		}
+	/**
+	 * Return monster at supplied position
+	 * 
+	 * @param	position	Index of monster
+	 * @return	Monster if exists, null if not
+	 */
+	public function getMonster(position:Int):Monster {
+		if (position < 0 || position > 4) return null;
+		return monsters[position];
 	}
 	
-	public function clearScene() {
-		for (monster in monsters) {
-			monster.destroy();
-			monster = null;
-			remove(monster);
-		}
-	}
-	
+	/**
+	 * Return array of all monsters/nulls
+	 * 
+	 * @return
+	 */
 	public function getMonsters():Array<Monster> {
 		return monsters;
 	}
 	
-	private function getMonster(position:Int):Monster {
-		if (position < 0 || position > 4) return null;
-		return monsters[position];
+	/**
+	 * Remove all monsters from the scene
+	 */
+	public function clearScene() {
+		for (monster in monsters) {
+			monster.destroy();
+			remove(monster);
+			monster = null;
+		}
+		monsters = [null, null, null, null];
+	}
+	
+	/**
+	 * Selects a random background scene graphic
+	 */
+	private function shuffleBackground() {
+		sceneBackground.loadGraphic("assets/images/BattleBackgrounds/BattleBackground-" + Std.string(FlxG.random.int(1, 16)) + ".png");
 	}
 	
 }
