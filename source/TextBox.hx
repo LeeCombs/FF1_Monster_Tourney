@@ -34,4 +34,13 @@ class TextBox extends FlxGroup {
 		boxText.text = text;
 	}
 	
+	public function hasText():Bool {
+		if (boxText.text == "" || boxText.text == null) return false;
+		return true;
+	}
+	
+	public function clearText() {
+		boxText.text = "";
+	}
+	
 }

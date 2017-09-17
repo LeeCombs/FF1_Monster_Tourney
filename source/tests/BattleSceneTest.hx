@@ -24,7 +24,7 @@ class BattleSceneTest extends TestCase {
 		monsters = [monsterA, monsterB, monsterC, monsterD];
 	}
 	
-	public function testDefauls() {
+	public function testDefaults() {
 		assertEquals(scene.x, x);
 		assertEquals(scene.y, y);
 		for (monster in scene.getMonsters()) {

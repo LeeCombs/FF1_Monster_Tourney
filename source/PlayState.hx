@@ -11,32 +11,37 @@ import flixel.math.FlxMath;
 import Action;
 
 class PlayState extends FlxState {
-	var text1:FlxText;
-	var text2:FlxText;
-	var monster1:Monster;
-	var monster2:Monster;
-	
-	var battleScreen:FlxSprite;
-	var battleScreenBG:FlxSprite;
-	
-	var battleScreen2:FlxSprite;
-	var battleScreenBG2:FlxSprite;
-	
+	// Battle Scenes
 	private var sceneArray:Array<BattleScene>;
-	var playerOneScene:BattleScene;
-	var playerTwoScene:BattleScene;
+	private var playerOneScene:BattleScene;
+	private var playerTwoScene:BattleScene;
 	
+	// Managers
 	private var spellManager:SpellManager;
 	private var skillManager:SkillManager;
 	private var attackManager:AttackManager;
 	
+	// Text displays
 	private var actorTextBox:TextBox;	// Top left
 	private var targetTextBox:TextBox;	// Mid left
 	private var actionTextBox:TextBox;	// Top right
-	private var resultTextBox:TextBox;	// Mid right
-	private var infoTextBox:TextBox;	// Bottom box
+	private var valueTextBox:TextBox;	// Mid right
+	private var resultTextBox:TextBox;	// Bottom box
+	private var turnText:TextBox;
 	
+	// Turn logic
+	private var timerDelay:Int = 60;
+	private var turnCount:Int = 0;
+	private var turnSchedule:Array<Int> = [];
 	
+	private var activeScene:BattleScene;
+	private var targetScene:BattleScene;
+	private var currentActor:Monster;
+	private var currentAction:Action;
+	private var currentTarget:Monster;
+	private var currentResult:ActionResult;
+	private var targetQueue:Array<Monster> = [];
+	private var resultQueue:Array<ActionResult> = [];
 	
 	override public function create():Void {
 		super.create();
@@ -57,6 +62,9 @@ class PlayState extends FlxState {
 		sceneArray = [playerOneScene, playerTwoScene];
 		
 		// Text display
+		turnText = new TextBox(0, 0);
+		add(turnText);
+		
 		actorTextBox = new TextBox(25, 195);
 		add(actorTextBox);
 		
@@ -66,106 +74,30 @@ class PlayState extends FlxState {
 		actionTextBox = new TextBox(120, 195);
 		add(actionTextBox);
 		
-		resultTextBox = new TextBox(120, 225);
+		valueTextBox = new TextBox(120, 225);
+		add(valueTextBox);
+		
+		resultTextBox = new TextBox(25, 255, true);
 		add(resultTextBox);
 		
-		infoTextBox = new TextBox(25, 255, true);
-		add(infoTextBox);
-		
 		// Add monsters
-		for (i in 0...4) {
-			monster1 = new Monster(0, 0, "Tyro");
+		for (i in 0...2) {
+			var monster1:Monster = new Monster(0, 0, "Tyro");
 			playerOneScene.addMonster(monster1, i);
 			
-			monster2 = new Monster(0, 0, "Eye");
+			var monster2:Monster = new Monster(0, 0, "Eye");
 			monster2.facing = FlxObject.LEFT;
 			playerTwoScene.addMonster(monster2, i);
 		}
 		
-		var btn:FlxButton = new FlxButton(25, 25, "Get Moves", takeTurn);
-		add(btn);
-		
-		// Testing
-		actorTextBox.displayText("TYRO");
-		targetTextBox.displayText("EYE");
-		actionTextBox.displayText("2 hits");
-		resultTextBox.displayText("103");
-		infoTextBox.displayText("Terminated");
-		
-	}
-	
-	private function takeTurn():Void {
-		/*
-		 * Hey SceneA, how is Monster 3 doing?
-		 * - It's poisoned and takes 5 damage
-		 * Okay, let's display this...
-		 * 
-		 * What does it want to do?
-		 * - Cast LIT
-		 * Okay, I'll decide where that goes...
-		 * 
-		 * SceneB, your monster 2 is the target
-		 * SpellManager, what's the effect of LIT on this monster?
-		 * - It will take 126 damage
-		 * Thanks, I'll deal the damage to it and display it.
-		 * Did it die? Yeah, let's update the scene and display that...
-		 * 
-		 * Alright, next turn
-		 */
-		
-		var turnSchedule:Array<Int> = getTurnSchedule();
-		for (turn in turnSchedule) {
-			// Set up the active/target scene, and which monster slot is taking action
-			var activeScene:BattleScene = sceneArray[Std.int(turn / 10) - 1];
-			var targetScene:BattleScene = sceneArray[(Std.int(turn / 10)) % 2];
-			var slotNum:Int = turn % 10;
+		for (i in 2...4) {
+			var monster1:Monster = new Monster(0, 0, "Eye");
+			playerOneScene.addMonster(monster1, i);
 			
-			// Grab the monster that will take the action
-			var monstersArray:Array<Monster> = activeScene.getMonsters();
-			var activeMonster:Monster = monstersArray[slotNum];
-			if (activeMonster != null) {
-				// TODO: Get the status of the monster, and deal with it
-				
-				// Get the action and target of the monster
-				var action:Action = activeMonster.getAction();
-				switch(action.actionType) {
-					case ActionType.Attack:
-						// 
-					case ActionType.Spell:
-						var spell:Spell = spellManager.getSpellByName(action.actionName);
-						switch(spell.target) {
-							case "Caster":
-								var result:ActionResult = spellManager.castSpell(spell, activeMonster);
-								handleResult(result, activeMonster);
-							case "Single Enemy":
-								var targetMonster:Monster = getMonsterTarget(targetScene.getMonsters());
-								var result:ActionResult = spellManager.castSpell(spell, targetMonster);
-								handleResult(result, targetMonster);
-							case "Single Ally":
-								var targetMonster:Monster = getMonsterTarget(activeScene.getMonsters());
-								var result:ActionResult = spellManager.castSpell(spell, targetMonster);
-								handleResult(result, targetMonster);
-							case "All Enemies":
-								for (monster in targetScene.getMonsters()) {
-									var result:ActionResult = spellManager.castSpell(spell, monster);
-									handleResult(result, monster);
-								}
-							case "All Allies":
-								for (monster in activeScene.getMonsters()) {
-									var result:ActionResult = spellManager.castSpell(spell, monster);
-									handleResult(result, monster);
-								}
-							default:
-								trace("Invalid spell target: " + spell.target);
-						}
-					case ActionType.Skill:
-						// 
-					default:
-						trace("Invalid actionType: " + action.actionType);
-				}
-			}
+			var monster2:Monster = new Monster(0, 0, "Tyro");
+			monster2.facing = FlxObject.LEFT;
+			playerTwoScene.addMonster(monster2, i);
 		}
-		FlxG.log.add("---");
 	}
 	
 	/**
@@ -178,14 +110,16 @@ class PlayState extends FlxState {
 		// target of that action, then displayed in a text manager of sorts.
 		if (result.success) {
 			// Display value/effect
+			valueTextBox.displayText(Std.string(result.value));
 		}
 		else {
 			// Display "Ineffective"
+			resultTextBox.displayText("Ineffective");
 		}
 	}
 	
 	/**
-	 * Return's the turn order of the monsters for both sides
+	 * Returns the turn order of the monsters for both sides
 	 * 
 	 * @return
 	 */
@@ -201,6 +135,7 @@ class PlayState extends FlxState {
 		* Pick two random numbers 0...12, and swap numbers at those positions
 		* Do this 17 times
 		*/
+		trace("getTurnSchedule");
 		
 		var turnOrder:Array<Int> = [10, 11, 12, 13, 20, 21, 22, 23];
 		
@@ -214,6 +149,7 @@ class PlayState extends FlxState {
 			turnOrder[posTwo] = tempVal;
 		}
 		
+		trace("turnOrder: " + turnOrder);
 		return turnOrder;
 	}
 	
@@ -235,6 +171,9 @@ class PlayState extends FlxState {
 		* If target is dead/petrified, reroll until valid
 		*/
 		
+		// Being careful of the infinite loop below
+		if (teamSlots.length <= 0 || teamSlots == [] || teamSlots == null) return null;
+		
 		var targetSlot:Int;
 		while(true) {
 			var targetRoll:Int = FlxG.random.int(1, 8);
@@ -247,8 +186,171 @@ class PlayState extends FlxState {
 			if (teamSlots[targetSlot] != null) return teamSlots[targetSlot];
 		}
 	}
-
+	
+	private function getCurrentActor():Monster {
+		trace("getCurrentActor");
+		
+		// Ensure there's a turn schedule to execute
+		if (turnSchedule.length <= 0) {
+			turnSchedule = getTurnSchedule();
+			turnCount++;
+			turnText.displayText("Turn: " + Std.string(turnCount));
+		}
+		
+		// Grab the first turn value
+		var turn = turnSchedule.shift();
+		
+		// Set up the active/target scene, and which monster slot is taking action
+		activeScene = sceneArray[Std.int(turn / 10) - 1];
+		targetScene = sceneArray[(Std.int(turn / 10)) % 2];
+		var slotNum:Int = turn % 10;
+		
+		// Grab the active monster
+		var monstersArray:Array<Monster> = activeScene.getMonsters();
+		return(monstersArray[slotNum]);
+	}
+	
+	/**
+	 * Retrieve the next action and build the targetQueue
+	 * 
+	 * @return
+	 */
+	private function getCurrentAction(monster:Monster):Action {
+		trace("getCurrentAction: " + monster.monsterName);
+		
+		// Get the monster's action, display it, and build targetQueue
+		var action:Action = monster.getAction();
+		actionTextBox.displayText(action.actionName);
+		trace("action: " + action.actionName);
+		switch(action.actionType) {
+			case ActionType.Attack:
+				// TEMP
+				// Grab a single, random target from the target scene
+				targetQueue.push(getMonsterTarget(targetScene.getMonsters()));
+			case ActionType.Spell:
+				var spell:Spell = spellManager.getSpellByName(action.actionName);
+				switch(spell.target) {
+					case "Caster":
+						targetQueue.push(monster);
+					case "Single Enemy":
+						// Grab a single, random target from the target scene
+						targetQueue.push(getMonsterTarget(targetScene.getMonsters()));
+					case "Single Ally":
+						// Grab a single, random target from the active scene
+						targetQueue.push(getMonsterTarget(activeScene.getMonsters()));
+					case "All Enemies":
+						var monsters:Array<Monster> = targetScene.getMonsters();
+						for (monster in monsters) {
+							if (monster != null) targetQueue.push(monster);
+						}
+					case "All Allies":
+						var monsters:Array<Monster> = activeScene.getMonsters();
+						for (monster in monsters) {
+							if (monster != null) targetQueue.push(monster);
+						}
+					default:
+						trace("Invalid spell target: " + spell.target);
+				}
+			case ActionType.Skill:
+				// TEMP
+				// Grab a single, random target from the target scene
+				targetQueue.push(getMonsterTarget(targetScene.getMonsters()));
+			default:
+				trace("Invalid actionType: " + action.actionType);
+		}
+		
+		trace("targetQueue: " + targetQueue.length);
+		return action;
+	}
+	
+	/**
+	 * Game logic
+	 * 
+	 * @param	elapsed
+	 */
 	override public function update(elapsed:Float):Void {
 		super.update(elapsed);
+		
+		// Execute the turn logic
+		if (timerDelay > 0) timerDelay--;
+		if (timerDelay <= 0) {
+			timerDelay = 10;
+			trace("");
+			trace("Execute turn");
+			
+			// Grab the current actor if necessary, then display it
+			if (currentActor == null) {
+				currentActor = getCurrentActor();
+				actorTextBox.displayText(currentActor.monsterName);
+				return;
+			}
+			
+			// Grab a new current action if necessary, then display it
+			if (currentAction == null) {
+				currentAction = getCurrentAction(currentActor);
+				actionTextBox.displayText(currentAction.actionName);
+				return;
+			}
+			
+			// Iterate over the targets, and apply the current action to each
+			if (targetQueue.length > 0) {
+				// Grab the first target of the queue and display it
+				if (currentTarget == null) {
+					currentTarget = targetQueue[0];
+					trace("targeting: " + currentTarget.monsterName);
+					targetTextBox.displayText(currentTarget.monsterName);
+					return;
+				}
+				
+				if (currentResult == null) {
+					trace("getting result");
+					// Now remove the first target from the queue
+					targetQueue.shift();
+					
+					trace("applying action: " + currentAction.actionName);
+					switch(currentAction.actionType) {
+						case ActionType.Attack:
+							// TEMP
+							currentResult = { success: false, value: 0 };
+						case ActionType.Spell:
+							var spell:Spell = spellManager.getSpellByName(currentAction.actionName);
+							currentResult = spellManager.castSpell(spell, currentTarget);
+						case ActionType.Skill:
+							// TEMP
+							currentResult = { success: false, value: 0 };
+						default:
+							trace("Invalid actionType: " + currentAction.actionType);
+							return;
+					}
+					handleResult(currentResult, currentTarget);
+					return;
+				}
+				else {
+					// Clear target/results for the next target
+					trace("done target");
+					currentResult = null;
+					currentTarget = null;
+					targetTextBox.clearText();
+					valueTextBox.clearText();
+					resultTextBox.clearText();
+				}
+			}
+			else {
+				// No targets left, the action is complete. Clear everything and move on
+				trace("done turn");
+				currentActor = null;
+				currentAction = null;
+				currentTarget = null;
+				currentResult = null;
+				targetQueue = [];
+				
+				actorTextBox.clearText();
+				actionTextBox.clearText();
+				targetTextBox.clearText();
+				valueTextBox.clearText();
+				resultTextBox.clearText();
+			}
+		} // end timerDelay
+		
 	}
 }
