@@ -40,7 +40,7 @@ class SpellManager {
 				spell.element = s.node.element.innerData;
 				spell.target = s.node.target.innerData;
 				spell.effect = s.node.effect.innerData;
-				if (s.node.successMessage.innerData != null) spell.successMessage = s.node.successMessage.innerData;
+				spell.successMessage = s.node.successMessage.innerData;
 				return spell;
 			}
 		}

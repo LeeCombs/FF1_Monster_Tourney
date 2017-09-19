@@ -64,6 +64,7 @@
 			<element>Lightning</element>
 			<target>All Enemies</target>
 			<effect>Damage</effect>
+			<successMessage>REMOVE THIS MESSAGE</successMessage>
 		</spell>
 		
 		<spell>

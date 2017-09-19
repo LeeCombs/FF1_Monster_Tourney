@@ -75,10 +75,10 @@ class BattleScene extends FlxGroup {
 	public function removeMonster(monster:Monster):Bool {
 		if (monster == null) return false;
 		
+		monsters[monsters.indexOf(monster)] = null; //?
 		monster.destroy();
 		remove(monster);
 		monster = null;
-		monsters[monsters.indexOf(monster)] = null; //?
 		
 		return true;
 	}
@@ -93,10 +93,10 @@ class BattleScene extends FlxGroup {
 		if (index < 0 || index > 4) return false;
 		
 		var monster:Monster = getMonster(index);
+		monsters[index] = null;
 		monster.destroy();
 		remove(monster);
 		monster = null;
-		monsters[index] = null;
 		
 		return true;
 	}

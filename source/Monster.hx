@@ -126,7 +126,7 @@ class Monster extends FlxSprite {
 		trace("Damaging monster for: " + value);
 		
 		hp -= value;
-		if (hp <= 0) destroy();
+		if (hp <= 0) removeSelf();
 	}
 	
 	/**
@@ -223,6 +223,8 @@ class Monster extends FlxSprite {
 	 * @return	True: The status exists, False: The status does not exist
 	 */
 	public function checkForStatus(status:Status):Bool {
+		trace("checking for status: " + status);
+		trace(statuses.indexOf(status));
 		if (statuses.indexOf(status) != -1) return true;
 		return false;
 	}

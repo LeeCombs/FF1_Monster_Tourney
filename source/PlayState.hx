@@ -106,6 +106,7 @@ class PlayState extends FlxState {
 			if (result.value > 0) valueTextBox.displayText(Std.string(result.value));
 			if (result.message != null) resultTextBox.displayText(result.message);
 			if (monster.checkForStatus(Status.Death) || monster.checkForStatus(Status.Petrified)) {
+				trace("status found, remove self");
 				monster.removeSelf();
 			}
 		}
@@ -204,9 +205,9 @@ class PlayState extends FlxState {
 		
 		// Grab the active monster
 		var monstersArray:Array<Monster> = activeScene.getMonsters();
+		if (monstersArray[slotNum] == null) return null;
 		trace("getCurrentActor: " + monstersArray[slotNum]);
 		
-		if (monstersArray[slotNum].checkForStatus(Status.Death)) return null;
 		
 		return(monstersArray[slotNum]);
 	}
@@ -275,7 +276,7 @@ class PlayState extends FlxState {
 		// Execute the turn logic
 		if (timerDelay > 0) timerDelay--;
 		if (timerDelay <= 0) {
-			timerDelay = 20;
+			timerDelay = 10;
 			trace("");
 			trace("Execute turn");
 			
