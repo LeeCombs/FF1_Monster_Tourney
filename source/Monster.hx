@@ -40,8 +40,13 @@ class Monster extends FlxSprite {
 	private var buffs:Array<String> = [];
 	private var debuffs:Array<String> = [];
 	
-	public function new(?X:Float=0, ?Y:Float=0, ?Name:String) {
+	// TEMP - lazy
+	private var scene:BattleScene;
+	
+	public function new(?X:Float=0, ?Y:Float=0, ?Name:String, ?Scene:BattleScene) {
 		super(X, Y);
+		
+		scene = Scene;
 		
 		monsterName = Name.toUpperCase();
 		
@@ -200,8 +205,6 @@ class Monster extends FlxSprite {
 		trace("Adding status: " + status);
 		// Statuses do not stack, so only apply if necessary
 		if (statuses.indexOf(status) == -1) statuses.push(status);
-		
-		if (status == Status.Death) destroy();
 	}
 	
 	/**
@@ -211,6 +214,17 @@ class Monster extends FlxSprite {
 	 */
 	public function removeStatus(status:Status) {
 		statuses.remove(status);
+	}
+	
+	/**
+	 * Check if a given status exists on the monster
+	 * 
+	 * @param	status	The status to check for
+	 * @return	True: The status exists, False: The status does not exist
+	 */
+	public function checkForStatus(status:Status):Bool {
+		if (statuses.indexOf(status) != -1) return true;
+		return false;
 	}
 	
 	/**
@@ -233,6 +247,10 @@ class Monster extends FlxSprite {
 	public function isWeakTo(element:String):Bool {
 		if (weak.indexOf(element) == -1) return false;
 		return true;
+	}
+	
+	public function removeSelf() {
+		scene.removeMonster(this);
 	}
 	
 	private function setStats(HP:Int, ATK:Int, ACC:Int, HITS:Int, CRT:Int, DEF:Int, EVA:Int, MDEF:Int, MOR:Int) {

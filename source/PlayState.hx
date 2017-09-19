@@ -9,6 +9,7 @@ import flixel.text.FlxText;
 import flixel.ui.FlxButton;
 import flixel.math.FlxMath;
 import Action;
+import Monster.Status;
 
 class PlayState extends FlxState {
 	// Battle Scenes
@@ -75,18 +76,18 @@ class PlayState extends FlxState {
 		
 		// Add monsters
 		for (i in 0...2) {
-			var monster1:Monster = new Monster(0, 0, "Tyro");
+			var monster1:Monster = new Monster(0, 0, "Tyro", playerOneScene);
 			playerOneScene.addMonster(monster1, i);
 			
-			var monster2:Monster = new Monster(0, 0, "Eye");
+			var monster2:Monster = new Monster(0, 0, "Eye", playerTwoScene);
 			monster2.facing = FlxObject.LEFT;
 			playerTwoScene.addMonster(monster2, i);
 		}
 		for (i in 2...4) {
-			var monster1:Monster = new Monster(0, 0, "Eye");
+			var monster1:Monster = new Monster(0, 0, "Eye", playerOneScene);
 			playerOneScene.addMonster(monster1, i);
 			
-			var monster2:Monster = new Monster(0, 0, "Tyro");
+			var monster2:Monster = new Monster(0, 0, "Tyro", playerTwoScene);
 			monster2.facing = FlxObject.LEFT;
 			playerTwoScene.addMonster(monster2, i);
 		}
@@ -103,7 +104,10 @@ class PlayState extends FlxState {
 		if (result.success) {
 			// Display value/effect
 			if (result.value > 0) valueTextBox.displayText(Std.string(result.value));
-			resultTextBox.displayText(result.message);
+			if (result.message != null) resultTextBox.displayText(result.message);
+			if (monster.checkForStatus(Status.Death) || monster.checkForStatus(Status.Petrified)) {
+				monster.removeSelf();
+			}
 		}
 		else {
 			// Display "Ineffective"
@@ -200,6 +204,10 @@ class PlayState extends FlxState {
 		
 		// Grab the active monster
 		var monstersArray:Array<Monster> = activeScene.getMonsters();
+		trace("getCurrentActor: " + monstersArray[slotNum]);
+		
+		if (monstersArray[slotNum].checkForStatus(Status.Death)) return null;
+		
 		return(monstersArray[slotNum]);
 	}
 	
@@ -273,7 +281,8 @@ class PlayState extends FlxState {
 			
 			// Grab the current actor if necessary, then display it
 			if (currentActor == null) {
-				currentActor = getCurrentActor();
+				// CAREFUL
+				do (currentActor = getCurrentActor()) while (currentActor == null);
 				actorTextBox.displayText(currentActor.monsterName);
 				return;
 			}

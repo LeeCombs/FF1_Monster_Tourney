@@ -9,7 +9,7 @@ class Spell {
 	public var element:String;
 	public var target:String;
 	public var effect:String;
-	public var successMessage:String;
+	public var successMessage:String = "";
 
 	public function new() {
 		

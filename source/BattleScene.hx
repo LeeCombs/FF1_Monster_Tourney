@@ -56,24 +56,6 @@ class BattleScene extends FlxGroup {
 	}
 	
 	/**
-	 * Remove the monster at the supplied position
-	 * 
-	 * @param	position	Index of monster
-	 * @return	True: Success, False: Error
-	 */
-	public function removeMonster(position:Int):Bool {
-		if (position < 0 || position > 4) return false;
-		
-		var monster:Monster = getMonster(position);
-		monster.destroy();
-		remove(monster);
-		monster = null;
-		monsters[position] = null;
-		
-		return true;
-	}
-	
-	/**
 	 * Return monster at supplied position
 	 * 
 	 * @param	position	Index of monster
@@ -82,6 +64,41 @@ class BattleScene extends FlxGroup {
 	public function getMonster(position:Int):Monster {
 		if (position < 0 || position > 4) return null;
 		return monsters[position];
+	}
+	
+	/**
+	 * Remove the monster at the supplied position
+	 * 
+	 * @param	position	Index of monster
+	 * @return	True: Success, False: Error
+	 */
+	public function removeMonster(monster:Monster):Bool {
+		if (monster == null) return false;
+		
+		monster.destroy();
+		remove(monster);
+		monster = null;
+		monsters[monsters.indexOf(monster)] = null; //?
+		
+		return true;
+	}
+	
+	/**
+	 * Remove the monster at the supplied position
+	 * 
+	 * @param	position	Index of monster
+	 * @return	True: Success, False: Error
+	 */
+	public function removeMonsterByIndex(index:Int):Bool {
+		if (index < 0 || index > 4) return false;
+		
+		var monster:Monster = getMonster(index);
+		monster.destroy();
+		remove(monster);
+		monster = null;
+		monsters[index] = null;
+		
+		return true;
 	}
 	
 	/**

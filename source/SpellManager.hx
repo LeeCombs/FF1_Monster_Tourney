@@ -40,7 +40,7 @@ class SpellManager {
 				spell.element = s.node.element.innerData;
 				spell.target = s.node.target.innerData;
 				spell.effect = s.node.effect.innerData;
-				spell.successMessage = s.node.successMessage.innerData;
+				if (s.node.successMessage.innerData != null) spell.successMessage = s.node.successMessage.innerData;
 				return spell;
 			}
 		}
@@ -58,7 +58,10 @@ class SpellManager {
 	 */
 	public function castSpell(spell:Spell, target:Monster):ActionResult {
 		var failedResult:ActionResult = { success:false, message:"", value: 0 };
-		var successfulResult:ActionResult = { success:true, message:spell.successMessage, value:0 };
+		
+		// FIX THIS
+		var successfulResult:ActionResult = { success:true, message:"", value:0 };
+		if (spell.successMessage != null) successfulResult.message = spell.successMessage;
 		
 		switch (spell.effect) {
 			// Damage Spells

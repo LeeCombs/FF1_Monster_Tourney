@@ -54,15 +54,15 @@ class BattleSceneTest extends TestCase {
 		populateMonsters();
 		for (i in 0...4) {
 			assertEquals(scene.getMonster(i), monsters[i]);
-			assertTrue(scene.removeMonster(i));
+			assertTrue(scene.removeMonsterByIndex(i));
 			assertEquals(scene.getMonster(i), null);
 		}
 	}
 	
 	public function testOutOfBounds() {
 		for (i in [-1, 5]) {
-			assertFalse(scene.addMonster(new Monster(0, 0, "TYRO"), i));
-			assertFalse(scene.removeMonster(i));
+			assertFalse(scene.addMonster(new Monster(0, 0, "TYRO", scene), i));
+			assertFalse(scene.removeMonsterByIndex(i));
 			assertEquals(scene.getMonster(i), null);
 		}
 	}
