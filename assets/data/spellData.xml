@@ -9,6 +9,7 @@
 			<element>None</element>
 			<target>Single Ally</target>
 			<effect>Hp Recovery</effect>
+			<successMessage>HP up!</successMessage>
 		</spell>
 		
 		<spell>
@@ -19,6 +20,7 @@
 			<element>Status</element>
 			<target>All Enemies</target>
 			<effect>Status Ailment</effect>
+			<successMessage>Asleep</successMessage>
 		</spell>
 		
 		<spell>
@@ -29,6 +31,7 @@
 			<element>Status</element>
 			<target>All Enemies</target>
 			<effect>Status Ailment</effect>
+			<successMessage>Silenced</successMessage>
 		</spell>
 		
 		<spell>
@@ -39,6 +42,7 @@
 			<element>Status</element>
 			<target>All Enemies</target>
 			<effect>Hit Multiplier Down</effect>
+			<successMessage>Lost intelligence</successMessage>
 		</spell>
 		
 		<spell>
@@ -49,6 +53,7 @@
 			<element>Status</element>
 			<target>Single Enemy</target>
 			<effect>Status Ailment</effect>
+			<successMessage>Attack Halted</successMessage>
 		</spell>
 		
 		<spell>
@@ -69,6 +74,7 @@
 			<element>Death</element>
 			<target>All Enemies</target>
 			<effect>Status Ailment</effect>
+			<successMessage>Erased</successMessage>
 		</spell>
 		
 		<spell>
@@ -79,6 +85,7 @@
 			<element>Poison, Stone</element>
 			<target>Single Enemy</target>
 			<effect>Status Ailment</effect>
+			<successMessage>Broken into pieces</successMessage>
 		</spell>
 		
 		<spell>
@@ -89,6 +96,7 @@
 			<element>Death</element>
 			<target>Single Enemy</target>
 			<effect>Status Ailment</effect>
+			<successMessage>Erased</successMessage>
 		</spell>
 		
 	</spells>

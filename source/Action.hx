@@ -11,5 +11,6 @@ typedef Action = {
 
 typedef ActionResult = {
 	var success:Bool;
+	var message:String;
 	var value:Int;
 }

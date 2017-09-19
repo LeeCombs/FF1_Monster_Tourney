@@ -40,6 +40,7 @@ class SpellManager {
 				spell.element = s.node.element.innerData;
 				spell.target = s.node.target.innerData;
 				spell.effect = s.node.effect.innerData;
+				spell.successMessage = s.node.successMessage.innerData;
 				return spell;
 			}
 		}
@@ -56,58 +57,69 @@ class SpellManager {
 	 * @return	Result of the action { message, value }
 	 */
 	public function castSpell(spell:Spell, target:Monster):ActionResult {
-		var result:ActionResult = { success: false, value: 0 };
+		var failedResult:ActionResult = { success:false, message:"", value: 0 };
+		var successfulResult:ActionResult = { success:true, message:spell.successMessage, value:0 };
 		
 		switch (spell.effect) {
 			// Damage Spells
 			case "Damage":
 				// FIRE, LIT, ICE, FIR2, LIT2, ICE2, FIR3, LIT3, ICE3, FADE, NUKE
-				result.success = true;
-				result.value = damageSpell(spell, target);
+				successfulResult.value = damageSpell(spell, target);
+				return successfulResult;
 			case "Undead Damage":
 				// HARM, HRM2, HRM3, HRM4
 				if (target.type == "Undead") {
-					result.success = true;
-					result.value = damageSpell(spell, target);
+					successfulResult.value = damageSpell(spell, target);
+					return successfulResult;
 				}
+				return failedResult;
 			
 			// Status Effects
 			case "Status Ailment":
 				// SLEP, MUTE, DARK, HOLD, SLP2, CONF
 				// BANE, RUB, QAKE, BRAK, STOP, ZAP!, XXXX
-				result.success = statusSpell(spell, target);
+				if (statusSpell(spell, target)) {
+					return successfulResult;
+				}
+				return failedResult;
 			case "300HP Status":
 				// STUN, BLND
-				result.success = statusSpell(spell, target);
+				if (statusSpell(spell, target)) {
+					return successfulResult;
+				}
+				return failedResult;
 			
-			// Healing
+			// Healing - Always hits
 			case "HP Recovery":
 				// CURE, CUR2, HEAL, CURE3, HEL2, HEL3
-				result.success = true;
-				result.value = healSpell(spell, target);
+				healSpell(spell, target);
+				return successfulResult;
 			case "Full HP/Status Recovery":
 				// CUR4
-				result.success = fullHeal(target);
+				fullHeal(target);
+				return successfulResult;
 			case "Restore Status":
 				// LAMP, PURE, AMUT
-				result.success = true;
-				result.value = healSpell(spell, target);
+				restoreStatus(spell, target);
+				return successfulResult;
 			
-			// Buffs and Debuffs
+			// Buffs and Debuffs - Buffs always hit
 			case "Defense Up", "Attack Up", "Hit Multiplier Up", "Attack/Accuracy Up", "Evasion Up":
 				// FOG, FOG2 - TMPR (fix) - FAST - SABR - RUSE, INVS, INV2
-				result.success = buffSpell(spell, target);
+				buffSpell(spell, target);
+				return successfulResult;
 			case "Hit Multiplier Down", "Morale Down", "Evasion Down", "Remove Resistance":
 				// SLOW, SLO2 - FEAR - LOCK, LOK2 - XFER
-				result.success = debuffSpell(spell, target);
-			
+				if (debuffSpell(spell, target)) {
+					return successfulResult;
+				}
+				return failedResult;
 			// case "Nothing":
 			// case "[Unused]":
 			default:
 				FlxG.log.add("Invalid spell effect: " + spell.effect);
 		}
-		
-		return result;
+		return failedResult;
 	}
 	
 
@@ -221,7 +233,7 @@ class SpellManager {
 		var healAmount = FlxG.random.int(e, e * 2);
 		if (healAmount > 255) healAmount = 255;
 		
-		target.heal(healAmount); // TODO - Move this out of this class
+		target.heal(healAmount); // TODO - Move this out of this class?
 		
 		return healAmount;
 	}

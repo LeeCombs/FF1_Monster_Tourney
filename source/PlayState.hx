@@ -55,28 +55,21 @@ class PlayState extends FlxState {
 		// Battle Scenes
 		playerOneScene = new BattleScene(25, 50);
 		add(playerOneScene);
-		
 		playerTwoScene = new BattleScene(155, 50);
 		add(playerTwoScene);
-		
 		sceneArray = [playerOneScene, playerTwoScene];
 		
 		// Text display
 		turnText = new TextBox(0, 0);
 		add(turnText);
-		
 		actorTextBox = new TextBox(25, 195);
 		add(actorTextBox);
-		
 		targetTextBox = new TextBox(25, 225);
 		add(targetTextBox);
-		
 		actionTextBox = new TextBox(120, 195);
 		add(actionTextBox);
-		
 		valueTextBox = new TextBox(120, 225);
 		add(valueTextBox);
-		
 		resultTextBox = new TextBox(25, 255, true);
 		add(resultTextBox);
 		
@@ -89,7 +82,6 @@ class PlayState extends FlxState {
 			monster2.facing = FlxObject.LEFT;
 			playerTwoScene.addMonster(monster2, i);
 		}
-		
 		for (i in 2...4) {
 			var monster1:Monster = new Monster(0, 0, "Eye");
 			playerOneScene.addMonster(monster1, i);
@@ -110,7 +102,8 @@ class PlayState extends FlxState {
 		// target of that action, then displayed in a text manager of sorts.
 		if (result.success) {
 			// Display value/effect
-			valueTextBox.displayText(Std.string(result.value));
+			if (result.value > 0) valueTextBox.displayText(Std.string(result.value));
+			resultTextBox.displayText(result.message);
 		}
 		else {
 			// Display "Ineffective"
@@ -274,7 +267,7 @@ class PlayState extends FlxState {
 		// Execute the turn logic
 		if (timerDelay > 0) timerDelay--;
 		if (timerDelay <= 0) {
-			timerDelay = 10;
+			timerDelay = 20;
 			trace("");
 			trace("Execute turn");
 			
@@ -311,13 +304,13 @@ class PlayState extends FlxState {
 					switch(currentAction.actionType) {
 						case ActionType.Attack:
 							// TEMP
-							currentResult = { success: false, value: 0 };
+							currentResult = { success: false, message:"", value: 0 };
 						case ActionType.Spell:
 							var spell:Spell = spellManager.getSpellByName(currentAction.actionName);
 							currentResult = spellManager.castSpell(spell, currentTarget);
 						case ActionType.Skill:
 							// TEMP
-							currentResult = { success: false, value: 0 };
+							currentResult = { success: false, message:"", value: 0 };
 						default:
 							trace("Invalid actionType: " + currentAction.actionType);
 							return;
