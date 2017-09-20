@@ -10,6 +10,7 @@ import flixel.ui.FlxButton;
 import flixel.math.FlxMath;
 import Action;
 import Monster.Status;
+import flixel.util.FlxSpriteUtil;
 
 class PlayState extends FlxState {
 	// Battle Scenes
@@ -309,11 +310,14 @@ class PlayState extends FlxState {
 					targetQueue.shift();
 					
 					trace("applying action: " + currentAction.actionName);
+					FlxSpriteUtil.flicker(currentTarget, 0.25, 0.025);
 					switch(currentAction.actionType) {
 						case ActionType.Attack:
 							// TEMP
+							FlxG.sound.play("assets/sounds/Physical_Hit.ogg");
 							currentResult = attackManager.attack(currentActor, currentTarget);
 						case ActionType.Spell:
+							FlxG.sound.play("assets/sounds/Spell_Hit.ogg");
 							var spell:Spell = spellManager.getSpellByName(currentAction.actionName);
 							currentResult = spellManager.castSpell(spell, currentTarget);
 						case ActionType.Skill:
@@ -325,6 +329,7 @@ class PlayState extends FlxState {
 							trace("Invalid actionType: " + currentAction.actionType);
 							return;
 					}
+					
 					handleResult(currentResult, currentTarget);
 					return;
 				}
