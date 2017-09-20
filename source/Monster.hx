@@ -9,24 +9,35 @@ enum Status {
 	Death; Petrified; Poisoned; Blind; Paralyzed; Asleep; Silenced; Confused;
 }
 
+enum Buff {
+	FOG; FOG2; INVS; INV2; RUSE; TMPR; SABR; FAST; WALL;
+}
+
+enum Debuff {
+	LOCK; LOK2; FEAR; SLOW; SLO2; XFER;
+}
+
 class Monster extends FlxSprite {
 	public var monsterName:String;
 	
 	public var hp:Int = 0;
 	public var hpMax:Int = 0;
-	public var atk:Int = 0;
-	public var acc:Int = 0;
-	public var hits:Int = 0;
-	public var crt:Int = 0;
-	public var def:Int = 0;
-	public var eva:Int = 0;
-	public var mdef:Int = 0;
-	public var mor:Int = 0;
-	public var satk:String = "";
-	public var eatk:String = "";
-	public var type:String = "";
-	public var weak:Array<String> = [];
-	public var resi:Array<String> = [];
+	
+	public var atk:Int = 0;	 // Attack
+	public var acc:Int = 0;	 // Accuracy
+	public var hits:Int = 0; // # of hits
+	public var crt:Int = 0;  // Critical Rate
+	public var def:Int = 0;  // Defense
+	public var eva:Int = 0;  // Evasion
+	public var mdef:Int = 0; // Magic Defense
+	public var mor:Int = 0;  // Morale
+	
+	public var satk:String = ""; // Status Attack
+	public var elem:String = ""; // Status Attack Element
+	
+	public var type:String = ""; // Enemy Family
+	public var weak:Array<String> = []; // Weaknesses
+	public var resi:Array<String> = []; // Resistances
 	
 	private var spell:Array<String> = new Array<String>();
 	private var spellChance:Int = 0;
@@ -65,6 +76,20 @@ class Monster extends FlxSprite {
 				spellChance = 80;
 				skill = ["GLANCE", "SQUINT", "GAZE", "STARE"];
 				skillChance = 80;
+			case "AGAMA":
+				setStats(296, 31, 74, 2, 1, 18, 36, 143, 200);
+				type = "Dragon";
+				weak = ["Ice"];
+				resi = ["Fire"];
+				skill = ["HEAT", "HEAT", "HEAT", "HEAT"];
+				skillChance = 32;
+			case "WARMECH":
+				setStats(1000, 128, 200, 2, 1, 80, 96, 200, 200);
+				type = "Regenerative";
+				resi = ["Status", "Psn/Stn", "Death", "Fire", "Ice", "Lightning", "Earth"];
+				// TEMP - below should be skills
+				spell = ["NUCLEAR", "NUCLEAR", "NUCLEAR", "NUCLEAR"];
+				spellChance = 32;
 			default:
 				return;
 		}

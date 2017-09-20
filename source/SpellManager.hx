@@ -300,7 +300,7 @@ class SpellManager {
 		var BC:Int = 148; // Base Chance
 		
 		// If the target is both resistant and weak, the BC will be 40
-		if (target.isResistantTo(spell.element)) BC = 40;
+		if (target.isResistantTo(spell.element)) BC = 0;
 		if (target.isWeakTo(spell.element)) BC += 40;
 		
 		// Chance to Hit

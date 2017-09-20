@@ -1,5 +1,6 @@
 package;
 import flixel.FlxG;
+import flixel.FlxObject;
 import flixel.FlxSprite;
 import flixel.group.FlxGroup;
 import flixel.math.FlxPoint;
@@ -43,10 +44,11 @@ class BattleScene extends FlxGroup {
 	 * @param	position	Index to add it true
 	 * @return	True: Success, False: Error
 	 */
-	public function addMonster(monster:Monster, position:Int):Bool {
+	public function addMonster(monster:Monster, position:Int, ?Flip:Bool = false):Bool {
 		if (monster == null || position < 0 || position > 4) return false;
 		if (monsters[position] != null) return false;
 		
+		if (Flip) monster.facing = FlxObject.LEFT;
 		monsters[position] = monster;
 		add(monster);
 		monster.x = x + monsterPositions[position][0];

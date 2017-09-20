@@ -48,7 +48,7 @@ class PlayState extends FlxState {
 		super.create();
 		
 		spellManager = new SpellManager();
-		// attackManager
+		attackManager = new AttackManager();
 		// skillManager
 		
 		FlxG.sound.playMusic("assets/music/Battle_Scene.ogg", 0.1);
@@ -75,22 +75,12 @@ class PlayState extends FlxState {
 		add(resultTextBox);
 		
 		// Add monsters
-		for (i in 0...2) {
-			var monster1:Monster = new Monster(0, 0, "Tyro", playerOneScene);
-			playerOneScene.addMonster(monster1, i);
-			
-			var monster2:Monster = new Monster(0, 0, "Eye", playerTwoScene);
-			monster2.facing = FlxObject.LEFT;
-			playerTwoScene.addMonster(monster2, i);
-		}
-		for (i in 2...4) {
-			var monster1:Monster = new Monster(0, 0, "Eye", playerOneScene);
-			playerOneScene.addMonster(monster1, i);
-			
-			var monster2:Monster = new Monster(0, 0, "Tyro", playerTwoScene);
-			monster2.facing = FlxObject.LEFT;
-			playerTwoScene.addMonster(monster2, i);
-		}
+		playerOneScene.addMonster(new Monster(0, 0, "Tyro", playerOneScene), 0);
+		playerOneScene.addMonster(new Monster(0, 0, "Tyro", playerOneScene), 1);
+		playerOneScene.addMonster(new Monster(0, 0, "Tyro", playerOneScene), 2);
+		playerOneScene.addMonster(new Monster(0, 0, "Tyro", playerOneScene), 3);
+		
+		playerTwoScene.addMonster(new Monster(0, 0, "WarMECH", playerOneScene), 1, true);
 	}
 	
 	/**
@@ -276,7 +266,7 @@ class PlayState extends FlxState {
 		// Execute the turn logic
 		if (timerDelay > 0) timerDelay--;
 		if (timerDelay <= 0) {
-			timerDelay = 2;
+			timerDelay = 30;
 			trace("");
 			trace("Execute turn");
 			
@@ -322,14 +312,15 @@ class PlayState extends FlxState {
 					switch(currentAction.actionType) {
 						case ActionType.Attack:
 							// TEMP
-							currentTarget.damage(25);
-							currentResult = { success: false, message:"", value: 0 };
+							currentResult = attackManager.attack(currentActor, currentTarget);
 						case ActionType.Spell:
 							var spell:Spell = spellManager.getSpellByName(currentAction.actionName);
 							currentResult = spellManager.castSpell(spell, currentTarget);
 						case ActionType.Skill:
-							// TEMP
-							currentResult = { success: false, message:"", value: 0 };
+							// TEMP - Using spells temporarily
+							var spell:Spell = spellManager.getSpellByName(currentAction.actionName);
+							currentResult = spellManager.castSpell(spell, currentTarget);
+							// currentResult = { success: false, message:"", value: 0 };
 						default:
 							trace("Invalid actionType: " + currentAction.actionType);
 							return;

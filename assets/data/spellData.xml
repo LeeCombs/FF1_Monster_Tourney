@@ -1,6 +1,20 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <root>
 	<spells>
+		
+		<!-- Temporary 'Spell' -->
+		<spell>
+			<name>NUCLEAR</name>
+			<name>LIT2</name>
+			<id>17</id>
+			<effectivity>80</effectivity>
+			<accuracy>48</accuracy>
+			<element>None</element>
+			<target>All Enemies</target>
+			<effect>Damage</effect>
+			<successMessage>NUKE THE WHALES</successMessage>
+		</spell>
+		
 		<spell>
 			<name>CURE</name>
 			<id>01</id>
