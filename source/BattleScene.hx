@@ -123,6 +123,18 @@ class BattleScene extends FlxGroup {
 	}
 	
 	/**
+	 * Check if there are any valid monsters alive
+	 * 
+	 * @return	True: A monster exists, False: No monsters exist
+	 */
+	public function checkForMonsters():Bool {
+		for (monster in monsters) {
+			if (monster != null) return true;
+		}
+		return false;
+	}
+	
+	/**
 	 * Selects a random background scene graphic
 	 */
 	private function shuffleBackground() {

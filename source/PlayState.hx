@@ -276,9 +276,17 @@ class PlayState extends FlxState {
 		// Execute the turn logic
 		if (timerDelay > 0) timerDelay--;
 		if (timerDelay <= 0) {
-			timerDelay = 10;
+			timerDelay = 2;
 			trace("");
 			trace("Execute turn");
+			
+			// TEMP - Don't progress turns if either scene has no monsters left
+			if (!playerOneScene.checkForMonsters() || !playerTwoScene.checkForMonsters()) {
+				trace("Done");
+				FlxG.sound.playMusic("assets/music/Victory_Fanfare.ogg", 0.1, false);
+				timerDelay = 120000;
+				return;
+			}
 			
 			// Grab the current actor if necessary, then display it
 			if (currentActor == null) {
@@ -314,6 +322,7 @@ class PlayState extends FlxState {
 					switch(currentAction.actionType) {
 						case ActionType.Attack:
 							// TEMP
+							currentTarget.damage(25);
 							currentResult = { success: false, message:"", value: 0 };
 						case ActionType.Spell:
 							var spell:Spell = spellManager.getSpellByName(currentAction.actionName);
