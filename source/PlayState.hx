@@ -45,6 +45,17 @@ class PlayState extends FlxState {
 	private var targetQueue:Array<Monster> = [];
 	private var resultQueue:Array<ActionResult> = [];
 	
+	// TESTING
+	private var doneTurn:Bool = false;
+	private var stepOne:Bool = false;
+	private var stepTwo:Bool = false;
+	private var stepThree:Bool = false;
+	private var messageQueue:Array<Array<Dynamic>> = [];
+	private var messageStack:Array<Dynamic> = [];
+	private var actingMonster:Monster;
+	private var targetMonster:Monster;
+	private var activeAction:Action;
+	
 	override public function create():Void {
 		super.create();
 		
@@ -76,12 +87,13 @@ class PlayState extends FlxState {
 		add(resultTextBox);
 		
 		// Add monsters
-		playerOneScene.addMonster(new Monster(0, 0, "Tyro", playerOneScene), 0);
-		playerOneScene.addMonster(new Monster(0, 0, "Tyro", playerOneScene), 1);
-		playerOneScene.addMonster(new Monster(0, 0, "Tyro", playerOneScene), 2);
-		playerOneScene.addMonster(new Monster(0, 0, "Tyro", playerOneScene), 3);
+		playerOneScene.addMonster(new Monster(0, 0, "Eye", playerOneScene), 0);
+		playerOneScene.addMonster(new Monster(0, 0, "Eye", playerOneScene), 1);
+		playerOneScene.addMonster(new Monster(0, 0, "Eye", playerOneScene), 2);
+		playerOneScene.addMonster(new Monster(0, 0, "Eye", playerOneScene), 3);
 		
 		playerTwoScene.addMonster(new Monster(0, 0, "WarMECH", playerOneScene), 1, true);
+		
 	}
 	
 	/**
@@ -213,7 +225,7 @@ class PlayState extends FlxState {
 		
 		// Get the monster's action, display it, and build targetQueue
 		var action:Action = monster.getAction();
-		actionTextBox.displayText(action.actionName);
+		// actionTextBox.displayText(action.actionName);
 		trace("action: " + action.actionName);
 		switch(action.actionType) {
 			case ActionType.Attack:
@@ -270,6 +282,74 @@ class PlayState extends FlxState {
 			timerDelay = 30;
 			trace("");
 			trace("Execute turn");
+			
+			if (doneTurn) {
+				if (messageStack.length > 0) {
+					messageStack.pop().clearText();
+					return;
+				}
+				else {
+					timerDelay = 12000;
+					FlxG.sound.playMusic("assets/music/Victory_Fanfare.ogg");
+				}
+			}
+			
+			if (!stepOne) {
+				// get actor
+				// get action
+				do (actingMonster = getCurrentActor()) while (actingMonster == null);
+				activeAction = getCurrentAction(actingMonster);
+				
+				messageQueue.push([actorTextBox, actingMonster.monsterName]);
+				messageQueue.push([actionTextBox, activeAction.actionName]);
+				
+				stepOne = true;
+			}
+			
+			if (!stepTwo) {
+				if (messageQueue.length > 0) {
+					var msg = messageQueue.shift();
+					messageStack.push(msg[0]);
+					msg[0].displayText(msg[1]);
+					return;
+				}
+				else {
+					// TEMP
+					messageQueue.push([targetTextBox, "Eye"]);
+					messageQueue.push([valueTextBox, "123"]);
+					messageQueue.push([resultTextBox, "Terminated"]);
+					targetQueue = playerOneScene.getMonsters();
+					stepTwo = true;
+				}
+			}
+			
+			if (!stepThree) {
+				if (messageQueue.length > 0) {
+					var msg = messageQueue.shift();
+					messageStack.push(msg[0]);
+					msg[0].displayText(msg[1]);
+					if (messageQueue.length > 0) return;
+				}
+				else {
+					if (targetQueue.length == 0) {
+						stepThree = true;
+						doneTurn = true;
+						return;
+					}
+					if (messageStack.length > 2) {
+						messageStack.pop().clearText();
+						return;
+					}
+					targetMonster = targetQueue.shift();
+					messageQueue.push([targetTextBox, targetMonster.monsterName]);
+					messageQueue.push([valueTextBox, "234"]);
+					messageQueue.push([resultTextBox, "He ded"]);
+					return;
+				}
+			}
+			
+			
+			/*
 			
 			// TEMP - Don't progress turns if either scene has no monsters left
 			if (!playerOneScene.checkForMonsters() || !playerTwoScene.checkForMonsters()) {
@@ -358,6 +438,7 @@ class PlayState extends FlxState {
 				valueTextBox.clearText();
 				resultTextBox.clearText();
 			}
+			*/
 		} // end timerDelay
 		
 	}
