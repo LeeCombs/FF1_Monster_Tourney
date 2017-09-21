@@ -10,7 +10,7 @@ typedef Action = {
 }
 
 typedef ActionResult = {
-	var success:Bool;
 	var message:String;
-	var value:Int;
+	var damage:Int;
+	var hits:Int;
 }

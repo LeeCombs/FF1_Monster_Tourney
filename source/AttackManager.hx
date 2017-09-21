@@ -45,10 +45,13 @@ class AttackManager {
 		}
 		target.damage(damageSum);
 		
-		if (totalHits == 0) return { success:false, message:"miss", value:0 };
-		if (critFlag) return { success:true, message:"Critical Hit!", value:damageSum };
-		return { success:true, message:"Hits: " + Std.string(hits), value:damageSum };
+		if (totalHits == 0) return { message:"", damage:0, hits:0 };
+		
+		var result = { message:"", damage:damageSum, hits:totalHits };
+		if (critFlag) result.message = "Critical Hit!";
+		return result;
 	}
+	
 	
 	private function getDamage(attacker:Monster, target:Monster, crit:Bool):Int {
 		var atk = attacker.atk;

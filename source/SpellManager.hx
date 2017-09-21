@@ -57,22 +57,19 @@ class SpellManager {
 	 * @return	Result of the action { message, value }
 	 */
 	public function castSpell(spell:Spell, target:Monster):ActionResult {
-		var failedResult:ActionResult = { success:false, message:"", value: 0 };
-		
-		// FIX THIS
-		var successfulResult:ActionResult = { success:true, message:"", value:0 };
-		if (spell.successMessage != null) successfulResult.message = spell.successMessage;
+		var failedResult:ActionResult = { message:"Ineffective", damage:0, hits:0 };
+		var successfulResult:ActionResult = { message:spell.successMessage, damage:0, hits:0 };
 		
 		switch (spell.effect) {
 			// Damage Spells
 			case "Damage":
 				// FIRE, LIT, ICE, FIR2, LIT2, ICE2, FIR3, LIT3, ICE3, FADE, NUKE
-				successfulResult.value = damageSpell(spell, target);
+				successfulResult.damage = damageSpell(spell, target);
 				return successfulResult;
 			case "Undead Damage":
 				// HARM, HRM2, HRM3, HRM4
 				if (target.type == "Undead") {
-					successfulResult.value = damageSpell(spell, target);
+					successfulResult.damage = damageSpell(spell, target);
 					return successfulResult;
 				}
 				return failedResult;

@@ -28,10 +28,13 @@ class TextBox extends FlxGroup {
 		
 		boxText = new FlxText(x + 5, y + 10, boxGraphic.width - 10, "", 8);
 		add(boxText);
+		
+		visible = false;
 	}
 	
 	public function displayText(text:String) {
 		boxText.text = text;
+		visible = true;
 	}
 	
 	public function hasText():Bool {
@@ -41,6 +44,7 @@ class TextBox extends FlxGroup {
 	
 	public function clearText() {
 		boxText.text = "";
+		visible = false;
 	}
 	
 }

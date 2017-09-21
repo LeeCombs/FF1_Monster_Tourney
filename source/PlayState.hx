@@ -47,11 +47,13 @@ class PlayState extends FlxState {
 	
 	// TESTING
 	private var doneTurn:Bool = false;
-	private var stepOne:Bool = false;
-	private var stepTwo:Bool = false;
-	private var stepThree:Bool = false;
+	private var doneSetup:Bool = false;
+	private var doneApplyAction:Bool = false;
+	private var doneResults:Bool = false;
+	
 	private var messageQueue:Array<Array<Dynamic>> = [];
-	private var messageStack:Array<Dynamic> = [];
+	private var textBoxStack:Array<Dynamic> = [];
+	
 	private var actingMonster:Monster;
 	private var targetMonster:Monster;
 	private var activeAction:Action;
@@ -94,29 +96,6 @@ class PlayState extends FlxState {
 		
 		playerTwoScene.addMonster(new Monster(0, 0, "WarMECH", playerOneScene), 1, true);
 		
-	}
-	
-	/**
-	 * Display/Deal with action results
-	 * 
-	 * @param	result
-	 */
-	private function handleResult(result:ActionResult, monster:Monster) {
-		// TODO - Here is where damage values/effects from actions would be applied to the
-		// target of that action, then displayed in a text manager of sorts.
-		if (result.success) {
-			// Display value/effect
-			if (result.value > 0) valueTextBox.displayText(Std.string(result.value));
-			if (result.message != null) resultTextBox.displayText(result.message);
-			if (monster.checkForStatus(Status.Death) || monster.checkForStatus(Status.Petrified)) {
-				trace("status found, remove self");
-				monster.removeSelf();
-			}
-		}
-		else {
-			// Display "Ineffective"
-			resultTextBox.displayText("Ineffective");
-		}
 	}
 	
 	/**
@@ -269,6 +248,58 @@ class PlayState extends FlxState {
 	}
 	
 	/**
+	 * 
+	 * @return	False: No more messages, True: Message was applied
+	 */
+	private function handleMessageQueue():Bool {
+		// Ensure the messages are displayed and the textbox stack is built
+		if (messageQueue.length > 0) {
+			var item = messageQueue.shift();
+			var tb:TextBox = item[0];
+			var message:String = item[1];
+			textBoxStack.push(tb);
+			tb.displayText(message);
+			return true;
+		}
+		return false;
+	}
+	
+	/**
+	 * 
+	 * @param	result
+	 * @param	monster
+	 */
+	private function handleResult(result:ActionResult, monster:Monster, ?Physical:Bool = false) {
+		if (result.hits > 1) {
+			messageQueue.push([actionTextBox, Std.string(result.hits) + "Hits!"]);
+		}
+		if (result.damage > 0) {
+			messageQueue.push([valueTextBox, Std.string(result.damage) + "DMG"]);
+		}
+		else {
+			if (Physical) messageQueue.push([valueTextBox, "Missed!"]);
+		}
+		if (result.message != "") {
+			messageQueue.push([resultTextBox, result.message]);
+		}
+		if (monster.checkForStatus(Status.Petrified) || monster.hp < 0) {
+			messageQueue.push([resultTextBox, "Terminated"]);
+		}
+	}
+	
+	private function handleSpellSkillResult(result:ActionResult, monster:Monster) {
+		if (result.damage > 0) {
+			messageQueue.push([valueTextBox, Std.string(result.damage) + "DMG"]);
+		}
+		if (result.message != "") {
+			messageQueue.push([resultTextBox, result.message]);
+		}
+		
+		if (monster.checkForStatus(Status.Petrified) || monster.hp < 0) {
+			messageQueue.push([resultTextBox, "Terminated"]);
+		}
+	}
+	/**
 	 * Game logic
 	 * 
 	 * @param	elapsed
@@ -283,162 +314,101 @@ class PlayState extends FlxState {
 			trace("");
 			trace("Execute turn");
 			
+	
+			
 			if (doneTurn) {
-				if (messageStack.length > 0) {
-					messageStack.pop().clearText();
+				if (textBoxStack.length > 0) {
+					textBoxStack.pop().clearText();
+					timerDelay = 5;
+					
+					if (textBoxStack.length == 0) {
+						// Don't progress turns if either scene has no monsters left
+						if (!playerOneScene.checkForMonsters() || !playerTwoScene.checkForMonsters()) {
+							trace("Done");
+							FlxG.sound.playMusic("assets/music/Victory_Fanfare.ogg", 0.1, false);
+							timerDelay = 120000;
+							resultTextBox.displayText("Monsters perished");
+						}
+					}
 					return;
 				}
 				else {
-					timerDelay = 12000;
-					FlxG.sound.playMusic("assets/music/Victory_Fanfare.ogg");
+					doneTurn = false;
+					doneSetup = false;
+					doneApplyAction = false;
+					doneResults = false;
+					
+					turnCount++;
+					turnText.displayText("Turn: " + Std.string(turnCount));
 				}
 			}
 			
-			if (!stepOne) {
-				// get actor
-				// get action
+			// Setup the turn by getting the actor and it's action
+			if (!doneSetup) {
 				do (actingMonster = getCurrentActor()) while (actingMonster == null);
-				activeAction = getCurrentAction(actingMonster);
-				
 				messageQueue.push([actorTextBox, actingMonster.monsterName]);
-				messageQueue.push([actionTextBox, activeAction.actionName]);
 				
-				stepOne = true;
+				// Spells and Skills show their name on setup, physical attacks dont
+				activeAction = getCurrentAction(actingMonster);
+				if (activeAction.actionType != ActionType.Attack) {
+					messageQueue.push([actionTextBox, activeAction.actionName]);
+				}
+				
+				doneSetup = true;
 			}
 			
-			if (!stepTwo) {
-				if (messageQueue.length > 0) {
-					var msg = messageQueue.shift();
-					messageStack.push(msg[0]);
-					msg[0].displayText(msg[1]);
+			// Apply the actions to the target(s)
+			if (!doneApplyAction) {
+				// Ensure the messages are displayed
+				if (handleMessageQueue()) return;
+				
+				// No targets? The turn is done
+				if (targetQueue.length <= 0) {
+					doneTurn = true;
 					return;
 				}
-				else {
-					// TEMP
-					messageQueue.push([targetTextBox, "Eye"]);
-					messageQueue.push([valueTextBox, "123"]);
-					messageQueue.push([resultTextBox, "Terminated"]);
-					targetQueue = playerOneScene.getMonsters();
-					stepTwo = true;
-				}
-			}
-			
-			if (!stepThree) {
-				if (messageQueue.length > 0) {
-					var msg = messageQueue.shift();
-					messageStack.push(msg[0]);
-					msg[0].displayText(msg[1]);
-					if (messageQueue.length > 0) return;
-				}
-				else {
-					if (targetQueue.length == 0) {
-						stepThree = true;
-						doneTurn = true;
+				
+				if (doneResults) {
+					
+					if (textBoxStack.length > 2) {
+						textBoxStack.pop().clearText();
+						timerDelay = 5;
 						return;
 					}
-					if (messageStack.length > 2) {
-						messageStack.pop().clearText();
+					doneResults = false;
+				}
+				
+				// Get the next target and apply some actions to it
+				targetMonster = targetQueue.shift();
+				
+				// Ignore the queue and display the target immediately
+				textBoxStack.push(targetTextBox);
+				targetTextBox.displayText(targetMonster.monsterName);
+				
+				FlxSpriteUtil.flicker(targetMonster, 0.25, 0.025);
+				switch(activeAction.actionType) {
+					case ActionType.Attack:
+						// TEMP
+						FlxG.sound.play("assets/sounds/Physical_Hit.ogg");
+						currentResult = attackManager.attack(actingMonster, targetMonster);
+						handleResult(currentResult, targetMonster, true);
+					case ActionType.Spell:
+						FlxG.sound.play("assets/sounds/Spell_Hit.ogg");
+						var spell:Spell = spellManager.getSpellByName(activeAction.actionName);
+						currentResult = spellManager.castSpell(spell, targetMonster);
+						handleSpellSkillResult(currentResult, targetMonster);
+					case ActionType.Skill:
+						// TEMP - Auto Fail
+						FlxG.sound.play("assets/sounds/Spell_Hit.ogg");
+						currentResult = { message:"Ineffective", damage:0, hits:0 };
+						handleSpellSkillResult(currentResult, targetMonster);
+					default:
+						trace("Invalid actionType: " + activeAction.actionType);
 						return;
-					}
-					targetMonster = targetQueue.shift();
-					messageQueue.push([targetTextBox, targetMonster.monsterName]);
-					messageQueue.push([valueTextBox, "234"]);
-					messageQueue.push([resultTextBox, "He ded"]);
-					return;
-				}
-			}
-			
-			
-			/*
-			
-			// TEMP - Don't progress turns if either scene has no monsters left
-			if (!playerOneScene.checkForMonsters() || !playerTwoScene.checkForMonsters()) {
-				trace("Done");
-				FlxG.sound.playMusic("assets/music/Victory_Fanfare.ogg", 0.1, false);
-				timerDelay = 120000;
-				return;
-			}
-			
-			// Grab the current actor if necessary, then display it
-			if (currentActor == null) {
-				// CAREFUL
-				do (currentActor = getCurrentActor()) while (currentActor == null);
-				actorTextBox.displayText(currentActor.monsterName);
-				return;
-			}
-			
-			// Grab a new current action if necessary, then display it
-			if (currentAction == null) {
-				currentAction = getCurrentAction(currentActor);
-				actionTextBox.displayText(currentAction.actionName);
-				return;
-			}
-			
-			// Iterate over the targets, and apply the current action to each
-			if (targetQueue.length > 0) {
-				// Grab the first target of the queue and display it
-				if (currentTarget == null) {
-					currentTarget = targetQueue[0];
-					trace("targeting: " + currentTarget.monsterName);
-					targetTextBox.displayText(currentTarget.monsterName);
-					return;
 				}
 				
-				if (currentResult == null) {
-					trace("getting result");
-					// Now remove the first target from the queue
-					targetQueue.shift();
-					
-					trace("applying action: " + currentAction.actionName);
-					FlxSpriteUtil.flicker(currentTarget, 0.25, 0.025);
-					switch(currentAction.actionType) {
-						case ActionType.Attack:
-							// TEMP
-							FlxG.sound.play("assets/sounds/Physical_Hit.ogg");
-							currentResult = attackManager.attack(currentActor, currentTarget);
-						case ActionType.Spell:
-							FlxG.sound.play("assets/sounds/Spell_Hit.ogg");
-							var spell:Spell = spellManager.getSpellByName(currentAction.actionName);
-							currentResult = spellManager.castSpell(spell, currentTarget);
-						case ActionType.Skill:
-							// TEMP - Using spells temporarily
-							var spell:Spell = spellManager.getSpellByName(currentAction.actionName);
-							currentResult = spellManager.castSpell(spell, currentTarget);
-							// currentResult = { success: false, message:"", value: 0 };
-						default:
-							trace("Invalid actionType: " + currentAction.actionType);
-							return;
-					}
-					
-					handleResult(currentResult, currentTarget);
-					return;
-				}
-				else {
-					// Clear target/results for the next target
-					trace("done target");
-					currentResult = null;
-					currentTarget = null;
-					targetTextBox.clearText();
-					valueTextBox.clearText();
-					resultTextBox.clearText();
-				}
+				doneResults = true;
 			}
-			else {
-				// No targets left, the action is complete. Clear everything and move on
-				trace("done turn");
-				currentActor = null;
-				currentAction = null;
-				currentTarget = null;
-				currentResult = null;
-				targetQueue = [];
-				
-				actorTextBox.clearText();
-				actionTextBox.clearText();
-				targetTextBox.clearText();
-				valueTextBox.clearText();
-				resultTextBox.clearText();
-			}
-			*/
 		} // end timerDelay
 		
 	}
