@@ -11,6 +11,9 @@ import flixel.math.FlxMath;
 import Action;
 import Monster.Status;
 import flixel.util.FlxSpriteUtil;
+import haxe.Json;
+import haxe.Resource;
+import openfl.Assets;
 
 class PlayState extends FlxState {
 	// Battle Scenes
@@ -89,13 +92,24 @@ class PlayState extends FlxState {
 		add(resultTextBox);
 		
 		// Add monsters
-		playerOneScene.addMonster(new Monster(0, 0, "Eye", playerOneScene), 0);
-		playerOneScene.addMonster(new Monster(0, 0, "Eye", playerOneScene), 1);
-		playerOneScene.addMonster(new Monster(0, 0, "Eye", playerOneScene), 2);
-		playerOneScene.addMonster(new Monster(0, 0, "Eye", playerOneScene), 3);
+		var mdata = Assets.getText("assets/data/monsterData.json");
+		var monsterData = [];
+		monsterData = Json.parse(mdata);
+		trace(monsterData);
+		trace(monsterData.length);
+		
+		var index = 0;
+		var mStrArr:Array<String> = ["EYE", "TYRO", "TYRO", "EYE"];
+		for (mStr in mStrArr) {
+			for (monster in monsterData) {
+				if (mStr == monster.name) {
+					playerOneScene.addMonster(new Monster(0, 0, mStr, playerOneScene), index++);
+					break;
+				}
+			}
+		}
 		
 		playerTwoScene.addMonster(new Monster(0, 0, "WarMECH", playerOneScene), 1, true);
-		
 	}
 	
 	/**
@@ -314,8 +328,6 @@ class PlayState extends FlxState {
 			trace("");
 			trace("Execute turn");
 			
-	
-			
 			if (doneTurn) {
 				if (textBoxStack.length > 0) {
 					textBoxStack.pop().clearText();
@@ -388,7 +400,6 @@ class PlayState extends FlxState {
 				FlxSpriteUtil.flicker(targetMonster, 0.25, 0.025);
 				switch(activeAction.actionType) {
 					case ActionType.Attack:
-						// TEMP
 						FlxG.sound.play("assets/sounds/Physical_Hit.ogg");
 						currentResult = attackManager.attack(actingMonster, targetMonster);
 						handleResult(currentResult, targetMonster, true);
