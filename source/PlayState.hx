@@ -95,8 +95,6 @@ class PlayState extends FlxState {
 		var mdata = Assets.getText("assets/data/monsterData.json");
 		var monsterData = [];
 		monsterData = Json.parse(mdata);
-		trace(monsterData);
-		trace(monsterData.length);
 		
 		var index = 0;
 		var mStrArr:Array<String> = ["EYE", "TYRO", "TYRO", "EYE"];
@@ -107,6 +105,7 @@ class PlayState extends FlxState {
 					break;
 				}
 			}
+			trace("invalid monster: " + mStr);
 		}
 		
 		playerTwoScene.addMonster(new Monster(0, 0, "WarMECH", playerOneScene), 1, true);

@@ -1,69 +1,186 @@
 [
-    {
-        "id":0,
-        "name": "MONSTERNAME",
-        "stats":{
-            "hp": 0,
-            "attack":0,
-            "accuracy":0,
-            "hits":0,
-            "critical":0,
-            "defense":0,
-            "evasion":0,
-            "magicDefense":0,
-            "morale":0
-        },
-        "statusAttack":"",
-        "element":"",
-        "type":"",
-        "weaknesses":[""],
-        "resistances":[""],
-        "spellChance":0,
-        "spells":[],
-        "skillChance":0,
-        "skills":[],
-        "gold":0,
-        "exp":0
-    },
-    {
-        "id":51,
-        "name": "EYE",
-        "stats":{
-            "hp": 162,
-            "attack":30,
-            "accuracy":42,
-            "hits":1,
-            "critical":1,
-            "defense":30,
-            "evasion":12,
-            "magicDefense":92,
-            "morale":200
-        },
-        "type":"Mage",
-        "resistances":["Earth"],
-        "spellChance":80,
-        "spells":["XXXX", "BRAK", "RUB", "LIT2", "HOLD", "MUTE", "SLOW", "SLEP"],
-        "skillChance":80,
-        "skills":["GLANCE", "SQUINT", "GAZE", "STARE"],
-        "gold":3225,
-        "exp":3225
-    },
-    {
-        "id":86,
-        "name": "TYRO",
-        "stats":{
-            "hp": 480,
-            "attack":65,
-            "accuracy":133,
-            "hits":1,
-            "critical":1,
-            "defense":10,
-            "evasion":60,
-            "magicDefense":200,
-            "morale":144
-        },
-        "type":"Dragon",
-        "gold":502,
-        "exp":3387
-    }
+ {
+   "id": 0,
+   "name": "MONSTERNAME",
+   "stats": {
+      "hp": 0,
+      "attack": 0,
+      "accuracy": 0,
+      "hits": 0,
+      "critical": 0,
+      "defense": 0,
+      "evasion": 0,
+      "magicDefense": 0,
+      "morale": 0
+   },
+   "spellChance": 0,
+   "skillChance": 0,
+   "gold": 0,
+   "exp": 0
+},
+ {
+   "id": 1,
+   "name": "IMP",
+   "stats": {
+      "hp": 8,
+      "attack": 4,
+      "accuracy": 2,
+      "hits": 1,
+      "critical": 1,
+      "defense": 4,
+      "evasion": 6,
+      "magicDefense": 16,
+      "morale": 106
+   },
+   "type": "[Giant]",
+   "spellChance": 0,
+   "skillChance": 0,
+   "gold": 6,
+   "exp": 6
+},
+ {
+   "id": 2,
+   "name": "GrImp",
+   "stats": {
+      "hp": 16,
+      "attack": 8,
+      "accuracy": 4,
+      "hits": 1,
+      "critical": 1,
+      "defense": 6,
+      "evasion": 9,
+      "magicDefense": 23,
+      "morale": 120
+   },
+   "type": "[Giant]",
+   "spellChance": 0,
+   "skillChance": 0,
+   "gold": 18,
+   "exp": 18
+},
+ {
+   "id": 3,
+   "name": "WOLF",
+   "stats": {
+      "hp": 20,
+      "attack": 8,
+      "accuracy": 5,
+      "hits": 1,
+      "critical": 1,
+      "defense": 0,
+      "evasion": 36,
+      "magicDefense": 28,
+      "morale": 105
+   },
+   "spellChance": 0,
+   "skillChance": 0,
+   "gold": 6,
+   "exp": 24
+},
+ {
+   "id": 4,
+   "name": "GrWOLF",
+   "stats": {
+      "hp": 72,
+      "attack": 14,
+      "accuracy": 18,
+      "hits": 1,
+      "critical": 1,
+      "defense": 0,
+      "evasion": 54,
+      "magicDefense": 46,
+      "morale": 108
+   },
+   "spellChance": 0,
+   "skillChance": 0,
+   "gold": 22,
+   "exp": 93
+},
+ {
+   "id": 5,
+   "name": "WrWOLF",
+   "stats": {
+      "hp": 68,
+      "attack": 14,
+      "accuracy": 17,
+      "hits": 1,
+      "critical": 1,
+      "defense": 6,
+      "evasion": 42,
+      "magicDefense": 45,
+      "morale": 120
+   },
+   "statusAttack": "Poison",
+   "element": "Psn/Stn",
+   "type": "[Magical,Were,Regenerative]",
+   "spellChance": 0,
+   "skillChance": 0,
+   "gold": 67,
+   "exp": 135
+},
+ {
+   "id": 6,
+   "name": "FrWOLF",
+   "stats": {
+      "hp": 92,
+      "attack": 25,
+      "accuracy": 23,
+      "hits": 1,
+      "critical": 1,
+      "defense": 0,
+      "evasion": 54,
+      "magicDefense": 55,
+      "morale": 200
+   },
+   "weaknesses": "Fire",
+   "resistances": "Ice",
+   "spellChance": 0,
+   "skillChance": 32,
+   "skills": "[FROST,FROST,FROST,FROST]",
+   "gold": 200,
+   "exp": 402
+},
+ {
+   "id": 51,
+   "name": "EYE",
+   "stats": {
+      "hp": 162,
+      "attack": 30,
+      "accuracy": 42,
+      "hits": 1,
+      "critical": 1,
+      "defense": 30,
+      "evasion": 12,
+      "magicDefense": 92,
+      "morale": 200
+   },
+   "type": "[Mage]",
+   "resistances": "[Earth]",
+   "spellChance": 80,
+   "spells": "[XXXX,BRAK,RUB,LIT2,HOLD,MUTE,SLOW,SLEP]",
+   "skillChance": 80,
+   "skills": "[GLANCE,SQUINT,GAZE,STARE]",
+   "gold": 3225,
+   "exp": 3225
+},
+ {
+   "id": 86,
+   "name": "TYRO",
+   "stats": {
+      "hp": 480,
+      "attack": 65,
+      "accuracy": 133,
+      "hits": 1,
+      "critical": 1,
+      "defense": 10,
+      "evasion": 60,
+      "magicDefense": 200,
+      "morale": 144
+   },
+   "type": "[Dragon]",
+   "spellChance": 0,
+   "skillChance": 0,
+   "gold": 502,
+   "exp": 3387
+}
 ]
