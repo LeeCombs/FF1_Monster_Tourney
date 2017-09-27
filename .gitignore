@@ -2,3 +2,7 @@ export/
 export/.build
 export/html5/bin/FF1_Monster_Tourney.js
 export/html5/haxe/ApplicationMain.hx
+assets/music
+assets/images/BattleBackgounds
+assets/images/Monsters
+assets/sounds
