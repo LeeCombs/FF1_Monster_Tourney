@@ -1,0 +1,10 @@
+id,name,effectivity,accuracy,element,target,effect,price
+
+1,CURE,16,0,,Single Target,Hp Recovery,100
+2,HARM,20,24,,All Enemies,Damage Undead,100
+3,FOG,8,0,,Single Ally,Defense Up,100
+4,RUSE,80,0,,Caster,Evasion Up,100
+5,Fire,10,24,Fire,Single Enemy,Damage,100
+6,SLEP,Sleep,24,Status,All Enemies,Status Ailment,100
+7,LOCK,20,64,,Single Enemy,Evasion Down, 100
+8,LIT,10,24,Lightning,Single Enemy,Damage,100
