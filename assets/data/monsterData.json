@@ -1382,5 +1382,51 @@
    "skillChance": 0,
    "gold": 502,
    "exp": 3387
+},
+ {
+   "id": 119,
+   "name": "WarMECH",
+   "stats": {
+      "hp": 1000,
+      "attack": 128,
+      "accuracy": 200,
+      "hits": 2,
+      "critical": 1,
+      "defense": 80,
+      "evasion": 96,
+      "magicDefense": 200,
+      "morale": 200
+   },
+   "type": "[Regenerative]",
+   "resistances": "[Status,Psn/Stn,Death,Fire,Ice,Lightning,Earth]",
+   "spellChance": 0,
+   "skillChance": 32,
+   "skills": "[NUCLEAR,NUCLEAR,NUCLEAR,NUCLEAR]",
+   "gold": 32000,
+   "exp": 32000
+},
+ {
+   "id": 128,
+   "name": "CHAOS",
+   "stats": {
+      "hp": 2000,
+      "attack": 100,
+      "accuracy": 200,
+      "hits": 2,
+      "critical": 1,
+      "defense": 100,
+      "evasion": 100,
+      "magicDefense": 200,
+      "morale": 255
+   },
+   "statusAttack": "Paralyze",
+   "element": "Status",
+   "resistances": "[Status,Psn/Stn,Time,Death,Fire,Ice,Lightning,Earth]",
+   "spellChance": 64,
+   "spells": "[ICE3,LIT3,SLOW2,CUR4,FIR3,ICE2,FAST,NUKE]",
+   "skillChance": 64,
+   "skills": "[CRACK,INFERNO,SWIRL,TORNADO]",
+   "gold": 0,
+   "exp": 0
 }
 ]

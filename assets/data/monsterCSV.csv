@@ -89,25 +89,6 @@ id,name,stats/hp,stats/attack,stats/accuracy,stats/hits,stats/critical,stats/def
 62,WzVAMP,300,90,42,1,1,29,72,84,200,Paralyze,Status,'[Magical,Undead,Mage,Regenerative]','[Fire]','[Status,Psn/Stn,Death,Ice,Earth]',32,'[AFIR,MUTE,ICE2,ICE2,LIT2,LIT2,FIR2,FIR2]',32,'[DAZZLE,DAZZLE,DAZZLE,DAZZLE]',3000,2385
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 86,TYRO,480,65,133,1,1,10,60,200,144,null,null,'[Dragon]',null,null,0,null,0,null,502,3387
+119,WarMECH,1000,128,200,2,1,80,96,200,200,null,null,'[Regenerative]',null,'[Status,Psn/Stn,Death,Fire,Ice,Lightning,Earth]',0,null,32,'[NUCLEAR,NUCLEAR,NUCLEAR,NUCLEAR]',32000,32000
+128,CHAOS,2000,100,200,2,1,100,100,200,255,Paralyze,Status,null,null,'[Status,Psn/Stn,Time,Death,Fire,Ice,Lightning,Earth]',64,'[ICE3,LIT3,SLOW2,CUR4,FIR3,ICE2,FAST,NUKE]',64,'[CRACK,INFERNO,SWIRL,TORNADO]',0,0
