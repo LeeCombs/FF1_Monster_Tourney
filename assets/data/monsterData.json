@@ -418,6 +418,136 @@
    "exp": 2361
 },
  {
+   "id": 20,
+   "name": "OddEYE",
+   "stats": {
+      "hp": 10,
+      "attack": 4,
+      "accuracy": 2,
+      "hits": 1,
+      "critical": 1,
+      "defense": 0,
+      "evasion": 84,
+      "magicDefense": 14,
+      "morale": 110
+   },
+   "weaknesses": "[Lightning]",
+   "resistances": "[Fire,Earth]",
+   "spellChance": 0,
+   "skillChance": 128,
+   "skills": "[GAZE,GAZE,GAZE,GAZE]",
+   "gold": 10,
+   "exp": 42
+},
+ {
+   "id": 21,
+   "name": "BigEYE",
+   "stats": {
+      "hp": 304,
+      "attack": 30,
+      "accuracy": 76,
+      "hits": 2,
+      "critical": 1,
+      "defense": 16,
+      "evasion": 24,
+      "magicDefense": 156,
+      "morale": 200
+   },
+   "type": "[Aquatic]",
+   "weaknesses": "[Lightning]",
+   "resistances": "[Fire,Earth]",
+   "spellChance": 0,
+   "skillChance": 64,
+   "skills": "[GAZE,FLASH,GAZE,FLASH]",
+   "gold": 3591,
+   "exp": 3591
+},
+ {
+   "id": 22,
+   "name": "BONE",
+   "stats": {
+      "hp": 10,
+      "attack": 10,
+      "accuracy": 2,
+      "hits": 1,
+      "critical": 1,
+      "defense": 0,
+      "evasion": 12,
+      "magicDefense": 17,
+      "morale": 124
+   },
+   "type": "[Undead]",
+   "weaknesses": "[Fire]",
+   "resistances": "[Status,Psn/Stn,Death,Ice]",
+   "spellChance": 0,
+   "skillChance": 0,
+   "gold": 3,
+   "exp": 9
+},
+ {
+   "id": 23,
+   "name": "R.BONE",
+   "stats": {
+      "hp": 144,
+      "attack": 26,
+      "accuracy": 36,
+      "hits": 1,
+      "critical": 1,
+      "defense": 12,
+      "evasion": 42,
+      "magicDefense": 76,
+      "morale": 156
+   },
+   "type": "[Undead]",
+   "weaknesses": "[Fire]",
+   "resistances": "[Status,Psn/Stn,Death,Ice]",
+   "spellChance": 0,
+   "skillChance": 0,
+   "gold": 378,
+   "exp": 378
+},
+ {
+   "id": 24,
+   "name": "CREEP",
+   "stats": {
+      "hp": 56,
+      "attack": 17,
+      "accuracy": 14,
+      "hits": 1,
+      "critical": 1,
+      "defense": 8,
+      "evasion": 24,
+      "magicDefense": 40,
+      "morale": 104
+   },
+   "weaknesses": "[Fire]",
+   "spellChance": 0,
+   "skillChance": 0,
+   "gold": 15,
+   "exp": 63
+},
+ {
+   "id": 25,
+   "name": "CRAWL",
+   "stats": {
+      "hp": 84,
+      "attack": 1,
+      "accuracy": 21,
+      "hits": 8,
+      "critical": 1,
+      "defense": 8,
+      "evasion": 42,
+      "magicDefense": 51,
+      "morale": 106
+   },
+   "statusAttack": "Paralysis",
+   "element": "Status",
+   "spellChance": 0,
+   "skillChance": 0,
+   "gold": 200,
+   "exp": 186
+},
+ {
    "id": 51,
    "name": "EYE",
    "stats": {
