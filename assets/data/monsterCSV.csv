@@ -47,5 +47,19 @@ id,name,stats/hp,stats/attack,stats/accuracy,stats/hits,stats/critical,stats/def
 32,COBRA,80,22,20,1,31,10,36,56,110,null,null,'[Dragon]',null,null,0,null,0,null,50,165
 33,SeaSNAKE,224,35,56,1,0,12,48,116,200,null,null,'[Dragon,Aquatic]','[Lightning]','[Fire,Earth]',0,null,0,null,600,957
 
+34,SCORPION,84,22,21,2,1,10,54,55,112,Poison,Psn/Stn,null,null,null,0,null,0,null,70,225
+35,LOBSTER,148,35,37,3,1,18,60,85,200,Poison,Psn/Stn,'[Aquatic]','[Lightning]','[Fire,Earth]',0,null,0,null,300,639
+
+36,BULL,164,22,42,2,1,4,48,95,124,null,null,null,null,null,0,null,0,null,489,489
+37,ZomBULL,224,40,56,1,1,14,36,116,136,null,null,'[Undead]','[Fire]','[Status,Psn/Stn,Death,Ice]',0,null,0,null,1050,1050
+
+38,TROLL,184,24,46,3,1,12,48,100,136,null,null,'[Regenerative]','[Fire]',null,0,null,0,null,621,621
+39,SeaTROLL,216,40,54,1,1,20,48,110,200,null,null,'[Aquatic,Regenerative]','[Lightning]','[Earth]',0,null,0,null,852,852
+
+40,SHADOW,50,10,13,1,1,0,36,37,124,Blind,Status,'[Magical,Undead]','[Fire]','[Status,Psn/Stn,Death,Ice,Earth]',0,null,0,null,45,90
+41,IMAGE,86,22,22,1,1,4,90,52,160,Paralyze,Status,'[Magical,Undead]','[Fire]','[Status,Psn/Stn,Death,Ice,Earth]',0,null,0,null,231,231
+42,WRAITH,114,40,29,1,1,12,108,67,160,Paralyze,Status,'[Magical,Undead]','[Fire]','[Status,Psn/Stn,Death,Ice,Earth]',0,null,0,null,432,432
+43,GHOST,180,93,45,1,1,30,36,85,184,Paralyze,Status,'[Magical,Undead]','[Fire]','[Status,Psn/Stn,Death,Ice,Earth]',0,null,0,null,990,990
+
 51,EYE,162,30,42,1,1,30,12,92,200,null,null,'[Mage]',null,'[Earth]',80,'[XXXX,BRAK,RUB,LIT2,HOLD,MUTE,SLOW,SLEP]',80,'[GLANCE,SQUINT,GAZE,STARE]',3225,3225
 86,TYRO,480,65,133,1,1,10,60,200,144,null,null,'[Dragon]',null,null,0,null,0,null,502,3387
