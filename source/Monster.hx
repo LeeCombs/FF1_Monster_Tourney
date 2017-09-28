@@ -61,7 +61,7 @@ class Monster extends FlxSprite {
 		
 		monsterName = Name.toUpperCase();
 		
-		loadGraphic("assets/images/" + monsterName + ".png");
+		loadGraphic("assets/images/Monsters/" + monsterName + ".png");
 		setFacingFlip(FlxObject.LEFT, true, false);
 		
 		switch monsterName {

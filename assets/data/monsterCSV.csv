@@ -1,11 +1,16 @@
-id, name, stats/hp, stats/attack, stats/accuracy, stats/hits, stats/critical, stats/defense, stats/evasion, stats/magicDefense, stats/morale, statusAttack, element, type, weaknesses, resistances, spellChance, spells, skillChance, skills, gold, exp
+id,name,stats/hp,stats/attack,stats/accuracy,stats/hits,stats/critical,stats/defense,stats/evasion,stats/magicDefense,stats/morale,statusAttack,element,type,weaknesses,resistances,spellChance,spells,skillChance,skills,gold,exp
 0,MONSTERNAME,0,0,0,0,0,0,0,0,0,null,null,null,null,null,0,null,0,null,0,0
 1,IMP,8,4,2,1,1,4,6,16,106,null,null,'[Giant]',null,null,0,null,0,null,6,6
-2,GrImp,16,8,4,1,1,6,9,23,120,null,null,'[Giant]',null,null,0,null,0,null,18,18
+2,GrIMP,16,8,4,1,1,6,9,23,120,null,null,'[Giant]',null,null,0,null,0,null,18,18
 3,WOLF,20,8,5,1,1,0,36,28,105,null,null,null,null,null,0,null,0,null,6,24
 4,GrWOLF,72,14,18,1,1,0,54,46,108,null,null,null,null,null,0,null,0,null,22,93
 5,WrWOLF,68,14,17,1,1,6,42,45,120,Poison,Psn/Stn,'[Magical,Were,Regenerative]',null,null,0,null,0,null,67,135
-6,FrWOLF,92,25,23,1,1,0,54,55,200,null,null,null,Fire,Ice,0,null,32,'[FROST,FROST,FROST,FROST]',200,402
-
+6,FrWOLF,92,25,23,1,1,0,54,55,200,null,null,null,'[Fire]','[Ice]',0,null,32,'[FROST,FROST,FROST,FROST]',200,402
+7,IGUANA,82,18,23,1,10,12,24,55,134,null,null,'[Dragon]',null,null,0,null,0,null,50,153
+8,AGAMA,296,31,74,2,1,18,36,143,200,null,null,'[Dragon]','[Ice]','[Fire]',0,null,32,'[HEAT,HEAT,HEAT,HEAT]',1200,2472
+9,SAURIA,196,30,54,1,1,20,24,91,200,null,null,'[Dragon]',null,null,0,null,64,'[GLANCE,GLANCE,GLANCE,GLANCE]',658,1977
+10,GIANT,240,38,60,1,1,12,48,120,136,null,null,'[Giant]',null,null,0,null,0,null,879,879
+11,FrGIANT,336,60,78,1,1,16,48,150,200,null,null,'[Giant]','[Fire]','[Ice]',0,null,0,null,1752,1752
+12,R.GIANT,300,73,83,1,1,20,48,135,200,null,null,'[Giant]','[Ice]','[Fire]',0,null,0,null,1506,1506
 51,EYE,162,30,42,1,1,30,12,92,200,null,null,'[Mage]',null,'[Earth]',80,'[XXXX,BRAK,RUB,LIT2,HOLD,MUTE,SLOW,SLEP]',80,'[GLANCE,SQUINT,GAZE,STARE]',3225,3225
 86,TYRO,480,65,133,1,1,10,60,200,144,null,null,'[Dragon]',null,null,0,null,0,null,502,3387

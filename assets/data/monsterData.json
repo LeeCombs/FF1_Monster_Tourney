@@ -40,7 +40,7 @@
 },
  {
    "id": 2,
-   "name": "GrImp",
+   "name": "GrIMP",
    "stats": {
       "hp": 16,
       "attack": 8,
@@ -132,13 +132,141 @@
       "magicDefense": 55,
       "morale": 200
    },
-   "weaknesses": "Fire",
-   "resistances": "Ice",
+   "weaknesses": "[Fire]",
+   "resistances": "[Ice]",
    "spellChance": 0,
    "skillChance": 32,
    "skills": "[FROST,FROST,FROST,FROST]",
    "gold": 200,
    "exp": 402
+},
+ {
+   "id": 7,
+   "name": "IGUANA",
+   "stats": {
+      "hp": 82,
+      "attack": 18,
+      "accuracy": 23,
+      "hits": 1,
+      "critical": 10,
+      "defense": 12,
+      "evasion": 24,
+      "magicDefense": 55,
+      "morale": 134
+   },
+   "type": "[Dragon]",
+   "spellChance": 0,
+   "skillChance": 0,
+   "gold": 50,
+   "exp": 153
+},
+ {
+   "id": 8,
+   "name": "AGAMA",
+   "stats": {
+      "hp": 296,
+      "attack": 31,
+      "accuracy": 74,
+      "hits": 2,
+      "critical": 1,
+      "defense": 18,
+      "evasion": 36,
+      "magicDefense": 143,
+      "morale": 200
+   },
+   "type": "[Dragon]",
+   "weaknesses": "[Ice]",
+   "resistances": "[Fire]",
+   "spellChance": 0,
+   "skillChance": 32,
+   "skills": "[HEAT,HEAT,HEAT,HEAT]",
+   "gold": 1200,
+   "exp": 2472
+},
+ {
+   "id": 9,
+   "name": "SAURIA",
+   "stats": {
+      "hp": 196,
+      "attack": 30,
+      "accuracy": 54,
+      "hits": 1,
+      "critical": 1,
+      "defense": 20,
+      "evasion": 24,
+      "magicDefense": 91,
+      "morale": 200
+   },
+   "type": "[Dragon]",
+   "spellChance": 0,
+   "skillChance": 64,
+   "skills": "[GLANCE,GLANCE,GLANCE,GLANCE]",
+   "gold": 658,
+   "exp": 1977
+},
+ {
+   "id": 10,
+   "name": "GIANT",
+   "stats": {
+      "hp": 240,
+      "attack": 38,
+      "accuracy": 60,
+      "hits": 1,
+      "critical": 1,
+      "defense": 12,
+      "evasion": 48,
+      "magicDefense": 120,
+      "morale": 136
+   },
+   "type": "[Giant]",
+   "spellChance": 0,
+   "skillChance": 0,
+   "gold": 879,
+   "exp": 879
+},
+ {
+   "id": 11,
+   "name": "FrGIANT",
+   "stats": {
+      "hp": 336,
+      "attack": 60,
+      "accuracy": 78,
+      "hits": 1,
+      "critical": 1,
+      "defense": 16,
+      "evasion": 48,
+      "magicDefense": 150,
+      "morale": 200
+   },
+   "type": "[Giant]",
+   "weaknesses": "[Fire]",
+   "resistances": "[Ice]",
+   "spellChance": 0,
+   "skillChance": 0,
+   "gold": 1752,
+   "exp": 1752
+},
+ {
+   "id": 12,
+   "name": "R.GIANT",
+   "stats": {
+      "hp": 300,
+      "attack": 73,
+      "accuracy": 83,
+      "hits": 1,
+      "critical": 1,
+      "defense": 20,
+      "evasion": 48,
+      "magicDefense": 135,
+      "morale": 200
+   },
+   "type": "[Giant]",
+   "weaknesses": "[Ice]",
+   "resistances": "[Fire]",
+   "spellChance": 0,
+   "skillChance": 0,
+   "gold": 1506,
+   "exp": 1506
 },
  {
    "id": 51,
