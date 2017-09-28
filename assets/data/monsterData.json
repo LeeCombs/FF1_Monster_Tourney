@@ -269,6 +269,155 @@
    "exp": 1506
 },
  {
+   "id": 13,
+   "name": "SAHAG",
+   "stats": {
+      "hp": 28,
+      "attack": 10,
+      "accuracy": 7,
+      "hits": 1,
+      "critical": 1,
+      "defense": 4,
+      "evasion": 72,
+      "magicDefense": 28,
+      "morale": 110
+   },
+   "type": "[Aquatic]",
+   "weaknesses": "[Lightning]",
+   "resistances": "[Fire,Earth]",
+   "spellChance": 0,
+   "skillChance": 0,
+   "gold": 30,
+   "exp": 30
+},
+ {
+   "id": 14,
+   "name": "R.SAHAG",
+   "stats": {
+      "hp": 64,
+      "attack": 15,
+      "accuracy": 16,
+      "hits": 1,
+      "critical": 1,
+      "defense": 8,
+      "evasion": 78,
+      "magicDefense": 46,
+      "morale": 142
+   },
+   "type": "[Aquatic]",
+   "weaknesses": "[Lightning]",
+   "resistances": "[Fire,Earth]",
+   "spellChance": 0,
+   "skillChance": 0,
+   "gold": 105,
+   "exp": 105
+},
+ {
+   "id": 15,
+   "name": "WzSAHAG",
+   "stats": {
+      "hp": 204,
+      "attack": 47,
+      "accuracy": 51,
+      "hits": 1,
+      "critical": 1,
+      "defense": 20,
+      "evasion": 96,
+      "magicDefense": 101,
+      "morale": 101
+   },
+   "type": "[Aquatic]",
+   "weaknesses": "[Lightning]",
+   "resistances": "[Fire,Earth]",
+   "spellChance": 0,
+   "skillChance": 0,
+   "gold": 882,
+   "exp": 882
+},
+ {
+   "id": 16,
+   "name": "PIRATE",
+   "stats": {
+      "hp": 6,
+      "attack": 8,
+      "accuracy": 2,
+      "hits": 1,
+      "critical": 1,
+      "defense": 0,
+      "evasion": 12,
+      "magicDefense": 15,
+      "morale": 255
+   },
+   "spellChance": 0,
+   "skillChance": 0,
+   "gold": 40,
+   "exp": 40
+},
+ {
+   "id": 17,
+   "name": "KYZOKU",
+   "stats": {
+      "hp": 50,
+      "attack": 14,
+      "accuracy": 13,
+      "hits": 1,
+      "critical": 1,
+      "defense": 6,
+      "evasion": 24,
+      "magicDefense": 37,
+      "morale": 106
+   },
+   "resistances": "[Earth]",
+   "spellChance": 0,
+   "skillChance": 0,
+   "gold": 120,
+   "exp": 6
+},
+ {
+   "id": 18,
+   "name": "SHARK",
+   "stats": {
+      "hp": 120,
+      "attack": 22,
+      "accuracy": 30,
+      "hits": 1,
+      "critical": 1,
+      "defense": 0,
+      "evasion": 72,
+      "magicDefense": 70,
+      "morale": 121
+   },
+   "type": "[Aquatic]",
+   "weaknesses": "[Lightning]",
+   "resistances": "[Fire,Earth]",
+   "spellChance": 0,
+   "skillChance": 0,
+   "gold": 66,
+   "exp": 267
+},
+ {
+   "id": 19,
+   "name": "GrSHARK",
+   "stats": {
+      "hp": 344,
+      "attack": 50,
+      "accuracy": 86,
+      "hits": 1,
+      "critical": 1,
+      "defense": 8,
+      "evasion": 72,
+      "magicDefense": 170,
+      "morale": 200
+   },
+   "type": "[Aquatic]",
+   "weaknesses": "[Lightning]",
+   "resistances": "[Fire,Earth]",
+   "spellChance": 0,
+   "skillChance": 0,
+   "gold": 600,
+   "exp": 2361
+},
+ {
    "id": 51,
    "name": "EYE",
    "stats": {
