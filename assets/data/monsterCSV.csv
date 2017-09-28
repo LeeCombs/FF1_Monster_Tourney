@@ -36,5 +36,16 @@ id,name,stats/hp,stats/attack,stats/accuracy,stats/hits,stats/critical,stats/def
 24,CREEP,56,17,14,1,1,8,24,40,104,null,null,null,'[Fire]',null,0,null,0,null,15,63
 25,CRAWL,84,1,21,8,1,8,42,51,106,Paralysis,Status,null,null,null,0,null,0,null,200,186
 
+26,HYENA,120,22,30,8,1,4,48,76,122,null,null,null,null,null,0,null,0,null,72,288
+27,CEREBUS,192,30,48,1,1,8,48,103,146,null,null,null,'[Ice]','[Fire]',0,null,64,'[SCORCH,SCORCH,SCORCH,SCORCH]',600,1182
+
+28,OGRE,100,18,25,1,1,10,18,65,116,null,null,'[Giant]',null,null,0,null,0,null,195,195
+29,GrOGRE,132,23,33,1,1,14,30,71,126,null,null,'[Giant]',null,null,0,null,0,null,300,282
+30,WzOGRE,144,23,36,1,1,10,54,80,134,null,null,'[Giant,Mage,Regenerative]',null,'[Earth]',64,'[RUSE,DARK,SLEP,HOLD,ICE2]',0,null,723,723
+
+31,ASP,56,6,14,1,1,6,30,46,107,Poison,Psn/Stn,'[Dragon]',null,null,0,null,0,null,50,123
+32,COBRA,80,22,20,1,31,10,36,56,110,null,null,'[Dragon]',null,null,0,null,0,null,50,165
+33,SeaSNAKE,224,35,56,1,0,12,48,116,200,null,null,'[Dragon,Aquatic]','[Lightning]','[Fire,Earth]',0,null,0,null,600,957
+
 51,EYE,162,30,42,1,1,30,12,92,200,null,null,'[Mage]',null,'[Earth]',80,'[XXXX,BRAK,RUB,LIT2,HOLD,MUTE,SLOW,SLEP]',80,'[GLANCE,SQUINT,GAZE,STARE]',3225,3225
 86,TYRO,480,65,133,1,1,10,60,200,144,null,null,'[Dragon]',null,null,0,null,0,null,502,3387
