@@ -61,5 +61,19 @@ id,name,stats/hp,stats/attack,stats/accuracy,stats/hits,stats/critical,stats/def
 42,WRAITH,114,40,29,1,1,12,108,67,160,Paralyze,Status,'[Magical,Undead]','[Fire]','[Status,Psn/Stn,Death,Ice,Earth]',0,null,0,null,432,432
 43,GHOST,180,93,45,1,1,30,36,85,184,Paralyze,Status,'[Magical,Undead]','[Fire]','[Status,Psn/Stn,Death,Ice,Earth]',0,null,0,null,990,990
 
+44,ZOMBIE,20,10,5,1,1,0,6,25,120,null,null,'[Undead]','[Fire]','[Status,Psn/Stn,Death,Ice,Earth]',0,null,0,null,12,24
+45,GHOUL,48,8,12,3,1,6,12,36,124,Paralyze,Status,'[Undead]','[Fire]','[Status,Psn/Stn,Death,Ice]',0,null,0,null,50,93
+46,GEIST,56,8,14,3,1,10,46,40,160,Paralyze,Status,'[Undead]','[Fire]','[Status,Psn/Stn,Death,Ice]',0,null,0,null,117,117
+47,SPECTER,52,20,13,1,1,12,42,45,160,Paralyze,Status,'[Undead]','[Fire]','[Status,Psn/Stn,Death,Ice]',0,null,0,null,150,150
+
+48,WORM,448,65,112,1,10,10,36,200,200,null,null,null,null,'[Earth]',0,null,0,null,1000,4344
+49,Sand W,200,46,50,1,1,14,62,103,124,null,null,null,null,'[Earth]',0,null,64,'[CRACK,CRACK,CRACK,CRACK]',900,2638
+50,Grey W,280,50,70,1,1,31,4,143,200,null,null,null,'[Ice]','[Fire, Earth]',0,null,0,null,400,1671
+
 51,EYE,162,30,42,1,1,30,12,92,200,null,null,'[Mage]',null,'[Earth]',80,'[XXXX,BRAK,RUB,LIT2,HOLD,MUTE,SLOW,SLEP]',80,'[GLANCE,SQUINT,GAZE,STARE]',3225,3225
+52,PHANTOM,360,120,150,1,40,60,24,160,200,Paralyze,Status,'[Magical,Undead,Regenerative]','[Fire]','[Status,Psn/Stn,Death,Ice,Earth]',64,'[STOP,ZAP!,XFER,BRAK,RUB,HOLD,MUTE,SLOW]',64,'[GLARE,GLARE,GLARE,GLARE]',1,1
+
+53,MEDUSA,68,20,17,1,1,10,36,55,150,Poison,Psn/Stn,null,null,null,0,null,64,'[GLANCE,GLANCE,GLANCE,GLANCE]',699,699
+54,GrMEDUSA,96,11,24,10,1,12,72,70,200,Paralyze,Status,'[Magical]',null,null,0,null,64,'[GLANCE,GLANCE,GLANCE,GLANCE]',1218,1218
+
 86,TYRO,480,65,133,1,1,10,60,200,144,null,null,'[Dragon]',null,null,0,null,0,null,502,3387
