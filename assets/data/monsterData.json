@@ -1190,6 +1190,180 @@
    "exp": 1218
 },
  {
+   "id": 55,
+   "name": "CATMAN",
+   "stats": {
+      "hp": 160,
+      "attack": 30,
+      "accuracy": 40,
+      "hits": 2,
+      "critical": 1,
+      "defense": 16,
+      "evasion": 48,
+      "magicDefense": 93,
+      "morale": 148
+   },
+   "statusAttack": "Poison",
+   "element": "Psn/Stn",
+   "type": "[Magical,Were,Regenerative]",
+   "spellChance": 0,
+   "skillChance": 0,
+   "gold": 780,
+   "exp": 780
+},
+ {
+   "id": 56,
+   "name": "MANCAT",
+   "stats": {
+      "hp": 110,
+      "attack": 20,
+      "accuracy": 28,
+      "hits": 3,
+      "critical": 1,
+      "defense": 30,
+      "evasion": 60,
+      "magicDefense": 62,
+      "morale": 150
+   },
+   "type": "[Mage]",
+   "resistances": "[Status,Psn/Stn,Death,Fire,Ice,Lightning,Earth]",
+   "spellChance": 96,
+   "spells": "[FIR2,SLOW,DARK,SLEP,FIRE,LIT,CURE,SLEP]",
+   "skillChance": 0,
+   "gold": 800,
+   "exp": 603
+},
+ {
+   "id": 57,
+   "name": "PEDE",
+   "stats": {
+      "hp": 222,
+      "attack": 39,
+      "accuracy": 56,
+      "hits": 1,
+      "critical": 1,
+      "defense": 20,
+      "evasion": 48,
+      "magicDefense": 116,
+      "morale": 111
+   },
+   "statusAttack": "Poison",
+   "element": "Psn/Stn",
+   "spellChance": 0,
+   "skillChance": 0,
+   "gold": 300,
+   "exp": 1194
+},
+ {
+   "id": 58,
+   "name": "GrPEDE",
+   "stats": {
+      "hp": 320,
+      "attack": 73,
+      "accuracy": 80,
+      "hits": 1,
+      "critical": 1,
+      "defense": 24,
+      "evasion": 48,
+      "magicDefense": 185,
+      "morale": 176
+   },
+   "resistances": "[Fire,Ice]",
+   "spellChance": 0,
+   "skillChance": 0,
+   "gold": 1000,
+   "exp": 2244
+},
+ {
+   "id": 59,
+   "name": "TIGER",
+   "stats": {
+      "hp": 132,
+      "attack": 22,
+      "accuracy": 33,
+      "hits": 2,
+      "critical": 25,
+      "defense": 8,
+      "evasion": 48,
+      "magicDefense": 85,
+      "morale": 116
+   },
+   "spellChance": 0,
+   "skillChance": 0,
+   "gold": 108,
+   "exp": 438
+},
+ {
+   "id": 60,
+   "name": "SABER T",
+   "stats": {
+      "hp": 200,
+      "attack": 24,
+      "accuracy": 50,
+      "hits": 2,
+      "critical": 70,
+      "defense": 8,
+      "evasion": 42,
+      "magicDefense": 106,
+      "morale": 180
+   },
+   "spellChance": 0,
+   "skillChance": 0,
+   "gold": 500,
+   "exp": 843
+},
+ {
+   "id": 61,
+   "name": "VAMPIRE",
+   "stats": {
+      "hp": 156,
+      "attack": 76,
+      "accuracy": 39,
+      "hits": 1,
+      "critical": 1,
+      "defense": 24,
+      "evasion": 72,
+      "magicDefense": 75,
+      "morale": 200
+   },
+   "statusAttack": "Paralyze",
+   "element": "Status",
+   "type": "[Magical,Undead,Regenerative]",
+   "weaknesses": "[Fire]",
+   "resistances": "[Status,Psn/Stn,Death,Ice,Earth]",
+   "spellChance": 0,
+   "skillChance": 32,
+   "skills": "[DAZZLE,DAZZLE,DAZZLE,DAZZLE]",
+   "gold": 2000,
+   "exp": 1200
+},
+ {
+   "id": 62,
+   "name": "WzVAMP",
+   "stats": {
+      "hp": 300,
+      "attack": 90,
+      "accuracy": 42,
+      "hits": 1,
+      "critical": 1,
+      "defense": 29,
+      "evasion": 72,
+      "magicDefense": 84,
+      "morale": 200
+   },
+   "statusAttack": "Paralyze",
+   "element": "Status",
+   "type": "[Magical,Undead,Mage,Regenerative]",
+   "weaknesses": "[Fire]",
+   "resistances": "[Status,Psn/Stn,Death,Ice,Earth]",
+   "spellChance": 32,
+   "spells": "[AFIR,MUTE,ICE2,ICE2,LIT2,LIT2,FIR2,FIR2]",
+   "skillChance": 32,
+   "skills": "[DAZZLE,DAZZLE,DAZZLE,DAZZLE]",
+   "gold": 3000,
+   "exp": 2385
+},
+ {
    "id": 86,
    "name": "TYRO",
    "stats": {
