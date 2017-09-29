@@ -10,6 +10,7 @@ import flixel.ui.FlxButton;
 import flixel.math.FlxMath;
 import Action;
 import Monster.Status;
+import SpellManager.Spell;
 import flixel.util.FlxSpriteUtil;
 import haxe.Json;
 import haxe.Resource;
@@ -108,7 +109,10 @@ class PlayState extends FlxState {
 			trace("invalid monster: " + mStr);
 		}
 		
-		playerTwoScene.addMonster(new Monster(0, 0, "WarMECH", playerOneScene), 1, true);
+		playerTwoScene.addMonster(new Monster(0, 0, "EYE", playerTwoScene), 0, true);
+		playerTwoScene.addMonster(new Monster(0, 0, "EYE", playerTwoScene), 1, true);
+		playerTwoScene.addMonster(new Monster(0, 0, "EYE", playerTwoScene), 2, true);
+		playerTwoScene.addMonster(new Monster(0, 0, "EYE", playerTwoScene), 3, true);
 	}
 	
 	/**
@@ -226,16 +230,22 @@ class PlayState extends FlxState {
 				targetQueue.push(getMonsterTarget(targetScene.getMonsters()));
 			case ActionType.Spell:
 				var spell:Spell = spellManager.getSpellByName(action.actionName);
+				
+				if (spell == null) {
+					trace("Invalid spell retrieved: " + spell);
+					return null;
+				}
+				
 				switch(spell.target) {
 					case "Caster":
 						targetQueue.push(monster);
-					case "Single Enemy":
+					case "Single Enemy", "Single Target":
 						// Grab a single, random target from the target scene
 						targetQueue.push(getMonsterTarget(targetScene.getMonsters()));
 					case "Single Ally":
 						// Grab a single, random target from the active scene
 						targetQueue.push(getMonsterTarget(activeScene.getMonsters()));
-					case "All Enemies":
+					case "All Enemies", "All Targets":
 						var monsters:Array<Monster> = targetScene.getMonsters();
 						for (monster in monsters) {
 							if (monster != null) targetQueue.push(monster);
@@ -295,8 +305,9 @@ class PlayState extends FlxState {
 		if (result.message != "") {
 			messageQueue.push([resultTextBox, result.message]);
 		}
-		if (monster.checkForStatus(Status.Petrified) || monster.hp < 0) {
+		if (monster.checkForStatus(Status.Petrified) || monster.checkForStatus(Status.Death) || monster.hp < 0) {
 			messageQueue.push([resultTextBox, "Terminated"]);
+			monster.removeSelf();
 		}
 	}
 	
@@ -308,8 +319,9 @@ class PlayState extends FlxState {
 			messageQueue.push([resultTextBox, result.message]);
 		}
 		
-		if (monster.checkForStatus(Status.Petrified) || monster.hp < 0) {
+		if (monster.checkForStatus(Status.Petrified) || monster.checkForStatus(Status.Death) || monster.hp < 0) {
 			messageQueue.push([resultTextBox, "Terminated"]);
+			monster.removeSelf();
 		}
 	}
 	/**
@@ -323,7 +335,7 @@ class PlayState extends FlxState {
 		// Execute the turn logic
 		if (timerDelay > 0) timerDelay--;
 		if (timerDelay <= 0) {
-			timerDelay = 30;
+			timerDelay = 10;
 			trace("");
 			trace("Execute turn");
 			

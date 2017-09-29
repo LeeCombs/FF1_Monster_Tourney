@@ -1,10 +1,23 @@
-id,name,effectivity,accuracy,element,target,effect,price
+id,name,effectivity,accuracy,element,target,effect,price,successMessage
 
-1,CURE,16,0,,Single Target,Hp Recovery,100
-2,HARM,20,24,,All Enemies,Damage Undead,100
-3,FOG,8,0,,Single Ally,Defense Up,100
-4,RUSE,80,0,,Caster,Evasion Up,100
-5,Fire,10,24,Fire,Single Enemy,Damage,100
-6,SLEP,Sleep,24,Status,All Enemies,Status Ailment,100
-7,LOCK,20,64,,Single Enemy,Evasion Down, 100
-8,LIT,10,24,Lightning,Single Enemy,Damage,100
+00,NUCLEAR,80,48,,All Enemies,Damage,0,
+
+01,CURE,16,0,,Single Target,Hp Recovery,100,HP up!
+02,HARM,20,24,,All Enemies,Damage Undead,100,
+03,FOG,8,0,,Single Ally,Defense Up,100,
+04,RUSE,80,0,,Caster,Evasion Up,100,
+05,Fire,10,24,Fire,Single Enemy,Damage,100,
+06,SLEP,Sleep,24,Status,All Enemies,Status Ailment,100,Asleep
+07,LOCK,20,64,,Single Enemy,Evasion Down, 100,
+08,LIT,10,24,Lightning,Single Enemy,Damage,100,
+0A,MUTE,Silence,64,Status,All Enemies,Status Ailment,400,Silenced
+
+10,SLOW,0,64,Status,All Enemies,Hit Multiplier Down,400,Lost intelligence
+16,HOLD,Paralyze,64,Status,Single Enemy,Status Ailment,1500,Attack Halted
+17,LIT2,30,24,Lightning,All Enemies, Damage, 1500,
+
+2E,RUB,Death,24,Death,Single Enemy,Status Ailment,20000,Erased
+
+36,BRAK,Petrify,64,Psn/Stn,Single Enemy,Status Aillment,45000,Broken into pieces
+
+40,XXXX,Death,0,Death,Single Enemy,Status Ailment,60000,Erased

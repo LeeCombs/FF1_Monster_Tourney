@@ -1,15 +1,25 @@
 [
  {
-   "id": 1,
+   "id": "00",
+   "name": "NUCLEAR",
+   "effectivity": "80",
+   "accuracy": 48,
+   "target": "All Enemies",
+   "effect": "Damage",
+   "price": 0
+ },
+ {
+   "id": "01",
    "name": "CURE",
    "effectivity": "16",
    "accuracy": 0,
    "target": "Single Target",
    "effect": "Hp Recovery",
-   "price": 100
+   "price": 100,
+   "successMessage": "HP up!"
  },
  {
-   "id": 2,
+   "id": "02",
    "name": "HARM",
    "effectivity": "20",
    "accuracy": 24,
@@ -18,7 +28,7 @@
    "price": 100
  },
  {
-   "id": 3,
+   "id": "03",
    "name": "FOG",
    "effectivity": "8",
    "accuracy": 0,
@@ -27,7 +37,7 @@
    "price": 100
  },
  {
-   "id": 4,
+   "id": "04",
    "name": "RUSE",
    "effectivity": "80",
    "accuracy": 0,
@@ -36,7 +46,7 @@
    "price": 100
  },
  {
-   "id": 5,
+   "id": "05",
    "name": "Fire",
    "effectivity": "10",
    "accuracy": 24,
@@ -46,17 +56,18 @@
    "price": 100
  },
  {
-   "id": 6,
+   "id": "06",
    "name": "SLEP",
    "effectivity": "Sleep",
    "accuracy": 24,
    "element": "Status",
    "target": "All Enemies",
    "effect": "Status Ailment",
-   "price": 100
+   "price": 100,
+   "successMessage": "Asleep"
  },
  {
-   "id": 7,
+   "id": "07",
    "name": "LOCK",
    "effectivity": "20",
    "accuracy": 64,
@@ -65,7 +76,7 @@
    "price": 100
  },
  {
-   "id": 8,
+   "id": "08",
    "name": "LIT",
    "effectivity": "10",
    "accuracy": 24,
@@ -73,5 +84,81 @@
    "target": "Single Enemy",
    "effect": "Damage",
    "price": 100
+ },
+ {
+   "id": "0A",
+   "name": "MUTE",
+   "effectivity": "Silence",
+   "accuracy": 64,
+   "element": "Status",
+   "target": "All Enemies",
+   "effect": "Status Ailment",
+   "price": 400,
+   "successMessage": "Silenced"
+ },
+ {
+   "id": "10",
+   "name": "SLOW",
+   "effectivity": "0",
+   "accuracy": 64,
+   "element": "Status",
+   "target": "All Enemies",
+   "effect": "Hit Multiplier Down",
+   "price": 400,
+   "successMessage": "Lost intelligence"
+ },
+ {
+   "id": "16",
+   "name": "HOLD",
+   "effectivity": "Paralyze",
+   "accuracy": 64,
+   "element": "Status",
+   "target": "Single Enemy",
+   "effect": "Status Ailment",
+   "price": 1500,
+   "successMessage": "Attack Halted"
+ },
+ {
+   "id": "17",
+   "name": "LIT2",
+   "effectivity": "30",
+   "accuracy": 24,
+   "element": "Lightning",
+   "target": "All Enemies",
+   "effect": " Damage",
+   "price": 1500
+ },
+ {
+   "id": "2E",
+   "name": "RUB",
+   "effectivity": "Death",
+   "accuracy": 24,
+   "element": "Death",
+   "target": "Single Enemy",
+   "effect": "Status Ailment",
+   "price": 20000,
+   "successMessage": "Erased"
+ },
+ {
+   "id": "36",
+   "name": "BRAK",
+   "effectivity": "Petrify",
+   "accuracy": 64,
+   "element": "Psn/Stn",
+   "target": "Single Enemy",
+   "effect": "Status Aillment",
+   "price": 45000,
+   "successMessage": "Broken into pieces"
+ },
+ {
+   "id": "40",
+   "name": "XXXX",
+   "effectivity": "Death",
+   "accuracy": 0,
+   "element": "Death",
+   "target": "Single Enemy",
+   "effect": "Status Ailment",
+   "price": 60000,
+   "successMessage": "Erased"
  }
 ]

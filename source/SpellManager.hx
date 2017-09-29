@@ -1,8 +1,20 @@
 package;
 import flixel.FlxG;
-import haxe.xml.Fast;
+import haxe.Json;
 import openfl.Assets;
 import Action;
+
+typedef Spell = {
+	var id:String;
+	var name:String;
+	var effectivity:String;
+	var accuracy: Int;
+	var element:String;
+	var target:String;
+	var effect:String;
+	var price:Int;
+	var successMessage:String;
+}
 
 class SpellManager {
 	// E = Effectivity. Determined by Spell. (Effectively capped at 255)
@@ -10,13 +22,11 @@ class SpellManager {
 	// MD = Magic Defense. Determined by Target.
 	// BC = Base Chance to Hit = 148
 	
-	private var spells:Fast;
+	private var spellData = [];
 	
 	public function new() {
-		var sdXML = Assets.getText("assets/data/spellData.xml");
-		var spellDataXML = Xml.parse(sdXML);
-		var fast:Fast = new Fast(spellDataXML.firstElement());
-		spells = fast.node.spells;
+		var spellDataJSON = Assets.getText("assets/data/spellData.json");
+		spellData = Json.parse(spellDataJSON);
 	}
 	
 	/**
@@ -26,30 +36,17 @@ class SpellManager {
 	 * @return
 	 */
 	public function getSpellByName(spellName:String):Spell {
-		trace("Get Spell: " + spellName.toUpperCase());
-		
-		var spell:Spell = new Spell();
-		
-		var sn = spellName.toUpperCase();
-		for (s in spells.nodes.spell) {
-			if (s.node.name.innerData == sn) {
-				spell.name = s.node.name.innerData;
-				spell.id = s.node.id.innerData;
-				spell.effectivity = s.node.effectivity.innerData;
-				spell.accuracy = Std.parseInt(s.node.accuracy.innerData);
-				spell.element = s.node.element.innerData;
-				spell.target = s.node.target.innerData;
-				spell.effect = s.node.effect.innerData;
-				spell.successMessage = s.node.successMessage.innerData;
-				return spell;
+		var returnSpell = null;
+		for (s in spellData) {
+			if (s.name == spellName) {
+				returnSpell = s;
+				break;
 			}
 		}
-		
-		return null;
+		return returnSpell;
 	}
 	
 	/**
-	 * 
 	 * Cast a spell on a target monster.
 	 * 
 	 * @param	spell
@@ -59,6 +56,7 @@ class SpellManager {
 	public function castSpell(spell:Spell, target:Monster):ActionResult {
 		var failedResult:ActionResult = { message:"Ineffective", damage:0, hits:0 };
 		var successfulResult:ActionResult = { message:spell.successMessage, damage:0, hits:0 };
+		if (successfulResult.message == null) successfulResult.message = "";
 		
 		switch (spell.effect) {
 			// Damage Spells
@@ -66,7 +64,7 @@ class SpellManager {
 				// FIRE, LIT, ICE, FIR2, LIT2, ICE2, FIR3, LIT3, ICE3, FADE, NUKE
 				successfulResult.damage = damageSpell(spell, target);
 				return successfulResult;
-			case "Undead Damage":
+			case "Damage Undead":
 				// HARM, HRM2, HRM3, HRM4
 				if (target.type == "Undead") {
 					successfulResult.damage = damageSpell(spell, target);
@@ -82,7 +80,7 @@ class SpellManager {
 					return successfulResult;
 				}
 				return failedResult;
-			case "300HP Status":
+			case "300HP Status Ail":
 				// STUN, BLND
 				if (statusSpell(spell, target)) {
 					return successfulResult;

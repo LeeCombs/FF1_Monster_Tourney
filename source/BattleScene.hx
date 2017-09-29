@@ -78,8 +78,8 @@ class BattleScene extends FlxGroup {
 		if (monster == null) return false;
 		
 		monsters[monsters.indexOf(monster)] = null; //?
-		monster.destroy();
 		remove(monster);
+		monster.destroy();
 		monster = null;
 		
 		return true;
