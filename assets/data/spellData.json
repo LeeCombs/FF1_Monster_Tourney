@@ -14,7 +14,7 @@
    "effectivity": "16",
    "accuracy": 0,
    "target": "Single Target",
-   "effect": "Hp Recovery",
+   "effect": "HP Recovery",
    "price": 100,
    "successMessage": "HP up!"
  },
@@ -97,6 +97,57 @@
    "successMessage": "Silenced"
  },
  {
+   "id": "0B",
+   "name": "ALIT",
+   "effectivity": "Lightning",
+   "accuracy": 0,
+   "target": "All Allies",
+   "effect": " Resist Element",
+   "price": 400,
+   "successMessage": "Defend lightning"
+ },
+ {
+   "id": "0C",
+   "name": "INVS",
+   "effectivity": "40",
+   "accuracy": 0,
+   "target": "Single Ally",
+   "effect": "Evasion Up",
+   "price": 400,
+   "successMessage": "Easy to dodge"
+ },
+ {
+   "id": "0D",
+   "name": "ICE",
+   "effectivity": "20",
+   "accuracy": 24,
+   "element": "Ice",
+   "target": "Single Enemy",
+   "effect": "Damage",
+   "price": 400
+ },
+ {
+   "id": "0E",
+   "name": "DARK",
+   "effectivity": "Blind",
+   "accuracy": 24,
+   "element": "Status",
+   "target": "All Enemies",
+   "effect": "Status Ailment",
+   "price": 400,
+   "successMessage": "Darkness"
+ },
+ {
+   "id": "0F",
+   "name": "TMPR",
+   "effectivity": "14",
+   "accuracy": 0,
+   "target": "Single Ally",
+   "effect": "Attack/Accuracy Up",
+   "price": 400,
+   "successMessage": "Weapons Stronger"
+ },
+ {
    "id": "10",
    "name": "SLOW",
    "effectivity": "0",
@@ -106,6 +157,55 @@
    "effect": "Hit Multiplier Down",
    "price": 400,
    "successMessage": "Lost intelligence"
+ },
+ {
+   "id": "11",
+   "name": "CUR2",
+   "effectivity": "33",
+   "accuracy": 0,
+   "target": "Single Ally",
+   "effect": "HP Recovery",
+   "price": 1500,
+   "successMessage": "HP up!"
+ },
+ {
+   "id": "12",
+   "name": "HRM2",
+   "effectivity": "40",
+   "accuracy": 24,
+   "target": "All Enemies",
+   "effect": " Damage Undead",
+   "price": 1500
+ },
+ {
+   "id": "13",
+   "name": "AFIR",
+   "effectivity": "Fire",
+   "accuracy": 0,
+   "target": "All Allies",
+   "effect": " Resist Element",
+   "price": 400,
+   "successMessage": "Defend fire"
+ },
+ {
+   "id": "14",
+   "name": "HEAL",
+   "effectivity": "12",
+   "accuracy": 0,
+   "target": "All Allies",
+   "effect": "HP Recovery",
+   "price": 1500,
+   "successMessage": "HP up!"
+ },
+ {
+   "id": "15",
+   "name": "FIR2",
+   "effectivity": "30",
+   "accuracy": 24,
+   "element": "Fire",
+   "target": "All Enemies",
+   "effect": "Damage",
+   "price": 1500
  },
  {
    "id": "16",
@@ -129,6 +229,169 @@
    "price": 1500
  },
  {
+   "id": "18",
+   "name": "LOK2",
+   "effectivity": "20",
+   "accuracy": 40,
+   "target": "All Enemies",
+   "effect": "Evasion Up",
+   "price": 1500,
+   "successMessage": "Easy to dodge"
+ },
+ {
+   "id": "19",
+   "name": "PURE",
+   "effectivity": "Poison",
+   "accuracy": 0,
+   "target": "Single Ally",
+   "effect": "Restore Status",
+   "price": 4000
+ },
+ {
+   "id": "1A",
+   "name": "FEAR",
+   "effectivity": "40",
+   "accuracy": 24,
+   "element": "Status",
+   "target": "All Enemies",
+   "effect": "Morale Down",
+   "price": 4000
+ },
+ {
+   "id": "1B",
+   "name": "AICE",
+   "effectivity": "Ice",
+   "accuracy": 0,
+   "target": "All Allies",
+   "effect": "Resist Element",
+   "price": 4000,
+   "successMessage": "Resist cold"
+ },
+ {
+   "id": "1C",
+   "name": "AMUT",
+   "effectivity": "Silence",
+   "accuracy": 0,
+   "target": "Single Ally",
+   "effect": "Restore Status",
+   "price": 4000
+ },
+ {
+   "id": "1D",
+   "name": "SLP2",
+   "effectivity": "Sleep",
+   "accuracy": 64,
+   "target": "Single Enemy",
+   "effect": "Status Ailment",
+   "price": 4000,
+   "successMessage": "Alseep"
+ },
+ {
+   "id": "1E",
+   "name": "FAST",
+   "effectivity": "0",
+   "accuracy": 0,
+   "target": "Single Ally",
+   "effect": "Hit Multiplier Up",
+   "price": 4000
+ },
+ {
+   "id": "1F",
+   "name": "CONF",
+   "effectivity": "Confuse",
+   "accuracy": 64,
+   "element": "Status",
+   "target": "All Enemies",
+   "effect": "Status Ailment",
+   "price": 4000
+ },
+ {
+   "id": "20",
+   "name": "ICE2",
+   "effectivity": "40",
+   "accuracy": 24,
+   "element": "Ice",
+   "target": "All Enemies",
+   "effect": "Damage",
+   "price": 4000
+ },
+ {
+   "id": "21",
+   "name": "CUR3",
+   "effectivity": "66",
+   "accuracy": 0,
+   "target": "Single Ally",
+   "effect": "HP Recovery",
+   "price": 8000,
+   "successMessage": "HP up!"
+ },
+ {
+   "id": "22",
+   "name": "LIFE",
+   "effectivity": "0",
+   "accuracy": 255,
+   "target": "Single Ally",
+   "effect": "None",
+   "price": 8000
+ },
+ {
+   "id": "23",
+   "name": "HRM3",
+   "effectivity": "60",
+   "accuracy": 24,
+   "target": "All Enemies",
+   "effect": "Damage Undead",
+   "price": 8000
+ },
+ {
+   "id": "24",
+   "name": "HEL2",
+   "effectivity": "48",
+   "accuracy": 0,
+   "target": "All Allies",
+   "effect": "HP Recovery",
+   "price": 8000,
+   "successMessage": "HP up!"
+ },
+ {
+   "id": "25",
+   "name": "FIR3",
+   "effectivity": "50",
+   "accuracy": 24,
+   "element": "Fire",
+   "target": "All Enemies",
+   "effect": "Damage",
+   "price": 8000
+ },
+ {
+   "id": "26",
+   "name": "BANE",
+   "effectivity": "Death",
+   "accuracy": 40,
+   "element": "Psn/Stn",
+   "target": "All Enemies",
+   "effect": "Status Ailment",
+   "price": 8000
+ },
+ {
+   "id": "27",
+   "name": "WARP",
+   "effectivity": "0",
+   "accuracy": 255,
+   "target": "All Allies",
+   "effect": "Nine",
+   "price": 8000
+ },
+ {
+   "id": "28",
+   "name": "SLO2",
+   "effectivity": "0",
+   "accuracy": 64,
+   "target": "Single Enemy",
+   "effect": "Hit Multiplier Down",
+   "price": 8000
+ },
+ {
    "id": "2E",
    "name": "RUB",
    "effectivity": "Death",
@@ -146,7 +409,7 @@
    "accuracy": 64,
    "element": "Psn/Stn",
    "target": "Single Enemy",
-   "effect": "Status Aillment",
+   "effect": "Status Ailment",
    "price": 45000,
    "successMessage": "Broken into pieces"
  },
