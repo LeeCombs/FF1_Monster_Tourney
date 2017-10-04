@@ -4,7 +4,7 @@ import haxe.Json;
 import openfl.Assets;
 import Action;
 
-typedef Spell = {
+typedef SkillSpell = {
 	var id:String;
 	var name:String;
 	var effectivity:String;
@@ -16,58 +16,58 @@ typedef Spell = {
 	var successMessage:String;
 }
 
-class SpellManager {
+class SkillSpellManager {
 	// E = Effectivity. Determined by Spell. (Effectively capped at 255)
 	// SA = Spell Accuracy. Determined by Spell.
 	// MD = Magic Defense. Determined by Target.
 	// BC = Base Chance to Hit = 148
 	
-	private var spellData = [];
+	private var skillSpellData = [];
 	
 	public function new() {
-		var spellDataJSON = Assets.getText("assets/data/spellData.json");
-		spellData = Json.parse(spellDataJSON);
+		var skillSpellDataJSON = Assets.getText("assets/data/skillSpellData.json");
+		skillSpellData = Json.parse(skillSpellDataJSON);
 	}
 	
 	/**
-	 * Retrieve a spell by it's name
+	 * Retrieve a skill or spell by it's name
 	 * 
-	 * @param	spellName
+	 * @param	skillSpellName
 	 * @return
 	 */
-	public function getSpellByName(spellName:String):Spell {
-		var returnSpell = null;
-		for (s in spellData) {
-			if (s.name == spellName) {
-				returnSpell = s;
+	public function getSkillSpellByName(skillSpellName:String):SkillSpell {
+		var returnSkillSpell = null;
+		for (s in skillSpellData) {
+			if (s.name == skillSpellName) {
+				returnSkillSpell = s;
 				break;
 			}
 		}
-		return returnSpell;
+		return returnSkillSpell;
 	}
 	
 	/**
-	 * Cast a spell on a target monster.
+	 * Cast a skill or spell on a target monster.
 	 * 
-	 * @param	spell
+	 * @param	skillSpell
 	 * @param	target
 	 * @return	Result of the action { message, value }
 	 */
-	public function castSpell(spell:Spell, target:Monster):ActionResult {
+	public function castSpell(skillSpell:SkillSpell, target:Monster):ActionResult {
 		var failedResult:ActionResult = { message:"Ineffective", damage:0, hits:0 };
-		var successfulResult:ActionResult = { message:spell.successMessage, damage:0, hits:0 };
+		var successfulResult:ActionResult = { message:skillSpell.successMessage, damage:0, hits:0 };
 		if (successfulResult.message == null) successfulResult.message = "";
 		
-		switch (spell.effect) {
+		switch (skillSpell.effect) {
 			// Damage Spells
 			case "Damage":
 				// FIRE, LIT, ICE, FIR2, LIT2, ICE2, FIR3, LIT3, ICE3, FADE, NUKE
-				successfulResult.damage = damageSpell(spell, target);
+				successfulResult.damage = damageSkillSpell(skillSpell, target);
 				return successfulResult;
 			case "Damage Undead":
 				// HARM, HRM2, HRM3, HRM4
 				if (target.type == "Undead") {
-					successfulResult.damage = damageSpell(spell, target);
+					successfulResult.damage = damageSkillSpell(skillSpell, target);
 					return successfulResult;
 				}
 				return failedResult;
@@ -76,13 +76,13 @@ class SpellManager {
 			case "Status Ailment":
 				// SLEP, MUTE, DARK, HOLD, SLP2, CONF
 				// BANE, RUB, QAKE, BRAK, STOP, ZAP!, XXXX
-				if (statusSpell(spell, target)) {
+				if (statusSkillSpell(skillSpell, target)) {
 					return successfulResult;
 				}
 				return failedResult;
 			case "300HP Status Ail":
 				// STUN, BLND
-				if (statusSpell(spell, target)) {
+				if (statusSkillSpell(skillSpell, target)) {
 					return successfulResult;
 				}
 				return failedResult;
@@ -90,7 +90,7 @@ class SpellManager {
 			// Healing - Always hits
 			case "HP Recovery":
 				// CURE, CUR2, HEAL, CURE3, HEL2, HEL3
-				healSpell(spell, target);
+				healSkillSpell(skillSpell, target);
 				return successfulResult;
 			case "Full HP/Status Recovery":
 				// CUR4
@@ -98,87 +98,85 @@ class SpellManager {
 				return successfulResult;
 			case "Restore Status":
 				// LAMP, PURE, AMUT
-				restoreStatus(spell, target);
+				restoreStatus(skillSpell, target);
 				return successfulResult;
 			
 			// Buffs and Debuffs - Buffs always hit
 			case "Defense Up", "Attack Up", "Hit Multiplier Up", "Attack/Accuracy Up", "Evasion Up":
 				// FOG, FOG2 - TMPR (fix) - FAST - SABR - RUSE, INVS, INV2
-				buffSpell(spell, target);
+				buffSkillSpell(skillSpell, target);
 				return successfulResult;
 			case "Hit Multiplier Down", "Morale Down", "Evasion Down", "Remove Resistance":
 				// SLOW, SLO2 - FEAR - LOCK, LOK2 - XFER
-				if (debuffSpell(spell, target)) {
+				if (debuffSkillSpell(skillSpell, target)) {
 					return successfulResult;
 				}
 				return failedResult;
 			// case "Nothing":
 			// case "[Unused]":
 			default:
-				FlxG.log.add("Invalid spell effect: " + spell.effect);
+				FlxG.log.add("Invalid skillSpell effect: " + skillSpell.effect);
 		}
 		return failedResult;
 	}
 	
 
 	/**
-	 * Cast a damaging spell against a target
+	 * Cast a damaging skillSpell against a target
 	 * 
-	 * @param	spell
+	 * @param	skillSpell
 	 * @param	target
 	 * @return	Damage amount
 	 */
-	private function damageSpell(spell:Spell, target:Monster):Int {
-		trace("Casting attack spell: " + spell.name);
-		
-		var e:Int = Std.parseInt(spell.effectivity);
+	private function damageSkillSpell(skillSpell:SkillSpell, target:Monster):Int {
+		var e:Int = Std.parseInt(skillSpell.effectivity);
 		
 		// Check for resistances/weaknesses. Half for resist, 1.5x for weak.
-		if (target.isResistantTo(spell.element)) e = Std.int(e * 0.5);
-		if (target.isWeakTo(spell.element)) e = Std.int(e * 1.5);
+		if (target.isResistantTo(skillSpell.element)) e = Std.int(e * 0.5);
+		if (target.isWeakTo(skillSpell.element)) e = Std.int(e * 1.5);
 		
 		// Determine damage, and double it if the monster doesn't 'resist' the spell
 		var damage = FlxG.random.int(e, e * 2);
-		if (checkForHit(spell, target)) damage *= 2;
+		if (checkForHit(skillSpell, target)) damage *= 2;
 		
 		target.damage(damage);
 		return damage;
 	}
 	
 	/**
-	 * Attempt to cast a status spell against a target. Returns true if successful, false for miss
+	 * Attempt to cast a status skillSpell against a target. Returns true if successful, false for miss
 	 * 
-	 * @param	spell
+	 * @param	skillSpell
 	 * @param	target
 	 * @return	True: Success, False: Miss
 	 */
-	private function statusSpell(spell:Spell, target:Monster):Bool {
+	private function statusSkillSpell(skillSpell:SkillSpell, target:Monster):Bool {
 		// 300HP Exceptions (STUN, BLND, XXXX) always hit if target HP is <= 300
-		// and is not resistant to the spell element. Otherwise is always misses
-		switch(spell.name.toUpperCase()) {
+		// and is not resistant to the element, otherwise is always misses
+		switch(skillSpell.name.toUpperCase()) {
 			case "STUN":
-				if (target.hp <= 300 && !target.isResistantTo(spell.element)) {
+				if (target.hp <= 300 && !target.isResistantTo(skillSpell.element)) {
 					target.addStatus(Monster.Status.Paralyzed);
 					return true;
 				}
 				return false;
 			case "BLND":
-				if (target.hp <= 300 && !target.isResistantTo(spell.element)) {
+				if (target.hp <= 300 && !target.isResistantTo(skillSpell.element)) {
 					target.addStatus(Monster.Status.Blind);
 					return true;
 				}
 				return false;
 			case "XXXX":
-				if (target.hp <= 300 && !target.isResistantTo(spell.element)) {
+				if (target.hp <= 300 && !target.isResistantTo(skillSpell.element)) {
 					target.addStatus(Monster.Status.Death);
 					return true;
 				}
 				return false;
 		}
 		
-		// Check for a spell hit, and apply the status as necessary
-		if (checkForHit(spell, target)) {
-			switch(spell.effectivity.toUpperCase()) {
+		// Check for a hit, then apply the status as necessary
+		if (checkForHit(skillSpell, target)) {
+			switch(skillSpell.effectivity.toUpperCase()) {
 				case "DEATH":
 					target.addStatus(Monster.Status.Death);
 				case "PARALYZE":
@@ -197,18 +195,18 @@ class SpellManager {
 			return true;
 		}
 		
-		// Spell missed
+		// Missed
 		return false; 
 	}
 	
 	/**
 	 * Remove a status from the target monster
 	 * 
-	 * @param	spell
+	 * @param	skillSpell
 	 * @param	target
 	 */
-	private function restoreStatus(spell:Spell, target:Monster):Bool {
-		switch(spell.name.toUpperCase()) {
+	private function restoreStatus(skillSpell:SkillSpell, target:Monster):Bool {
+		switch(skillSpell.name.toUpperCase()) {
 			case "AMUT":
 				target.removeStatus(Monster.Status.Silenced);
 			case "PURE":
@@ -220,14 +218,14 @@ class SpellManager {
 	}
 	
 	/**
-	 * Recover the target's HP based on the spell's effectiveness, capped at 255
+	 * Recover the target's HP based on the skillSpell's effectiveness, capped at 255
 	 * 
-	 * @param	spell
+	 * @param	skillSpell
 	 * @param	target
 	 * @return	Heal amount
 	 */
-	private function healSpell(spell:Spell, target:Monster):Int {
-		var e:Int = Std.parseInt(spell.effectivity);
+	private function healSkillSpell(skillSpell:SkillSpell, target:Monster):Int {
+		var e:Int = Std.parseInt(skillSpell.effectivity);
 		var healAmount = FlxG.random.int(e, e * 2);
 		if (healAmount > 255) healAmount = 255;
 		
@@ -239,23 +237,23 @@ class SpellManager {
 	/**
 	 * Apply a buff to the target
 	 * 
-	 * @param	spell
+	 * @param	skillSpell
 	 * @param	target
 	 */
-	private function buffSpell(spell:Spell, target:Monster):Bool {
-		target.addBuff(spell.name);
+	private function buffSkillSpell(skillSpell:SkillSpell, target:Monster):Bool {
+		target.addBuff(skillSpell.name);
 		return true;
 	}
 	
 	/**
 	 * Attempt to apply a debuff to the target
 	 * 
-	 * @param	spell
+	 * @param	skillSpell
 	 * @param	target
 	 */
-	private function debuffSpell(spell:Spell, target:Monster):Bool {
-		if (checkForHit(spell, target)) {
-			target.addDebuff(spell.name);
+	private function debuffSkillSpell(skillSpell:SkillSpell, target:Monster):Bool {
+		if (checkForHit(skillSpell, target)) {
+			target.addDebuff(skillSpell.name);
 			return true;
 		}
 		return false;
@@ -272,13 +270,13 @@ class SpellManager {
 	}
 	
 	/**
-	 * Check for a spell "hit". Determines if Status spells hit, or if Damage spells are resisted
+	 * Check for a skillSpell "hit". Determines if status effects hit, or if damage is resisted
 	 * 
-	 * @param	spell
+	 * @param	skillSpell
 	 * @param	target
 	 * @return	True: Hit, False: Miss
 	 */
-	private function checkForHit(spell:Spell, target:Monster):Bool {
+	private function checkForHit(skillSpell:SkillSpell, target:Monster):Bool {
 		/*
 		NOTE: Status spells can hit or miss, which is determined by this calculation.
 		Damaging spells always "hit," but may be "resisted," in which case the doubling
@@ -295,11 +293,11 @@ class SpellManager {
 		var BC:Int = 148; // Base Chance
 		
 		// If the target is both resistant and weak, the BC will be 40
-		if (target.isResistantTo(spell.element)) BC = 0;
-		if (target.isWeakTo(spell.element)) BC += 40;
+		if (target.isResistantTo(skillSpell.element)) BC = 0;
+		if (target.isWeakTo(skillSpell.element)) BC += 40;
 		
 		// Chance to Hit
-		var chanceToHit = BC + spell.accuracy - target.mdef;
+		var chanceToHit = BC + skillSpell.accuracy - target.mdef;
 		if (chanceToHit < 0) chanceToHit = 0;
 		
 		// 0 always hits, 200 always misses

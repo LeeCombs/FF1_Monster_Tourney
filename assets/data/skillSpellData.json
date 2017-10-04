@@ -1,14 +1,5 @@
 [
  {
-   "id": "00",
-   "name": "NUCLEAR",
-   "effectivity": "80",
-   "accuracy": 48,
-   "target": "All Enemies",
-   "effect": "Damage",
-   "price": 0
- },
- {
    "id": "01",
    "name": "CURE",
    "effectivity": "16",
@@ -642,5 +633,292 @@
    "effect": "Status Ailment",
    "price": 60000,
    "successMessage": "Erased"
+ },
+ {
+   "id": "41",
+   "name": "HEAL[P]",
+   "effectivity": "16",
+   "accuracy": 0,
+   "target": "Single Target",
+   "effect": "HP Recovery",
+   "price": 0,
+   "successMessage": "HP up!"
+ },
+ {
+   "id": "42",
+   "name": "PURE[P]",
+   "effectivity": "Poison",
+   "accuracy": 0,
+   "target": "Single Target",
+   "effect": "Status Recovery",
+   "price": 0
+ },
+ {
+   "id": "43",
+   "name": "FROST",
+   "effectivity": "24",
+   "accuracy": 32,
+   "element": "Ice",
+   "target": "All Targets",
+   "effect": "Damage",
+   "price": 0
+ },
+ {
+   "id": "44",
+   "name": "HEAT",
+   "effectivity": "12",
+   "accuracy": 32,
+   "element": "Fire",
+   "target": "All Targets",
+   "effect": "Damage",
+   "price": 0
+ },
+ {
+   "id": "45",
+   "name": "GLANCE",
+   "effectivity": "Petrify",
+   "accuracy": 5,
+   "element": "Psn/Stn",
+   "target": "Single Target",
+   "effect": "Status Ailment",
+   "price": 0,
+   "successMessage": "ADD MESSAGE HERE"
+ },
+ {
+   "id": "46",
+   "name": "GAZE",
+   "effectivity": "Paralyze",
+   "accuracy": 0,
+   "element": "Status",
+   "target": "Single Target",
+   "effect": "Status Ailment",
+   "price": 0,
+   "successMessage": "ADD MESSAGE HERE"
+ },
+ {
+   "id": "47",
+   "name": "FLASH",
+   "effectivity": "Blind",
+   "accuracy": 24,
+   "element": "Status",
+   "target": "All Targets",
+   "effect": "Status Ailment",
+   "price": 0,
+   "successMessage": "Darkness"
+ },
+ {
+   "id": "48",
+   "name": "SCORCH",
+   "effectivity": "7",
+   "accuracy": 32,
+   "element": "Fire",
+   "target": "All Targets",
+   "effect": "Damage",
+   "price": 0
+ },
+ {
+   "id": "49",
+   "name": "CRACK",
+   "effectivity": "Death",
+   "accuracy": 16,
+   "element": "Earth",
+   "target": "All Targets",
+   "effect": "Status Ailment",
+   "price": 0,
+   "successMessage": "Slain..."
+ },
+ {
+   "id": "4A",
+   "name": "SQUINT",
+   "effectivity": "Death",
+   "accuracy": 0,
+   "element": "Death",
+   "target": "Single Target",
+   "effect": "Status Ailment",
+   "price": 0,
+   "successMessage": "Slain..."
+ },
+ {
+   "id": "4B",
+   "name": "STARE",
+   "effectivity": "17",
+   "accuracy": 24,
+   "target": "Single Target",
+   "effect": "Damage",
+   "price": 0
+ },
+ {
+   "id": "4C",
+   "name": "GLARE",
+   "effectivity": "Death",
+   "accuracy": 16,
+   "element": "Time",
+   "target": "Single Target",
+   "effect": "Status Ailment",
+   "price": 0,
+   "successMessage": "Slain..."
+ },
+ {
+   "id": "4D",
+   "name": "BLIZZARD",
+   "effectivity": "50",
+   "accuracy": 32,
+   "element": "Ice",
+   "target": "All Targets",
+   "effect": "Damage",
+   "price": 0
+ },
+ {
+   "id": "4E",
+   "name": "BLAZE",
+   "effectivity": "64",
+   "accuracy": 32,
+   "element": "Fire",
+   "target": "All Targets",
+   "effect": "Damage",
+   "price": 0
+ },
+ {
+   "id": "4F",
+   "name": "INFERNO",
+   "effectivity": "96",
+   "accuracy": 32,
+   "element": "Fire",
+   "target": "All Targets",
+   "effect": "Damage",
+   "price": 0
+ },
+ {
+   "id": "50",
+   "name": "CREMATE",
+   "effectivity": "24",
+   "accuracy": 32,
+   "element": "Fire",
+   "target": "All Targets",
+   "effect": "Damage",
+   "price": 0
+ },
+ {
+   "id": "51",
+   "name": "POISON",
+   "effectivity": "Petrify",
+   "accuracy": 5,
+   "element": "Psn/Stn",
+   "target": "All Targets",
+   "effect": "Status Ailment",
+   "price": 0,
+   "successMessage": "ADD MESSAGE HERE"
+ },
+ {
+   "id": "52",
+   "name": "TRANCE",
+   "effectivity": "Paralyze",
+   "accuracy": 0,
+   "target": "All Targets",
+   "effect": "Status Ailment",
+   "price": 0,
+   "successMessage": "ADD MESSAGE HERE"
+ },
+ {
+   "id": "53",
+   "name": "POISON",
+   "effectivity": "68",
+   "accuracy": 32,
+   "element": "Psn/Stn",
+   "target": "All Targets",
+   "effect": "Damage",
+   "price": 0
+ },
+ {
+   "id": "54",
+   "name": "THUNDER",
+   "effectivity": "76",
+   "accuracy": 32,
+   "element": "Lightning",
+   "target": "All Targets",
+   "effect": "Damage",
+   "price": 0
+ },
+ {
+   "id": "55",
+   "name": "TOXIC",
+   "effectivity": "Death",
+   "accuracy": 0,
+   "element": "Death",
+   "target": "All Targets",
+   "effect": "Status Ailment",
+   "price": 0,
+   "successMessage": "Slain..."
+ },
+ {
+   "id": "56",
+   "name": "SNORTING",
+   "effectivity": "Blind",
+   "accuracy": 24,
+   "element": "Status",
+   "target": "Single Target",
+   "effect": "Status Ailment",
+   "price": 0,
+   "successMessage": "Darkness"
+ },
+ {
+   "id": "57",
+   "name": "NUCLEAR",
+   "effectivity": "80",
+   "accuracy": 48,
+   "target": "All Targets",
+   "effect": "Damage",
+   "price": 0
+ },
+ {
+   "id": "58",
+   "name": "INK",
+   "effectivity": "Blind",
+   "accuracy": 24,
+   "element": "Status",
+   "target": "All Targets",
+   "effect": "Status Ailment",
+   "price": 0,
+   "successMessage": "Darkness"
+ },
+ {
+   "id": "59",
+   "name": "STINGER",
+   "effectivity": "Poison",
+   "accuracy": 0,
+   "element": "Psn/Stn",
+   "target": "All Targets",
+   "effect": "Status Ailment",
+   "price": 0,
+   "successMessage": "ADD MESSAGE HERE"
+ },
+ {
+   "id": "5A",
+   "name": "DAZZLE",
+   "effectivity": "Paralyze",
+   "accuracy": 32,
+   "element": "Status",
+   "target": "Single Target",
+   "effect": "Status Ailment",
+   "price": 0,
+   "successMessage": "ADD MESSAGE HERE"
+ },
+ {
+   "id": "5B",
+   "name": "SWIRL",
+   "effectivity": "64",
+   "accuracy": 32,
+   "target": "All Targets",
+   "effect": "Damage",
+   "price": 0
+ },
+ {
+   "id": "5C",
+   "name": "TORNADO",
+   "effectivity": "64",
+   "accuracy": 32,
+   "target": "All Targets",
+   "effect": "Damage",
+   "price": 0
  }
 ]

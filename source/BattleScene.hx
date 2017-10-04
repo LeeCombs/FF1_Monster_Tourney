@@ -16,7 +16,7 @@ class BattleScene extends FlxGroup {
 	private var monsters:Array<Monster>;
 	private var monsterPositions:Array<Array<Int>> = [[7, 38], [72, 38], [7, 86], [72, 86]];
 	
-	public var spellManager:SpellManager; // TODO: Necessary?
+	public var spellManager:SkillSpellManager; // TODO: Necessary?
 	
 	public function new(X:Int, Y:Int) {
 		super();
@@ -34,7 +34,7 @@ class BattleScene extends FlxGroup {
 		
 		monsters = [null, null, null, null];
 		
-		spellManager = new SpellManager();
+		spellManager = new SkillSpellManager();
 	}
 	
 	/**

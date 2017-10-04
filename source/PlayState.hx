@@ -10,7 +10,7 @@ import flixel.ui.FlxButton;
 import flixel.math.FlxMath;
 import Action;
 import Monster.Status;
-import SpellManager.Spell;
+import SkillSpellManager.SkillSpell;
 import flixel.util.FlxSpriteUtil;
 import haxe.Json;
 import haxe.Resource;
@@ -23,7 +23,7 @@ class PlayState extends FlxState {
 	private var playerTwoScene:BattleScene;
 	
 	// Managers
-	private var spellManager:SpellManager;
+	private var spellManager:SkillSpellManager;
 	private var skillManager:SkillManager;
 	private var attackManager:AttackManager;
 	
@@ -65,7 +65,7 @@ class PlayState extends FlxState {
 	override public function create():Void {
 		super.create();
 		
-		spellManager = new SpellManager();
+		spellManager = new SkillSpellManager();
 		attackManager = new AttackManager();
 		// skillManager
 		
@@ -98,7 +98,7 @@ class PlayState extends FlxState {
 		monsterData = Json.parse(mdata);
 		
 		var index = 0;
-		var mStrArr:Array<String> = ["EYE", "TYRO", "TYRO", "EYE"];
+		var mStrArr:Array<String> = ["WarMECH", "AGAMA", "AGAMA", "AGAMA"];
 		for (mStr in mStrArr) {
 			for (monster in monsterData) {
 				if (mStr == monster.name) {
@@ -225,18 +225,19 @@ class PlayState extends FlxState {
 		trace("action: " + action.actionName);
 		switch(action.actionType) {
 			case ActionType.Attack:
-				// TEMP
 				// Grab a single, random target from the target scene
 				targetQueue.push(getMonsterTarget(targetScene.getMonsters()));
-			case ActionType.Spell:
-				var spell:Spell = spellManager.getSpellByName(action.actionName);
+			case ActionType.Spell, ActionType.Skill:
+				var skillSpell:SkillSpell = spellManager.getSkillSpellByName(action.actionName);
+				trace("Retrieved skillSpell: " + skillSpell.name);
 				
-				if (spell == null) {
-					trace("Invalid spell retrieved: " + spell);
+				if (skillSpell == null) {
+					trace("Invalid spell retrieved: " + skillSpell);
 					return null;
 				}
 				
-				switch(spell.target) {
+				// Build the target queue as dictated by the skillSpell's targetting
+				switch(skillSpell.target) {
 					case "Caster":
 						targetQueue.push(monster);
 					case "Single Enemy", "Single Target":
@@ -256,17 +257,12 @@ class PlayState extends FlxState {
 							if (monster != null) targetQueue.push(monster);
 						}
 					default:
-						trace("Invalid spell target: " + spell.target);
+						trace("Invalid spell target: " + skillSpell.target);
 				}
-			case ActionType.Skill:
-				// TEMP
-				// Grab a single, random target from the target scene
-				targetQueue.push(getMonsterTarget(targetScene.getMonsters()));
 			default:
 				trace("Invalid actionType: " + action.actionType);
 		}
 		
-		trace("targetQueue: " + targetQueue.length);
 		return action;
 	}
 	
@@ -311,7 +307,7 @@ class PlayState extends FlxState {
 		}
 	}
 	
-	private function handleSpellSkillResult(result:ActionResult, monster:Monster) {
+	private function handleSkillSpellResult(result:ActionResult, monster:Monster) {
 		if (result.damage > 0) {
 			messageQueue.push([valueTextBox, Std.string(result.damage) + "DMG"]);
 		}
@@ -414,16 +410,11 @@ class PlayState extends FlxState {
 						FlxG.sound.play("assets/sounds/Physical_Hit.ogg");
 						currentResult = attackManager.attack(actingMonster, targetMonster);
 						handleResult(currentResult, targetMonster, true);
-					case ActionType.Spell:
+					case ActionType.Spell, ActionType.Skill:
 						FlxG.sound.play("assets/sounds/Spell_Hit.ogg");
-						var spell:Spell = spellManager.getSpellByName(activeAction.actionName);
+						var spell:SkillSpell = spellManager.getSkillSpellByName(activeAction.actionName);
 						currentResult = spellManager.castSpell(spell, targetMonster);
-						handleSpellSkillResult(currentResult, targetMonster);
-					case ActionType.Skill:
-						// TEMP - Auto Fail
-						FlxG.sound.play("assets/sounds/Spell_Hit.ogg");
-						currentResult = { message:"Ineffective", damage:0, hits:0 };
-						handleSpellSkillResult(currentResult, targetMonster);
+						handleSkillSpellResult(currentResult, targetMonster);
 					default:
 						trace("Invalid actionType: " + activeAction.actionType);
 						return;
