@@ -34,7 +34,8 @@
    "accuracy": 0,
    "target": "Single Ally",
    "effect": "Defense Up",
-   "price": 100
+   "price": 100,
+   "successMessage": "Armor up"
  },
  {
    "id": "04",
@@ -43,7 +44,8 @@
    "accuracy": 0,
    "target": "Caster",
    "effect": "Evasion Up",
-   "price": 100
+   "price": 100,
+   "successMessage": "Easy to dodge"
  },
  {
    "id": "05",
@@ -73,7 +75,8 @@
    "accuracy": 64,
    "target": "Single Enemy",
    "effect": "Evasion Down",
-   "price": 100
+   "price": 100,
+   "successMessage": "Easy to hit"
  },
  {
    "id": "08",
@@ -216,7 +219,7 @@
    "target": "Single Enemy",
    "effect": "Status Ailment",
    "price": 1500,
-   "successMessage": "Attack Halted"
+   "successMessage": "Attack halted"
  },
  {
    "id": "17",
@@ -236,7 +239,7 @@
    "target": "All Enemies",
    "effect": "Evasion Up",
    "price": 1500,
-   "successMessage": "Easy to dodge"
+   "successMessage": "Easy to hit"
  },
  {
    "id": "19",
@@ -245,7 +248,8 @@
    "accuracy": 0,
    "target": "Single Ally",
    "effect": "Restore Status",
-   "price": 4000
+   "price": 4000,
+   "successMessage": "ADD MESSAGE HERE"
  },
  {
    "id": "1A",
@@ -255,7 +259,8 @@
    "element": "Status",
    "target": "All Enemies",
    "effect": "Morale Down",
-   "price": 4000
+   "price": 4000,
+   "successMessage": "Became terrified"
  },
  {
    "id": "1B",
@@ -265,7 +270,7 @@
    "target": "All Allies",
    "effect": "Resist Element",
    "price": 4000,
-   "successMessage": "Resist cold"
+   "successMessage": "Defend cold"
  },
  {
    "id": "1C",
@@ -274,7 +279,8 @@
    "accuracy": 0,
    "target": "Single Ally",
    "effect": "Restore Status",
-   "price": 4000
+   "price": 4000,
+   "successMessage": "ADD MESSAGE HERE"
  },
  {
    "id": "1D",
@@ -293,7 +299,8 @@
    "accuracy": 0,
    "target": "Single Ally",
    "effect": "Hit Multiplier Up",
-   "price": 4000
+   "price": 4000,
+   "successMessage": "Quick shot"
  },
  {
    "id": "1F",
@@ -303,7 +310,8 @@
    "element": "Status",
    "target": "All Enemies",
    "effect": "Status Ailment",
-   "price": 4000
+   "price": 4000,
+   "successMessage": "Confused"
  },
  {
    "id": "20",
@@ -371,7 +379,8 @@
    "element": "Psn/Stn",
    "target": "All Enemies",
    "effect": "Status Ailment",
-   "price": 8000
+   "price": 8000,
+   "successMessage": "Poison Smoke"
  },
  {
    "id": "27",
@@ -389,7 +398,57 @@
    "accuracy": 64,
    "target": "Single Enemy",
    "effect": "Hit Multiplier Down",
-   "price": 8000
+   "price": 8000,
+   "successMessage": "Lost intelligence"
+ },
+ {
+   "id": "29",
+   "name": "SOFT",
+   "effectivity": "0",
+   "accuracy": 255,
+   "target": "Single Ally",
+   "effect": "None",
+   "price": 20000,
+   "successMessage": "ADD MESSAGE HERE"
+ },
+ {
+   "id": "2A",
+   "name": "EXIT",
+   "effectivity": "0",
+   "accuracy": 255,
+   "target": "All Allies",
+   "effect": "None",
+   "price": 20000
+ },
+ {
+   "id": "2B",
+   "name": "FOG2",
+   "effectivity": "12",
+   "accuracy": 0,
+   "target": "All Allies",
+   "effect": "Defense Up",
+   "price": 20000,
+   "successMessage": "Armor up"
+ },
+ {
+   "id": "2C",
+   "name": "INV2",
+   "effectivity": "40",
+   "accuracy": 0,
+   "target": "All Allies",
+   "effect": "Evasion Up",
+   "price": 20000,
+   "successMessage": "Easy to dodge"
+ },
+ {
+   "id": "2D",
+   "name": "LIT3",
+   "effectivity": "60",
+   "accuracy": 24,
+   "element": "Lightning",
+   "target": "All Enemies",
+   "effect": "Damage",
+   "price": 20000
  },
  {
    "id": "2E",
@@ -403,6 +462,76 @@
    "successMessage": "Erased"
  },
  {
+   "id": "2F",
+   "name": "QAKE",
+   "effectivity": "Death",
+   "accuracy": 40,
+   "element": "Earth",
+   "target": "All Enemies",
+   "effect": "Status Ailment",
+   "price": 20000,
+   "successMessage": "Fell into crack"
+ },
+ {
+   "id": "30",
+   "name": "STUN",
+   "effectivity": "Paralyze",
+   "accuracy": 0,
+   "element": "Status",
+   "target": "Single Enemies",
+   "effect": "300HP Status Ail",
+   "price": 20000,
+   "successMessage": "ADD MESSAGE HERE"
+ },
+ {
+   "id": "31",
+   "name": "CUR4",
+   "effectivity": "0",
+   "accuracy": 0,
+   "target": "Single Ally",
+   "effect": "Full HP/Stat Rec.",
+   "price": 45000,
+   "successMessage": "ADD MESSAGE HERE"
+ },
+ {
+   "id": "32",
+   "name": "HRM4",
+   "effectivity": "80",
+   "accuracy": 48,
+   "target": "All Enemies",
+   "effect": "Damage Undead",
+   "price": 45000
+ },
+ {
+   "id": "33",
+   "name": "ARUB",
+   "effectivity": "S/P/E",
+   "accuracy": 0,
+   "target": "All Allies",
+   "effect": "Resist Element",
+   "price": 45000,
+   "successMessage": "Defend Magic"
+ },
+ {
+   "id": "34",
+   "name": "HEL3",
+   "effectivity": "48",
+   "accuracy": 48,
+   "target": "All Allies",
+   "effect": "HP Recovery",
+   "price": 45000
+ },
+ {
+   "id": "35",
+   "name": "ICE3",
+   "effectivity": "70",
+   "accuracy": 24,
+   "element": "Ice",
+   "target": "All Enemies",
+   "effect": "Damage",
+   "price": 45000
+ },
+ {
    "id": "36",
    "name": "BRAK",
    "effectivity": "Petrify",
@@ -412,6 +541,96 @@
    "effect": "Status Ailment",
    "price": 45000,
    "successMessage": "Broken into pieces"
+ },
+ {
+   "id": "37",
+   "name": "SABR",
+   "effectivity": "16",
+   "accuracy": 0,
+   "target": "Caster",
+   "effect": "Attack/Accuracy Up",
+   "price": 45000,
+   "successMessage": "Weapons became enchanted"
+ },
+ {
+   "id": "38",
+   "name": "BLND",
+   "effectivity": "Blind",
+   "accuracy": 0,
+   "element": "Status",
+   "target": "Single Enemy",
+   "effect": "300HP Status Ail",
+   "price": 45000,
+   "successMessage": "Darkness"
+ },
+ {
+   "id": "39",
+   "name": "LIF2",
+   "effectivity": "0",
+   "accuracy": 255,
+   "target": "Single Ally",
+   "effect": "None",
+   "price": 60000
+ },
+ {
+   "id": "3A",
+   "name": "FADE",
+   "effectivity": "80",
+   "accuracy": 107,
+   "target": "All Enemies",
+   "effect": "Damage",
+   "price": 60000
+ },
+ {
+   "id": "3B",
+   "name": "WALL",
+   "effectivity": "ALL",
+   "accuracy": 0,
+   "target": "Single Ally",
+   "effect": "Resist Element",
+   "price": 60000,
+   "successMessage": "Defend all"
+ },
+ {
+   "id": "3C",
+   "name": "XFER",
+   "effectivity": "0",
+   "accuracy": 107,
+   "target": "Single Enemy",
+   "effect": "Remove Resistance",
+   "price": 60000,
+   "successMessage": "Defenseless"
+ },
+ {
+   "id": "3D",
+   "name": "NUKE",
+   "effectivity": "100",
+   "accuracy": 107,
+   "target": "All Enemies",
+   "effect": "Damage",
+   "price": 60000
+ },
+ {
+   "id": "3E",
+   "name": "STOP",
+   "effectivity": "Paralyze",
+   "accuracy": 48,
+   "element": "Time",
+   "target": "All Enemies",
+   "effect": "Status Ailment",
+   "price": 60000,
+   "successMessage": "Time Stopped"
+ },
+ {
+   "id": "3F",
+   "name": "ZAP!",
+   "effectivity": "Death",
+   "accuracy": 32,
+   "element": "Time",
+   "target": "All Enemies",
+   "effect": "Status Ailment",
+   "price": 60000,
+   "successMessage": "Exiled to the 4th dimension"
  },
  {
    "id": "40",

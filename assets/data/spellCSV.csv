@@ -4,11 +4,11 @@ id,name,effectivity,accuracy,element,target,effect,price,successMessage
 
 01,CURE,16,0,,Single Target,HP Recovery,100,HP up!
 02,HARM,20,24,,All Enemies,Damage Undead,100,
-03,FOG,8,0,,Single Ally,Defense Up,100,
-04,RUSE,80,0,,Caster,Evasion Up,100,
+03,FOG,8,0,,Single Ally,Defense Up,100,Armor up
+04,RUSE,80,0,,Caster,Evasion Up,100,Easy to dodge
 05,Fire,10,24,Fire,Single Enemy,Damage,100,
 06,SLEP,Sleep,24,Status,All Enemies,Status Ailment,100,Asleep
-07,LOCK,20,64,,Single Enemy,Evasion Down,100,
+07,LOCK,20,64,,Single Enemy,Evasion Down,100,Easy to hit
 08,LIT,10,24,Lightning,Single Enemy,Damage,100,
 
 0A,MUTE,Silence,64,Status,All Enemies,Status Ailment,400,Silenced
@@ -24,17 +24,17 @@ id,name,effectivity,accuracy,element,target,effect,price,successMessage
 13,AFIR,Fire,0,,All Allies, Resist Element,400,Defend fire
 14,HEAL,12,0,,All Allies,HP Recovery,1500,HP up!
 15,FIR2,30,24,Fire,All Enemies,Damage,1500,
-16,HOLD,Paralyze,64,Status,Single Enemy,Status Ailment,1500,Attack Halted
+16,HOLD,Paralyze,64,Status,Single Enemy,Status Ailment,1500,Attack halted
 17,LIT2,30,24,Lightning,All Enemies, Damage, 1500,
-18,LOK2,20,40,,All Enemies,Evasion Up,1500,Easy to dodge
+18,LOK2,20,40,,All Enemies,Evasion Up,1500,Easy to hit
 
-19,PURE,Poison,0,,Single Ally,Restore Status,4000,
-1A,FEAR,40,24,Status,All Enemies,Morale Down,4000,
-1B,AICE,Ice,0,,All Allies,Resist Element,4000,Resist cold
-1C,AMUT,Silence,0,,Single Ally,Restore Status,4000,
+19,PURE,Poison,0,,Single Ally,Restore Status,4000,ADD MESSAGE HERE
+1A,FEAR,40,24,Status,All Enemies,Morale Down,4000,Became terrified
+1B,AICE,Ice,0,,All Allies,Resist Element,4000,Defend cold
+1C,AMUT,Silence,0,,Single Ally,Restore Status,4000,ADD MESSAGE HERE
 1D,SLP2,Sleep,64,,Single Enemy,Status Ailment,4000,Alseep
-1E,FAST,0,0,,Single Ally,Hit Multiplier Up,4000,
-1F,CONF,Confuse,64,Status,All Enemies,Status Ailment,4000,
+1E,FAST,0,0,,Single Ally,Hit Multiplier Up,4000,Quick shot
+1F,CONF,Confuse,64,Status,All Enemies,Status Ailment,4000,Confused
 20,ICE2,40,24,Ice,All Enemies,Damage,4000,
 
 21,CUR3,66,0,,Single Ally,HP Recovery,8000,HP up!
@@ -42,13 +42,33 @@ id,name,effectivity,accuracy,element,target,effect,price,successMessage
 23,HRM3,60,24,,All Enemies,Damage Undead,8000,
 24,HEL2,48,0,,All Allies,HP Recovery,8000,HP up!
 25,FIR3,50,24,Fire,All Enemies,Damage,8000,
-26,BANE,Death,40,Psn/Stn,All Enemies,Status Ailment,8000,
+26,BANE,Death,40,Psn/Stn,All Enemies,Status Ailment,8000,Poison Smoke
 27,WARP,0,255,,All Allies,Nine,8000,
-28,SLO2,0,64,,Single Enemy,Hit Multiplier Down,8000,
+28,SLO2,0,64,,Single Enemy,Hit Multiplier Down,8000,Lost intelligence
 
-
+29,SOFT,0,255,,Single Ally,None,20000,ADD MESSAGE HERE
+2A,EXIT,0,255,,All Allies,None,20000,
+2B,FOG2,12,0,,All Allies,Defense Up,20000,Armor up
+2C,INV2,40,0,,All Allies,Evasion Up,20000,Easy to dodge
+2D,LIT3,60,24,Lightning,All Enemies,Damage,20000,
 2E,RUB,Death,24,Death,Single Enemy,Status Ailment,20000,Erased
+2F,QAKE,Death,40,Earth,All Enemies,Status Ailment,20000,Fell into crack
+30,STUN,Paralyze,0,Status,Single Enemies,300HP Status Ail,20000,ADD MESSAGE HERE
 
+31,CUR4,0,0,,Single Ally,Full HP/Stat Rec.,45000,ADD MESSAGE HERE
+32,HRM4,80,48,,All Enemies,Damage Undead,45000,
+33,ARUB,S/P/E,0,,All Allies,Resist Element,45000,Defend Magic
+34,HEL3,48,48,,All Allies,HP Recovery,45000,
+35,ICE3,70,24,Ice,All Enemies,Damage,45000,
 36,BRAK,Petrify,64,Psn/Stn,Single Enemy,Status Ailment,45000,Broken into pieces
+37,SABR,16,0,,Caster,Attack/Accuracy Up,45000,Weapons became enchanted
+38,BLND,Blind,0,Status,Single Enemy,300HP Status Ail,45000,Darkness
 
+39,LIF2,0,255,,Single Ally,None,60000,
+3A,FADE,80,107,,All Enemies,Damage,60000,
+3B,WALL,ALL,0,,Single Ally,Resist Element,60000,Defend all
+3C,XFER,0,107,,Single Enemy,Remove Resistance,60000,Defenseless
+3D,NUKE,100,107,,All Enemies,Damage,60000,
+3E,STOP,Paralyze,48,Time,All Enemies,Status Ailment,60000,Time Stopped
+3F,ZAP!,Death,32,Time,All Enemies,Status Ailment,60000,Exiled to the 4th dimension
 40,XXXX,Death,0,Death,Single Enemy,Status Ailment,60000,Erased
