@@ -67,7 +67,9 @@ class PlayState extends FlxState {
 		
 		spellManager = new SkillSpellManager();
 		attackManager = new AttackManager();
-		// skillManager
+		
+		MonsterManager.loadData();
+		MonsterManager.getMonsterByName("TYRO");
 		
 		FlxG.sound.playMusic("assets/music/Battle_Scene.ogg", 0.1);
 		

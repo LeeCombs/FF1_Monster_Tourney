@@ -12,3 +12,6 @@
 	The types, spells, skills, etc. arrays are in the format of '[0, 1, 2]' and
 	are to be converted into appropriate arrays upon loading the data 
 }
+
+TODO: Just convert the json data strings of the arrays (spells, skills, etc) into the actual array itself using something else ffs
+No more of this converting on the fly, just have the input data valid from the start.............................
