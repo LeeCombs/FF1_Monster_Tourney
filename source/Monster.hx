@@ -64,18 +64,14 @@ class Monster extends FlxSprite {
 		
 		mData = MData;
 		
-		trace("Made monster");
-		trace(mData);
-		
-		trace(Type.typeof(mData.resistances));
-		trace(mData.resistances);
-		
-		
 		loadGraphic("assets/images/Monsters/" + mData.name.toUpperCase() + ".png");
 		setFacingFlip(FlxObject.LEFT, true, false);
-		
 	}
 	
+	/**
+	 * Set up scene reference
+	 * @param	Scene
+	 */
 	public function setScene(Scene:BattleScene) {
 		scene = Scene;
 	}
@@ -101,7 +97,7 @@ class Monster extends FlxSprite {
 		
 		// TODO - run logic?
 		
-		if (mData.spells.length > 0) {
+		if (mData.spells != null && mData.spells.length > 0) {
 			if (FlxG.random.int(0, 128) <= mData.spellChance) {
 				action.actionType = Action.ActionType.Spell;
 				action.actionName = mData.spells[spellIndex++];
@@ -110,7 +106,7 @@ class Monster extends FlxSprite {
 			}
 		}
 		
-		if (mData.skills.length > 0) {
+		if (mData.skills != null && mData.skills.length > 0) {
 			if (FlxG.random.int(0, 128) <= mData.skillChance) {
 				action.actionType = Action.ActionType.Skill;
 				action.actionName = mData.skills[skillIndex++];
@@ -132,8 +128,6 @@ class Monster extends FlxSprite {
 	 */
 	public function damage(value:Int) {
 		if (value < 0) return;
-		
-		trace("Damaging monster for: " + value);
 		
 		mData.hp -= value;
 		if (mData.hp <= 0) removeSelf();
@@ -211,9 +205,8 @@ class Monster extends FlxSprite {
 				if (debuff.indexOf(debuff) != -1) return;
 		}
 		
-		// Add the buff
+		// Add the debuff
 		debuffs.push(debuff);
-		
 	}
 	
 	/**
@@ -222,7 +215,6 @@ class Monster extends FlxSprite {
 	 * @param	status
 	 */
 	public function addStatus(status:Status) {
-		trace("Adding status: " + status);
 		// Statuses do not stack, so only apply if necessary
 		if (statuses.indexOf(status) == -1) statuses.push(status);
 	}
@@ -243,8 +235,6 @@ class Monster extends FlxSprite {
 	 * @return	True: The status exists, False: The status does not exist
 	 */
 	public function checkForStatus(status:Status):Bool {
-		trace("checking for status: " + status);
-		trace(statuses.indexOf(status));
 		if (statuses.indexOf(status) != -1) return true;
 		return false;
 	}
@@ -256,6 +246,7 @@ class Monster extends FlxSprite {
 	 * @return
 	 */
 	public function isResistantTo(element:String):Bool {
+		if (mData.resistances == null || mData.resistances.length == 0) return false;
 		if (mData.resistances.indexOf(element) == -1) return false;
 		return true;
 	}
@@ -267,6 +258,7 @@ class Monster extends FlxSprite {
 	 * @return
 	 */
 	public function isWeakTo(element:String):Bool {
+		if (mData.weaknesses == null || mData.weaknesses.length == 0) return false;
 		if (mData.weaknesses.indexOf(element) == -1) return false;
 		return true;
 	}

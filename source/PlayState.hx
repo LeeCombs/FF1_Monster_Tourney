@@ -36,7 +36,7 @@ class PlayState extends FlxState {
 	private var turnText:TextBox;
 	
 	// Turn logic
-	private var timerDelay:Int = 600;
+	private var timerDelay:Int = 60;
 	private var turnCount:Int = 0;
 	private var turnSchedule:Array<Int> = [];
 	
@@ -94,11 +94,13 @@ class PlayState extends FlxState {
 		add(resultTextBox);
 		
 		// Add monsters
-		var mon1 = MonsterManager.getMonsterByName("EYE");
-		mon1.setScene(playerOneScene);
-		playerOneScene.addMonster(mon1, 0);
+		for (i in 0...4) {
+			var mon1 = MonsterManager.getMonsterByName("TYRO");
+			mon1.setScene(playerOneScene);
+			playerOneScene.addMonster(mon1, i);
+		}
 		
-		var mon2 = MonsterManager.getMonsterByName("TYRO");
+		var mon2 = MonsterManager.getMonsterByName("EYE");
 		mon2.setScene(playerTwoScene);
 		playerTwoScene.addMonster(mon2, 0, true);
 	}
@@ -172,6 +174,11 @@ class PlayState extends FlxState {
 		}
 	}
 	
+	/**
+	 * Retrieve the acting Monster for the current turn
+	 * 
+	 * @return
+	 */
 	private function getCurrentActor():Monster {
 		trace("getCurrentActor");
 		
@@ -195,7 +202,6 @@ class PlayState extends FlxState {
 		if (monstersArray[slotNum] == null) return null;
 		trace("getCurrentActor: " + monstersArray[slotNum]);
 		
-		
 		return(monstersArray[slotNum]);
 	}
 	
@@ -207,18 +213,14 @@ class PlayState extends FlxState {
 	private function getCurrentAction(monster:Monster):Action {
 		trace("getCurrentAction: " + monster.mData.name);
 		
-		// Get the monster's action, display it, and build targetQueue
+		// Get the monster's action and build targetQueue
 		var action:Action = monster.getAction();
-		// actionTextBox.displayText(action.actionName);
-		trace("action: " + action.actionName);
 		switch(action.actionType) {
 			case ActionType.Attack:
 				// Grab a single, random target from the target scene
 				targetQueue.push(getMonsterTarget(targetScene.getMonsters()));
 			case ActionType.Spell, ActionType.Skill:
 				var skillSpell:SkillSpell = spellManager.getSkillSpellByName(action.actionName);
-				trace("Retrieved skillSpell: " + skillSpell.name);
-				
 				if (skillSpell == null) {
 					trace("Invalid spell retrieved: " + skillSpell);
 					return null;
@@ -255,6 +257,7 @@ class PlayState extends FlxState {
 	}
 	
 	/**
+	 * Display the next message queued, if any, and build the stack
 	 * 
 	 * @return	False: No more messages, True: Message was applied
 	 */
@@ -376,7 +379,6 @@ class PlayState extends FlxState {
 				}
 				
 				if (doneResults) {
-					
 					if (textBoxStack.length > 2) {
 						textBoxStack.pop().clearText();
 						timerDelay = 5;
