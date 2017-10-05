@@ -16,7 +16,14 @@ class BattleSceneTest extends TestCase {
 	override public function setup() {
 		x = 1;
 		y = 2;
+		
+		MonsterManager.loadData();
+		
 		scene = new BattleScene(x, y);
+		monsterA = MonsterManager.getMonsterByName("TYRO");
+		monsterB = MonsterManager.getMonsterByName("TYRO");
+		monsterC = MonsterManager.getMonsterByName("TYRO");
+		monsterD = MonsterManager.getMonsterByName("TYRO");
 		monsters = [monsterA, monsterB, monsterC, monsterD];
 	}
 	
@@ -56,7 +63,9 @@ class BattleSceneTest extends TestCase {
 	}
 	
 	public function testOutOfBounds() {
-		for (i in [-1, 5]) {
+		for (i in [ -1, 5]) {
+			var mon:Monster = MonsterManager.getMonsterByName("EYE");
+			assertFalse(scene.addMonster(mon, i));
 			assertFalse(scene.removeMonsterByIndex(i));
 			assertEquals(scene.getMonster(i), null);
 		}

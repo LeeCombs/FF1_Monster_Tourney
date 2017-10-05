@@ -53,14 +53,21 @@ class Monster extends FlxSprite {
 	
 	// In-battle effects
 	private var statuses:Array<Status> = [];
-	private var buffs:Array<String> = [];
-	private var debuffs:Array<String> = [];
+	private var buffs:Array<Buff> = [];
+	private var debuffs:Array<Debuff> = [];
 	
 	// TEMP - lazy
 	private var scene:BattleScene;
 	
+	/**
+	 * Constructor
+	 * 
+	 * @param	MData	json-formatted data
+	 */
 	public function new(MData:Dynamic) {
 		super();
+		
+		if (MData == null) throw "Invalid MData supplied to Monster!";
 		
 		// Make a personal copy of the monster data
 		mData = Reflect.copy(MData);
@@ -71,6 +78,7 @@ class Monster extends FlxSprite {
 	
 	/**
 	 * Set up scene reference
+	 * 
 	 * @param	Scene
 	 */
 	public function setScene(Scene:BattleScene) {
@@ -79,6 +87,7 @@ class Monster extends FlxSprite {
 	
 	/**
 	 * Return the monster's next action
+	 * 
 	 * @return
 	 */
 	public function getAction():Action {
@@ -122,6 +131,10 @@ class Monster extends FlxSprite {
 		return action;
 	}
 	
+	/////////////////
+	// HP Handlers //
+	/////////////////
+	
 	/**
 	 * Damage monster a given value, killing it if hp drops to or below 0
 	 * 
@@ -154,6 +167,10 @@ class Monster extends FlxSprite {
 		statuses = [];
 	}
 	
+	/////////////////////
+	// Buffs & Debuffs //
+	/////////////////////
+	
 	/**
 	 * Add a buff to the monster
 	 * 
@@ -174,15 +191,24 @@ class Monster extends FlxSprite {
 		* 
 		* WALL - Resist element
 		*/
+		if (buff == null || buff == "") {
+			trace("Invalid buff supplied: " + buff);
+			return;
+		}
+		
+		// Convert the input string to enum value
+		var buffEnum:Buff = Type.createEnum(Buff, buff);
 		
 		// Check for buffs that DO NOT stack
-		switch(buff.toUpperCase()) {
-			case "FAST", "WALL":
-				if (buffs.indexOf(buff) != -1) return;
+		switch(buffEnum) {
+			case FAST, WALL:
+				if (checkForBuff(buffEnum)) return;
+			default:
+				// Stop the compiler from complaining
 		}
 		
 		// Add the buff
-		buffs.push(buff);
+		buffs.push(buffEnum);
 	}
 	
 	/**
@@ -199,16 +225,56 @@ class Monster extends FlxSprite {
 		* SLO2 - Reduce attack # to 1, or counters FAST
 		* XFER - Remove Resistance
 		*/
+		if (debuff == null || debuff == "") {
+			trace("Invalid debuff supplied: " + debuff);
+			return;
+		}
+		
+		// Convert the string to an enum value
+		var debuffEnum:Debuff = Type.createEnum(Debuff, debuff);
 		
 		// Check for debuffs that DO NOT stack
-		switch(debuff.toUpperCase()) {
-			case "SLOW", "SLO2", "XFER":
-				if (debuff.indexOf(debuff) != -1) return;
+		switch(debuffEnum) {
+			case SLOW, SLO2, XFER:
+				if (checkForDebuff(debuffEnum)) return;
+			default:
+				// Stop the compiler from complaining
 		}
 		
 		// Add the debuff
-		debuffs.push(debuff);
+		// TEMP: Adding both SLOWs at the same time for the time being, as they do the same thing
+		if (debuffEnum == SLOW || debuffEnum == SLO2) {
+			debuffs.push(SLOW);
+			debuffs.push(SLO2);
+		}
+		else debuffs.push(debuffEnum);
 	}
+	
+	/**
+	 * Check for the presence of a buff
+	 * 
+	 * @param	buff
+	 * @return	True: The buff exists, False: Buff not found
+	 */
+	public function checkForBuff(buff:Buff):Bool {
+		if (buffs.indexOf(buff) != -1) return true;
+		return false;
+	}
+	
+	/**
+	 * Check for the presence of a debuff
+	 * 
+	 * @param	debuff
+	 * @return	True: The debuff exists, False: Debuff not found
+	 */
+	public function checkForDebuff(debuff:Debuff):Bool {
+		if (debuffs.indexOf(debuff) != -1) return true;
+		return false;
+	}
+	
+	//////////////
+	// Statuses //
+	//////////////
 	
 	/**
 	 * Add a status to the monster
@@ -240,6 +306,10 @@ class Monster extends FlxSprite {
 		return false;
 	}
 	
+	///////////////////
+	// Miscellaneous //
+	///////////////////
+	
 	/**
 	 * Check if the monster is resistant to a given element
 	 * 
@@ -269,5 +339,12 @@ class Monster extends FlxSprite {
 	 */
 	public function removeSelf() {
 		scene.removeMonster(this);
+	}
+	
+	/**
+	 * Object clean up
+	 */
+	override public function destroy() {
+		super.destroy();
 	}
 }
