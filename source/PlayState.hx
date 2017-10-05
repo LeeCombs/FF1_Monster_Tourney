@@ -34,33 +34,25 @@ class PlayState extends FlxState {
 	private var valueTextBox:TextBox;	// Mid right
 	private var resultTextBox:TextBox;	// Bottom box
 	private var turnText:TextBox;
+	private var messageQueue:Array<Array<Dynamic>> = [];
+	private var textBoxStack:Array<Dynamic> = [];
 	
 	// Turn logic
 	private var timerDelay:Int = 60;
 	private var turnCount:Int = 0;
 	private var turnSchedule:Array<Int> = [];
-	
 	private var activeScene:BattleScene;
 	private var targetScene:BattleScene;
-	private var currentActor:Monster;
-	private var currentAction:Action;
-	private var currentTarget:Monster;
+	private var actingMonster:Monster;
+	private var targetMonster:Monster;
+	private var activeAction:Action;
 	private var currentResult:ActionResult;
 	private var targetQueue:Array<Monster> = [];
 	private var resultQueue:Array<ActionResult> = [];
-	
-	// TESTING
 	private var doneTurn:Bool = false;
 	private var doneSetup:Bool = false;
 	private var doneApplyAction:Bool = false;
 	private var doneResults:Bool = false;
-	
-	private var messageQueue:Array<Array<Dynamic>> = [];
-	private var textBoxStack:Array<Dynamic> = [];
-	
-	private var actingMonster:Monster;
-	private var targetMonster:Monster;
-	private var activeAction:Action;
 	
 	override public function create():Void {
 		super.create();
@@ -144,7 +136,7 @@ class PlayState extends FlxState {
 	}
 	
 	/**
-	 * Determine what slow the monster will target
+	 * Determine which slot the monster will target
 	 * 
 	 * @param	teamSlots
 	 * @return
@@ -278,42 +270,38 @@ class PlayState extends FlxState {
 	}
 	
 	/**
+	 * Handle the text output for a given result, and monster termination
 	 * 
 	 * @param	result
 	 * @param	monster
 	 */
 	private function handleResult(result:ActionResult, monster:Monster, ?Physical:Bool = false) {
-		if (result.hits > 1) {
-			messageQueue.push([actionTextBox, Std.string(result.hits) + "Hits!"]);
+		if (Physical) {
+			if (result.hits > 1) {
+				messageQueue.push([actionTextBox, Std.string(result.hits) + " Hits!"]);
+			}
 		}
+		
+		// Damage output, or missed!
 		if (result.damage > 0) {
-			messageQueue.push([valueTextBox, Std.string(result.damage) + "DMG"]);
+			messageQueue.push([valueTextBox, Std.string(result.damage) + " DMG"]);
 		}
 		else {
 			if (Physical) messageQueue.push([valueTextBox, "Missed!"]);
 		}
+		
+		// Display the result message if it exists
 		if (result.message != "") {
 			messageQueue.push([resultTextBox, result.message]);
 		}
+		
+		// Check for monster termination
 		if (monster.checkForStatus(Status.Petrified) || monster.checkForStatus(Status.Death) || monster.mData.hp < 0) {
 			messageQueue.push([resultTextBox, "Terminated"]);
 			monster.removeSelf();
 		}
 	}
 	
-	private function handleSkillSpellResult(result:ActionResult, monster:Monster) {
-		if (result.damage > 0) {
-			messageQueue.push([valueTextBox, Std.string(result.damage) + "DMG"]);
-		}
-		if (result.message != "") {
-			messageQueue.push([resultTextBox, result.message]);
-		}
-		
-		if (monster.checkForStatus(Status.Petrified) || monster.checkForStatus(Status.Death) || monster.mData.hp < 0) {
-			messageQueue.push([resultTextBox, "Terminated"]);
-			monster.removeSelf();
-		}
-	}
 	/**
 	 * Game logic
 	 * 
@@ -328,6 +316,7 @@ class PlayState extends FlxState {
 			timerDelay = 20;
 			
 			if (doneTurn) {
+				// If there's a text box stack, remove top-down, completing the turn once all messages are gone
 				if (textBoxStack.length > 0) {
 					textBoxStack.pop().clearText();
 					timerDelay = 5;
@@ -395,6 +384,7 @@ class PlayState extends FlxState {
 				textBoxStack.push(targetTextBox);
 				targetTextBox.displayText(targetMonster.mData.name);
 				
+				// Deal the action to the target, and handle the results
 				FlxSpriteUtil.flicker(targetMonster, 0.25, 0.025);
 				switch(activeAction.actionType) {
 					case ActionType.Attack:
@@ -405,7 +395,7 @@ class PlayState extends FlxState {
 						FlxG.sound.play("assets/sounds/Spell_Hit.ogg");
 						var spell:SkillSpell = spellManager.getSkillSpellByName(activeAction.actionName);
 						currentResult = spellManager.castSpell(spell, targetMonster);
-						handleSkillSpellResult(currentResult, targetMonster);
+						handleResult(currentResult, targetMonster);
 					default:
 						trace("Invalid actionType: " + activeAction.actionType);
 						return;
