@@ -17,10 +17,6 @@ class BattleSceneTest extends TestCase {
 		x = 1;
 		y = 2;
 		scene = new BattleScene(x, y);
-		monsterA = new Monster(0, 0, "TYRO");
-		monsterB = new Monster(0, 0, "TYRO");
-		monsterC = new Monster(0, 0, "TYRO");
-		monsterD = new Monster(0, 0, "TYRO");
 		monsters = [monsterA, monsterB, monsterC, monsterD];
 	}
 	
@@ -61,7 +57,6 @@ class BattleSceneTest extends TestCase {
 	
 	public function testOutOfBounds() {
 		for (i in [-1, 5]) {
-			assertFalse(scene.addMonster(new Monster(0, 0, "TYRO", scene), i));
 			assertFalse(scene.removeMonsterByIndex(i));
 			assertEquals(scene.getMonster(i), null);
 		}

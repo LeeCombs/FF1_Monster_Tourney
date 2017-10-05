@@ -66,7 +66,7 @@ class SkillSpellManager {
 				return successfulResult;
 			case "Damage Undead":
 				// HARM, HRM2, HRM3, HRM4
-				if (target.type == "Undead") {
+				if (target.mData.types.indexOf("Undead") != -1) {
 					successfulResult.damage = damageSkillSpell(skillSpell, target);
 					return successfulResult;
 				}
@@ -155,19 +155,19 @@ class SkillSpellManager {
 		// and is not resistant to the element, otherwise is always misses
 		switch(skillSpell.name.toUpperCase()) {
 			case "STUN":
-				if (target.hp <= 300 && !target.isResistantTo(skillSpell.element)) {
+				if (target.mData.hp <= 300 && !target.isResistantTo(skillSpell.element)) {
 					target.addStatus(Monster.Status.Paralyzed);
 					return true;
 				}
 				return false;
 			case "BLND":
-				if (target.hp <= 300 && !target.isResistantTo(skillSpell.element)) {
+				if (target.mData.hp <= 300 && !target.isResistantTo(skillSpell.element)) {
 					target.addStatus(Monster.Status.Blind);
 					return true;
 				}
 				return false;
 			case "XXXX":
-				if (target.hp <= 300 && !target.isResistantTo(skillSpell.element)) {
+				if (target.mData.hp <= 300 && !target.isResistantTo(skillSpell.element)) {
 					target.addStatus(Monster.Status.Death);
 					return true;
 				}
@@ -297,7 +297,7 @@ class SkillSpellManager {
 		if (target.isWeakTo(skillSpell.element)) BC += 40;
 		
 		// Chance to Hit
-		var chanceToHit = BC + skillSpell.accuracy - target.mdef;
+		var chanceToHit = BC + skillSpell.accuracy - target.mData.magicDefense;
 		if (chanceToHit < 0) chanceToHit = 0;
 		
 		// 0 always hits, 200 always misses

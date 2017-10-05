@@ -20,8 +20,7 @@ class MonsterManager {
 		trace("getMonsterByName: " + monsterName);
 		for (mData in monsterData) {
 			if (mData.name == monsterName) {
-				trace(mData);
-				return new Monster(0, 0, monsterName);
+				return new Monster(mData);
 			}
 		}
 		return null;

@@ -17,36 +17,41 @@ enum Debuff {
 	LOCK; LOK2; FEAR; SLOW; SLO2; XFER;
 }
 
+typedef MonsterData = {
+	var id:String;
+	var name:String;
+	var hp:Int;
+	var attack:Int;
+	var accuracy:Int;
+	var hits:Int;
+	var critRate:Int;
+	var defense:Int;
+	var evasion:Int;
+	var magicDefense:Int;
+	var morale:Int;
+	var statusAttack:String;
+	var element:String;
+	var types:Array<String>;
+	var weaknesses:Array<String>;
+	var resistances:Array<String>;
+	var spells:Array<String>;
+	var spellChance:Int;
+	var skills:Array<String>;
+	var skillChance:Int;
+	var gold:Int;
+	var exp:Int;
+}
+
 class Monster extends FlxSprite {
-	public var monsterName:String;
+	// Stats
+	public var mData:MonsterData;
+	private var hpMax:Int = 0;
 	
-	public var hp:Int = 0;
-	public var hpMax:Int = 0;
-	
-	public var atk:Int = 0;	 // Attack
-	public var acc:Int = 0;	 // Accuracy
-	public var hits:Int = 0; // # of hits
-	public var crt:Int = 0;  // Critical Rate
-	public var def:Int = 0;  // Defense
-	public var eva:Int = 0;  // Evasion
-	public var mdef:Int = 0; // Magic Defense
-	public var mor:Int = 0;  // Morale
-	
-	public var satk:String = ""; // Status Attack
-	public var elem:String = ""; // Status Attack Element
-	
-	public var type:String = ""; // Enemy Family
-	public var weak:Array<String> = []; // Weaknesses
-	public var resi:Array<String> = []; // Resistances
-	
-	private var spell:Array<String> = new Array<String>();
-	private var spellChance:Int = 0;
+	// Trackers for skill and spell use
+	private var skillIndex:Int = 0;
 	private var spellIndex:Int = 0;
 	
-	private var skill:Array<String> = new Array<String>();
-	private var skillChance:Int = 0;
-	private var skillIndex:Int = 0;
-	
+	// In-battle effects
 	private var statuses:Array<Status> = [];
 	private var buffs:Array<String> = [];
 	private var debuffs:Array<String> = [];
@@ -54,45 +59,25 @@ class Monster extends FlxSprite {
 	// TEMP - lazy
 	private var scene:BattleScene;
 	
-	public function new(?X:Float=0, ?Y:Float=0, ?Name:String, ?Scene:BattleScene) {
-		super(X, Y);
+	public function new(MData:Dynamic) {
+		super();
 		
-		scene = Scene;
+		mData = MData;
 		
-		monsterName = Name.toUpperCase();
+		trace("Made monster");
+		trace(mData);
 		
-		loadGraphic("assets/images/Monsters/" + monsterName + ".png");
+		trace(Type.typeof(mData.resistances));
+		trace(mData.resistances);
+		
+		
+		loadGraphic("assets/images/Monsters/" + mData.name.toUpperCase() + ".png");
 		setFacingFlip(FlxObject.LEFT, true, false);
 		
-		switch monsterName {
-			case "TYRO":
-				setStats(480, 65, 133, 1, 1, 10, 60, 200, 144);
-				type = "Dragon";
-			case "EYE":
-				setStats(162, 30, 42, 1, 1, 30, 12, 92, 200);
-				type = "Mage";
-				resi = ["Earth"];
-				spell = ["XXXX", "BRAK", "RUB", "LIT2", "HOLD", "MUTE", "SLOW", "SLEP"];
-				spellChance = 80;
-				skill = ["GLANCE", "SQUINT", "GAZE", "STARE"];
-				skillChance = 80;
-			case "AGAMA":
-				setStats(296, 31, 74, 2, 1, 18, 36, 143, 200);
-				type = "Dragon";
-				weak = ["Ice"];
-				resi = ["Fire"];
-				skill = ["HEAT", "HEAT", "HEAT", "HEAT"];
-				skillChance = 32;
-			case "WARMECH":
-				setStats(1000, 128, 200, 2, 1, 80, 96, 200, 200);
-				type = "Regenerative";
-				resi = ["Status", "Psn/Stn", "Death", "Fire", "Ice", "Lightning", "Earth"];
-				// TEMP - below should be skills
-				spell = ["NUCLEAR", "NUCLEAR", "NUCLEAR", "NUCLEAR"];
-				spellChance = 32;
-			default:
-				return;
-		}
+	}
+	
+	public function setScene(Scene:BattleScene) {
+		scene = Scene;
 	}
 	
 	/**
@@ -116,20 +101,20 @@ class Monster extends FlxSprite {
 		
 		// TODO - run logic?
 		
-		if (spell.length > 0) {
-			if (FlxG.random.int(0, 128) <= spellChance) {
+		if (mData.spells.length > 0) {
+			if (FlxG.random.int(0, 128) <= mData.spellChance) {
 				action.actionType = Action.ActionType.Spell;
-				action.actionName = spell[spellIndex++];
-				if (spellIndex >= spell.length) spellIndex = 0;
+				action.actionName = mData.spells[spellIndex++];
+				if (spellIndex >= mData.spells.length) spellIndex = 0;
 				return action;
 			}
 		}
 		
-		if (skill.length > 0) {
-			if (FlxG.random.int(0, 128) <= skillChance) {
+		if (mData.skills.length > 0) {
+			if (FlxG.random.int(0, 128) <= mData.skillChance) {
 				action.actionType = Action.ActionType.Skill;
-				action.actionName = skill[skillIndex++];
-				if (skillIndex >= skill.length) skillIndex = 0;
+				action.actionName = mData.skills[skillIndex++];
+				if (skillIndex >= mData.skills.length) skillIndex = 0;
 				return action;
 			}
 		}
@@ -150,8 +135,8 @@ class Monster extends FlxSprite {
 		
 		trace("Damaging monster for: " + value);
 		
-		hp -= value;
-		if (hp <= 0) removeSelf();
+		mData.hp -= value;
+		if (mData.hp <= 0) removeSelf();
 	}
 	
 	/**
@@ -162,15 +147,15 @@ class Monster extends FlxSprite {
 	public function heal(value:Int) {
 		if (value < 0) return;
 		
-		hp += value;
-		if (hp > hpMax) hp = hpMax;
+		mData.hp += value;
+		if (mData.hp > hpMax) mData.hp = hpMax;
 	}
 	
 	/**
 	 * Set hp to max and remove bad statuses
 	 */
 	public function fullHeal() {
-		hp = hpMax;
+		mData.hp = hpMax;
 		statuses = [];
 	}
 	
@@ -219,6 +204,16 @@ class Monster extends FlxSprite {
 		* SLO2 - Reduce attack # to 1, or counters FAST
 		* XFER - Remove Resistance
 		*/
+		
+		// Check for debuffs that DO NOT stack
+		switch(debuff.toUpperCase()) {
+			case "SLOW", "SLO2", "XFER":
+				if (debuff.indexOf(debuff) != -1) return;
+		}
+		
+		// Add the buff
+		debuffs.push(debuff);
+		
 	}
 	
 	/**
@@ -261,7 +256,7 @@ class Monster extends FlxSprite {
 	 * @return
 	 */
 	public function isResistantTo(element:String):Bool {
-		if (resi.indexOf(element) == -1) return false;
+		if (mData.resistances.indexOf(element) == -1) return false;
 		return true;
 	}
 	
@@ -272,24 +267,14 @@ class Monster extends FlxSprite {
 	 * @return
 	 */
 	public function isWeakTo(element:String):Bool {
-		if (weak.indexOf(element) == -1) return false;
+		if (mData.weaknesses.indexOf(element) == -1) return false;
 		return true;
 	}
 	
+	/**
+	 * Make the scene remove this monster
+	 */
 	public function removeSelf() {
 		scene.removeMonster(this);
-	}
-	
-	private function setStats(HP:Int, ATK:Int, ACC:Int, HITS:Int, CRT:Int, DEF:Int, EVA:Int, MDEF:Int, MOR:Int) {
-		hp = HP;
-		hpMax = hp;
-		atk = ATK;
-		acc = ACC;
-		hits = HITS;
-		crt = CRT;
-		def = DEF;
-		eva = EVA;
-		mdef = MDEF;
-		mor = MOR;
 	}
 }

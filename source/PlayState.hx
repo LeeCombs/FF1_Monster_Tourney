@@ -36,7 +36,7 @@ class PlayState extends FlxState {
 	private var turnText:TextBox;
 	
 	// Turn logic
-	private var timerDelay:Int = 60;
+	private var timerDelay:Int = 600;
 	private var turnCount:Int = 0;
 	private var turnSchedule:Array<Int> = [];
 	
@@ -65,13 +65,12 @@ class PlayState extends FlxState {
 	override public function create():Void {
 		super.create();
 		
+		FlxG.sound.playMusic("assets/music/Battle_Scene.ogg", 0.1);
+		
+		// Set up managers
 		spellManager = new SkillSpellManager();
 		attackManager = new AttackManager();
-		
 		MonsterManager.loadData();
-		MonsterManager.getMonsterByName("TYRO");
-		
-		FlxG.sound.playMusic("assets/music/Battle_Scene.ogg", 0.1);
 		
 		// Battle Scenes
 		playerOneScene = new BattleScene(25, 50);
@@ -95,26 +94,13 @@ class PlayState extends FlxState {
 		add(resultTextBox);
 		
 		// Add monsters
-		var mdata = Assets.getText("assets/data/monsterData.json");
-		var monsterData = [];
-		monsterData = Json.parse(mdata);
+		var mon1 = MonsterManager.getMonsterByName("EYE");
+		mon1.setScene(playerOneScene);
+		playerOneScene.addMonster(mon1, 0);
 		
-		var index = 0;
-		var mStrArr:Array<String> = ["WarMECH", "AGAMA", "AGAMA", "AGAMA"];
-		for (mStr in mStrArr) {
-			for (monster in monsterData) {
-				if (mStr == monster.name) {
-					playerOneScene.addMonster(new Monster(0, 0, mStr, playerOneScene), index++);
-					break;
-				}
-			}
-			trace("invalid monster: " + mStr);
-		}
-		
-		playerTwoScene.addMonster(new Monster(0, 0, "EYE", playerTwoScene), 0, true);
-		playerTwoScene.addMonster(new Monster(0, 0, "EYE", playerTwoScene), 1, true);
-		playerTwoScene.addMonster(new Monster(0, 0, "EYE", playerTwoScene), 2, true);
-		playerTwoScene.addMonster(new Monster(0, 0, "EYE", playerTwoScene), 3, true);
+		var mon2 = MonsterManager.getMonsterByName("TYRO");
+		mon2.setScene(playerTwoScene);
+		playerTwoScene.addMonster(mon2, 0, true);
 	}
 	
 	/**
@@ -219,7 +205,7 @@ class PlayState extends FlxState {
 	 * @return
 	 */
 	private function getCurrentAction(monster:Monster):Action {
-		trace("getCurrentAction: " + monster.monsterName);
+		trace("getCurrentAction: " + monster.mData.name);
 		
 		// Get the monster's action, display it, and build targetQueue
 		var action:Action = monster.getAction();
@@ -303,7 +289,7 @@ class PlayState extends FlxState {
 		if (result.message != "") {
 			messageQueue.push([resultTextBox, result.message]);
 		}
-		if (monster.checkForStatus(Status.Petrified) || monster.checkForStatus(Status.Death) || monster.hp < 0) {
+		if (monster.checkForStatus(Status.Petrified) || monster.checkForStatus(Status.Death) || monster.mData.hp < 0) {
 			messageQueue.push([resultTextBox, "Terminated"]);
 			monster.removeSelf();
 		}
@@ -317,7 +303,7 @@ class PlayState extends FlxState {
 			messageQueue.push([resultTextBox, result.message]);
 		}
 		
-		if (monster.checkForStatus(Status.Petrified) || monster.checkForStatus(Status.Death) || monster.hp < 0) {
+		if (monster.checkForStatus(Status.Petrified) || monster.checkForStatus(Status.Death) || monster.mData.hp < 0) {
 			messageQueue.push([resultTextBox, "Terminated"]);
 			monster.removeSelf();
 		}
@@ -367,7 +353,7 @@ class PlayState extends FlxState {
 			// Setup the turn by getting the actor and it's action
 			if (!doneSetup) {
 				do (actingMonster = getCurrentActor()) while (actingMonster == null);
-				messageQueue.push([actorTextBox, actingMonster.monsterName]);
+				messageQueue.push([actorTextBox, actingMonster.mData.name]);
 				
 				// Spells and Skills show their name on setup, physical attacks dont
 				activeAction = getCurrentAction(actingMonster);
@@ -404,7 +390,7 @@ class PlayState extends FlxState {
 				
 				// Ignore the queue and display the target immediately
 				textBoxStack.push(targetTextBox);
-				targetTextBox.displayText(targetMonster.monsterName);
+				targetTextBox.displayText(targetMonster.mData.name);
 				
 				FlxSpriteUtil.flicker(targetMonster, 0.25, 0.025);
 				switch(activeAction.actionType) {

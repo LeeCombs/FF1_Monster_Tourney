@@ -19,7 +19,7 @@ class AttackManager {
 	
 	public function attack(attacker:Monster, target:Monster):ActionResult {
 		
-		var hits = attacker.hits;
+		var hits = attacker.mData.hits;
 		// Check for FAST buff and SLOW debuff
 		// if (attacker.hasBuff("FAST")) hits++;
 		// if (attacker.hasDebuff("SLOW")) hits--;
@@ -33,7 +33,7 @@ class AttackManager {
 		var damageSum:Int = 0;
 		var totalHits:Int = 0;
 		var critFlag:Bool = false;
-		for (i in 0...attacker.hits) {
+		for (i in 0...attacker.mData.hits) {
 			// Get damage for successful hits
 			var crit = checkForCritical(attacker);
 			if (crit) critFlag = true;
@@ -54,11 +54,11 @@ class AttackManager {
 	
 	
 	private function getDamage(attacker:Monster, target:Monster, crit:Bool):Int {
-		var atk = attacker.atk;
+		var atk = attacker.mData.attack;
 		
 		// If target is weak to an Elemental or Enemy-Type attribute of weap, add +4 to A
 		// NES Bug ignores this addition
-		if (!useOriginalFormula && target.isWeakTo(attacker.elem)) atk += 4;
+		if (!useOriginalFormula && target.isWeakTo(attacker.mData.element)) atk += 4;
 		
 		// If target is asleep or paralyzed, A = A*5/4
 		if (target.checkForStatus(Status.Asleep) || target.checkForStatus(Status.Paralyzed)) {
@@ -69,7 +69,7 @@ class AttackManager {
 		// Critical Damage = (A...2A) + (A...2A - D)
 		// Both (A...2A) is same value
 		var damageRoll:Int = FlxG.random.int(atk, atk * 2);
-		var damage:Int = damageRoll - target.def;
+		var damage:Int = damageRoll - target.mData.defense;
 		if (crit) damage += damageRoll;
 		// if (checkForCritical(attacker)) damage += damageRoll;
 		
@@ -86,7 +86,7 @@ class AttackManager {
 		
 		// If target is weak to the attack, BC += 40
 		// NES bug ignores this addition
-		if (!useOriginalFormula && target.isWeakTo(attacker.elem)) {
+		if (!useOriginalFormula && target.isWeakTo(attacker.mData.element)) {
 			BC += 40;
 		}
 		
@@ -105,17 +105,17 @@ class AttackManager {
 				chanceToHit = BC;
 			}
 			else {
-				var totalHit = BC + attacker.acc;
+				var totalHit = BC + attacker.mData.accuracy;
 				if (totalHit > 255) totalHit = 255;
-				chanceToHit = totalHit - target.eva;
+				chanceToHit = totalHit - target.mData.evasion;
 			}
 		}
 		else {
 			// Use fixed formula
-			chanceToHit = BC + attacker.acc;
+			chanceToHit = BC + attacker.mData.accuracy;
 			// Subtract evasion if the target is neither asleep nor paralyzed
 			if (!target.checkForStatus(Status.Asleep) && !target.checkForStatus(Status.Paralyzed)) {
-				chanceToHit =- target.eva;
+				chanceToHit =- target.mData.evasion;
 			}
 		}
 		
@@ -131,7 +131,7 @@ class AttackManager {
 	private function checkForCritical(attacker:Monster):Bool {
 		// Critical Rate = Weapon Index Number
 		// For monsters: Critical Rate = Monster's Critial Rate
-		var critRate = attacker.crt;
+		var critRate = attacker.mData.critRate;
 		
 		var hitRoll = FlxG.random.int(0, 200);
 		if (hitRoll == 200) return false;
@@ -166,11 +166,11 @@ class AttackManager {
 			// TODO - iterate attacker's weaknesses and compare against target's resistances
 		}
 		else {
-			if (target.isResistantTo(attacker.elem)) BC = 0;
+			if (target.isResistantTo(attacker.mData.element)) BC = 0;
 		}
 		
 		// Chance to inflict
-		var chanceToHit = BC - target.mdef;
+		var chanceToHit = BC - target.mData.magicDefense;
 		var hitRoll = FlxG.random.int(0, 200);
 		if (hitRoll <= chanceToHit) return true;
 		return false;
