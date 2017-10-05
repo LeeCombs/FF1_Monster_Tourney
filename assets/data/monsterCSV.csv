@@ -1,4 +1,4 @@
-id,name,stats/hp,stats/attack,stats/accuracy,stats/hits,stats/critical,stats/defense,stats/evasion,stats/magicDefense,stats/morale,statusAttack,element,type,weaknesses,resistances,spellChance,spells,skillChance,skills,gold,exp
+id,name,hp,attack,accuracy,hits,critical,defense,evasion,magicDefense,morale,statusAttack,element,type,weaknesses,resistances,spellChance,spells,skillChance,skills,gold,exp
 0,MONSTERNAME,0,0,0,0,0,0,0,0,0,null,null,null,null,null,0,null,0,null,0,0
 
 1,IMP,8,4,2,1,1,4,6,16,106,null,null,'[Giant]',null,null,0,null,0,null,6,6

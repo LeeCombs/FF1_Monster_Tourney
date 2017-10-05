@@ -95,14 +95,17 @@ class PlayState extends FlxState {
 		
 		// Add monsters
 		for (i in 0...4) {
-			var mon1 = MonsterManager.getMonsterByName("TYRO");
-			mon1.setScene(playerOneScene);
-			playerOneScene.addMonster(mon1, i);
+			if (i == 0) {
+				var mon1 = MonsterManager.getMonsterByName("WarMECH");
+				mon1.setScene(playerOneScene);
+				playerOneScene.addMonster(mon1, i);
+			}
+			
+			var mon2 = MonsterManager.getMonsterByName("TYRO");
+			mon2.setScene(playerTwoScene);
+			playerTwoScene.addMonster(mon2, i, true);
 		}
 		
-		var mon2 = MonsterManager.getMonsterByName("EYE");
-		mon2.setScene(playerTwoScene);
-		playerTwoScene.addMonster(mon2, 0, true);
 	}
 	
 	/**
@@ -322,9 +325,7 @@ class PlayState extends FlxState {
 		// Execute the turn logic
 		if (timerDelay > 0) timerDelay--;
 		if (timerDelay <= 0) {
-			timerDelay = 10;
-			trace("");
-			trace("Execute turn");
+			timerDelay = 20;
 			
 			if (doneTurn) {
 				if (textBoxStack.length > 0) {

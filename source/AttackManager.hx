@@ -17,8 +17,13 @@ class AttackManager {
 		//
 	}
 	
+	/**
+	 * 
+	 * @param	attacker
+	 * @param	target
+	 * @return
+	 */
 	public function attack(attacker:Monster, target:Monster):ActionResult {
-		
 		var hits = attacker.mData.hits;
 		// Check for FAST buff and SLOW debuff
 		// if (attacker.hasBuff("FAST")) hits++;
@@ -33,7 +38,7 @@ class AttackManager {
 		var damageSum:Int = 0;
 		var totalHits:Int = 0;
 		var critFlag:Bool = false;
-		for (i in 0...attacker.mData.hits) {
+		for (i in 0...hits) {
 			// Get damage for successful hits
 			var crit = checkForCritical(attacker);
 			if (crit) critFlag = true;
@@ -52,7 +57,13 @@ class AttackManager {
 		return result;
 	}
 	
-	
+	/**
+	 * 
+	 * @param	attacker
+	 * @param	target
+	 * @param	crit
+	 * @return
+	 */
 	private function getDamage(attacker:Monster, target:Monster, crit:Bool):Int {
 		var atk = attacker.mData.attack;
 		
@@ -128,6 +139,11 @@ class AttackManager {
 		return false;
 	}
 	
+	/**
+	 * 
+	 * @param	attacker
+	 * @return
+	 */
 	private function checkForCritical(attacker:Monster):Bool {
 		// Critical Rate = Weapon Index Number
 		// For monsters: Critical Rate = Monster's Critial Rate
@@ -140,6 +156,12 @@ class AttackManager {
 		return false;
 	}
 	
+	/**
+	 * 
+	 * @param	attacker
+	 * @param	target
+	 * @return
+	 */
 	public function statusAttack(attacker:Monster, target:Monster):Bool {
 		/*
 		* Making this note here for now...

@@ -62,7 +62,8 @@ class Monster extends FlxSprite {
 	public function new(MData:Dynamic) {
 		super();
 		
-		mData = MData;
+		// Make a personal copy of the monster data
+		mData = Reflect.copy(MData);
 		
 		loadGraphic("assets/images/Monsters/" + mData.name.toUpperCase() + ".png");
 		setFacingFlip(FlxObject.LEFT, true, false);
