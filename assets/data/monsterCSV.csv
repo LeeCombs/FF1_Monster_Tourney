@@ -1,94 +1,96 @@
-id,name,hp,attack,accuracy,hits,critical,defense,evasion,magicDefense,morale,statusAttack,element,type,weaknesses,resistances,spellChance,spells,skillChance,skills,gold,exp
-0,MONSTERNAME,0,0,0,0,0,0,0,0,0,null,null,null,null,null,0,null,0,null,0,0
+id,name,hp,attack,accuracy,hits,critical,defense,evasion,magicDefense,morale,statusAttack,element,type,weaknesses,resistances,spellChance,spells,skillChance,skills,gold,exp,size
+0,MONSTERNAME,0,0,0,0,0,0,0,0,0,null,null,null,null,null,0,null,0,null,0,0,small
 
-1,IMP,8,4,2,1,1,4,6,16,106,null,null,'[Giant]',null,null,0,null,0,null,6,6
-2,GrIMP,16,8,4,1,1,6,9,23,120,null,null,'[Giant]',null,null,0,null,0,null,18,18
+1,IMP,8,4,2,1,1,4,6,16,106,null,null,'[Giant]',null,null,0,null,0,null,6,6,small
+2,GrIMP,16,8,4,1,1,6,9,23,120,null,null,'[Giant]',null,null,0,null,0,null,18,18,small
 
-3,WOLF,20,8,5,1,1,0,36,28,105,null,null,null,null,null,0,null,0,null,6,24
-4,GrWOLF,72,14,18,1,1,0,54,46,108,null,null,null,null,null,0,null,0,null,22,93
-5,WrWOLF,68,14,17,1,1,6,42,45,120,Poison,Psn/Stn,'[Magical,Were,Regenerative]',null,null,0,null,0,null,67,135
-6,FrWOLF,92,25,23,1,1,0,54,55,200,null,null,null,'[Fire]','[Ice]',0,null,32,'[FROST,FROST,FROST,FROST]',200,402
+3,WOLF,20,8,5,1,1,0,36,28,105,null,null,null,null,null,0,null,0,null,6,24,small
+4,GrWOLF,72,14,18,1,1,0,54,46,108,null,null,null,null,null,0,null,0,null,22,93,small
+5,WrWOLF,68,14,17,1,1,6,42,45,120,Poison,Psn/Stn,'[Magical,Were,Regenerative]',null,null,0,null,0,null,67,135,small
+6,FrWOLF,92,25,23,1,1,0,54,55,200,null,null,null,'[Fire]','[Ice]',0,null,32,'[FROST,FROST,FROST,FROST]',200,402,small
 
-7,IGUANA,82,18,23,1,10,12,24,55,134,null,null,'[Dragon]',null,null,0,null,0,null,50,153
-8,AGAMA,296,31,74,2,1,18,36,143,200,null,null,'[Dragon]','[Ice]','[Fire]',0,null,32,'[HEAT,HEAT,HEAT,HEAT]',1200,2472
-9,SAURIA,196,30,54,1,1,20,24,91,200,null,null,'[Dragon]',null,null,0,null,64,'[GLANCE,GLANCE,GLANCE,GLANCE]',658,1977
+7,IGUANA,82,18,23,1,10,12,24,55,134,null,null,'[Dragon]',null,null,0,null,0,null,50,153,medium
+8,AGAMA,296,31,74,2,1,18,36,143,200,null,null,'[Dragon]','[Ice]','[Fire]',0,null,32,'[HEAT,HEAT,HEAT,HEAT]',1200,2472,medium
+9,SAURIA,196,30,54,1,1,20,24,91,200,null,null,'[Dragon]',null,null,0,null,64,'[GLANCE,GLANCE,GLANCE,GLANCE]',658,1977,medium
 
-10,GIANT,240,38,60,1,1,12,48,120,136,null,null,'[Giant]',null,null,0,null,0,null,879,879
-11,FrGIANT,336,60,78,1,1,16,48,150,200,null,null,'[Giant]','[Fire]','[Ice]',0,null,0,null,1752,1752
-12,R.GIANT,300,73,83,1,1,20,48,135,200,null,null,'[Giant]','[Ice]','[Fire]',0,null,0,null,1506,1506
+10,GIANT,240,38,60,1,1,12,48,120,136,null,null,'[Giant]',null,null,0,null,0,null,879,879,medium
+11,FrGIANT,336,60,78,1,1,16,48,150,200,null,null,'[Giant]','[Fire]','[Ice]',0,null,0,null,1752,1752,medium
+12,R.GIANT,300,73,83,1,1,20,48,135,200,null,null,'[Giant]','[Ice]','[Fire]',0,null,0,null,1506,1506,medium
 
-13,SAHAG,28,10,7,1,1,4,72,28,110,null,null,'[Aquatic]','[Lightning]','[Fire,Earth]',0,null,0,null,30,30
-14,R.SAHAG,64,15,16,1,1,8,78,46,142,null,null,'[Aquatic]','[Lightning]','[Fire,Earth]',0,null,0,null,105,105
-15,WzSAHAG,204,47,51,1,1,20,96,101,101,null,null,'[Aquatic]','[Lightning]','[Fire,Earth]',0,null,0,null,882,882
+13,SAHAG,28,10,7,1,1,4,72,28,110,null,null,'[Aquatic]','[Lightning]','[Fire,Earth]',0,null,0,null,30,30,small
+14,R.SAHAG,64,15,16,1,1,8,78,46,142,null,null,'[Aquatic]','[Lightning]','[Fire,Earth]',0,null,0,null,105,105,small
+15,WzSAHAG,204,47,51,1,1,20,96,101,101,null,null,'[Aquatic]','[Lightning]','[Fire,Earth]',0,null,0,null,882,882,small
 
-16,PIRATE,6,8,2,1,1,0,12,15,255,null,null,null,null,null,0,null,0,null,40,40
-17,KYZOKU,50,14,13,1,1,6,24,37,106,null,null,null,null,'[Earth]',0,null,0,null,120,6
+16,PIRATE,6,8,2,1,1,0,12,15,255,null,null,null,null,null,0,null,0,null,40,40,small
+17,KYZOKU,50,14,13,1,1,6,24,37,106,null,null,null,null,'[Earth]',0,null,0,null,120,6,small
 
-18,SHARK,120,22,30,1,1,0,72,70,121,null,null,'[Aquatic]','[Lightning]','[Fire,Earth]',0,null,0,null,66,267
-19,GrSHARK,344,50,86,1,1,8,72,170,200,null,null,'[Aquatic]','[Lightning]','[Fire,Earth]',0,null,0,null,600,2361
+18,SHARK,120,22,30,1,1,0,72,70,121,null,null,'[Aquatic]','[Lightning]','[Fire,Earth]',0,null,0,null,66,267,medium
+19,GrSHARK,344,50,86,1,1,8,72,170,200,null,null,'[Aquatic]','[Lightning]','[Fire,Earth]',0,null,0,null,600,2361,medium
 
-20,OddEYE,10,4,2,1,1,0,84,14,110,null,null,null,'[Lightning]','[Fire,Earth]',0,null,128,'[GAZE,GAZE,GAZE,GAZE]',10,42
-21,BigEYE,304,30,76,2,1,16,24,156,200,null,null,'[Aquatic]','[Lightning]','[Fire,Earth]',0,null,64,'[GAZE,FLASH,GAZE,FLASH]',3591,3591
+20,OddEYE,10,4,2,1,1,0,84,14,110,null,null,null,'[Lightning]','[Fire,Earth]',0,null,128,'[GAZE,GAZE,GAZE,GAZE]',10,42,medium
+21,BigEYE,304,30,76,2,1,16,24,156,200,null,null,'[Aquatic]','[Lightning]','[Fire,Earth]',0,null,64,'[GAZE,FLASH,GAZE,FLASH]',3591,3591,medium
 
-22,BONE,10,10,2,1,1,0,12,17,124,null,null,'[Undead]','[Fire]','[Status,Psn/Stn,Death,Ice]',0,null,0,null,3,9
-23,R.BONE,144,26,36,1,1,12,42,76,156,null,null,'[Undead]','[Fire]','[Status,Psn/Stn,Death,Ice]',0,null,0,null,378,378
+22,BONE,10,10,2,1,1,0,12,17,124,null,null,'[Undead]','[Fire]','[Status,Psn/Stn,Death,Ice]',0,null,0,null,3,9,small
+23,R.BONE,144,26,36,1,1,12,42,76,156,null,null,'[Undead]','[Fire]','[Status,Psn/Stn,Death,Ice]',0,null,0,null,378,378,small
 
-24,CREEP,56,17,14,1,1,8,24,40,104,null,null,null,'[Fire]',null,0,null,0,null,15,63
-25,CRAWL,84,1,21,8,1,8,42,51,106,Paralysis,Status,null,null,null,0,null,0,null,200,186
+24,CREEP,56,17,14,1,1,8,24,40,104,null,null,null,'[Fire]',null,0,null,0,null,15,63,small
+25,CRAWL,84,1,21,8,1,8,42,51,106,Paralysis,Status,null,null,null,0,null,0,null,200,186,small
 
-26,HYENA,120,22,30,8,1,4,48,76,122,null,null,null,null,null,0,null,0,null,72,288
-27,CEREBUS,192,30,48,1,1,8,48,103,146,null,null,null,'[Ice]','[Fire]',0,null,64,'[SCORCH,SCORCH,SCORCH,SCORCH]',600,1182
+26,HYENA,120,22,30,8,1,4,48,76,122,null,null,null,null,null,0,null,0,null,72,288,medium
+27,CEREBUS,192,30,48,1,1,8,48,103,146,null,null,null,'[Ice]','[Fire]',0,null,64,'[SCORCH,SCORCH,SCORCH,SCORCH]',600,1182,medium
 
-28,OGRE,100,18,25,1,1,10,18,65,116,null,null,'[Giant]',null,null,0,null,0,null,195,195
-29,GrOGRE,132,23,33,1,1,14,30,71,126,null,null,'[Giant]',null,null,0,null,0,null,300,282
-30,WzOGRE,144,23,36,1,1,10,54,80,134,null,null,'[Giant,Mage,Regenerative]',null,'[Earth]',64,'[RUSE,DARK,SLEP,HOLD,ICE2]',0,null,723,723
+28,OGRE,100,18,25,1,1,10,18,65,116,null,null,'[Giant]',null,null,0,null,0,null,195,195,medium
+29,GrOGRE,132,23,33,1,1,14,30,71,126,null,null,'[Giant]',null,null,0,null,0,null,300,282,medium
+30,WzOGRE,144,23,36,1,1,10,54,80,134,null,null,'[Giant,Mage,Regenerative]',null,'[Earth]',64,'[RUSE,DARK,SLEP,HOLD,ICE2]',0,null,723,723,medium
 
-31,ASP,56,6,14,1,1,6,30,46,107,Poison,Psn/Stn,'[Dragon]',null,null,0,null,0,null,50,123
-32,COBRA,80,22,20,1,31,10,36,56,110,null,null,'[Dragon]',null,null,0,null,0,null,50,165
-33,SeaSNAKE,224,35,56,1,0,12,48,116,200,null,null,'[Dragon,Aquatic]','[Lightning]','[Fire,Earth]',0,null,0,null,600,957
+31,ASP,56,6,14,1,1,6,30,46,107,Poison,Psn/Stn,'[Dragon]',null,null,0,null,0,null,50,123,small
+32,COBRA,80,22,20,1,31,10,36,56,110,null,null,'[Dragon]',null,null,0,null,0,null,50,165,small
+33,SeaSNAKE,224,35,56,1,0,12,48,116,200,null,null,'[Dragon,Aquatic]','[Lightning]','[Fire,Earth]',0,null,0,null,600,957,small
 
-34,SCORPION,84,22,21,2,1,10,54,55,112,Poison,Psn/Stn,null,null,null,0,null,0,null,70,225
-35,LOBSTER,148,35,37,3,1,18,60,85,200,Poison,Psn/Stn,'[Aquatic]','[Lightning]','[Fire,Earth]',0,null,0,null,300,639
+34,SCORPION,84,22,21,2,1,10,54,55,112,Poison,Psn/Stn,null,null,null,0,null,0,null,70,225,small
+35,LOBSTER,148,35,37,3,1,18,60,85,200,Poison,Psn/Stn,'[Aquatic]','[Lightning]','[Fire,Earth]',0,null,0,null,300,639,small
 
-36,BULL,164,22,42,2,1,4,48,95,124,null,null,null,null,null,0,null,0,null,489,489
-37,ZomBULL,224,40,56,1,1,14,36,116,136,null,null,'[Undead]','[Fire]','[Status,Psn/Stn,Death,Ice]',0,null,0,null,1050,1050
+36,BULL,164,22,42,2,1,4,48,95,124,null,null,null,null,null,0,null,0,null,489,489,medium
+37,ZomBULL,224,40,56,1,1,14,36,116,136,null,null,'[Undead]','[Fire]','[Status,Psn/Stn,Death,Ice]',0,null,0,null,1050,1050,medium
 
-38,TROLL,184,24,46,3,1,12,48,100,136,null,null,'[Regenerative]','[Fire]',null,0,null,0,null,621,621
-39,SeaTROLL,216,40,54,1,1,20,48,110,200,null,null,'[Aquatic,Regenerative]','[Lightning]','[Earth]',0,null,0,null,852,852
+38,TROLL,184,24,46,3,1,12,48,100,136,null,null,'[Regenerative]','[Fire]',null,0,null,0,null,621,621,medium
+39,SeaTROLL,216,40,54,1,1,20,48,110,200,null,null,'[Aquatic,Regenerative]','[Lightning]','[Earth]',0,null,0,null,852,852,medium
 
-40,SHADOW,50,10,13,1,1,0,36,37,124,Blind,Status,'[Magical,Undead]','[Fire]','[Status,Psn/Stn,Death,Ice,Earth]',0,null,0,null,45,90
-41,IMAGE,86,22,22,1,1,4,90,52,160,Paralyze,Status,'[Magical,Undead]','[Fire]','[Status,Psn/Stn,Death,Ice,Earth]',0,null,0,null,231,231
-42,WRAITH,114,40,29,1,1,12,108,67,160,Paralyze,Status,'[Magical,Undead]','[Fire]','[Status,Psn/Stn,Death,Ice,Earth]',0,null,0,null,432,432
-43,GHOST,180,93,45,1,1,30,36,85,184,Paralyze,Status,'[Magical,Undead]','[Fire]','[Status,Psn/Stn,Death,Ice,Earth]',0,null,0,null,990,990
+40,SHADOW,50,10,13,1,1,0,36,37,124,Blind,Status,'[Magical,Undead]','[Fire]','[Status,Psn/Stn,Death,Ice,Earth]',0,null,0,null,45,90,small
+41,IMAGE,86,22,22,1,1,4,90,52,160,Paralyze,Status,'[Magical,Undead]','[Fire]','[Status,Psn/Stn,Death,Ice,Earth]',0,null,0,null,231,231,small
+42,WRAITH,114,40,29,1,1,12,108,67,160,Paralyze,Status,'[Magical,Undead]','[Fire]','[Status,Psn/Stn,Death,Ice,Earth]',0,null,0,null,432,432,small
+43,GHOST,180,93,45,1,1,30,36,85,184,Paralyze,Status,'[Magical,Undead]','[Fire]','[Status,Psn/Stn,Death,Ice,Earth]',0,null,0,null,990,990,small
 
-44,ZOMBIE,20,10,5,1,1,0,6,25,120,null,null,'[Undead]','[Fire]','[Status,Psn/Stn,Death,Ice,Earth]',0,null,0,null,12,24
-45,GHOUL,48,8,12,3,1,6,12,36,124,Paralyze,Status,'[Undead]','[Fire]','[Status,Psn/Stn,Death,Ice]',0,null,0,null,50,93
-46,GEIST,56,8,14,3,1,10,46,40,160,Paralyze,Status,'[Undead]','[Fire]','[Status,Psn/Stn,Death,Ice]',0,null,0,null,117,117
-47,SPECTER,52,20,13,1,1,12,42,45,160,Paralyze,Status,'[Undead]','[Fire]','[Status,Psn/Stn,Death,Ice]',0,null,0,null,150,150
+44,ZOMBIE,20,10,5,1,1,0,6,25,120,null,null,'[Undead]','[Fire]','[Status,Psn/Stn,Death,Ice,Earth]',0,null,0,null,12,24,small
+45,GHOUL,48,8,12,3,1,6,12,36,124,Paralyze,Status,'[Undead]','[Fire]','[Status,Psn/Stn,Death,Ice]',0,null,0,null,50,93,small
+46,GEIST,56,8,14,3,1,10,46,40,160,Paralyze,Status,'[Undead]','[Fire]','[Status,Psn/Stn,Death,Ice]',0,null,0,null,117,117,small
+47,SPECTER,52,20,13,1,1,12,42,45,160,Paralyze,Status,'[Undead]','[Fire]','[Status,Psn/Stn,Death,Ice]',0,null,0,null,150,150,small
 
-48,WORM,448,65,112,1,10,10,36,200,200,null,null,null,null,'[Earth]',0,null,0,null,1000,4344
-49,Sand W,200,46,50,1,1,14,62,103,124,null,null,null,null,'[Earth]',0,null,64,'[CRACK,CRACK,CRACK,CRACK]',900,2638
-50,Grey W,280,50,70,1,1,31,4,143,200,null,null,null,'[Ice]','[Fire, Earth]',0,null,0,null,400,1671
+48,WORM,448,65,112,1,10,10,36,200,200,null,null,null,null,'[Earth]',0,null,0,null,1000,4344,medium
+49,Sand W,200,46,50,1,1,14,62,103,124,null,null,null,null,'[Earth]',0,null,64,'[CRACK,CRACK,CRACK,CRACK]',900,2638,medium
+50,Grey W,280,50,70,1,1,31,4,143,200,null,null,null,'[Ice]','[Fire, Earth]',0,null,0,null,400,1671,medium
 
-51,EYE,162,30,42,1,1,30,12,92,200,null,null,'[Mage]',null,'[Earth]',80,'[XXXX,BRAK,RUB,LIT2,HOLD,MUTE,SLOW,SLEP]',80,'[GLANCE,SQUINT,GAZE,STARE]',3225,3225
-52,PHANTOM,360,120,150,1,40,60,24,160,200,Paralyze,Status,'[Magical,Undead,Regenerative]','[Fire]','[Status,Psn/Stn,Death,Ice,Earth]',64,'[STOP,ZAP!,XFER,BRAK,RUB,HOLD,MUTE,SLOW]',64,'[GLARE,GLARE,GLARE,GLARE]',1,1
+51,EYE,162,30,42,1,1,30,12,92,200,null,null,'[Mage]',null,'[Earth]',80,'[XXXX,BRAK,RUB,LIT2,HOLD,MUTE,SLOW,SLEP]',80,'[GLANCE,SQUINT,GAZE,STARE]',3225,3225,medium
+52,PHANTOM,360,120,150,1,40,60,24,160,200,Paralyze,Status,'[Magical,Undead,Regenerative]','[Fire]','[Status,Psn/Stn,Death,Ice,Earth]',64,'[STOP,ZAP!,XFER,BRAK,RUB,HOLD,MUTE,SLOW]',64,'[GLARE,GLARE,GLARE,GLARE]',1,1,medium
 
-53,MEDUSA,68,20,17,1,1,10,36,55,150,Poison,Psn/Stn,null,null,null,0,null,64,'[GLANCE,GLANCE,GLANCE,GLANCE]',699,699
-54,GrMEDUSA,96,11,24,10,1,12,72,70,200,Paralyze,Status,'[Magical]',null,null,0,null,64,'[GLANCE,GLANCE,GLANCE,GLANCE]',1218,1218
+53,MEDUSA,68,20,17,1,1,10,36,55,150,Poison,Psn/Stn,null,null,null,0,null,64,'[GLANCE,GLANCE,GLANCE,GLANCE]',699,699,small
+54,GrMEDUSA,96,11,24,10,1,12,72,70,200,Paralyze,Status,'[Magical]',null,null,0,null,64,'[GLANCE,GLANCE,GLANCE,GLANCE]',1218,1218,small
 
-55,CATMAN,160,30,40,2,1,16,48,93,148,Poison,Psn/Stn,'[Magical,Were,Regenerative]',null,null,0,null,0,null,780,780
-56,MANCAT,110,20,28,3,1,30,60,62,150,null,null,'[Mage]',null,'[Status,Psn/Stn,Death,Fire,Ice,Lightning,Earth]',96,'[FIR2,SLOW,DARK,SLEP,FIRE,LIT,CURE,SLEP]',0,null,800,603
+55,CATMAN,160,30,40,2,1,16,48,93,148,Poison,Psn/Stn,'[Magical,Were,Regenerative]',null,null,0,null,0,null,780,780,small
+56,MANCAT,110,20,28,3,1,30,60,62,150,null,null,'[Mage]',null,'[Status,Psn/Stn,Death,Fire,Ice,Lightning,Earth]',96,'[FIR2,SLOW,DARK,SLEP,FIRE,LIT,CURE,SLEP]',0,null,800,603,small
 
-57,PEDE,222,39,56,1,1,20,48,116,111,Poison,Psn/Stn,null,null,null,0,null,0,null,300,1194
-58,GrPEDE,320,73,80,1,1,24,48,185,176,null,null,null,null,'[Fire,Ice]',0,null,0,null,1000,2244
+57,PEDE,222,39,56,1,1,20,48,116,111,Poison,Psn/Stn,null,null,null,0,null,0,null,300,1194,medium
+58,GrPEDE,320,73,80,1,1,24,48,185,176,null,null,null,null,'[Fire,Ice]',0,null,0,null,1000,2244,medium
 
-59,TIGER,132,22,33,2,25,8,48,85,116,null,null,null,null,null,0,null,0,null,108,438
-60,SABER T,200,24,50,2,70,8,42,106,180,null,null,null,null,null,0,null,0,null,500,843
+59,TIGER,132,22,33,2,25,8,48,85,116,null,null,null,null,null,0,null,0,null,108,438,medium
+60,SABER T,200,24,50,2,70,8,42,106,180,null,null,null,null,null,0,null,0,null,500,843,medium
 
-61,VAMPIRE,156,76,39,1,1,24,72,75,200,Paralyze,Status,'[Magical,Undead,Regenerative]','[Fire]','[Status,Psn/Stn,Death,Ice,Earth]',0,null,32,'[DAZZLE,DAZZLE,DAZZLE,DAZZLE]',2000,1200
-62,WzVAMP,300,90,42,1,1,29,72,84,200,Paralyze,Status,'[Magical,Undead,Mage,Regenerative]','[Fire]','[Status,Psn/Stn,Death,Ice,Earth]',32,'[AFIR,MUTE,ICE2,ICE2,LIT2,LIT2,FIR2,FIR2]',32,'[DAZZLE,DAZZLE,DAZZLE,DAZZLE]',3000,2385
+61,VAMPIRE,156,76,39,1,1,24,72,75,200,Paralyze,Status,'[Magical,Undead,Regenerative]','[Fire]','[Status,Psn/Stn,Death,Ice,Earth]',0,null,32,'[DAZZLE,DAZZLE,DAZZLE,DAZZLE]',2000,1200,small
+62,WzVAMP,300,90,42,1,1,29,72,84,200,Paralyze,Status,'[Magical,Undead,Mage,Regenerative]','[Fire]','[Status,Psn/Stn,Death,Ice,Earth]',32,'[AFIR,MUTE,ICE2,ICE2,LIT2,LIT2,FIR2,FIR2]',32,'[DAZZLE,DAZZLE,DAZZLE,DAZZLE]',3000,2385,small
 
 
-86,TYRO,480,65,133,1,1,10,60,200,144,null,null,'[Dragon]',null,null,0,null,0,null,502,3387
-119,WarMECH,1000,128,200,2,1,80,96,200,200,null,null,'[Regenerative]',null,'[Status,Psn/Stn,Death,Fire,Ice,Lightning,Earth]',0,null,32,'[NUCLEAR,NUCLEAR,NUCLEAR,NUCLEAR]',32000,32000
-128,CHAOS,2000,100,200,2,1,100,100,200,255,Paralyze,Status,null,null,'[Status,Psn/Stn,Time,Death,Fire,Ice,Lightning,Earth]',64,'[ICE3,LIT3,SLOW2,CUR4,FIR3,ICE2,FAST,NUKE]',64,'[CRACK,INFERNO,SWIRL,TORNADO]',0,0
+86,TYRO,480,65,133,1,1,10,60,200,144,null,null,'[Dragon]',null,null,0,null,0,null,502,3387,medium
+
+119,WarMECH,1000,128,200,2,1,80,96,200,200,null,null,'[Regenerative]',null,'[Status,Psn/Stn,Death,Fire,Ice,Lightning,Earth]',0,null,32,'[NUCLEAR,NUCLEAR,NUCLEAR,NUCLEAR]',32000,32000,medium
+
+128,CHAOS,2000,100,200,2,1,100,100,200,255,Paralyze,Status,null,null,'[Status,Psn/Stn,Time,Death,Fire,Ice,Lightning,Earth]',64,'[ICE3,LIT3,SLOW2,CUR4,FIR3,ICE2,FAST,NUKE]',64,'[CRACK,INFERNO,SWIRL,TORNADO]',0,0,large

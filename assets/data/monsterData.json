@@ -1,5 +1,30 @@
 [
  {
+   "id": 0,
+   "name": "MONSTERNAME",
+   "hp": 0,
+   "attack": 0,
+   "accuracy": 0,
+   "hits": 0,
+   "critical": 0,
+   "defense": 0,
+   "evasion": 0,
+   "magicDefense": 0,
+   "morale": 0,
+   "statusAttack": null,
+   "element": null,
+   "type": null,
+   "weaknesses": null,
+   "resistances": null,
+   "spellChance": 0,
+   "spells": null,
+   "skillChance": 0,
+   "skills": null,
+   "gold": 0,
+   "exp": 0,
+   "size": "small"
+ },
+ {
    "id": 1,
    "name": "IMP",
    "hp": 8,
@@ -21,7 +46,8 @@
    "skillChance": 0,
    "skills": null,
    "gold": 6,
-   "exp": 6
+   "exp": 6,
+   "size": "small"
  },
  {
    "id": 2,
@@ -45,7 +71,8 @@
    "skillChance": 0,
    "skills": null,
    "gold": 18,
-   "exp": 18
+   "exp": 18,
+   "size": "small"
  },
  {
    "id": 3,
@@ -69,7 +96,8 @@
    "skillChance": 0,
    "skills": null,
    "gold": 6,
-   "exp": 24
+   "exp": 24,
+   "size": "small"
  },
  {
    "id": 4,
@@ -93,7 +121,8 @@
    "skillChance": 0,
    "skills": null,
    "gold": 22,
-   "exp": 93
+   "exp": 93,
+   "size": "small"
  },
  {
    "id": 5,
@@ -117,7 +146,8 @@
    "skillChance": 0,
    "skills": null,
    "gold": 67,
-   "exp": 135
+   "exp": 135,
+   "size": "small"
  },
  {
    "id": 6,
@@ -141,7 +171,8 @@
    "skillChance": 32,
    "skills": "[FROST,FROST,FROST,FROST]",
    "gold": 200,
-   "exp": 402
+   "exp": 402,
+   "size": "small"
  },
  {
    "id": 7,
@@ -165,7 +196,8 @@
    "skillChance": 0,
    "skills": null,
    "gold": 50,
-   "exp": 153
+   "exp": 153,
+   "size": "medium"
  },
  {
    "id": 8,
@@ -189,7 +221,8 @@
    "skillChance": 32,
    "skills": "[HEAT,HEAT,HEAT,HEAT]",
    "gold": 1200,
-   "exp": 2472
+   "exp": 2472,
+   "size": "medium"
  },
  {
    "id": 9,
@@ -213,7 +246,8 @@
    "skillChance": 64,
    "skills": "[GLANCE,GLANCE,GLANCE,GLANCE]",
    "gold": 658,
-   "exp": 1977
+   "exp": 1977,
+   "size": "medium"
  },
  {
    "id": 10,
@@ -237,7 +271,8 @@
    "skillChance": 0,
    "skills": null,
    "gold": 879,
-   "exp": 879
+   "exp": 879,
+   "size": "medium"
  },
  {
    "id": 11,
@@ -261,7 +296,8 @@
    "skillChance": 0,
    "skills": null,
    "gold": 1752,
-   "exp": 1752
+   "exp": 1752,
+   "size": "medium"
  },
  {
    "id": 12,
@@ -285,7 +321,8 @@
    "skillChance": 0,
    "skills": null,
    "gold": 1506,
-   "exp": 1506
+   "exp": 1506,
+   "size": "medium"
  },
  {
    "id": 13,
@@ -309,7 +346,8 @@
    "skillChance": 0,
    "skills": null,
    "gold": 30,
-   "exp": 30
+   "exp": 30,
+   "size": "small"
  },
  {
    "id": 14,
@@ -333,7 +371,8 @@
    "skillChance": 0,
    "skills": null,
    "gold": 105,
-   "exp": 105
+   "exp": 105,
+   "size": "small"
  },
  {
    "id": 15,
@@ -357,7 +396,8 @@
    "skillChance": 0,
    "skills": null,
    "gold": 882,
-   "exp": 882
+   "exp": 882,
+   "size": "small"
  },
  {
    "id": 16,
@@ -381,7 +421,8 @@
    "skillChance": 0,
    "skills": null,
    "gold": 40,
-   "exp": 40
+   "exp": 40,
+   "size": "small"
  },
  {
    "id": 17,
@@ -405,7 +446,8 @@
    "skillChance": 0,
    "skills": null,
    "gold": 120,
-   "exp": 6
+   "exp": 6,
+   "size": "small"
  },
  {
    "id": 18,
@@ -429,7 +471,8 @@
    "skillChance": 0,
    "skills": null,
    "gold": 66,
-   "exp": 267
+   "exp": 267,
+   "size": "medium"
  },
  {
    "id": 19,
@@ -453,7 +496,8 @@
    "skillChance": 0,
    "skills": null,
    "gold": 600,
-   "exp": 2361
+   "exp": 2361,
+   "size": "medium"
  },
  {
    "id": 20,
@@ -477,7 +521,8 @@
    "skillChance": 128,
    "skills": "[GAZE,GAZE,GAZE,GAZE]",
    "gold": 10,
-   "exp": 42
+   "exp": 42,
+   "size": "medium"
  },
  {
    "id": 21,
@@ -501,7 +546,8 @@
    "skillChance": 64,
    "skills": "[GAZE,FLASH,GAZE,FLASH]",
    "gold": 3591,
-   "exp": 3591
+   "exp": 3591,
+   "size": "medium"
  },
  {
    "id": 22,
@@ -525,7 +571,8 @@
    "skillChance": 0,
    "skills": null,
    "gold": 3,
-   "exp": 9
+   "exp": 9,
+   "size": "small"
  },
  {
    "id": 23,
@@ -549,7 +596,8 @@
    "skillChance": 0,
    "skills": null,
    "gold": 378,
-   "exp": 378
+   "exp": 378,
+   "size": "small"
  },
  {
    "id": 24,
@@ -573,7 +621,8 @@
    "skillChance": 0,
    "skills": null,
    "gold": 15,
-   "exp": 63
+   "exp": 63,
+   "size": "small"
  },
  {
    "id": 25,
@@ -597,7 +646,8 @@
    "skillChance": 0,
    "skills": null,
    "gold": 200,
-   "exp": 186
+   "exp": 186,
+   "size": "small"
  },
  {
    "id": 26,
@@ -621,7 +671,8 @@
    "skillChance": 0,
    "skills": null,
    "gold": 72,
-   "exp": 288
+   "exp": 288,
+   "size": "medium"
  },
  {
    "id": 27,
@@ -645,7 +696,8 @@
    "skillChance": 64,
    "skills": "[SCORCH,SCORCH,SCORCH,SCORCH]",
    "gold": 600,
-   "exp": 1182
+   "exp": 1182,
+   "size": "medium"
  },
  {
    "id": 28,
@@ -669,7 +721,8 @@
    "skillChance": 0,
    "skills": null,
    "gold": 195,
-   "exp": 195
+   "exp": 195,
+   "size": "medium"
  },
  {
    "id": 29,
@@ -693,7 +746,8 @@
    "skillChance": 0,
    "skills": null,
    "gold": 300,
-   "exp": 282
+   "exp": 282,
+   "size": "medium"
  },
  {
    "id": 30,
@@ -717,7 +771,8 @@
    "skillChance": 0,
    "skills": null,
    "gold": 723,
-   "exp": 723
+   "exp": 723,
+   "size": "medium"
  },
  {
    "id": 31,
@@ -741,7 +796,8 @@
    "skillChance": 0,
    "skills": null,
    "gold": 50,
-   "exp": 123
+   "exp": 123,
+   "size": "small"
  },
  {
    "id": 32,
@@ -765,7 +821,8 @@
    "skillChance": 0,
    "skills": null,
    "gold": 50,
-   "exp": 165
+   "exp": 165,
+   "size": "small"
  },
  {
    "id": 33,
@@ -789,7 +846,8 @@
    "skillChance": 0,
    "skills": null,
    "gold": 600,
-   "exp": 957
+   "exp": 957,
+   "size": "small"
  },
  {
    "id": 34,
@@ -813,7 +871,8 @@
    "skillChance": 0,
    "skills": null,
    "gold": 70,
-   "exp": 225
+   "exp": 225,
+   "size": "small"
  },
  {
    "id": 35,
@@ -837,7 +896,8 @@
    "skillChance": 0,
    "skills": null,
    "gold": 300,
-   "exp": 639
+   "exp": 639,
+   "size": "small"
  },
  {
    "id": 36,
@@ -861,7 +921,8 @@
    "skillChance": 0,
    "skills": null,
    "gold": 489,
-   "exp": 489
+   "exp": 489,
+   "size": "medium"
  },
  {
    "id": 37,
@@ -885,7 +946,8 @@
    "skillChance": 0,
    "skills": null,
    "gold": 1050,
-   "exp": 1050
+   "exp": 1050,
+   "size": "medium"
  },
  {
    "id": 38,
@@ -909,7 +971,8 @@
    "skillChance": 0,
    "skills": null,
    "gold": 621,
-   "exp": 621
+   "exp": 621,
+   "size": "medium"
  },
  {
    "id": 39,
@@ -933,7 +996,8 @@
    "skillChance": 0,
    "skills": null,
    "gold": 852,
-   "exp": 852
+   "exp": 852,
+   "size": "medium"
  },
  {
    "id": 40,
@@ -957,7 +1021,8 @@
    "skillChance": 0,
    "skills": null,
    "gold": 45,
-   "exp": 90
+   "exp": 90,
+   "size": "small"
  },
  {
    "id": 41,
@@ -981,7 +1046,8 @@
    "skillChance": 0,
    "skills": null,
    "gold": 231,
-   "exp": 231
+   "exp": 231,
+   "size": "small"
  },
  {
    "id": 42,
@@ -1005,7 +1071,8 @@
    "skillChance": 0,
    "skills": null,
    "gold": 432,
-   "exp": 432
+   "exp": 432,
+   "size": "small"
  },
  {
    "id": 43,
@@ -1029,7 +1096,8 @@
    "skillChance": 0,
    "skills": null,
    "gold": 990,
-   "exp": 990
+   "exp": 990,
+   "size": "small"
  },
  {
    "id": 44,
@@ -1053,7 +1121,8 @@
    "skillChance": 0,
    "skills": null,
    "gold": 12,
-   "exp": 24
+   "exp": 24,
+   "size": "small"
  },
  {
    "id": 45,
@@ -1077,7 +1146,8 @@
    "skillChance": 0,
    "skills": null,
    "gold": 50,
-   "exp": 93
+   "exp": 93,
+   "size": "small"
  },
  {
    "id": 46,
@@ -1101,7 +1171,8 @@
    "skillChance": 0,
    "skills": null,
    "gold": 117,
-   "exp": 117
+   "exp": 117,
+   "size": "small"
  },
  {
    "id": 47,
@@ -1125,7 +1196,8 @@
    "skillChance": 0,
    "skills": null,
    "gold": 150,
-   "exp": 150
+   "exp": 150,
+   "size": "small"
  },
  {
    "id": 48,
@@ -1149,7 +1221,8 @@
    "skillChance": 0,
    "skills": null,
    "gold": 1000,
-   "exp": 4344
+   "exp": 4344,
+   "size": "medium"
  },
  {
    "id": 49,
@@ -1173,7 +1246,8 @@
    "skillChance": 64,
    "skills": "[CRACK,CRACK,CRACK,CRACK]",
    "gold": 900,
-   "exp": 2638
+   "exp": 2638,
+   "size": "medium"
  },
  {
    "id": 50,
@@ -1197,7 +1271,8 @@
    "skillChance": 0,
    "skills": null,
    "gold": 400,
-   "exp": 1671
+   "exp": 1671,
+   "size": "medium"
  },
  {
    "id": 51,
@@ -1221,7 +1296,8 @@
    "skillChance": 80,
    "skills": "[GLANCE,SQUINT,GAZE,STARE]",
    "gold": 3225,
-   "exp": 3225
+   "exp": 3225,
+   "size": "medium"
  },
  {
    "id": 52,
@@ -1245,7 +1321,8 @@
    "skillChance": 64,
    "skills": "[GLARE,GLARE,GLARE,GLARE]",
    "gold": 1,
-   "exp": 1
+   "exp": 1,
+   "size": "medium"
  },
  {
    "id": 53,
@@ -1269,7 +1346,8 @@
    "skillChance": 64,
    "skills": "[GLANCE,GLANCE,GLANCE,GLANCE]",
    "gold": 699,
-   "exp": 699
+   "exp": 699,
+   "size": "small"
  },
  {
    "id": 54,
@@ -1293,7 +1371,8 @@
    "skillChance": 64,
    "skills": "[GLANCE,GLANCE,GLANCE,GLANCE]",
    "gold": 1218,
-   "exp": 1218
+   "exp": 1218,
+   "size": "small"
  },
  {
    "id": 55,
@@ -1317,7 +1396,8 @@
    "skillChance": 0,
    "skills": null,
    "gold": 780,
-   "exp": 780
+   "exp": 780,
+   "size": "small"
  },
  {
    "id": 56,
@@ -1341,7 +1421,8 @@
    "skillChance": 0,
    "skills": null,
    "gold": 800,
-   "exp": 603
+   "exp": 603,
+   "size": "small"
  },
  {
    "id": 57,
@@ -1365,7 +1446,8 @@
    "skillChance": 0,
    "skills": null,
    "gold": 300,
-   "exp": 1194
+   "exp": 1194,
+   "size": "medium"
  },
  {
    "id": 58,
@@ -1389,7 +1471,8 @@
    "skillChance": 0,
    "skills": null,
    "gold": 1000,
-   "exp": 2244
+   "exp": 2244,
+   "size": "medium"
  },
  {
    "id": 59,
@@ -1413,7 +1496,8 @@
    "skillChance": 0,
    "skills": null,
    "gold": 108,
-   "exp": 438
+   "exp": 438,
+   "size": "medium"
  },
  {
    "id": 60,
@@ -1437,7 +1521,8 @@
    "skillChance": 0,
    "skills": null,
    "gold": 500,
-   "exp": 843
+   "exp": 843,
+   "size": "medium"
  },
  {
    "id": 61,
@@ -1461,7 +1546,8 @@
    "skillChance": 32,
    "skills": "[DAZZLE,DAZZLE,DAZZLE,DAZZLE]",
    "gold": 2000,
-   "exp": 1200
+   "exp": 1200,
+   "size": "small"
  },
  {
    "id": 62,
@@ -1485,7 +1571,8 @@
    "skillChance": 32,
    "skills": "[DAZZLE,DAZZLE,DAZZLE,DAZZLE]",
    "gold": 3000,
-   "exp": 2385
+   "exp": 2385,
+   "size": "small"
  },
  {
    "id": 86,
@@ -1509,7 +1596,8 @@
    "skillChance": 0,
    "skills": null,
    "gold": 502,
-   "exp": 3387
+   "exp": 3387,
+   "size": "medium"
  },
  {
    "id": 119,
@@ -1533,7 +1621,8 @@
    "skillChance": 32,
    "skills": "[NUCLEAR,NUCLEAR,NUCLEAR,NUCLEAR]",
    "gold": 32000,
-   "exp": 32000
+   "exp": 32000,
+   "size": "medium"
  },
  {
    "id": 128,
@@ -1557,6 +1646,7 @@
    "skillChance": 64,
    "skills": "[CRACK,INFERNO,SWIRL,TORNADO]",
    "gold": 0,
-   "exp": 0
+   "exp": 0,
+   "size": "large"
  }
 ]

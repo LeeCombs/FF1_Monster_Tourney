@@ -40,6 +40,7 @@ typedef MonsterData = {
 	var skillChance:Int;
 	var gold:Int;
 	var exp:Int;
+	var size:String;
 }
 
 class Monster extends FlxSprite {
