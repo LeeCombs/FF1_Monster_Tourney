@@ -46,6 +46,9 @@ class SceneBuilder extends FlxState {
 	private var textInputArray:Array<FlxInputText> = [];
 	private var flxTextArray:Array<FlxText> = [];
 	
+	private var alp = ["A", "B", "C", "D", "E", "F", "G", "H", "I"];
+	private var outputText:FlxInputText;
+	
 	/**
 	 * 
 	 */
@@ -56,18 +59,17 @@ class SceneBuilder extends FlxState {
 		scene.loadGraphic("assets/images/BattleScreen_A.png");
 		add(scene);
 		
-		generateSceneButton = new FlxButton(300, 25, "Generate");
+		generateSceneButton = new FlxButton(285, 25, "Generate", generateOutputScene);
 		add(generateSceneButton);
 		
 		var sNLA:StrNameLabel = new StrNameLabel("A", "Scene A");
 		var sNLB:StrNameLabel = new StrNameLabel("B", "Scene B");
 		var sNLC:StrNameLabel = new StrNameLabel("C", "Scene C");
 		var sNLD:StrNameLabel = new StrNameLabel("D", "Scene D");
-		sceneSelector = new FlxUIDropDownMenu(300, 50, [sNLA, sNLB, sNLC, sNLD], dropDownHandler);
+		sceneSelector = new FlxUIDropDownMenu(285, 75, [sNLA, sNLB, sNLC, sNLD], dropDownHandler);
 		add(sceneSelector);
 		
 		// Add the textInputs to the state
-		var alp = ["A", "B", "C", "D", "E", "F", "G", "H", "I"];
 		for (i in 0...9) {
 			var textInput:FlxInputText = new FlxInputText(175, 25 + i * 15, 100, ".");
 			textInput.text = "";
@@ -80,6 +82,9 @@ class SceneBuilder extends FlxState {
 			flxTextArray.push(text);
 		}
 		
+		outputText = new FlxInputText(285, 50, 200, "output shows up here", 8);
+		add(outputText);
+		
 		// TESTING: Example output text and parsing
 		var outputText:String = "A;IMP,IMP,GrIMP,GrIMP,IMP,WOLF,CRALWER,IMP,WzVAMP";
 		var trimText = outputText.split(";");
@@ -91,6 +96,7 @@ class SceneBuilder extends FlxState {
 	
 	/**
 	 * Returns the string representation of the current scene
+	 * 
 	 * @return	String representation of the scene, format: "TYPE;NAME,NAME,NAME..."
 	 */
 	private function generateOutputScene() {
@@ -99,6 +105,17 @@ class SceneBuilder extends FlxState {
 		// ensure that empty slots are represented as "null"
 		// return the string
 		// this string will be parsed by the PlayState to populate the scenes
+		
+		var outputString:String = sceneSelector.selectedId + ";";
+		for (i in 0...flxTextArray.length) {
+			if (textInputArray[i].text == null) outputString += "";
+			else outputString += textInputArray[i].text;
+			if (i != flxTextArray.length - 1) outputString += ",";
+		}
+		
+		outputText.text = outputString;
+		
+		trace(outputString);
 	}
 	
 	/**
