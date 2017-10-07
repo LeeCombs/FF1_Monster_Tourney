@@ -5,7 +5,9 @@ import flixel.FlxState;
 import flixel.addons.ui.FlxInputText;
 import flixel.addons.ui.FlxUIDropDownMenu;
 import flixel.addons.ui.StrNameLabel;
+import flixel.text.FlxText;
 import flixel.ui.FlxButton;
+import flixel.util.FlxColor;
 
 class SceneBuilder extends FlxState {
 	
@@ -41,6 +43,8 @@ class SceneBuilder extends FlxState {
 	private var scene:FlxSprite;
 	private var textInput:FlxInputText;
 	private var generateSceneButton:FlxButton;
+	private var textInputArray:Array<FlxInputText> = [];
+	private var flxTextArray:Array<FlxText> = [];
 	
 	/**
 	 * 
@@ -52,22 +56,29 @@ class SceneBuilder extends FlxState {
 		scene.loadGraphic("assets/images/BattleScreen_A.png");
 		add(scene);
 		
-		generateSceneButton = new FlxButton(175, 25, "Generate");
+		generateSceneButton = new FlxButton(300, 25, "Generate");
 		add(generateSceneButton);
 		
 		var sNLA:StrNameLabel = new StrNameLabel("A", "Scene A");
 		var sNLB:StrNameLabel = new StrNameLabel("B", "Scene B");
 		var sNLC:StrNameLabel = new StrNameLabel("C", "Scene C");
 		var sNLD:StrNameLabel = new StrNameLabel("D", "Scene D");
-		sceneSelector = new FlxUIDropDownMenu(175, 50, [sNLA, sNLB, sNLC, sNLD], dropDownHandler);
+		sceneSelector = new FlxUIDropDownMenu(300, 50, [sNLA, sNLB, sNLC, sNLD], dropDownHandler);
 		add(sceneSelector);
 		
-		// TODO: Have unique text inputs for each slot determined by the selected scene
+		// Add the textInputs to the state
+		var alp = ["A", "B", "C", "D", "E", "F", "G", "H", "I"];
 		for (i in 0...9) {
-			add(new FlxInputText(325, 50 + i * 15, 100, "TYRO"));
+			var textInput:FlxInputText = new FlxInputText(175, 25 + i * 15, 100, ".");
+			textInput.text = "";
+			textInput.backgroundColor = FlxColor.BLUE.getLightened(.6);
+			add(textInput);
+			textInputArray.push(textInput);
+			
+			var text:FlxText = new FlxText(160, 25 + i * 15, 0, alp[i]);
+			add(text);
+			flxTextArray.push(text);
 		}
-		// textInput = new FlxInputText(325, 50, 100, "IMP");
-		// add(textInput);
 		
 		// TESTING: Example output text and parsing
 		var outputText:String = "A;IMP,IMP,GrIMP,GrIMP,IMP,WOLF,CRALWER,IMP,WzVAMP";
@@ -98,16 +109,39 @@ class SceneBuilder extends FlxState {
 	private function dropDownHandler(ddInput:String) {
 		trace(ddInput);
 		
+		for (i in 0...9) {
+			textInputArray[i].visible = false;
+			textInputArray[i].text = "";
+			flxTextArray[i].visible = false;
+		}
+		
 		// Clear and update the available text inputs, as well as the displayed scene type
 		switch(ddInput) {
 			case "A":
-				//
+				for (i in 0...9) {
+					flxTextArray[i].visible = true;
+					textInputArray[i].visible = true;
+					textInputArray[i].backgroundColor = FlxColor.BLUE.getLightened(.6);
+				}
 			case "B":
-				//
+				for (i in 0...8) {
+					flxTextArray[i].visible = true;
+					textInputArray[i].visible = true;
+					if (i >= 2) textInputArray[i].backgroundColor = FlxColor.BLUE.getLightened(0.4);
+					else textInputArray[i].backgroundColor = FlxColor.ORANGE.getLightened(0.4);
+				}
 			case "C":
-				//
+				for (i in 0...4) {
+					flxTextArray[i].visible = true;
+					textInputArray[i].visible = true;
+					textInputArray[i].backgroundColor = FlxColor.ORANGE.getLightened(0.4);
+				}
 			case "D":
-				//
+				for (i in 0...1) {
+					flxTextArray[i].visible = true;
+					textInputArray[i].visible = true;
+					textInputArray[i].backgroundColor = FlxColor.RED.getLightened(0.4);
+				}
 			default:
 				throw "Invalid DropDown input supplied: " + ddInput;
 		}
