@@ -122,23 +122,21 @@ class SceneBuilder extends FlxState {
 	}
 	
 	/**
-	 * Handle the input selection from sceneSelector
+	 * Handle tear-down and setup of a specific scene
 	 * 
-	 * @param	ddInput
+	 * @param	sceneSelection
 	 */
-	private function dropDownHandler(ddInput:String) {
-		trace(ddInput);
-		
+	private function setupScene(sceneSelection:String) {
+		// Clear and hide text input and display
 		for (i in 0...9) {
 			textInputArray[i].visible = false;
 			textInputArray[i].text = "";
 			flxTextArray[i].visible = false;
 		}
 		
-		activeTextInputArray = [];
-		
 		// Clear and update the available text inputs, as well as the displayed scene type
-		switch(ddInput) {
+		activeTextInputArray = [];
+		switch(sceneSelection) {
 			case "A":
 				for (i in 0...9) {
 					activeTextInputArray.push(textInputArray[i]);
@@ -169,13 +167,27 @@ class SceneBuilder extends FlxState {
 					textInputArray[i].backgroundColor = FlxColor.RED.getLightened(0.4);
 				}
 			default:
-				throw "Invalid DropDown input supplied: " + ddInput;
+				throw "Invalid sceneSelection supplied: " + sceneSelection;
 		}
 		
-		
+		// Set the default text input selection
 		activeTextInputArray[0].hasFocus = true;
 		
-		scene.loadGraphic("assets/images/BattleScreen_" + ddInput + ".png");
+		// Update scene image
+		scene.loadGraphic("assets/images/BattleScreen_" + sceneSelection + ".png");
+	}
+	
+	/**
+	 * Handle the input selection from sceneSelector
+	 * 
+	 * @param	ddInput
+	 */
+	private function dropDownHandler(ddInput:String) {
+		if (ddInput == "" || ddInput == null) {
+			trace("Invalid ddInput: " + ddInput);
+			return;
+		}
+		setupScene(ddInput);
 	}
 
 	/**
