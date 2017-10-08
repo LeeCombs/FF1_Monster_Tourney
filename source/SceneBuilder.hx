@@ -1,5 +1,6 @@
 package;
 
+import flixel.FlxG;
 import flixel.FlxSprite;
 import flixel.FlxState;
 import flixel.addons.ui.FlxInputText;
@@ -44,6 +45,7 @@ class SceneBuilder extends FlxState {
 	private var textInput:FlxInputText;
 	private var generateSceneButton:FlxButton;
 	private var textInputArray:Array<FlxInputText> = [];
+	private var activeTextInputArray:Array<FlxInputText> = [];
 	private var flxTextArray:Array<FlxText> = [];
 	
 	private var alp = ["A", "B", "C", "D", "E", "F", "G", "H", "I"];
@@ -82,16 +84,11 @@ class SceneBuilder extends FlxState {
 			flxTextArray.push(text);
 		}
 		
+		activeTextInputArray = textInputArray;
+		activeTextInputArray[0].hasFocus = true;
+		
 		outputText = new FlxInputText(285, 50, 200, "output shows up here", 8);
 		add(outputText);
-		
-		// TESTING: Example output text and parsing
-		var outputText:String = "A;IMP,IMP,GrIMP,GrIMP,IMP,WOLF,CRALWER,IMP,WzVAMP";
-		var trimText = outputText.split(";");
-		trace("Scene: " + trimText[0]);
-		for (m in trimText[1].split(",")) {
-			trace("monster: " + m);
-		}
 	}
 	
 	/**
@@ -107,15 +104,21 @@ class SceneBuilder extends FlxState {
 		// this string will be parsed by the PlayState to populate the scenes
 		
 		var outputString:String = sceneSelector.selectedId + ";";
-		for (i in 0...flxTextArray.length) {
-			if (textInputArray[i].text == null) outputString += "";
-			else outputString += textInputArray[i].text;
-			if (i != flxTextArray.length - 1) outputString += ",";
+		for (i in 0...textInputArray.length) {
+			if (textInputArray[i].visible) {
+				if (textInputArray[i].text == null) outputString += ",";
+				else outputString += textInputArray[i].text + ",";
+			}
 		}
 		
 		outputText.text = outputString;
 		
 		trace(outputString);
+		var trimText = outputString.split(";");
+		trace("Scene: " + trimText[0]);
+		for (m in trimText[1].split(",")) {
+			trace("monster: " + m);
+		}
 	}
 	
 	/**
@@ -132,16 +135,20 @@ class SceneBuilder extends FlxState {
 			flxTextArray[i].visible = false;
 		}
 		
+		activeTextInputArray = [];
+		
 		// Clear and update the available text inputs, as well as the displayed scene type
 		switch(ddInput) {
 			case "A":
 				for (i in 0...9) {
+					activeTextInputArray.push(textInputArray[i]);
 					flxTextArray[i].visible = true;
 					textInputArray[i].visible = true;
 					textInputArray[i].backgroundColor = FlxColor.BLUE.getLightened(.6);
 				}
 			case "B":
 				for (i in 0...8) {
+					activeTextInputArray.push(textInputArray[i]);
 					flxTextArray[i].visible = true;
 					textInputArray[i].visible = true;
 					if (i >= 2) textInputArray[i].backgroundColor = FlxColor.BLUE.getLightened(0.4);
@@ -149,12 +156,14 @@ class SceneBuilder extends FlxState {
 				}
 			case "C":
 				for (i in 0...4) {
+					activeTextInputArray.push(textInputArray[i]);
 					flxTextArray[i].visible = true;
 					textInputArray[i].visible = true;
 					textInputArray[i].backgroundColor = FlxColor.ORANGE.getLightened(0.4);
 				}
 			case "D":
 				for (i in 0...1) {
+					activeTextInputArray.push(textInputArray[i]);
 					flxTextArray[i].visible = true;
 					textInputArray[i].visible = true;
 					textInputArray[i].backgroundColor = FlxColor.RED.getLightened(0.4);
@@ -163,12 +172,44 @@ class SceneBuilder extends FlxState {
 				throw "Invalid DropDown input supplied: " + ddInput;
 		}
 		
+		
+		activeTextInputArray[0].hasFocus = true;
+		
 		scene.loadGraphic("assets/images/BattleScreen_" + ddInput + ".png");
 	}
 
-	
+	/**
+	 * Game logic
+	 * 
+	 * @param	elapsed
+	 */
 	override public function update(elapsed:Float):Void {
 		super.update(elapsed);
+		
+		if (FlxG.keys.justPressed.DOWN) {
+			var index:Int = 0;
+			for (t in activeTextInputArray) {
+				if (t.hasFocus) {
+					index = activeTextInputArray.indexOf(t) + 1;
+					t.hasFocus = false;
+					break;
+				}
+			}
+			if (index >= activeTextInputArray.length) index = 0;
+			textInputArray[index].hasFocus = true;
+		}
+		if (FlxG.keys.justPressed.UP) {
+			var index:Int = 0;
+			for (t in activeTextInputArray) {
+				if (t.hasFocus) {
+					index = activeTextInputArray.indexOf(t) - 1;
+					t.hasFocus = false;
+					break;
+				}
+			}
+			if (index < 0) index = activeTextInputArray.length - 1;
+			textInputArray[index].hasFocus = true;
+		}
 	}
 	
 }
