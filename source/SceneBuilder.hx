@@ -9,55 +9,55 @@ import flixel.addons.ui.StrNameLabel;
 import flixel.text.FlxText;
 import flixel.ui.FlxButton;
 import flixel.util.FlxColor;
+import js.html.ClipboardEvent;
+import openfl.display.Sprite;
+import openfl.system.System;
+import openfl.text.TextField;
 
 class SceneBuilder extends FlxState {
 	
-	// 3x3 small grid
+	// Scene vars
+	private var scene:FlxSprite;
+	private var sceneSelector:FlxUIDropDownMenu;
+	private var generateSceneButton:FlxButton;
 	private var sceneAPositions:Map<String,Array<Array<Int>>> = [
 		"small" => [for (i in 0...3) for (j in 0...3) [6 + i * 33, 38 + j * 33]], 
 		"medium" => [], 
 		"large" => []
 	];
-	
-	// 2x1 medium, 2x3 small
 	private var sceneBPositions:Map<String,Array<Array<Int>>> = [
 		"small" => [for (i in 0...2) for (j in 0...3) [55 + i * 33, 88 + j * 33]], 
 		"medium" => [[6, 38], [6, 88]], 
 		"large" => []
 	];
-	
-	// 2x2 medium grid
 	private var sceneCPositions:Map<String,Array<Array<Int>>> = [
 		"small" => [], 
 		"medium" => [for (i in 0...2) for (j in 0...2) [9 + i * 59, 38 + j * 50]], 
 		"large" => []
 	];
-	
-	// Single large; for CHAOS and Fiends basically
 	private var sceneDPositions:Map<String,Array<Array<Int>>> = [
 		"small" => [], 
 		"medium" => [], 
 		"large" => [[9, 40]]
 	];
 	
-	private var sceneSelector:FlxUIDropDownMenu;
-	private var scene:FlxSprite;
+	// Input vars
 	private var textInput:FlxInputText;
-	private var generateSceneButton:FlxButton;
 	private var textInputArray:Array<FlxInputText> = [];
 	private var activeTextInputArray:Array<FlxInputText> = [];
 	private var flxTextArray:Array<FlxText> = [];
-	private var sizeArray:Array<String> = []; // temp -- lazy
-	
-	private var alp = ["A", "B", "C", "D", "E", "F", "G", "H", "I"];
 	private var outputText:FlxInputText;
 	
+	// temp?
+	private var sizeArray:Array<String> = []; 
+	
 	/**
-	 * 
+	 * Initializer
 	 */
 	override public function create():Void {
 		super.create();
 		
+		// Setup scene 
 		scene = new FlxSprite(25, 25);
 		scene.loadGraphic("assets/images/BattleScreen_A.png");
 		add(scene);
@@ -74,7 +74,7 @@ class SceneBuilder extends FlxState {
 		sceneSelector.broadcastToFlxUI = false;
 		add(sceneSelector);
 		
-		// Add the textInputs to the state
+		// Setup text inputs and generated output string
 		for (i in 0...9) {
 			var textInput:FlxInputText = new FlxInputText(175, 25 + i * 15, 100, ".");
 			textInput.text = "";
@@ -82,7 +82,7 @@ class SceneBuilder extends FlxState {
 			add(textInput);
 			textInputArray.push(textInput);
 			
-			var text:FlxText = new FlxText(160, 25 + i * 15, 0, alp[i]);
+			var text:FlxText = new FlxText(160, 25 + i * 15, 0, ["A", "B", "C", "D", "E", "F", "G", "H", "I"][i]);
 			add(text);
 			flxTextArray.push(text);
 		}
@@ -111,7 +111,7 @@ class SceneBuilder extends FlxState {
 		activeTextInputArray = [];
 		sizeArray = [];
 		switch(sceneSelection) {
-			case "A":
+			case "A": // 3x3 Small Grid
 				for (i in 0...9) {
 					activeTextInputArray.push(textInputArray[i]);
 					flxTextArray[i].visible = true;
@@ -119,7 +119,7 @@ class SceneBuilder extends FlxState {
 					textInputArray[i].backgroundColor = FlxColor.BLUE.getLightened(.6);
 					sizeArray.push("small");
 				}
-			case "B":
+			case "B": // 2x1 Medium, 2x3 Small
 				for (i in 0...8) {
 					activeTextInputArray.push(textInputArray[i]);
 					flxTextArray[i].visible = true;
@@ -133,7 +133,7 @@ class SceneBuilder extends FlxState {
 						sizeArray.push("medium");
 					}
 				}
-			case "C":
+			case "C": // 2x2 Medium Grid
 				for (i in 0...4) {
 					activeTextInputArray.push(textInputArray[i]);
 					flxTextArray[i].visible = true;
@@ -141,7 +141,7 @@ class SceneBuilder extends FlxState {
 					textInputArray[i].backgroundColor = FlxColor.ORANGE.getLightened(0.4);
 					sizeArray.push("medium");
 				}
-			case "D":
+			case "D": // 1 Large Slot
 				activeTextInputArray.push(textInputArray[0]);
 				flxTextArray[0].visible = true;
 				textInputArray[0].visible = true;
@@ -201,6 +201,7 @@ class SceneBuilder extends FlxState {
 		}
 		
 		outputText.text = outputString;
+		trace(outputString);
 	}
 
 	/**
