@@ -47,6 +47,7 @@ class SceneBuilder extends FlxState {
 	private var textInputArray:Array<FlxInputText> = [];
 	private var activeTextInputArray:Array<FlxInputText> = [];
 	private var flxTextArray:Array<FlxText> = [];
+	private var sizeArray:Array<String> = []; // temp -- lazy
 	
 	private var alp = ["A", "B", "C", "D", "E", "F", "G", "H", "I"];
 	private var outputText:FlxInputText;
@@ -69,6 +70,7 @@ class SceneBuilder extends FlxState {
 		var sNLC:StrNameLabel = new StrNameLabel("C", "Scene C");
 		var sNLD:StrNameLabel = new StrNameLabel("D", "Scene D");
 		sceneSelector = new FlxUIDropDownMenu(285, 75, [sNLA, sNLB, sNLC, sNLD], dropDownHandler);
+		sceneSelector.broadcastToFlxUI = false;
 		add(sceneSelector);
 		
 		// Add the textInputs to the state
@@ -92,36 +94,6 @@ class SceneBuilder extends FlxState {
 	}
 	
 	/**
-	 * Returns the string representation of the current scene
-	 * 
-	 * @return	String representation of the scene, format: "TYPE;NAME,NAME,NAME..."
-	 */
-	private function generateOutputScene() {
-		// start the output with the scene's type: A, B, C, or D
-		// iterate over the monsters, and append their name to the string
-		// ensure that empty slots are represented as "null"
-		// return the string
-		// this string will be parsed by the PlayState to populate the scenes
-		
-		var outputString:String = sceneSelector.selectedId + ";";
-		for (i in 0...textInputArray.length) {
-			if (textInputArray[i].visible) {
-				if (textInputArray[i].text == null) outputString += ",";
-				else outputString += textInputArray[i].text + ",";
-			}
-		}
-		
-		outputText.text = outputString;
-		
-		trace(outputString);
-		var trimText = outputString.split(";");
-		trace("Scene: " + trimText[0]);
-		for (m in trimText[1].split(",")) {
-			trace("monster: " + m);
-		}
-	}
-	
-	/**
 	 * Handle tear-down and setup of a specific scene
 	 * 
 	 * @param	sceneSelection
@@ -136,6 +108,7 @@ class SceneBuilder extends FlxState {
 		
 		// Clear and update the available text inputs, as well as the displayed scene type
 		activeTextInputArray = [];
+		sizeArray = [];
 		switch(sceneSelection) {
 			case "A":
 				for (i in 0...9) {
@@ -143,14 +116,21 @@ class SceneBuilder extends FlxState {
 					flxTextArray[i].visible = true;
 					textInputArray[i].visible = true;
 					textInputArray[i].backgroundColor = FlxColor.BLUE.getLightened(.6);
+					sizeArray.push("small");
 				}
 			case "B":
 				for (i in 0...8) {
 					activeTextInputArray.push(textInputArray[i]);
 					flxTextArray[i].visible = true;
 					textInputArray[i].visible = true;
-					if (i >= 2) textInputArray[i].backgroundColor = FlxColor.BLUE.getLightened(0.4);
-					else textInputArray[i].backgroundColor = FlxColor.ORANGE.getLightened(0.4);
+					if (i >= 2) {
+						textInputArray[i].backgroundColor = FlxColor.BLUE.getLightened(0.4);
+						sizeArray.push("small");
+					}
+					else {
+						textInputArray[i].backgroundColor = FlxColor.ORANGE.getLightened(0.4);
+						sizeArray.push("medium");
+					}
 				}
 			case "C":
 				for (i in 0...4) {
@@ -158,6 +138,7 @@ class SceneBuilder extends FlxState {
 					flxTextArray[i].visible = true;
 					textInputArray[i].visible = true;
 					textInputArray[i].backgroundColor = FlxColor.ORANGE.getLightened(0.4);
+					sizeArray.push("medium");
 				}
 			case "D":
 				for (i in 0...1) {
@@ -165,6 +146,7 @@ class SceneBuilder extends FlxState {
 					flxTextArray[i].visible = true;
 					textInputArray[i].visible = true;
 					textInputArray[i].backgroundColor = FlxColor.RED.getLightened(0.4);
+					sizeArray.push("large");
 				}
 			default:
 				throw "Invalid sceneSelection supplied: " + sceneSelection;
@@ -188,6 +170,38 @@ class SceneBuilder extends FlxState {
 			return;
 		}
 		setupScene(ddInput);
+	}
+	
+	/**
+	 * Returns the string representation of the current scene
+	 * 
+	 * @return	String representation of the scene, format: "TYPE;NAME,NAME,NAME..."
+	 */
+	private function generateOutputScene() {
+		// start the output with the scene's type: A, B, C, or D
+		// iterate over the monsters, and append their name to the string
+		// ensure that empty slots are represented as "null"
+		// return the string
+		// this string will be parsed by the PlayState to populate the scenes
+		
+		var outputString:String = sceneSelector.selectedId + ";";
+		for (i in 0...textInputArray.length) {
+			if (textInputArray[i].visible) {
+				// Remove outer whitespace and skip invalid input
+				var nameString = StringTools.trim(textInputArray[i].text);
+				if (nameString == null || nameString == "") outputString += ",";
+				else {
+					var monster = MonsterManager.getMonsterByName(nameString);
+					if (monster == null || monster.mData.size != sizeArray[i]) {
+						activeTextInputArray[i].backgroundColor = FlxColor.RED;
+					}
+					else outputString += nameString;
+					if (i < activeTextInputArray.length - 1) outputString += ",";
+				}
+			}
+		}
+		
+		outputText.text = outputString;
 	}
 
 	/**

@@ -16,6 +16,8 @@ class Main extends Sprite {
 			r.run();
 		#end
 		
+		MonsterManager.loadData();
+		
 		super();
 		addChild(new FlxGame(640, 360, SceneBuilder));
 		// addChild(new FlxGame(640, 360, PlayState));

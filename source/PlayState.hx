@@ -62,7 +62,6 @@ class PlayState extends FlxState {
 		// Set up managers
 		spellManager = new SkillSpellManager();
 		attackManager = new AttackManager();
-		MonsterManager.loadData();
 		
 		// Battle Scenes
 		playerOneScene = new BattleScene(25, 50);
