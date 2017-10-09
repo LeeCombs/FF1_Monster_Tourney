@@ -65,11 +65,12 @@ class SceneBuilder extends FlxState {
 		generateSceneButton = new FlxButton(285, 25, "Generate", generateOutputScene);
 		add(generateSceneButton);
 		
-		var sNLA:StrNameLabel = new StrNameLabel("A", "Scene A");
-		var sNLB:StrNameLabel = new StrNameLabel("B", "Scene B");
-		var sNLC:StrNameLabel = new StrNameLabel("C", "Scene C");
-		var sNLD:StrNameLabel = new StrNameLabel("D", "Scene D");
-		sceneSelector = new FlxUIDropDownMenu(285, 75, [sNLA, sNLB, sNLC, sNLD], dropDownHandler);
+		var sNLArr:Array<StrNameLabel> = [];
+		for (s in ["A", "B", "C", "D"]) {
+			sNLArr.push(new StrNameLabel(s, "Scene " + s));
+		}
+		
+		sceneSelector = new FlxUIDropDownMenu(285, 75, sNLArr, dropDownHandler);
 		sceneSelector.broadcastToFlxUI = false;
 		add(sceneSelector);
 		
@@ -141,13 +142,11 @@ class SceneBuilder extends FlxState {
 					sizeArray.push("medium");
 				}
 			case "D":
-				for (i in 0...1) {
-					activeTextInputArray.push(textInputArray[i]);
-					flxTextArray[i].visible = true;
-					textInputArray[i].visible = true;
-					textInputArray[i].backgroundColor = FlxColor.RED.getLightened(0.4);
-					sizeArray.push("large");
-				}
+				activeTextInputArray.push(textInputArray[0]);
+				flxTextArray[0].visible = true;
+				textInputArray[0].visible = true;
+				textInputArray[0].backgroundColor = FlxColor.RED.getLightened(0.4);
+				sizeArray.push("large");
 			default:
 				throw "Invalid sceneSelection supplied: " + sceneSelection;
 		}
