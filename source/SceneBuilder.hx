@@ -40,11 +40,11 @@ class SceneBuilder extends FlxState {
 	];
 	
 	// Input vars
-	private var textInput:FlxInputText;
 	private var textInputArray:Array<FlxInputText> = [];
 	private var activeTextInputArray:Array<FlxInputText> = [];
 	private var flxTextArray:Array<FlxText> = [];
 	private var outputText:FlxInputText;
+	private var monsterInputGroup:FlxTypedGroup<MonsterInput>;
 	
 	// temp?
 	private var monsterArr:FlxGroup;
@@ -74,20 +74,20 @@ class SceneBuilder extends FlxState {
 		add(sceneSelector);
 		
 		// Setup text inputs and generated output string
+		monsterInputGroup = new FlxTypedGroup<MonsterInput>();
 		for (i in 0...9) {
-			var textInput:FlxInputText = new FlxInputText(175, 25 + i * 15, 100, ".");
-			textInput.text = "";
-			textInput.backgroundColor = FlxColor.BLUE.getLightened(.6);
-			add(textInput);
-			textInputArray.push(textInput);
-			
-			var text:FlxText = new FlxText(160, 25 + i * 15, 0, ["A", "B", "C", "D", "E", "F", "G", "H", "I"][i]);
-			add(text);
-			flxTextArray.push(text);
+			var monsterInput:MonsterInput = new MonsterInput(160, 25 + i * 15, ["A", "B", "C", "D", "E", "F", "G", "H", "I"][i]);
+			monsterInput.kill();
+			monsterInputGroup.add(monsterInput);
 		}
+		add(monsterInputGroup);
+		setupScene("B");
+		monsterInputGroup.members[0].textInput.text = "TYRO";
+		monsterInputGroup.members[1].textInput.text = "IMP";
+		monsterInputGroup.members[2].textInput.text = "IMP";
+		monsterInputGroup.members[3].textInput.text = "TYRO";
 		
-		activeTextInputArray = textInputArray;
-		activeTextInputArray[0].hasFocus = true;
+		
 		
 		outputText = new FlxInputText(285, 50, 200, "output shows up here", 8);
 		add(outputText);
@@ -103,58 +103,39 @@ class SceneBuilder extends FlxState {
 	 */
 	private function setupScene(sceneSelection:String) {
 		// Clear and hide text input and display
-		for (i in 0...9) {
-			textInputArray[i].visible = false;
-			textInputArray[i].text = "";
-			flxTextArray[i].visible = false;
-		}
+		for (mi in monsterInputGroup.members) mi.kill();
 		
 		// Clear and update the available text inputs, as well as the displayed scene type
-		activeTextInputArray = [];
-		sizeArray = [];
 		switch(sceneSelection) {
 			case "A": // 3x3 Small Grid
 				for (i in 0...9) {
-					activeTextInputArray.push(textInputArray[i]);
-					flxTextArray[i].visible = true;
-					textInputArray[i].visible = true;
-					textInputArray[i].backgroundColor = FlxColor.BLUE.getLightened(.6);
-					sizeArray.push("small");
+					var mi:MonsterInput = monsterInputGroup.members[i];
+					mi.revive();
+					mi.setSize("small");
 				}
 			case "B": // 2x1 Medium, 2x3 Small
 				for (i in 0...8) {
-					activeTextInputArray.push(textInputArray[i]);
-					flxTextArray[i].visible = true;
-					textInputArray[i].visible = true;
-					if (i >= 2) {
-						textInputArray[i].backgroundColor = FlxColor.BLUE.getLightened(0.4);
-						sizeArray.push("small");
-					}
-					else {
-						textInputArray[i].backgroundColor = FlxColor.ORANGE.getLightened(0.4);
-						sizeArray.push("medium");
-					}
+					var mi:MonsterInput = monsterInputGroup.members[i];
+					mi.revive();
+					if (i >= 2) mi.setSize("small");
+					else mi.setSize("medium");
 				}
 			case "C": // 2x2 Medium Grid
 				for (i in 0...4) {
-					activeTextInputArray.push(textInputArray[i]);
-					flxTextArray[i].visible = true;
-					textInputArray[i].visible = true;
-					textInputArray[i].backgroundColor = FlxColor.ORANGE.getLightened(0.4);
-					sizeArray.push("medium");
+					var mi:MonsterInput = monsterInputGroup.members[i];
+					mi.revive();
+					mi.setSize("medium");
 				}
 			case "D": // 1 Large Slot
-				activeTextInputArray.push(textInputArray[0]);
-				flxTextArray[0].visible = true;
-				textInputArray[0].visible = true;
-				textInputArray[0].backgroundColor = FlxColor.RED.getLightened(0.4);
-				sizeArray.push("large");
+				var mi:MonsterInput = monsterInputGroup.members[0];
+				mi.revive();
+				mi.setSize("large");
 			default:
 				throw "Invalid sceneSelection supplied: " + sceneSelection;
 		}
 		
 		// Set the default text input selection
-		activeTextInputArray[0].hasFocus = true;
+		monsterInputGroup.members[0].textInput.hasFocus = true;
 		
 		// Update scene image
 		scene.loadGraphic("assets/images/BattleScreen_" + sceneSelection + ".png");
@@ -188,25 +169,26 @@ class SceneBuilder extends FlxState {
 		
 		
 		var outputString:String = sceneSelector.selectedId + ";";
-		for (i in 0...textInputArray.length) {
-			if (textInputArray[i].visible) {
+		for (mi in monsterInputGroup.members) {
+			if (mi.alive) {
 				// Remove outer whitespace and skip invalid input
-				var nameString = StringTools.trim(textInputArray[i].text);
+				var nameString = StringTools.trim(mi.textInput.text);
 				if (nameString == null || nameString == "") outputString += ",";
 				else {
 					var monster = MonsterManager.getMonsterByName(nameString);
-					if (monster == null || monster.mData.size != sizeArray[i]) {
-						activeTextInputArray[i].backgroundColor = FlxColor.RED;
+					if (monster == null || monster.mData.size != mi.monsterSize) {
+						mi.textInput.backgroundColor = FlxColor.RED;
 					}
 					else {
 						outputString += nameString;
-						var x = 25 + sceneAPositions["small"][i][0];
-						var y = 25 + sceneAPositions["small"][i][1];
+						var x = 25 + sceneAPositions["small"][monsterInputGroup.members.indexOf(mi)][0];
+						var y = 25 + sceneAPositions["small"][monsterInputGroup.members.indexOf(mi)][1];
 						var mon = new FlxSprite(x, y);
 						mon.loadGraphic("assets/images/Monsters/" + nameString + ".png");
 						monsterArr.add(mon);
 					}
-					if (i < activeTextInputArray.length - 1) outputString += ",";
+					// TODO: Don't do this if it's the last active member
+					outputString += ",";
 				}
 			}
 		}
@@ -225,30 +207,35 @@ class SceneBuilder extends FlxState {
 	override public function update(elapsed:Float):Void {
 		super.update(elapsed);
 		
+		// Note: Key input seems to be busted for my laptop, this must be checked on another pc
+		// Handle up/down selection cycling for monster input fields
 		if (FlxG.keys.justPressed.DOWN) {
 			var index:Int = 0;
-			for (t in activeTextInputArray) {
-				if (t.hasFocus) {
-					index = activeTextInputArray.indexOf(t) + 1;
-					t.hasFocus = false;
+			for (mi in monsterInputGroup.members) {
+				trace(mi);
+				if (mi.textInput.hasFocus) {
+					index = monsterInputGroup.members.indexOf(mi);
+					mi.textInput.hasFocus = false;
 					break;
 				}
 			}
-			if (index >= activeTextInputArray.length) index = 0;
-			textInputArray[index].hasFocus = true;
+			index++;
+			if (index >= monsterInputGroup.length) index = 0;
+			monsterInputGroup.members[index].textInput.hasFocus = true;
 		}
 		if (FlxG.keys.justPressed.UP) {
 			var index:Int = 0;
-			for (t in activeTextInputArray) {
-				if (t.hasFocus) {
-					index = activeTextInputArray.indexOf(t) - 1;
-					t.hasFocus = false;
+			for (mi in monsterInputGroup.members) {
+				trace(mi);
+				if (mi.textInput.hasFocus) {
+					index = monsterInputGroup.members.indexOf(mi);
+					mi.textInput.hasFocus = false;
 					break;
 				}
 			}
-			if (index < 0) index = activeTextInputArray.length - 1;
-			textInputArray[index].hasFocus = true;
+			index--;
+			if (index <= 0) index = monsterInputGroup.length - 1;
+			monsterInputGroup.members[index].textInput.hasFocus = true;
 		}
 	}
-	
 }
