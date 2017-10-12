@@ -18,26 +18,10 @@ class SceneBuilder extends FlxState {
 	private var scene:FlxSprite;
 	private var sceneSelector:FlxUIDropDownMenu;
 	private var generateSceneButton:FlxButton;
-	private var sceneAPositions:Map<String,Array<Array<Int>>> = [
-		"small" => [for (i in 0...3) for (j in 0...3) [6 + i * 33, 38 + j * 33]], 
-		"medium" => [], 
-		"large" => []
-	];
-	private var sceneBPositions:Map<String,Array<Array<Int>>> = [
-		"small" => [for (i in 0...2) for (j in 0...3) [55 + i * 33, 88 + j * 33]], 
-		"medium" => [[6, 38], [6, 88]], 
-		"large" => []
-	];
-	private var sceneCPositions:Map<String,Array<Array<Int>>> = [
-		"small" => [], 
-		"medium" => [for (i in 0...2) for (j in 0...2) [9 + i * 59, 38 + j * 50]], 
-		"large" => []
-	];
-	private var sceneDPositions:Map<String,Array<Array<Int>>> = [
-		"small" => [], 
-		"medium" => [], 
-		"large" => [[9, 40]]
-	];
+	private var sceneAPositions:Array<Array<Int>> = [for (i in 0...3) for (j in 0...3) [6 + i * 33, 38 + j * 33]];
+	private var sceneBPositions:Array<Array<Int>> = [[6, 38], [6, 88], [55, 38], [55, 71], [55, 104], [88, 38], [88, 71], [88, 104]];
+	private var sceneCPositions:Array<Array<Int>> = [for (i in 0...2) for (j in 0...2) [9 + i * 59, 38 + j * 50]];
+	private var sceneDPositions:Array<Array<Int>> = [[9, 40]];
 	
 	// Input vars
 	private var textInputArray:Array<FlxInputText> = [];
@@ -81,12 +65,18 @@ class SceneBuilder extends FlxState {
 			monsterInputGroup.add(monsterInput);
 		}
 		add(monsterInputGroup);
+		
+		
+		// TESTING
 		setupScene("B");
 		monsterInputGroup.members[0].textInput.text = "TYRO";
-		monsterInputGroup.members[1].textInput.text = "IMP";
+		monsterInputGroup.members[1].textInput.text = "GIANT";
 		monsterInputGroup.members[2].textInput.text = "IMP";
-		monsterInputGroup.members[3].textInput.text = "TYRO";
-		
+		monsterInputGroup.members[3].textInput.text = "SAHAG";
+		monsterInputGroup.members[4].textInput.text = "WOLF";
+		monsterInputGroup.members[5].textInput.text = "SPECTER";
+		monsterInputGroup.members[6].textInput.text = "MEDUSA";
+		monsterInputGroup.members[7].textInput.text = "VAMPIRE";
 		
 		
 		outputText = new FlxInputText(285, 50, 200, "output shows up here", 8);
@@ -166,9 +156,9 @@ class SceneBuilder extends FlxState {
 		// ensure that empty slots are represented as "null"
 		// return the string
 		// this string will be parsed by the PlayState to populate the scenes
+		var selectedScene:String = sceneSelector.selectedId;
 		
-		
-		var outputString:String = sceneSelector.selectedId + ";";
+		var outputString:String = selectedScene + ";";
 		for (mi in monsterInputGroup.members) {
 			if (mi.alive) {
 				// Remove outer whitespace and skip invalid input
@@ -181,8 +171,27 @@ class SceneBuilder extends FlxState {
 					}
 					else {
 						outputString += nameString;
-						var x = 25 + sceneAPositions["small"][monsterInputGroup.members.indexOf(mi)][0];
-						var y = 25 + sceneAPositions["small"][monsterInputGroup.members.indexOf(mi)][1];
+						var index = monsterInputGroup.members.indexOf(mi);
+						var x:Int = 0;
+						var y:Int = 0;
+						selectedScene = "B";
+						switch(selectedScene) {
+							case "A":
+								x = 25 + sceneAPositions[index][0];
+								y = 25 + sceneAPositions[index][1];
+							case "B":
+								x = 25 + sceneBPositions[index][0];
+								y = 25 + sceneBPositions[index][1];
+							case "C":
+								x = 25 + sceneCPositions[index][0];
+								y = 25 + sceneCPositions[index][1];
+							case "D":
+								x = 25 + sceneDPositions[index][0];
+								y = 25 + sceneDPositions[index][1];
+							default:
+								trace("Invalid scene selected: " + selectedScene);
+								break;
+						}
 						var mon = new FlxSprite(x, y);
 						mon.loadGraphic("assets/images/Monsters/" + nameString + ".png");
 						monsterArr.add(mon);
