@@ -1,18 +1,16 @@
 package;
 
+import flash.text.TextField;
 import flixel.FlxG;
 import flixel.FlxSprite;
 import flixel.FlxState;
 import flixel.addons.ui.FlxInputText;
 import flixel.addons.ui.FlxUIDropDownMenu;
 import flixel.addons.ui.StrNameLabel;
+import flixel.group.FlxGroup;
 import flixel.text.FlxText;
 import flixel.ui.FlxButton;
 import flixel.util.FlxColor;
-import js.html.ClipboardEvent;
-import openfl.display.Sprite;
-import openfl.system.System;
-import openfl.text.TextField;
 
 class SceneBuilder extends FlxState {
 	
@@ -49,6 +47,7 @@ class SceneBuilder extends FlxState {
 	private var outputText:FlxInputText;
 	
 	// temp?
+	private var monsterArr:FlxGroup;
 	private var sizeArray:Array<String> = []; 
 	
 	/**
@@ -92,6 +91,9 @@ class SceneBuilder extends FlxState {
 		
 		outputText = new FlxInputText(285, 50, 200, "output shows up here", 8);
 		add(outputText);
+		
+		monsterArr = new FlxGroup();
+		add(monsterArr);
 	}
 	
 	/**
@@ -156,6 +158,7 @@ class SceneBuilder extends FlxState {
 		
 		// Update scene image
 		scene.loadGraphic("assets/images/BattleScreen_" + sceneSelection + ".png");
+		
 	}
 	
 	/**
@@ -183,6 +186,7 @@ class SceneBuilder extends FlxState {
 		// return the string
 		// this string will be parsed by the PlayState to populate the scenes
 		
+		
 		var outputString:String = sceneSelector.selectedId + ";";
 		for (i in 0...textInputArray.length) {
 			if (textInputArray[i].visible) {
@@ -194,14 +198,23 @@ class SceneBuilder extends FlxState {
 					if (monster == null || monster.mData.size != sizeArray[i]) {
 						activeTextInputArray[i].backgroundColor = FlxColor.RED;
 					}
-					else outputString += nameString;
+					else {
+						outputString += nameString;
+						var x = 25 + sceneAPositions["small"][i][0];
+						var y = 25 + sceneAPositions["small"][i][1];
+						var mon = new FlxSprite(x, y);
+						mon.loadGraphic("assets/images/Monsters/" + nameString + ".png");
+						monsterArr.add(mon);
+					}
 					if (i < activeTextInputArray.length - 1) outputString += ",";
 				}
 			}
 		}
 		
-		outputText.text = outputString;
+		// Display the string and output it on the console, since that's the
+		// only way I can get text copyable currently.
 		trace(outputString);
+		outputText.text = outputString;
 	}
 
 	/**
