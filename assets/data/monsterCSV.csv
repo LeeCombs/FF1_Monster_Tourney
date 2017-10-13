@@ -160,23 +160,32 @@ id,name,hp,attack,accuracy,hits,critical,defense,evasion,magicDefense,morale,sta
 110,RockGOL,200,70,50,1,1,16,24,110,200,null,null,'[Magical,Mage]',null,'[Status,Psn/Stn,Death,Fire,Ice,Lightning,Earth]',48,'[SLOW,SLOW,SLOW,SLOW,SLOW,SLOW,SLOW,SLOW]',0,null,1000,2385,medium
 111,IronGOL,304,93,76,1,1,100,24,143,200,null,null,'[Magical]',null,'[Status,Psn/Stn,Death,Fire,Ice,Earth]',0,null,16,'[TOXIC,TOXIC,TOXIC,TOXIC]',3000,6717,medium
 
+112,BADMAN,260,44,65,2,1,38,36,135,200,null,null,null,null,null,0,null,0,null,1800,1263,small
+113,EVILMAN,190,55,48,1,1,32,42,173,200,null,null,'[Magical,Mage]',null,'[Status,Psn/Stn,Death]',32,'[XFER,NUKE,XFER,XXXX,BLND]',0,null,3000,2700,small
 
+114,ASTOS,168,26,42,1,1,40,78,170,255,null,null,null,null,null,96,'[RUB,SLO2,FAST,FIR2,LIT2,SLOW,DARK,SLEP]',0,null,2000,2250,small
+115,MAGE,105,26,27,1,1,40,78,170,200,null,null,'[Mage]',0,0,64,'[RUB,LIT3,FIR3,BANE,SLO2,FIR3,STUN,LIT3]',0,null,1095,1095,small
+116,FIGHTER,200,40,45,1,1,38,90,186,158,null,null,'[Mage]',null,null,48,'[WALL,XFER,HEL3,FOG2,INV2,CUR4,HEL3,CUR3]',0,null,3420,3420,small
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+117,MADPONY,64,10,16,2,1,2,22,40,106,null,null,null,null,null,0,null,0,null,15,63,medium
+118,NITEMARE,200,30,50,3,1,24,132,100,200,null,null,'[Magical]','[Ice]','[Status,Psn/Stn,Death,Fire,Earth]',0,null,32,'[SNORTING,SNORTING,SNORTING,SNORTING]',700,1272,medium
 
 119,WarMECH,1000,128,200,2,1,80,96,200,200,null,null,'[Regenerative]',null,'[Status,Psn/Stn,Death,Fire,Ice,Lightning,Earth]',0,null,32,'[NUCLEAR,NUCLEAR,NUCLEAR,NUCLEAR]',32000,32000,medium
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 128,CHAOS,2000,100,200,2,1,100,100,200,255,Paralyze,Status,null,null,'[Status,Psn/Stn,Time,Death,Fire,Ice,Lightning,Earth]',64,'[ICE3,LIT3,SLOW2,CUR4,FIR3,ICE2,FAST,NUKE]',64,'[CRACK,INFERNO,SWIRL,TORNADO]',0,0,large
