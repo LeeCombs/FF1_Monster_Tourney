@@ -66,9 +66,14 @@ class SceneBuilder extends FlxState {
 		}
 		add(monsterInputGroup);
 		
+		outputText = new FlxInputText(285, 50, 200, "output shows up here", 8);
+		add(outputText);
+		
+		monsterArr = new FlxGroup();
+		add(monsterArr);
 		
 		// TESTING
-		setupScene("B");
+		setupScene("A");
 		monsterInputGroup.members[0].textInput.text = "TYRO";
 		monsterInputGroup.members[1].textInput.text = "GIANT";
 		monsterInputGroup.members[2].textInput.text = "IMP";
@@ -77,13 +82,6 @@ class SceneBuilder extends FlxState {
 		monsterInputGroup.members[5].textInput.text = "SPECTER";
 		monsterInputGroup.members[6].textInput.text = "MEDUSA";
 		monsterInputGroup.members[7].textInput.text = "VAMPIRE";
-		
-		
-		outputText = new FlxInputText(285, 50, 200, "output shows up here", 8);
-		add(outputText);
-		
-		monsterArr = new FlxGroup();
-		add(monsterArr);
 	}
 	
 	/**
@@ -94,6 +92,7 @@ class SceneBuilder extends FlxState {
 	private function setupScene(sceneSelection:String) {
 		// Clear and hide text input and display
 		for (mi in monsterInputGroup.members) mi.kill();
+		for (m in monsterArr) m.destroy();
 		
 		// Clear and update the available text inputs, as well as the displayed scene type
 		switch(sceneSelection) {
@@ -174,7 +173,6 @@ class SceneBuilder extends FlxState {
 						var index = monsterInputGroup.members.indexOf(mi);
 						var x:Int = 0;
 						var y:Int = 0;
-						selectedScene = "B";
 						switch(selectedScene) {
 							case "A":
 								x = 25 + sceneAPositions[index][0];
@@ -193,7 +191,7 @@ class SceneBuilder extends FlxState {
 								break;
 						}
 						var mon = new FlxSprite(x, y);
-						mon.loadGraphic("assets/images/Monsters/" + nameString + ".png");
+						mon.loadGraphic("assets/images/Monsters/" + nameString.toUpperCase() + ".png");
 						monsterArr.add(mon);
 					}
 					// TODO: Don't do this if it's the last active member
@@ -220,31 +218,39 @@ class SceneBuilder extends FlxState {
 		// Handle up/down selection cycling for monster input fields
 		if (FlxG.keys.justPressed.DOWN) {
 			var index:Int = 0;
+			var activeGroup = [];
 			for (mi in monsterInputGroup.members) {
+				if (mi.alive) activeGroup.push(mi);
+			}
+			for (mi in activeGroup) {
 				trace(mi);
 				if (mi.textInput.hasFocus) {
-					index = monsterInputGroup.members.indexOf(mi);
+					index = activeGroup.indexOf(mi);
 					mi.textInput.hasFocus = false;
 					break;
 				}
 			}
 			index++;
-			if (index >= monsterInputGroup.length) index = 0;
-			monsterInputGroup.members[index].textInput.hasFocus = true;
+			if (index >= activeGroup.length) index = 0;
+			activeGroup[index].textInput.hasFocus = true;
 		}
 		if (FlxG.keys.justPressed.UP) {
 			var index:Int = 0;
+			var activeGroup = [];
 			for (mi in monsterInputGroup.members) {
+				if (mi.alive) activeGroup.push(mi);
+			}
+			for (mi in activeGroup) {
 				trace(mi);
 				if (mi.textInput.hasFocus) {
-					index = monsterInputGroup.members.indexOf(mi);
+					index = activeGroup.indexOf(mi);
 					mi.textInput.hasFocus = false;
 					break;
 				}
 			}
 			index--;
-			if (index <= 0) index = monsterInputGroup.length - 1;
-			monsterInputGroup.members[index].textInput.hasFocus = true;
+			if (index < 0) index = activeGroup.length - 1;
+			activeGroup[index].textInput.hasFocus = true;
 		}
 	}
 }
