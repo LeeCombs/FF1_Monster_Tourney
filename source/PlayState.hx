@@ -97,7 +97,7 @@ class PlayState extends FlxState {
 		var mon4 = MonsterManager.getMonsterByName("TIAMAT");
 		mon4.setScene(playerOneScene);
 		playerOneScene.addMonster(mon4, 3);
-	
+		
 		var mon5 = MonsterManager.getMonsterByName("WarMECH");
 		mon5.setScene(playerTwoScene);
 		playerTwoScene.addMonster(mon5, 0, true);

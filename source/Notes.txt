@@ -13,5 +13,32 @@
 	are to be converted into appropriate arrays upon loading the data 
 }
 
-TODO: Just convert the json data strings of the arrays (spells, skills, etc) into the actual array itself using something else ffs
-No more of this converting on the fly, just have the input data valid from the start.............................
+Relevant Bugs {
+	-- General --
+	- Target-dark should not be applied when the target is asleep/stopped
+	- Hit% should be applied even if asleep, and not clamped until after evade is subtracted
+	- Status attacks are attempted on missed after the first successful hit
+	- Enemies always wake from sleep
+	- Resist Element, all-target spells (e.g. AFIR) don't hit the caster
+	- Poison doesn't work on enemies
+	- Absorb for enemy targets misloaded for magic, making FOG not work
+	- For enemy targets, Hit% is not loaded/saved for use by magic
+	- Enemy elemental resistances not stored, spells like AFIR and XFER don't work
+	
+	-- Monsters --
+	- 44 ZOMBIE, Earth resistance likely unintentional as it's inconsistent
+	- 64 R.GOYLE, Only enemy with attack element but no status attack
+	- 81 WzMUMMY, Has Sleep status attack, but Psn/Stn element instead of Status
+	- 105 SORCERER, Only enemy with status attack but no element
+	
+	-- Skills/Spells -- 
+	- HEL2 effectivity should be 0x18 (24), instead of 48
+	- LOK2 should use effect 0E (Evasion Down) instead of 10 (Evasion Up)
+	- LOCK's effect 0E (Evasion Down) always misses
+	- TMPR should probably use 0B (Attack Up) instead of 0D (Attack/Accuracy Up)
+	- SABR should have a spell accuracy value, which is unknown
+	
+	-- Status Attacks --
+	- If the TARGET is resistant to an enemy's weakness, base chance = 0
+	-- Should be resistant to enemy's elemental attack
+}

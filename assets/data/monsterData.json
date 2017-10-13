@@ -2669,7 +2669,7 @@
    "spellChance": 0,
    "spells": null,
    "skillChance": 64,
-   "skills": "[POISON,POISON,POISON]",
+   "skills": "[POISON-B,POISON-B,POISON-B]",
    "gold": 5000,
    "exp": 4068,
    "size": "medium"

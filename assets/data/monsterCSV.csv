@@ -105,7 +105,7 @@ id,name,hp,attack,accuracy,hits,critical,defense,evasion,magicDefense,morale,sta
 104,WIZARD,84,30,21,2,1,16,66,98,126,null,null,'[Magical,Aquatic]',null,'[Status,Psn/Stn,Fire,Ice]',0,null,0,null,300,276,small
 105,SORCERER,112,1,28,3,1,12,48,187,130,Death,null,null,null,null,0,null,64,'[TRANCE.TRANCE,TRANCE,TRANCE]',999,822,small
 106,GARLAND,106,15,27,1,1,10,12,64,255,null,null,null,null,null,0,null,0,null,250,130,small
-107,Gas D,352,72,68,1,1,16,96,200,200,null,null,'[Dragon]','[Ice]','[Earth]',0,null,64,'[POISON,POISON,POISON]',5000,4068,medium
+107,Gas D,352,72,68,1,1,16,96,200,200,null,null,'[Dragon]','[Ice]','[Earth]',0,null,64,'[POISON-B,POISON-B,POISON-B]',5000,4068,medium
 108,Blue D,454,92,86,1,1,20,96,200,200,null,null,'[Dragon]','[Fire]','[Lightning,Earth]',0,null,64,'[THUNDER,THUNDER,THUNDER]',2000,3274,medium
 109,MudGOL,176,64,44,1,1,7,28,93,200,Poison,Psn/Stn,'[Magical,Mage]',null,'[Status,Psn/Stn,Death,Fire,Ice,Lightning]',32,'[FAST]',0,null,800,1257,medium
 110,RockGOL,200,70,50,1,1,16,24,110,200,null,null,'[Magical,Mage]',null,'[Status,Psn/Stn,Death,Fire,Ice,Lightning,Earth]',48,'[SLOW,SLOW,SLOW,SLOW,SLOW,SLOW,SLOW,SLOW]',0,null,1000,2385,medium
