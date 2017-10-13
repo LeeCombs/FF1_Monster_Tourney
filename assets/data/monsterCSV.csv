@@ -136,6 +136,17 @@ id,name,hp,attack,accuracy,hits,critical,defense,evasion,magicDefense,morale,sta
 94,HYDRA,212,30,53,3,1,14,36,116,138,null,null,'[Dragon]',null,null,0,null,0,null,150,915,medium
 95,R.HYDRA,182,20,46,3,1,14,36,103,152,null,null,'[Dragon]','[Ice]','[Fire]',0,null,64,'[CREMATE,CREMATE]',400,1215,medium
 
+96,GUARD,200,25,50,2,1,40,72,110,200,Paralyze,Status,null,'[Lightning]','[Status,Psn/Stn,Death]',0,null,0,null,400,1224,small
+97,SENTRY,400,102,90,1,1,48,96,160,150,null,null,null,'[Lightning]','[Status,Psn/Stn,Death,Fire,Ice,Earth]',0,null,0,null,2000,4000,small
+
+98,WATER,300,69,68,1,1,20,72,130,200,null,null,'[Magical]','[Ice]','[Status,Psn/Stn,Death,Fire,Earth]',0,null,0,null,800,1962,small
+99,AIR,358,53,62,1,1,4,144,130,200,null,null,'[Magical]',null,'[Status,Psn/Stn,Death,Earth]',0,null,0,null,807,1614,small
+
+100,NAGA,356,9,71,1,1,8,72,116,200,Poison,Psn/Stn,'[Aquatic,Mage]','[Lightning]','[Fire,Earth]',96,'[LIT2,HOLD,SLOW,DARK,LIT,LOCK,SLEP,LIT]',0,null,2355,2355,medium
+101,GrNAGA,420,7,88,1,1,16,48,143,154,Poison,Psn/Stn,'[Mage]',null,null,96,'[RUSE,MITE,SLOW,DARK,SLEP,FIRE,LIT,HEAL]',0,null,4000,3489,medium
+
+102,CHIMERA,300,30,60,4,1,20,72,130,200,null,null,'[Dragon]','[Ice]','[Fire,Earth]',0,null,64,'[CREMATE,CREMATE,CREMATE]',2500,2064,medium
+103,JIMERA,350,40,70,4,1,18,60,143,200,null,null,'[Dragon]','[Ice]','[Fire,Earth]',0,null,64,'[CREMATE,POISON,CREMATE,POISON]',5000,4584,medium
 
 
 
