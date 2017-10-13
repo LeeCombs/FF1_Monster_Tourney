@@ -103,6 +103,25 @@ id,name,hp,attack,accuracy,hits,critical,defense,evasion,magicDefense,morale,sta
 72,OOZE,76,32,19,1,1,6,6,55,144,null,null,null,'[Fire,Ice]','[Status,Psn/Stn,Death,Lightning,Earth]',0,null,0,null,70,252,small
 73,SLIME,156,49,39,1,1,255,24,85,200,Poison,Psn/Stn,null,'[Fire]','[Status,Psn/Stn,Death,Lightning,Earth]',0,null,0,null,900,1101,small
 
+74,SPIDER,29,10,7,1,1,0,30,28,109,null,null,null,null,null,0,null,0,null,8,30,small
+75,ARACHNID,64,5,16,1,1,12,24,46,111,Poison,Psn/Stn,null,null,null,0,null,0,null,50,141,small
+
+76,MANTICOR,164,22,41,2,1,8,72,95,150,null,null,null,null,'[Earth]',0,null,64,'[STINGER,STINGER,STINGER,STINGER]',650,1317,medium
+77,SPHINX,228,23,57,3,1,12,120,115,132,null,null,null,null,'[Earth]',0,null,0,null,1160,1160,medium
+
+78,R.ANKYLO,256,60,64,3,1,38,56,130,146,null,null,null,null,null,0,null,0,null,300,1428,medium
+79,ANKYLO,352,98,88,1,1,48,48,156,144,null,null,null,null,null,0,null,0,null,1,2610,medium
+
+80,MUMMY,80,30,20,1,1,20,24,60,172,Sleep,Status,'[Undead]','[Fire]','[Status,Psn/Stn,Death,Ice]',0,null,0,null,300,300,small
+81,WzMUMMY,188,43,47,1,1,24,24,95,148,Sleep,Psn/Stn,'[Undead]','[Fire]','[Status,Psn/Stn,Death,Ice]',0,null,0,null,1000,984,small
+
+82,COCTRICE,50,1,10,1,1,4,72,47,124,Petrifiy,Psn/Stn,null,null,'[Earth]',0,null,0,null,200,186,small
+83,PERILISK,44,20,11,1,1,4,72,45,124,null,null,null,'[Ice]','[Fire,Earth]',0,null,32,'[SQUINT,SQUINT,SQUINT,SQUINT]',500,423,small
+
+
+
+
+
 
 
 
