@@ -19,11 +19,11 @@ id,name,effectivity,accuracy,element,target,effect,price,successMessage
 
 11,CUR2,33,0,,Single Ally,HP Recovery,1500,HP up!
 12,HRM2,40,24,,All Enemies, Damage Undead,1500,
-13,AFIR,Fire,0,,All Allies, Resist Element,400,Defend fire
+13,AFIR,Fire,0,,All Allies, Resist Element,1500,Defend fire
 14,HEAL,12,0,,All Allies,HP Recovery,1500,HP up!
 15,FIR2,30,24,Fire,All Enemies,Damage,1500,
 16,HOLD,Paralyze,64,Status,Single Enemy,Status Ailment,1500,Attack halted
-17,LIT2,30,24,Lightning,All Enemies, Damage, 1500,
+17,LIT2,30,24,Lightning,All Enemies,Damage,1500,
 18,LOK2,20,40,,All Enemies,Evasion Up,1500,Easy to hit
 
 19,PURE,Poison,0,,Single Ally,Restore Status,4000,ADD MESSAGE HERE
@@ -92,7 +92,7 @@ id,name,effectivity,accuracy,element,target,effect,price,successMessage
 50,CREMATE,24,32,Fire,All Targets,Damage,0,
 51,POISON,Petrify,5,Psn/Stn,All Targets,Status Ailment,0,ADD MESSAGE HERE
 52,TRANCE,Paralyze,0,,All Targets,Status Ailment,0,ADD MESSAGE HERE
-53,POISON,68,32,Psn/Stn,All Targets,Damage,0,
+53,POISON-B,68,32,Psn/Stn,All Targets,Damage,0,
 54,THUNDER,76,32,Lightning,All Targets,Damage,0,
 55,TOXIC,Death,0,Death,All Targets,Status Ailment,0,Slain...
 56,SNORTING,Blind,24,Status,Single Target,Status Ailment,0,Darkness

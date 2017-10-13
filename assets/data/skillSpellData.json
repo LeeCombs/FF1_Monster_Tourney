@@ -219,7 +219,7 @@
    "accuracy": 24,
    "element": "Lightning",
    "target": "All Enemies",
-   "effect": " Damage",
+   "effect": "Damage",
    "price": 1500
  },
  {
@@ -821,7 +821,7 @@
  },
  {
    "id": "53",
-   "name": "POISON",
+   "name": "POISON-B",
    "effectivity": "68",
    "accuracy": 32,
    "element": "Psn/Stn",

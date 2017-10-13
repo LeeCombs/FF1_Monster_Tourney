@@ -1,30 +1,5 @@
 [
  {
-   "id": 0,
-   "name": "MONSTERNAME",
-   "hp": 0,
-   "attack": 0,
-   "accuracy": 0,
-   "hits": 0,
-   "critical": 0,
-   "defense": 0,
-   "evasion": 0,
-   "magicDefense": 0,
-   "morale": 0,
-   "statusAttack": null,
-   "element": null,
-   "type": null,
-   "weaknesses": null,
-   "resistances": null,
-   "spellChance": 0,
-   "spells": null,
-   "skillChance": 0,
-   "skills": null,
-   "gold": 0,
-   "exp": 0,
-   "size": "small"
- },
- {
    "id": 1,
    "name": "IMP",
    "hp": 8,
@@ -3169,7 +3144,7 @@
    "spellChance": 0,
    "spells": null,
    "skillChance": 64,
-   "skills": "[THUNDER,POISON,BLIZZARD,BLAZE]",
+   "skills": "[THUNDER,POISON-B,BLIZZARD,BLAZE]",
    "gold": 6000,
    "exp": 5496,
    "size": "large"
@@ -3194,7 +3169,7 @@
    "spellChance": 64,
    "spells": "[BANE,ICE2,LIT2,FIR2,BANE,ICE2,LIT2,FIR2]",
    "skillChance": 64,
-   "skills": "[THUNDER,POISON,BLIZZARD,BLAZE]",
+   "skills": "[THUNDER,POISON-B,BLIZZARD,BLAZE]",
    "gold": 1,
    "exp": 2000,
    "size": "large"

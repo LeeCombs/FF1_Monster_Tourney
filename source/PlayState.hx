@@ -85,17 +85,22 @@ class PlayState extends FlxState {
 		add(resultTextBox);
 		
 		// Add monsters
-		for (i in 0...4) {
-			if (i == 0) {
-				var mon1 = MonsterManager.getMonsterByName("WarMECH");
-				mon1.setScene(playerOneScene);
-				playerOneScene.addMonster(mon1, i);
-			}
-			
-			var mon2 = MonsterManager.getMonsterByName("TYRO");
-			mon2.setScene(playerTwoScene);
-			playerTwoScene.addMonster(mon2, i, true);
-		}
+		var mon1 = MonsterManager.getMonsterByName("LICH");
+		mon1.setScene(playerOneScene);
+		playerOneScene.addMonster(mon1, 0);
+		var mon2 = MonsterManager.getMonsterByName("KARY");
+		mon2.setScene(playerOneScene);
+		playerOneScene.addMonster(mon2, 1);
+		var mon3 = MonsterManager.getMonsterByName("KRAKEN");
+		mon3.setScene(playerOneScene);
+		playerOneScene.addMonster(mon3, 2);
+		var mon4 = MonsterManager.getMonsterByName("TIAMAT");
+		mon4.setScene(playerOneScene);
+		playerOneScene.addMonster(mon4, 3);
+	
+		var mon5 = MonsterManager.getMonsterByName("WarMECH");
+		mon5.setScene(playerTwoScene);
+		playerTwoScene.addMonster(mon5, 0, true);
 		
 	}
 	
