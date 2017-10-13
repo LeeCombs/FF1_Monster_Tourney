@@ -88,6 +88,25 @@ id,name,hp,attack,accuracy,hits,critical,defense,evasion,magicDefense,morale,sta
 61,VAMPIRE,156,76,39,1,1,24,72,75,200,Paralyze,Status,'[Magical,Undead,Regenerative]','[Fire]','[Status,Psn/Stn,Death,Ice,Earth]',0,null,32,'[DAZZLE,DAZZLE,DAZZLE,DAZZLE]',2000,1200,small
 62,WzVAMP,300,90,42,1,1,29,72,84,200,Paralyze,Status,'[Magical,Undead,Mage,Regenerative]','[Fire]','[Status,Psn/Stn,Death,Ice,Earth]',32,'[AFIR,MUTE,ICE2,ICE2,LIT2,LIT2,FIR2,FIR2]',32,'[DAZZLE,DAZZLE,DAZZLE,DAZZLE]',3000,2385,small
 
+63,GARGOYLE,80,12,20,4,1,8,45,53,132,null,null,'[Magical]',null,'[Earth]',0,null,0,null,80,132,small
+64,R.GOYLE,94,10,24,4,1,32,72,127,134,null,Psn/Stn,'[Magical]',null,'[Fire,Ice,Earth]',64,'[FIR2,HOLD,FIRE,FIRE]',0,null,387,387,small
+
+65,EARTH,288,66,72,1,1,20,18,130,200,null,null,'[Magical]','[Fire]','[Status,Psn/Stn,Death,Ice,Lightning,Earth]',0,null,0,null,768,1536,medium
+66,FIRE,276,50,69,1,1,20,42,130,200,null,null,'[Magical]','[Ice]','[Status,Psn/Stn,Death,Fire,Earth]',0,null,0,null,800,1620,medium
+
+67,Frost D,200,53,50,1,1,8,120,196,200,null,null,'[Dragon]','[Fire,Lightning]','[Psn/Stn,Ice,Earth]',0,null,64,'[BLIZZARD,BLIZZARD,BLIZZARD]',2000,1701,medium
+68,Red D,248,75,62,1,1,30,96,200,200,null,null,'[Dragon]','[Psn/Stn,Ice]','[Fire,Earth]',0,null,64,'[BLAZE,BLAZE,BLAZE]',4000,2904,medium
+69,Zombie D,268,56,67,1,1,30,24,135,200,Paralyze,Status,'[Dragon,Undead]','[Fire]','[Status,Psn/Stn,Death,Ice,Earth]',0,null,0,null,999,2331,medium
+
+70,SCUM,24,1,1,1,1,255,0,36,124,Poison,Psn/Stn,null,'[Fire,Ice]','[Status,Psn/Stn,Death,Lightning,Earth]',0,null,0,null,20,84,small
+71,MUCK,76,30,19,1,1,7,4,55,152,null,null,null,'[Lightning]','[Status,Psn/Stn,Death,Fire,Ice,Earth]',0,null,0,null,70,255,small
+72,OOZE,76,32,19,1,1,6,6,55,144,null,null,null,'[Fire,Ice]','[Status,Psn/Stn,Death,Lightning,Earth]',0,null,0,null,70,252,small
+73,SLIME,156,49,39,1,1,255,24,85,200,Poison,Psn/Stn,null,'[Fire]','[Status,Psn/Stn,Death,Lightning,Earth]',0,null,0,null,900,1101,small
+
+
+
+
+
 
 86,TYRO,480,65,133,1,1,10,60,200,144,null,null,'[Dragon]',null,null,0,null,0,null,502,3387,medium
 
