@@ -110,8 +110,6 @@ class PlayState extends FlxState {
 		* Pick two random numbers 0...12, and swap numbers at those positions
 		* Do this 17 times
 		*/
-		trace("getTurnSchedule");
-		
 		var turnOrder:Array<Int> = [10, 11, 12, 13, 20, 21, 22, 23];
 		
 		for (i in 0...17) {
@@ -130,8 +128,8 @@ class PlayState extends FlxState {
 	/**
 	 * Determine which slot the monster will target
 	 * 
-	 * @param	teamSlots
-	 * @return
+	 * @param	teamSlots	A Monster array from the target BattleScene
+	 * @return				The Monster that will be targeted 
 	 */
 	private function getMonsterTarget(teamSlots:Array<Monster>):Monster {
 		/* Targeting Logic
@@ -164,7 +162,7 @@ class PlayState extends FlxState {
 	/**
 	 * Retrieve the acting Monster for the current turn
 	 * 
-	 * @return
+	 * @return	The Monster to act for this turn
 	 */
 	private function getCurrentActor():Monster {
 		// Ensure there's a turn schedule to execute
@@ -192,7 +190,7 @@ class PlayState extends FlxState {
 	/**
 	 * Retrieve the next action and build the targetQueue
 	 * 
-	 * @return
+	 * @return	The Action to execute
 	 */
 	private function getCurrentAction(monster:Monster):Action {
 		// Get the monster's action and build targetQueue
@@ -404,6 +402,5 @@ class PlayState extends FlxState {
 				doneResults = true;
 			}
 		} // end timerDelay
-		
 	}
 }

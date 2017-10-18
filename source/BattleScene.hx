@@ -13,16 +13,21 @@ class BattleScene extends FlxGroup {
 	private var scene:FlxSprite;
 	private var sceneBackground:FlxSprite;
 	
-	private var monsters:Array<Monster>;
+	private var monsters:Array<Monster> = [null, null, null, null];
 	private var monsterPositions:Array<Array<Int>> = [[7, 38], [72, 38], [7, 86], [72, 86]];
 	
-	public var spellManager:SkillSpellManager; // TODO: Necessary?
-	
-	public function new(X:Int, Y:Int) {
+	/**
+	 * Initializer
+	 * 
+	 * @param	X
+	 * @param	Y
+	 */
+	public function new(X:Int, Y:Int):Void {
 		super();
 		x = X;
 		y = Y;
 		
+		// Graphics setup
 		scene = new FlxSprite(x, y);
 		scene.loadGraphic("assets/images/BattleScreen.png");
 		add(scene);
@@ -31,8 +36,6 @@ class BattleScene extends FlxGroup {
 		sceneBackground.centerOffsets();
 		sceneBackground.loadGraphic("assets/images/BattleBackgrounds/BattleBackground-" + Std.string(FlxG.random.int(1, 16)) + ".png");
 		add(sceneBackground);
-		
-		monsters = [null, null, null, null];
 	}
 	
 	/**
@@ -40,12 +43,25 @@ class BattleScene extends FlxGroup {
 	 * 
 	 * @param	monster		Monster to add
 	 * @param	position	Index to add it true
-	 * @return	True: Success, False: Error
+	 * @return				Whether the monster was added or not
 	 */
 	public function addMonster(monster:Monster, position:Int, ?Flip:Bool = false):Bool {
-		if (monster == null || position < 0 || position > 4) return false;
-		if (monsters[position] != null) return false;
+		// Error checking
+		if (monster == null) {
+			FlxG.log.warn("Cannot add null monster");
+			return false;
+		}
+		// TODO: This upper position boundary will change depending on the scene type
+		if (position < 0 || position > 4) {
+			FlxG.log.warn("Cannot add monster with invalid position index: " + position);
+			return false;
+		}
+		if (monsters[position] != null) {
+			FlxG.log.warn("Cannot add monster to already occupied position: " + position);
+			return false;
+		}
 		
+		// Now we can add the monster
 		if (Flip) monster.facing = FlxObject.LEFT;
 		monsters[position] = monster;
 		add(monster);
@@ -59,10 +75,14 @@ class BattleScene extends FlxGroup {
 	 * Return monster at supplied position
 	 * 
 	 * @param	position	Index of monster
-	 * @return	Monster if exists, null if not
+	 * @return				The Monster, Null if invalid
 	 */
 	public function getMonster(position:Int):Monster {
-		if (position < 0 || position > 4) return null;
+		// TODO: This upper position boundary will change depending on the scene type
+		if (position < 0 || position > 4) {
+			FlxG.log.warn("A Monster cannot exist out of postion bounds: " + position);
+			return null;
+		}
 		return monsters[position];
 	}
 	
@@ -113,7 +133,7 @@ class BattleScene extends FlxGroup {
 	/**
 	 * Remove all monsters from the scene
 	 */
-	public function clearScene() {
+	public function clearScene():Void {
 		for (monster in monsters) {
 			monster.destroy();
 			remove(monster);
@@ -125,7 +145,7 @@ class BattleScene extends FlxGroup {
 	/**
 	 * Check if there are any valid monsters alive
 	 * 
-	 * @return	True: A monster exists, False: No monsters exist
+	 * @return	Whether there are valid monsters remaining or not
 	 */
 	public function checkForMonsters():Bool {
 		for (monster in monsters) {
@@ -140,5 +160,4 @@ class BattleScene extends FlxGroup {
 	private function shuffleBackground() {
 		sceneBackground.loadGraphic("assets/images/BattleBackgrounds/BattleBackground-" + Std.string(FlxG.random.int(1, 16)) + ".png");
 	}
-	
 }
