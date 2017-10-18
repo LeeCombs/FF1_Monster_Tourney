@@ -2517,7 +2517,7 @@
    "weaknesses": null,
    "resistances": null,
    "spellChance": 96,
-   "spells": "[RUSE,MITE,SLOW,DARK,SLEP,FIRE,LIT,HEAL]",
+   "spells": "[RUSE,MUTE,SLOW,DARK,SLEP,FIRE,LIT,HEAL]",
    "skillChance": 0,
    "skills": null,
    "gold": 4000,
@@ -2619,7 +2619,7 @@
    "spellChance": 0,
    "spells": null,
    "skillChance": 64,
-   "skills": "[TRANCE.TRANCE,TRANCE,TRANCE]",
+   "skills": "[TRANCE,TRANCE,TRANCE,TRANCE]",
    "gold": 999,
    "exp": 822,
    "size": "small"

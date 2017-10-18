@@ -92,6 +92,57 @@ class Monster extends FlxSprite {
 	 * @return
 	 */
 	public function getAction():Action {
+		var action:Action = { actionType: null, actionName: "SETME" };
+		var statusAction:Action = { actionType: Action.ActionType.StatusEffect, actionName: "SETME" };
+		
+		// Check if current status effects prohibit an action this turn
+		if (checkForStatus(Status.Poisoned)) {
+			// If the bug-fix option is selected, damage the monster for 2
+			// Else do nothing
+		}
+		
+		if (checkForStatus(Status.Paralyzed)) {
+			// 9.8% chance to cure
+			if (FlxG.random.int(0, 1000) < 98) {
+				// Cure the status and display "Cured!"
+				removeStatus(Status.Paralyzed);
+				statusAction.actionName = "Cured!";
+			}
+			else {
+				// No action, display "Paralyzed"
+				statusAction.actionName = "Paralyzed";
+			}
+			return statusAction;
+		}
+		
+		if (checkForStatus(Status.Asleep)) {
+			// Unless the bug-fix option is selected, monsters always wake up
+			// Else...
+			if (FlxG.random.int(0, 80) < hpMax) {
+				// Cure the status and display "Cured!"
+				removeStatus(Status.Asleep);
+				statusAction.actionName = "Cured!";
+			}
+			else {
+				// No action, display "Alseep"
+				statusAction.actionName = "Asleep";
+			}
+			return statusAction;
+		}
+		
+		if (checkForStatus(Status.Confused)) {
+			if (FlxG.random.int(0, 100) < 25) {
+				// Cure the status and display "Cured!"
+				removeStatus(Status.Confused);
+				statusAction.actionName = "Cured!";
+			}
+			else {
+				// Attack self of ally with "Fire"
+			}
+		}
+		
+		// The monster is not under a status that effects it's action, continue regular logic
+		
 		/* Monster Action Logic
 		* 
 		* Priority: Run, Spell, Skill, Attack
@@ -104,12 +155,17 @@ class Monster extends FlxSprite {
 		* - Start from 0, continue sequentially
 		* Regular Attack
 		*/
-		var action:Action = { actionType: null, actionName: "SETME" };
 		
 		// TODO - run logic?
 		
 		if (mData.spells != null && mData.spells.length > 0) {
 			if (FlxG.random.int(0, 128) <= mData.spellChance) {
+				// Check for silence and wasting a turn attempting to cast
+				if (checkForStatus(Status.Silenced)) {
+					statusAction.actionName = "Silenced";
+					return statusAction;
+				}
+				
 				action.actionType = Action.ActionType.Spell;
 				action.actionName = mData.spells[spellIndex++];
 				if (spellIndex >= mData.spells.length) spellIndex = 0;
@@ -119,6 +175,12 @@ class Monster extends FlxSprite {
 		
 		if (mData.skills != null && mData.skills.length > 0) {
 			if (FlxG.random.int(0, 128) <= mData.skillChance) {
+				// Check for silence and wasting a turn attempting to cast
+				if (checkForStatus(Status.Silenced)) {
+					statusAction.actionName = "Silenced";
+					return statusAction;
+				}
+				
 				action.actionType = Action.ActionType.Skill;
 				action.actionName = mData.skills[skillIndex++];
 				if (skillIndex >= mData.skills.length) skillIndex = 0;

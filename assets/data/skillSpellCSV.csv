@@ -4,7 +4,7 @@ id,name,effectivity,accuracy,element,target,effect,price,successMessage
 02,HARM,20,24,,All Enemies,Damage Undead,100,
 03,FOG,8,0,,Single Ally,Defense Up,100,Armor up
 04,RUSE,80,0,,Caster,Evasion Up,100,Easy to dodge
-05,Fire,10,24,Fire,Single Enemy,Damage,100,
+05,FIRE,10,24,Fire,Single Enemy,Damage,100,
 06,SLEP,Sleep,24,Status,All Enemies,Status Ailment,100,Asleep
 07,LOCK,20,64,,Single Enemy,Evasion Down,100,Easy to hit
 08,LIT,10,24,Lightning,Single Enemy,Damage,100,

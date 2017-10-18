@@ -35,6 +35,7 @@ class SkillSpellManager {
 	 * @return
 	 */
 	public static function getSkillSpellByName(skillSpellName:String):SkillSpell {
+		trace("getSkillSpellByName: " + skillSpellName);
 		var returnSkillSpell = null;
 		for (s in skillSpellData) {
 			if (s.name == skillSpellName) {

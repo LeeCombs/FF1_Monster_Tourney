@@ -1,7 +1,7 @@
 package;
 
 enum ActionType {
-	Attack; Spell; Skill;
+	Attack; Spell; Skill; StatusEffect;
 }
 
 typedef Action = {

@@ -187,7 +187,13 @@ class AttackManager {
 		// Fixed formula
 		// - If target is resistant to an enemy's attack element, BC = 0
 		if (useOriginalFormula) {
-			// TODO - iterate attacker's weaknesses and compare against target's resistances
+			// Iterate attacker's weaknesses and compare against target's resistances
+			for (weakness in attacker.mData.weaknesses) {
+				if (target.isResistantTo(weakness)) {
+					BC = 0;
+					break;
+				}
+			}
 		}
 		else {
 			if (target.isResistantTo(attacker.mData.element)) BC = 0;

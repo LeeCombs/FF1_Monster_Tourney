@@ -76,22 +76,20 @@ class PlayState extends FlxState {
 		add(resultTextBox);
 		
 		// Add monsters
-		var mon1 = MonsterManager.getMonsterByName("LICH");
-		mon1.setScene(playerOneScene);
-		playerOneScene.addMonster(mon1, 0);
-		var mon2 = MonsterManager.getMonsterByName("KARY");
-		mon2.setScene(playerOneScene);
-		playerOneScene.addMonster(mon2, 1);
-		var mon3 = MonsterManager.getMonsterByName("KRAKEN");
-		mon3.setScene(playerOneScene);
-		playerOneScene.addMonster(mon3, 2);
-		var mon4 = MonsterManager.getMonsterByName("TIAMAT");
-		mon4.setScene(playerOneScene);
-		playerOneScene.addMonster(mon4, 3);
 		
-		var mon5 = MonsterManager.getMonsterByName("WarMECH");
-		mon5.setScene(playerTwoScene);
-		playerTwoScene.addMonster(mon5, 0, true);
+		var s1 = ["GrNAGA", "SORCERER", "PHANTOM", "FrGIANT"];
+		for (s in s1) {
+			var mon = MonsterManager.getMonsterByName(s);
+			mon.setScene(playerOneScene);
+			playerOneScene.addMonster(mon, s1.indexOf(s));
+		}
+		
+		var s2 = ["TYRO", "EYE", "GIANT", "PEDE"];
+		for (s in s2) {
+			var mon = MonsterManager.getMonsterByName(s);
+			mon.setScene(playerTwoScene);
+			playerTwoScene.addMonster(mon, s2.indexOf(s), true);
+		}
 		
 	}
 	
@@ -126,7 +124,6 @@ class PlayState extends FlxState {
 			turnOrder[posTwo] = tempVal;
 		}
 		
-		trace("turnOrder: " + turnOrder);
 		return turnOrder;
 	}
 	
@@ -170,8 +167,6 @@ class PlayState extends FlxState {
 	 * @return
 	 */
 	private function getCurrentActor():Monster {
-		trace("getCurrentActor");
-		
 		// Ensure there's a turn schedule to execute
 		if (turnSchedule.length <= 0) {
 			turnSchedule = getTurnSchedule();
@@ -189,8 +184,7 @@ class PlayState extends FlxState {
 		
 		// Grab the active monster
 		var monstersArray:Array<Monster> = activeScene.getMonsters();
-		if (monstersArray[slotNum] == null) return null;
-		trace("getCurrentActor: " + monstersArray[slotNum]);
+		if (monstersArray[slotNum] == null) return null; //?
 		
 		return(monstersArray[slotNum]);
 	}
@@ -201,8 +195,6 @@ class PlayState extends FlxState {
 	 * @return
 	 */
 	private function getCurrentAction(monster:Monster):Action {
-		trace("getCurrentAction: " + monster.mData.name);
-		
 		// Get the monster's action and build targetQueue
 		var action:Action = monster.getAction();
 		switch(action.actionType) {
@@ -239,6 +231,9 @@ class PlayState extends FlxState {
 					default:
 						trace("Invalid spell target: " + skillSpell.target);
 				}
+			case ActionType.StatusEffect:
+				// What am I doing...
+				messageQueue.push([resultTextBox, action.actionName]);
 			default:
 				trace("Invalid actionType: " + action.actionType);
 		}
@@ -345,7 +340,7 @@ class PlayState extends FlxState {
 				
 				// Spells and Skills show their name on setup, physical attacks dont
 				activeAction = getCurrentAction(actingMonster);
-				if (activeAction.actionType != ActionType.Attack) {
+				if (activeAction.actionType == ActionType.Spell || activeAction.actionType == ActionType.Skill) {
 					messageQueue.push([actionTextBox, activeAction.actionName]);
 				}
 				
@@ -391,6 +386,8 @@ class PlayState extends FlxState {
 						var spell:SkillSpell = SkillSpellManager.getSkillSpellByName(activeAction.actionName);
 						currentResult = SkillSpellManager.castSpell(spell, targetMonster);
 						handleResult(currentResult, targetMonster);
+					case ActionType.StatusEffect:
+						// Do nothing?
 					default:
 						trace("Invalid actionType: " + activeAction.actionType);
 						return;
