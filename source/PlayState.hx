@@ -77,14 +77,14 @@ class PlayState extends FlxState {
 		
 		// Add monsters
 		
-		var s1 = ["GrNAGA", "SORCERER", "PHANTOM", "FrGIANT"];
+		var s1 = ["GrNAGA", "SORCERER", "PHANTOM", "MudGOL"];
 		for (s in s1) {
 			var mon = MonsterManager.getMonsterByName(s);
 			mon.setScene(playerOneScene);
 			playerOneScene.addMonster(mon, s1.indexOf(s));
 		}
 		
-		var s2 = ["TYRO", "EYE", "GIANT", "PEDE"];
+		var s2 = ["TYRO", "EYE", "ASTOS", "PEDE"];
 		for (s in s2) {
 			var mon = MonsterManager.getMonsterByName(s);
 			mon.setScene(playerTwoScene);

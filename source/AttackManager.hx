@@ -1,8 +1,10 @@
 package;
 
-import Monster.Status;
 import flixel.FlxG;
 import Action;
+import Monster.Buff;
+import Monster.Debuff;
+import Monster.Status;
 
 class AttackManager {
 	public static var useOriginalFormula:Bool = true;
@@ -16,11 +18,14 @@ class AttackManager {
 	 */
 	public static function attack(attacker:Monster, target:Monster):ActionResult {
 		var hits = attacker.mData.hits;
+		var hitMult:Int = 1;
+		
 		// Check for FAST buff and SLOW debuff
-		// if (attacker.hasBuff("FAST")) hits++;
-		// if (attacker.hasDebuff("SLOW")) hits--;
+		if (attacker.checkForBuff(Buff.FAST)) hitMult++;
+		if (attacker.checkForDebuff(Debuff.SLOW)) hitMult--;
 		
 		// Minimum # of hits is 1
+		hits *= hitMult;
 		if (hits < 1) hits = 1;
 		
 		// Calculate damage seperately for each hit
@@ -42,7 +47,6 @@ class AttackManager {
 		target.damage(damageSum);
 		
 		if (totalHits == 0) return { message:"", damage:0, hits:0 };
-		
 		var result = { message:"", damage:damageSum, hits:totalHits };
 		if (critFlag) result.message = "Critical Hit!";
 		return result;
@@ -74,7 +78,6 @@ class AttackManager {
 		var damageRoll:Int = FlxG.random.int(atk, atk * 2);
 		var damage:Int = damageRoll - target.mData.defense;
 		if (crit) damage += damageRoll;
-		// if (checkForCritical(attacker)) damage += damageRoll;
 		
 		// Minimum damage is 1
 		if (damage < 1) damage = 1;

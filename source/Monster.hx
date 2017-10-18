@@ -104,7 +104,7 @@ class Monster extends FlxSprite {
 		
 		if (checkForStatus(Status.Paralyzed)) {
 			// 9.8% chance to cure
-			if (FlxG.random.int(0, 1000) < 980) {
+			if (FlxG.random.int(0, 1000) < 98) {
 				removeStatus(Status.Paralyzed);
 				curedFlag = true;
 			}

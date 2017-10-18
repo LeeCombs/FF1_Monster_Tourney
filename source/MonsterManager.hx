@@ -3,17 +3,12 @@ import haxe.Json;
 import openfl.Assets;
 
 class MonsterManager {
-	
-	static var monsterData = [];
-
-	public function new() {
-		//
-	}
+	private static var monsterData = [];
 	
 	/**
 	 * Initializer
 	 */
-	public static function loadData() {
+	public static function loadData():Void {
 		var monsterDataJSON = Assets.getText("assets/data/monsterData.json");
 		monsterData = Json.parse(monsterDataJSON);
 		
@@ -56,5 +51,4 @@ class MonsterManager {
 		var trimString = inputString.substring(1, inputString.length - 1);
 		return trimString.split(",");
 	}
-	
 }

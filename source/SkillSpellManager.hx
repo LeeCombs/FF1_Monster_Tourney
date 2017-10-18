@@ -199,11 +199,12 @@ class SkillSpellManager {
 	
 	/**
 	 * Remove a status from the target monster
+	 * TODO: Check what happens when attempting to cure a status that isn't applied
 	 * 
 	 * @param	skillSpell
 	 * @param	target
 	 */
-	private static function restoreStatus(skillSpell:SkillSpell, target:Monster):Bool {
+	private static function restoreStatus(skillSpell:SkillSpell, target:Monster):Void {
 		switch(skillSpell.name.toUpperCase()) {
 			case "AMUT":
 				target.removeStatus(Monster.Status.Silenced);
@@ -212,7 +213,6 @@ class SkillSpellManager {
 			case "LAMP":
 				target.removeStatus(Monster.Status.Blind);
 		}
-		return true;
 	}
 	
 	/**
@@ -226,9 +226,7 @@ class SkillSpellManager {
 		var e:Int = Std.parseInt(skillSpell.effectivity);
 		var healAmount = FlxG.random.int(e, e * 2);
 		if (healAmount > 255) healAmount = 255;
-		
-		target.heal(healAmount); // TODO - Move this out of this class?
-		
+		target.heal(healAmount); 
 		return healAmount;
 	}
 	
@@ -239,8 +237,7 @@ class SkillSpellManager {
 	 * @param	target
 	 */
 	private static function buffSkillSpell(skillSpell:SkillSpell, target:Monster):Bool {
-		target.addBuff(skillSpell.name);
-		return true;
+		return target.addBuff(skillSpell.name);
 	}
 	
 	/**
@@ -251,8 +248,7 @@ class SkillSpellManager {
 	 */
 	private static function debuffSkillSpell(skillSpell:SkillSpell, target:Monster):Bool {
 		if (checkForHit(skillSpell, target)) {
-			target.addDebuff(skillSpell.name);
-			return true;
+			return target.addDebuff(skillSpell.name);
 		}
 		return false;
 	}
@@ -262,9 +258,8 @@ class SkillSpellManager {
 	 * 
 	 * @param	target
 	 */
-	private static function fullHeal(target:Monster):Bool {
+	private static function fullHeal(target:Monster):Void {
 		target.fullHeal();
-		return true;
 	}
 	
 	/**
