@@ -5,25 +5,16 @@ import flixel.FlxG;
 import Action;
 
 class AttackManager {
-	// A = Attack  	(Listed in game as "Damage")
-	// D = Defense (Listed in-game as "Absorb")
-	// H = Hit % (Accuracy)
-	// E = Evasion
-	// BC = Base Chance to Hit
-	
-	private var useOriginalFormula:Bool = true;
-
-	public function new() {
-		//
-	}
+	public static var useOriginalFormula:Bool = true;
 	
 	/**
+	 * Apply an attack attempt from a monster to it's target
 	 * 
-	 * @param	attacker
-	 * @param	target
-	 * @return
+	 * @param	attacker	The Monster attacking
+	 * @param	target		The target Monster of the attack
+	 * @return				The result of the attempted attack
 	 */
-	public function attack(attacker:Monster, target:Monster):ActionResult {
+	public static function attack(attacker:Monster, target:Monster):ActionResult {
 		var hits = attacker.mData.hits;
 		// Check for FAST buff and SLOW debuff
 		// if (attacker.hasBuff("FAST")) hits++;
@@ -58,13 +49,14 @@ class AttackManager {
 	}
 	
 	/**
+	 * Get the amount of damage dealt by an attack by a monster to it's target
 	 * 
-	 * @param	attacker
-	 * @param	target
-	 * @param	crit
-	 * @return
+	 * @param	attacker	Monster dealing the attack
+	 * @param	target		Monster targeted by the attack
+	 * @param	crit		Whether the attack was a critcal hit or not
+	 * @return				The amount of damage applied to the target
 	 */
-	private function getDamage(attacker:Monster, target:Monster, crit:Bool):Int {
+	private static function getDamage(attacker:Monster, target:Monster, crit:Bool):Int {
 		var atk = attacker.mData.attack;
 		
 		// If target is weak to an Elemental or Enemy-Type attribute of weap, add +4 to A
@@ -89,7 +81,14 @@ class AttackManager {
 		return damage;
 	}
 	
-	public function checkForHit(attacker:Monster, target:Monster):Bool {
+	/**
+	 * Check if an attacker lands a hit on it's target
+	 * 
+	 * @param	attacker	Monster who is attacking
+	 * @param	target		Monster being targeted by attack
+	 * @return				Whether the attack hit or not
+	 */
+	public static function checkForHit(attacker:Monster, target:Monster):Bool {
 		// Base Chance to Hit
 		var BC:Int = 168;
 		if (attacker.checkForStatus(Status.Blind)) BC -= 40;
@@ -140,15 +139,17 @@ class AttackManager {
 	}
 	
 	/**
+	 * Check if an attack lands a critical hit
 	 * 
 	 * @param	attacker
-	 * @return
+	 * @return	Whether the attack was a critical hit or not
 	 */
-	private function checkForCritical(attacker:Monster):Bool {
+	private static function checkForCritical(attacker:Monster):Bool {
 		// Critical Rate = Weapon Index Number
 		// For monsters: Critical Rate = Monster's Critial Rate
 		var critRate = attacker.mData.critRate;
 		
+		// 0 always hits, 200 always misses
 		var hitRoll = FlxG.random.int(0, 200);
 		if (hitRoll == 200) return false;
 		if (hitRoll <= critRate) return true;
@@ -157,12 +158,13 @@ class AttackManager {
 	}
 	
 	/**
+	 * Check if an attack applies a status effect
 	 * 
 	 * @param	attacker
 	 * @param	target
-	 * @return
+	 * @return	Whether the attack applied a status effect or not
 	 */
-	public function statusAttack(attacker:Monster, target:Monster):Bool {
+	public static function statusAttack(attacker:Monster, target:Monster):Bool {
 		/*
 		* Making this note here for now...
 		* 

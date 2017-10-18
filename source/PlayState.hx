@@ -22,10 +22,6 @@ class PlayState extends FlxState {
 	private var playerOneScene:BattleScene;
 	private var playerTwoScene:BattleScene;
 	
-	// Managers
-	private var spellManager:SkillSpellManager;
-	private var attackManager:AttackManager;
-	
 	// Text displays
 	private var actorTextBox:TextBox;	// Top left
 	private var targetTextBox:TextBox;	// Mid left
@@ -57,9 +53,6 @@ class PlayState extends FlxState {
 		super.create();
 		
 		FlxG.sound.playMusic("assets/music/Battle_Scene.ogg", 0.1);
-		
-		// Set up managers
-		attackManager = new AttackManager();
 		
 		// Battle Scenes
 		playerOneScene = new BattleScene(25, 50);
@@ -391,7 +384,7 @@ class PlayState extends FlxState {
 				switch(activeAction.actionType) {
 					case ActionType.Attack:
 						FlxG.sound.play("assets/sounds/Physical_Hit.ogg");
-						currentResult = attackManager.attack(actingMonster, targetMonster);
+						currentResult = AttackManager.attack(actingMonster, targetMonster);
 						handleResult(currentResult, targetMonster, true);
 					case ActionType.Spell, ActionType.Skill:
 						FlxG.sound.play("assets/sounds/Spell_Hit.ogg");
