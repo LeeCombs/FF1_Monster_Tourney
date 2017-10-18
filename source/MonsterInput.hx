@@ -1,5 +1,6 @@
 package;
 
+import flixel.FlxG;
 import flixel.addons.ui.FlxInputText;
 import flixel.group.FlxGroup;
 import flixel.text.FlxText;
@@ -13,8 +14,7 @@ class MonsterInput extends FlxGroup {
 	public var textInput:FlxInputText;
 	public var monsterSize:String;
 	
-	
-	
+	// Helper for ensuring color correctness based on size
 	private var bgColors:Map<String, FlxColor> = [
 		"small" => FlxColor.BLUE.getLightened(0.4),
 		"medium" => FlxColor.ORANGE.getLightened(0.4),
@@ -33,7 +33,7 @@ class MonsterInput extends FlxGroup {
 		
 		var alph:Array<String> = ["A", "B", "C", "D", "E", "F", "G", "H", "I"];
 		if (alph.indexOf(IDText.toUpperCase()) == -1) {
-			trace("Invalid idText given: " + IDText);
+			FlxG.log.warn("Invalid idText given: " + IDText);
 			return;
 		}
 		idText = new FlxText(X, Y, 0, IDText);
@@ -45,8 +45,9 @@ class MonsterInput extends FlxGroup {
 	}
 	
 	/**
+	 * Set the Monster size of the object. Updates size restriction and color display.
 	 * 
-	 * @param	Size
+	 * @param	Size	Size of the monster to update to.
 	 */
 	public function setSize(Size:String):Void {
 		// Set size, then update the textInput's color to match, and clear it's input
