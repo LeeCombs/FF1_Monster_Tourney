@@ -24,7 +24,6 @@ class PlayState extends FlxState {
 	
 	// Managers
 	private var spellManager:SkillSpellManager;
-	private var skillManager:SkillManager;
 	private var attackManager:AttackManager;
 	
 	// Text displays
@@ -60,7 +59,6 @@ class PlayState extends FlxState {
 		FlxG.sound.playMusic("assets/music/Battle_Scene.ogg", 0.1);
 		
 		// Set up managers
-		spellManager = new SkillSpellManager();
 		attackManager = new AttackManager();
 		
 		// Battle Scenes
@@ -219,7 +217,7 @@ class PlayState extends FlxState {
 				// Grab a single, random target from the target scene
 				targetQueue.push(getMonsterTarget(targetScene.getMonsters()));
 			case ActionType.Spell, ActionType.Skill:
-				var skillSpell:SkillSpell = spellManager.getSkillSpellByName(action.actionName);
+				var skillSpell:SkillSpell = SkillSpellManager.getSkillSpellByName(action.actionName);
 				if (skillSpell == null) {
 					trace("Invalid spell retrieved: " + skillSpell);
 					return null;
@@ -397,8 +395,8 @@ class PlayState extends FlxState {
 						handleResult(currentResult, targetMonster, true);
 					case ActionType.Spell, ActionType.Skill:
 						FlxG.sound.play("assets/sounds/Spell_Hit.ogg");
-						var spell:SkillSpell = spellManager.getSkillSpellByName(activeAction.actionName);
-						currentResult = spellManager.castSpell(spell, targetMonster);
+						var spell:SkillSpell = SkillSpellManager.getSkillSpellByName(activeAction.actionName);
+						currentResult = SkillSpellManager.castSpell(spell, targetMonster);
 						handleResult(currentResult, targetMonster);
 					default:
 						trace("Invalid actionType: " + activeAction.actionType);

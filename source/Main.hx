@@ -16,7 +16,9 @@ class Main extends Sprite {
 			r.run();
 		#end
 		
+		// Initializer the managers
 		MonsterManager.loadData();
+		SkillSpellManager.loadData();
 		
 		super();
 		// addChild(new FlxGame(640, 360, SceneBuilder));

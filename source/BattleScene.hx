@@ -33,8 +33,6 @@ class BattleScene extends FlxGroup {
 		add(sceneBackground);
 		
 		monsters = [null, null, null, null];
-		
-		spellManager = new SkillSpellManager();
 	}
 	
 	/**

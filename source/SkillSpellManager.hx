@@ -1,4 +1,5 @@
 package;
+
 import flixel.FlxG;
 import haxe.Json;
 import openfl.Assets;
@@ -17,14 +18,12 @@ typedef SkillSpell = {
 }
 
 class SkillSpellManager {
-	// E = Effectivity. Determined by Spell. (Effectively capped at 255)
-	// SA = Spell Accuracy. Determined by Spell.
-	// MD = Magic Defense. Determined by Target.
-	// BC = Base Chance to Hit = 148
+	private static var skillSpellData = [];
 	
-	private var skillSpellData = [];
-	
-	public function new() {
+	/**
+	 * Initializer
+	 */
+	public static function loadData():Void {
 		var skillSpellDataJSON = Assets.getText("assets/data/skillSpellData.json");
 		skillSpellData = Json.parse(skillSpellDataJSON);
 	}
@@ -35,15 +34,14 @@ class SkillSpellManager {
 	 * @param	skillSpellName
 	 * @return
 	 */
-	public function getSkillSpellByName(skillSpellName:String):SkillSpell {
+	public static function getSkillSpellByName(skillSpellName:String):SkillSpell {
 		var returnSkillSpell = null;
 		for (s in skillSpellData) {
 			if (s.name == skillSpellName) {
-				returnSkillSpell = s;
-				break;
+				return s;
 			}
 		}
-		return returnSkillSpell;
+		return null;
 	}
 	
 	/**
@@ -53,7 +51,7 @@ class SkillSpellManager {
 	 * @param	target
 	 * @return	Result of the action { message, value }
 	 */
-	public function castSpell(skillSpell:SkillSpell, target:Monster):ActionResult {
+	public static function castSpell(skillSpell:SkillSpell, target:Monster):ActionResult {
 		var failedResult:ActionResult = { message:"Ineffective", damage:0, hits:0 };
 		var successfulResult:ActionResult = { message:skillSpell.successMessage, damage:0, hits:0 };
 		if (successfulResult.message == null) successfulResult.message = "";
@@ -120,7 +118,6 @@ class SkillSpellManager {
 		return failedResult;
 	}
 	
-
 	/**
 	 * Cast a damaging skillSpell against a target
 	 * 
@@ -128,7 +125,7 @@ class SkillSpellManager {
 	 * @param	target
 	 * @return	Damage amount
 	 */
-	private function damageSkillSpell(skillSpell:SkillSpell, target:Monster):Int {
+	private static function damageSkillSpell(skillSpell:SkillSpell, target:Monster):Int {
 		var e:Int = Std.parseInt(skillSpell.effectivity);
 		
 		// Check for resistances/weaknesses. Half for resist, 1.5x for weak.
@@ -150,7 +147,7 @@ class SkillSpellManager {
 	 * @param	target
 	 * @return	True: Success, False: Miss
 	 */
-	private function statusSkillSpell(skillSpell:SkillSpell, target:Monster):Bool {
+	private static function statusSkillSpell(skillSpell:SkillSpell, target:Monster):Bool {
 		// 300HP Exceptions (STUN, BLND, XXXX) always hit if target HP is <= 300
 		// and is not resistant to the element, otherwise is always misses
 		switch(skillSpell.name.toUpperCase()) {
@@ -205,7 +202,7 @@ class SkillSpellManager {
 	 * @param	skillSpell
 	 * @param	target
 	 */
-	private function restoreStatus(skillSpell:SkillSpell, target:Monster):Bool {
+	private static function restoreStatus(skillSpell:SkillSpell, target:Monster):Bool {
 		switch(skillSpell.name.toUpperCase()) {
 			case "AMUT":
 				target.removeStatus(Monster.Status.Silenced);
@@ -224,7 +221,7 @@ class SkillSpellManager {
 	 * @param	target
 	 * @return	Heal amount
 	 */
-	private function healSkillSpell(skillSpell:SkillSpell, target:Monster):Int {
+	private static function healSkillSpell(skillSpell:SkillSpell, target:Monster):Int {
 		var e:Int = Std.parseInt(skillSpell.effectivity);
 		var healAmount = FlxG.random.int(e, e * 2);
 		if (healAmount > 255) healAmount = 255;
@@ -240,7 +237,7 @@ class SkillSpellManager {
 	 * @param	skillSpell
 	 * @param	target
 	 */
-	private function buffSkillSpell(skillSpell:SkillSpell, target:Monster):Bool {
+	private static function buffSkillSpell(skillSpell:SkillSpell, target:Monster):Bool {
 		target.addBuff(skillSpell.name);
 		return true;
 	}
@@ -251,7 +248,7 @@ class SkillSpellManager {
 	 * @param	skillSpell
 	 * @param	target
 	 */
-	private function debuffSkillSpell(skillSpell:SkillSpell, target:Monster):Bool {
+	private static function debuffSkillSpell(skillSpell:SkillSpell, target:Monster):Bool {
 		if (checkForHit(skillSpell, target)) {
 			target.addDebuff(skillSpell.name);
 			return true;
@@ -264,7 +261,7 @@ class SkillSpellManager {
 	 * 
 	 * @param	target
 	 */
-	private function fullHeal(target:Monster):Bool {
+	private static function fullHeal(target:Monster):Bool {
 		target.fullHeal();
 		return true;
 	}
@@ -276,7 +273,7 @@ class SkillSpellManager {
 	 * @param	target
 	 * @return	True: Hit, False: Miss
 	 */
-	private function checkForHit(skillSpell:SkillSpell, target:Monster):Bool {
+	private static function checkForHit(skillSpell:SkillSpell, target:Monster):Bool {
 		/*
 		NOTE: Status spells can hit or miss, which is determined by this calculation.
 		Damaging spells always "hit," but may be "resisted," in which case the doubling
