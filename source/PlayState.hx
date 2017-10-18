@@ -196,6 +196,14 @@ class PlayState extends FlxState {
 	 */
 	private function getCurrentAction(monster:Monster):Action {
 		// Get the monster's action and build targetQueue
+		
+		// This case isn't really able to occur, since enemies do not have access to abilities that cause confusion, but alas
+		if (monster.checkForStatus(Status.Confused)) {
+			// In this case, the monster will target itself or an ally with "FIRE"
+			targetQueue.push(getMonsterTarget(activeScene.getMonsters()));
+			return { actionType: ActionType.Spell, actionName: "FIRE" };
+		}
+		
 		var action:Action = monster.getAction();
 		switch(action.actionType) {
 			case ActionType.Attack:

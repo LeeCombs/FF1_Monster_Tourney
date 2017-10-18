@@ -26,10 +26,10 @@ id,name,effectivity,accuracy,element,target,effect,price,successMessage
 17,LIT2,30,24,Lightning,All Enemies,Damage,1500,
 18,LOK2,20,40,,All Enemies,Evasion Up,1500,Easy to hit
 
-19,PURE,Poison,0,,Single Ally,Restore Status,4000,ADD MESSAGE HERE
+19,PURE,Poison,0,,Single Ally,Restore Status,4000,Cured!
 1A,FEAR,40,24,Status,All Enemies,Morale Down,4000,Became terrified
 1B,AICE,Ice,0,,All Allies,Resist Element,4000,Defend cold
-1C,AMUT,Silence,0,,Single Ally,Restore Status,4000,ADD MESSAGE HERE
+1C,AMUT,Silence,0,,Single Ally,Restore Status,4000,Cured!
 1D,SLP2,Sleep,64,,Single Enemy,Status Ailment,4000,Alseep
 1E,FAST,0,0,,Single Ally,Hit Multiplier Up,4000,Quick shot
 1F,CONF,Confuse,64,Status,All Enemies,Status Ailment,4000,Confused
@@ -44,7 +44,7 @@ id,name,effectivity,accuracy,element,target,effect,price,successMessage
 27,WARP,0,255,,All Allies,Nine,8000,
 28,SLO2,0,64,,Single Enemy,Hit Multiplier Down,8000,Lost intelligence
 
-29,SOFT,0,255,,Single Ally,None,20000,ADD MESSAGE HERE
+29,SOFT,0,255,,Single Ally,None,20000,THIS CANNOT OCCUR
 2A,EXIT,0,255,,All Allies,None,20000,
 2B,FOG2,12,0,,All Allies,Defense Up,20000,Armor up
 2C,INV2,40,0,,All Allies,Evasion Up,20000,Easy to dodge

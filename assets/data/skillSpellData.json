@@ -240,7 +240,7 @@
    "target": "Single Ally",
    "effect": "Restore Status",
    "price": 4000,
-   "successMessage": "ADD MESSAGE HERE"
+   "successMessage": "Cured!"
  },
  {
    "id": "1A",
@@ -271,7 +271,7 @@
    "target": "Single Ally",
    "effect": "Restore Status",
    "price": 4000,
-   "successMessage": "ADD MESSAGE HERE"
+   "successMessage": "Cured!"
  },
  {
    "id": "1D",
@@ -400,7 +400,7 @@
    "target": "Single Ally",
    "effect": "None",
    "price": 20000,
-   "successMessage": "ADD MESSAGE HERE"
+   "successMessage": "THIS CANNOT OCCUR"
  },
  {
    "id": "2A",

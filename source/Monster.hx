@@ -92,10 +92,11 @@ class Monster extends FlxSprite {
 	 * @return
 	 */
 	public function getAction():Action {
-		var action:Action = { actionType: null, actionName: "SETME" };
+		// Check for status effects first, and whethre or not they prevent an action from occuring
 		var statusAction:Action = { actionType: Action.ActionType.StatusEffect, actionName: "SETME" };
+		var curedFlag:Bool = false;
+		var statusFlag:Bool = false;
 		
-		// Check if current status effects prohibit an action this turn
 		if (checkForStatus(Status.Poisoned)) {
 			// If the bug-fix option is selected, damage the monster for 2
 			// Else do nothing
@@ -103,45 +104,39 @@ class Monster extends FlxSprite {
 		
 		if (checkForStatus(Status.Paralyzed)) {
 			// 9.8% chance to cure
-			if (FlxG.random.int(0, 1000) < 98) {
-				// Cure the status and display "Cured!"
+			if (FlxG.random.int(0, 1000) < 980) {
 				removeStatus(Status.Paralyzed);
-				statusAction.actionName = "Cured!";
+				curedFlag = true;
 			}
 			else {
-				// No action, display "Paralyzed"
 				statusAction.actionName = "Paralyzed";
+				statusFlag = true;
 			}
-			return statusAction;
 		}
 		
 		if (checkForStatus(Status.Asleep)) {
 			// Unless the bug-fix option is selected, monsters always wake up
-			// Else...
-			if (FlxG.random.int(0, 80) < hpMax) {
-				// Cure the status and display "Cured!"
-				removeStatus(Status.Asleep);
-				statusAction.actionName = "Cured!";
-			}
-			else {
-				// No action, display "Alseep"
-				statusAction.actionName = "Asleep";
-			}
-			return statusAction;
+			// else if (FlxG.random.int(0, 80) < hpMax) removeStatus(Status.Asleep);
+			removeStatus(Status.Asleep);
+			curedFlag = true;
 		}
 		
 		if (checkForStatus(Status.Confused)) {
 			if (FlxG.random.int(0, 100) < 25) {
-				// Cure the status and display "Cured!"
 				removeStatus(Status.Confused);
-				statusAction.actionName = "Cured!";
-			}
-			else {
-				// Attack self of ally with "Fire"
+				curedFlag = true;
 			}
 		}
 		
+		// If either the cured or status flag were flipped, return the StatusEffect result
+		if (curedFlag) {
+			statusAction.actionName = "Cured!";
+			return statusAction;
+		}
+		if (statusFlag) return statusAction;
+		
 		// The monster is not under a status that effects it's action, continue regular logic
+		var action:Action = { actionType: null, actionName: "SETME" };
 		
 		/* Monster Action Logic
 		* 
@@ -203,7 +198,7 @@ class Monster extends FlxSprite {
 	 * 
 	 * @param	value	Amount to damage
 	 */
-	public function damage(value:Int) {
+	public function damage(value:Int):Void {
 		if (value < 0) return;
 		
 		mData.hp -= value;
@@ -215,7 +210,7 @@ class Monster extends FlxSprite {
 	 * 
 	 * @param	value	Amount to heal
 	 */
-	public function heal(value:Int) {
+	public function heal(value:Int):Void {
 		if (value < 0) return;
 		
 		mData.hp += value;
@@ -225,7 +220,7 @@ class Monster extends FlxSprite {
 	/**
 	 * Set hp to max and remove bad statuses
 	 */
-	public function fullHeal() {
+	public function fullHeal():Void {
 		mData.hp = hpMax;
 		statuses = [];
 	}
@@ -235,28 +230,26 @@ class Monster extends FlxSprite {
 	/////////////////////
 	
 	/**
-	 * Add a buff to the monster
+	 * Add a buff to the Monster
 	 * 
-	 * @param	buff
+	 * @param	buff	Name of the buff to add
+	 * @return			Whether the buff was successfully applied or not
 	 */
-	public function addBuff(buff:String) {
+	public function addBuff(buff:String):Bool {
 		/*
 		* FOG  - +8 defense
 		* FOG2 - +12 defense
-		* 
 		* INVS - +40 evade
 		* INV2 - +40 evade
 		* RUSE - +80 evade
-		* 
 		* TMPR - +14 damage
 		* SABR - +16 damage, + <<FIND HIT UP>>
 		* FAST - Doubles hits per round
-		* 
 		* WALL - Resist element
 		*/
 		if (buff == null || buff == "") {
 			trace("Invalid buff supplied: " + buff);
-			return;
+			return false;
 		}
 		
 		// Convert the input string to enum value
@@ -265,21 +258,23 @@ class Monster extends FlxSprite {
 		// Check for buffs that DO NOT stack
 		switch(buffEnum) {
 			case FAST, WALL:
-				if (checkForBuff(buffEnum)) return;
+				if (checkForBuff(buffEnum)) return false;
 			default:
 				// Stop the compiler from complaining
 		}
 		
 		// Add the buff
 		buffs.push(buffEnum);
+		return true;
 	}
 	
 	/**
-	 * Add a debuff to the monster
+	 * Add a debuff to the Monster
 	 * 
-	 * @param	debuff
+	 * @param	debuff	Name of the debuff to add
+	 * @return			Whether the debuff was successfully applied or not
 	 */
-	public function addDebuff(debuff:String) {
+	public function addDebuff(debuff:String):Bool {
 		/*
 		* LOCK - -20 evade
 		* LOK2 - -20 evade
@@ -290,7 +285,7 @@ class Monster extends FlxSprite {
 		*/
 		if (debuff == null || debuff == "") {
 			trace("Invalid debuff supplied: " + debuff);
-			return;
+			return false;
 		}
 		
 		// Convert the string to an enum value
@@ -299,7 +294,7 @@ class Monster extends FlxSprite {
 		// Check for debuffs that DO NOT stack
 		switch(debuffEnum) {
 			case SLOW, SLO2, XFER:
-				if (checkForDebuff(debuffEnum)) return;
+				if (checkForDebuff(debuffEnum)) return false;
 			default:
 				// Stop the compiler from complaining
 		}
@@ -311,13 +306,14 @@ class Monster extends FlxSprite {
 			debuffs.push(SLO2);
 		}
 		else debuffs.push(debuffEnum);
+		return true;
 	}
 	
 	/**
 	 * Check for the presence of a buff
 	 * 
-	 * @param	buff
-	 * @return	True: The buff exists, False: Buff not found
+	 * @param	buff	The Buff to check
+	 * @return			Whether the Buff is present or not
 	 */
 	public function checkForBuff(buff:Buff):Bool {
 		if (buffs.indexOf(buff) != -1) return true;
@@ -327,8 +323,8 @@ class Monster extends FlxSprite {
 	/**
 	 * Check for the presence of a debuff
 	 * 
-	 * @param	debuff
-	 * @return	True: The debuff exists, False: Debuff not found
+	 * @param	debuff	The Debuff to check
+	 * @return			Whether the Debuff is present or not
 	 */
 	public function checkForDebuff(debuff:Debuff):Bool {
 		if (debuffs.indexOf(debuff) != -1) return true;
