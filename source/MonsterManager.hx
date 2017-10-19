@@ -1,4 +1,5 @@
 package;
+import flixel.FlxG;
 import haxe.Json;
 import openfl.Assets;
 
@@ -26,8 +27,8 @@ class MonsterManager {
 	/**
 	 * Retrieve a Monster object by given name
 	 * 
-	 * @param	monsterName
-	 * @return
+	 * @param	monsterName	Display name of the monster (e.g. "IMP", "TYRO", "WarMECH")
+	 * @return				The Monster object of the given name, null if not found
 	 */
 	public static function getMonsterByName(monsterName:String):Monster {
 		for (mData in monsterData) {
@@ -35,14 +36,15 @@ class MonsterManager {
 				return new Monster(mData);
 			}
 		}
+		FlxG.log.warn("Error creating monster: " + monsterName);
 		return null;
 	}
 	
 	/**
 	 * Convert a string of an array ("[A,B,C]"), into it's array counterpart ["A", "B", "C"]
 	 * 
-	 * @param	inputString	string of format: "[A,B,C]"
-	 * @return	Array conversion format: ["A", "B", "C"]
+	 * @param	inputString	String of format: "[A,B,C]"
+	 * @return				Array conversion format: ["A", "B", "C"], null if there's an error
 	 */
 	private static function parseStringToArray(inputString:String):Array<String> {
 		if (inputString == "" || inputString == null) return null;

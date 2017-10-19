@@ -38,9 +38,13 @@ class BattleScene extends FlxGroup {
 		y = Y;
 		flipped = Flipped;
 		
-		// Mirror sceneBPositions if the scene is flipped
+		// Mirror scene Positions if the scene is flipped
 		if (flipped) {
-			// TODO: that ^
+			sceneAPositions.reverse();
+			sceneBPositions.reverse();
+			sceneCPositions.reverse();
+			// Realign scene A x positions to the right
+			for (pos in sceneAPositions) pos[0] += 14;
 		}
 		
 		// Graphics setup
@@ -58,12 +62,50 @@ class BattleScene extends FlxGroup {
 	}
 	
 	/**
+	 * Set the scene and load the monsters of a given string
+	 * 
+	 * @param	input	String in the format of "A;NAME,NAME,NAME,..."
+	 * @return			Whether the load was successful or not
+	 */
+	public function loadMonsters(intputString:String):Bool {
+		if (intputString == null || intputString == "") {
+			FlxG.log.warn("Invalid inputString: " + intputString);
+			return false;
+		}
+		
+		// Break the input string up into it's parts
+		var split = intputString.split(";");
+		var sceneType = split[0];
+		var monsterNames = split[1].split(",");
+		
+		if (!setSceneType(sceneType)) return false;
+		for (i in 0...monsterNames.length) {
+			var mon = MonsterManager.getMonsterByName(monsterNames[i]);
+			
+			// Ignore monsters that cannot be created
+			if (mon == null) continue;
+			
+			// Attempt to add the monster to the scene. If there's a problem, destroy it and carry on
+			if (addMonster(mon, i)) {
+				mon.setScene(this);
+			}
+			else {
+				FlxG.log.warn("Could not add monster: " + mon.mData.name + ", destroying...");
+				mon.destroy();
+			}
+		}
+		
+		return true;
+	}
+	
+	/**
 	 * Set the scene's type (A, B, C, D), which will load postitions and monster types
 	 * 
 	 * @param	type	The Scene type to load. Must be "A", "B", "C", or "D"
 	 * @return			Whether or not the change was successful
 	 */
 	public function setSceneType(type:String):Bool {
+		trace("set scene type: " + type);
 		
 		// Set scene positions based on supplied type
 		switch(type.toUpperCase()) {

@@ -76,22 +76,8 @@ class PlayState extends FlxState {
 		add(resultTextBox);
 		
 		// Add monsters
-		
-		var s1:Array<String> = ["GrNAGA", "MudGOL", "PHANTOM", "SORCERER"];
-		for (i in 0...s1.length) {
-			var mon = MonsterManager.getMonsterByName(s1[i]);
-			mon.setScene(playerOneScene);
-			playerOneScene.addMonster(mon, i);
-		}
-		
-		var s2:Array<String> = ["SORCERER", "IMP", "WOLF", "FrWOLF", "WIZARD", "GUARD", "SENTRY", "GHOST", "LOBSTER"];
-		playerTwoScene.setSceneType("A");
-		for (i in 0...s2.length) {
-			var mon = MonsterManager.getMonsterByName(s2[i]);
-			mon.setScene(playerTwoScene);
-			playerTwoScene.addMonster(mon, i);
-		}
-		
+		playerOneScene.loadMonsters("A;SENTRY,SENTRY,SENTRY,FrWOLF,FrWOLF,FrWOLF,SORCERER,SORCERER,SORCERER");
+		playerTwoScene.loadMonsters("C;TYRO,GrNAGA,PHANTOM,MudGOL");
 	}
 	
 	/**
@@ -319,7 +305,7 @@ class PlayState extends FlxState {
 		// Execute the turn logic
 		if (timerDelay > 0) timerDelay--;
 		if (timerDelay <= 0) {
-			timerDelay = 20;
+			timerDelay = 5;
 			
 			if (doneTurn) {
 				// If there's a text box stack, remove top-down, completing the turn once all messages are gone
