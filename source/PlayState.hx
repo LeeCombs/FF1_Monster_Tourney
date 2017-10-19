@@ -57,7 +57,7 @@ class PlayState extends FlxState {
 		// Battle Scenes
 		playerOneScene = new BattleScene(25, 50);
 		add(playerOneScene);
-		playerTwoScene = new BattleScene(155, 50);
+		playerTwoScene = new BattleScene(155, 50, true);
 		add(playerTwoScene);
 		sceneArray = [playerOneScene, playerTwoScene];
 		
@@ -77,18 +77,19 @@ class PlayState extends FlxState {
 		
 		// Add monsters
 		
-		var s1 = ["GrNAGA", "SORCERER", "PHANTOM", "MudGOL"];
-		for (s in s1) {
-			var mon = MonsterManager.getMonsterByName(s);
+		var s1:Array<String> = ["GrNAGA", "MudGOL", "PHANTOM", "SORCERER"];
+		for (i in 0...s1.length) {
+			var mon = MonsterManager.getMonsterByName(s1[i]);
 			mon.setScene(playerOneScene);
-			playerOneScene.addMonster(mon, s1.indexOf(s));
+			playerOneScene.addMonster(mon, i);
 		}
 		
-		var s2 = ["TYRO", "EYE", "ASTOS", "PEDE"];
-		for (s in s2) {
-			var mon = MonsterManager.getMonsterByName(s);
+		var s2:Array<String> = ["SORCERER", "IMP", "WOLF", "FrWOLF", "WIZARD", "GUARD", "SENTRY", "GHOST", "LOBSTER"];
+		playerTwoScene.setSceneType("A");
+		for (i in 0...s2.length) {
+			var mon = MonsterManager.getMonsterByName(s2[i]);
 			mon.setScene(playerTwoScene);
-			playerTwoScene.addMonster(mon, s2.indexOf(s), true);
+			playerTwoScene.addMonster(mon, i);
 		}
 		
 	}
@@ -110,6 +111,7 @@ class PlayState extends FlxState {
 		* Pick two random numbers 0...12, and swap numbers at those positions
 		* Do this 17 times
 		*/
+		// TODO: This length will changed based on the two BattleScene's Types
 		var turnOrder:Array<Int> = [10, 11, 12, 13, 20, 21, 22, 23];
 		
 		for (i in 0...17) {
@@ -127,11 +129,12 @@ class PlayState extends FlxState {
 	
 	/**
 	 * Determine which slot the monster will target
+	 * TODO: This needs to support 1-9 targetable slots, not just 4
 	 * 
 	 * @param	teamSlots	A Monster array from the target BattleScene
 	 * @return				The Monster that will be targeted 
 	 */
-	private function getMonsterTarget(teamSlots:Array<Monster>):Monster {
+	private function getMonsterTarget(TeamSlots:Array<Monster>, SceneType:String = "A"):Monster {
 		/* Targeting Logic
 		* 
 		* Roll 1...8
@@ -143,8 +146,15 @@ class PlayState extends FlxState {
 		* If target is dead/petrified, reroll until valid
 		*/
 		
-		// Being careful of the infinite loop below
-		if (teamSlots.length <= 0 || teamSlots == [] || teamSlots == null) return null;
+		// Notes to tomorrow...
+		// 1 slot : A 			  = 1
+		// 4 slots: A      B,  CD = 4, 2, 1
+		// 8 slots: AB , CDE, FGH = 4, 2, 1
+		// 9 slots: ABC, DEF, GHI = 4, 2, 1
+		
+		// Error checkin'
+		if (TeamSlots.length <= 0 || TeamSlots == [] || TeamSlots == null) return null;
+		if (["A", "B", "C", "D"].indexOf(SceneType.toUpperCase()) == -1) return null;
 		
 		var targetSlot:Int;
 		while(true) {
@@ -155,7 +165,7 @@ class PlayState extends FlxState {
 			else if (targetRoll == 7) targetSlot = 2;
 			else targetSlot = 3;
 			
-			if (teamSlots[targetSlot] != null) return teamSlots[targetSlot];
+			if (TeamSlots[targetSlot] != null) return TeamSlots[targetSlot];
 		}
 	}
 	
@@ -333,9 +343,6 @@ class PlayState extends FlxState {
 					doneSetup = false;
 					doneApplyAction = false;
 					doneResults = false;
-					
-					turnCount++;
-					turnText.displayText("Turn: " + Std.string(turnCount));
 				}
 			}
 			

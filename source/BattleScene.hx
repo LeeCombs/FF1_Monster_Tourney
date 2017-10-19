@@ -9,23 +9,39 @@ import flixel.text.FlxText;
 class BattleScene extends FlxGroup {
 	public var x:Int;
 	public var y:Int;
+	private var flipped:Bool;
 	
 	private var scene:FlxSprite;
+	private var sceneType:String;
 	private var sceneBackground:FlxSprite;
 	
 	private var monsters:Array<Monster> = [null, null, null, null];
-	private var monsterPositions:Array<Array<Int>> = [[7, 38], [72, 38], [7, 86], [72, 86]];
+	
+	// TODO: This is the same as SceneBuilder's positions.
+	// Look into having the builder pull from here
+	private var activePositions:Array<Array<Int>> = [];
+	private var sceneAPositions:Array<Array<Int>> = [for (i in 0...3) for (j in 0...3) [7 + i * 33, 38 + j * 33]];
+	private var sceneBPositions:Array<Array<Int>> = [[6, 38], [6, 88], [55, 38], [55, 71], [55, 104], [88, 38], [88, 71], [88, 104]];
+	private var sceneCPositions:Array<Array<Int>> = [for (i in 0...2) for (j in 0...2) [7 + i * 65, 38 + j * 48]];
+	private var sceneDPositions:Array<Array<Int>> = [[9, 40]];
 	
 	/**
 	 * Initializer
 	 * 
 	 * @param	X
 	 * @param	Y
+	 * @param	Flipped	Whether the scene is facing left or not
 	 */
-	public function new(X:Int, Y:Int):Void {
+	public function new(X:Int, Y:Int, ?Flipped:Bool = false):Void {
 		super();
 		x = X;
 		y = Y;
+		flipped = Flipped;
+		
+		// Mirror sceneBPositions if the scene is flipped
+		if (flipped) {
+			// TODO: that ^
+		}
 		
 		// Graphics setup
 		scene = new FlxSprite(x, y);
@@ -36,37 +52,60 @@ class BattleScene extends FlxGroup {
 		sceneBackground.centerOffsets();
 		sceneBackground.loadGraphic("assets/images/BattleBackgrounds/BattleBackground-" + Std.string(FlxG.random.int(1, 16)) + ".png");
 		add(sceneBackground);
+		
+		// TEMP
+		activePositions = sceneCPositions;
+	}
+	
+	/**
+	 * Set the scene's type (A, B, C, D), which will load postitions and monster types
+	 * 
+	 * @param	type	The Scene type to load. Must be "A", "B", "C", or "D"
+	 * @return			Whether or not the change was successful
+	 */
+	public function setSceneType(type:String):Bool {
+		
+		// Set scene positions based on supplied type
+		switch(type.toUpperCase()) {
+			case "A": activePositions = sceneAPositions;
+			case "B": activePositions = sceneBPositions;
+			case "C": activePositions = sceneCPositions;
+			case "D": activePositions = sceneDPositions;
+			default:
+				FlxG.log.warn("Invalid scene type supplied: " + type);
+				return false;
+		}
+		return true;
 	}
 	
 	/**
 	 * Add a monster to the given position
 	 * 
 	 * @param	monster		Monster to add
-	 * @param	position	Index to add it true
+	 * @param	index		Index to add it to
 	 * @return				Whether the monster was added or not
 	 */
-	public function addMonster(monster:Monster, position:Int, ?Flip:Bool = false):Bool {
+	public function addMonster(monster:Monster, index:Int):Bool {
 		// Error checking
 		if (monster == null) {
 			FlxG.log.warn("Cannot add null monster");
 			return false;
 		}
-		// TODO: This upper position boundary will change depending on the scene type
-		if (position < 0 || position > 4) {
-			FlxG.log.warn("Cannot add monster with invalid position index: " + position);
+		if (index < 0 || index >= activePositions.length) {
+			FlxG.log.warn("Cannot add monster with invalid position index: " + index);
 			return false;
 		}
-		if (monsters[position] != null) {
-			FlxG.log.warn("Cannot add monster to already occupied position: " + position);
+		if (monsters[index] != null) {
+			FlxG.log.warn("Cannot add monster to already occupied position: " + index);
 			return false;
 		}
 		
 		// Now we can add the monster
-		if (Flip) monster.facing = FlxObject.LEFT;
-		monsters[position] = monster;
+		if (flipped) monster.facing = FlxObject.LEFT;
+		monsters[index] = monster;
 		add(monster);
-		monster.x = x + monsterPositions[position][0];
-		monster.y = y + monsterPositions[position][1];
+		monster.x = x + activePositions[index][0];
+		monster.y = y + activePositions[index][1];
 		
 		return true;
 	}
@@ -79,7 +118,7 @@ class BattleScene extends FlxGroup {
 	 */
 	public function getMonster(position:Int):Monster {
 		// TODO: This upper position boundary will change depending on the scene type
-		if (position < 0 || position > 4) {
+		if (position < 0 || position >= activePositions.length) {
 			FlxG.log.warn("A Monster cannot exist out of postion bounds: " + position);
 			return null;
 		}

@@ -18,6 +18,9 @@ class SceneBuilder extends FlxState {
 	private var scene:FlxSprite;
 	private var sceneSelector:FlxUIDropDownMenu;
 	private var generateSceneButton:FlxButton;
+	
+	// TODO: This is the same as Battle Scenes's positions.
+	// Look into pulling from there
 	private var sceneAPositions:Array<Array<Int>> = [for (i in 0...3) for (j in 0...3) [6 + i * 33, 38 + j * 33]];
 	private var sceneBPositions:Array<Array<Int>> = [[6, 38], [6, 88], [55, 38], [55, 71], [55, 104], [88, 38], [88, 71], [88, 104]];
 	private var sceneCPositions:Array<Array<Int>> = [for (i in 0...2) for (j in 0...2) [9 + i * 59, 38 + j * 50]];
