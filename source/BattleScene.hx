@@ -12,7 +12,7 @@ class BattleScene extends FlxGroup {
 	private var flipped:Bool;
 	
 	private var scene:FlxSprite;
-	private var sceneType:String;
+	public var sceneType:String;
 	private var sceneBackground:FlxSprite;
 	
 	private var monsters:Array<Monster> = [null, null, null, null];
@@ -104,19 +104,19 @@ class BattleScene extends FlxGroup {
 	 * @param	type	The Scene type to load. Must be "A", "B", "C", or "D"
 	 * @return			Whether or not the change was successful
 	 */
-	public function setSceneType(type:String):Bool {
-		trace("set scene type: " + type);
-		
+	public function setSceneType(SceneType:String):Bool {
 		// Set scene positions based on supplied type
-		switch(type.toUpperCase()) {
+		switch(SceneType.toUpperCase()) {
 			case "A": activePositions = sceneAPositions;
 			case "B": activePositions = sceneBPositions;
 			case "C": activePositions = sceneCPositions;
 			case "D": activePositions = sceneDPositions;
 			default:
-				FlxG.log.warn("Invalid scene type supplied: " + type);
+				FlxG.log.warn("Invalid scene type supplied: " + SceneType);
 				return false;
 		}
+		
+		sceneType = SceneType;
 		return true;
 	}
 	

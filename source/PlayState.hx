@@ -97,9 +97,11 @@ class PlayState extends FlxState {
 		* Pick two random numbers 0...12, and swap numbers at those positions
 		* Do this 17 times
 		*/
-		// TODO: This length will changed based on the two BattleScene's Types
-		var turnOrder:Array<Int> = [10, 11, 12, 13, 20, 21, 22, 23];
+		var turnOrder:Array<Int> = [];
+		for (i in 0...playerOneScene.length) turnOrder.push(10 + i);
+		for (i in 0...playerTwoScene.length) turnOrder.push(20 + i);
 		
+		// TODO: Should this be adjusted for up to 18 enemies?
 		for (i in 0...17) {
 			// Get the two indexs to swap, then swap them
 			var posOne:Int = FlxG.random.int(0, turnOrder.length - 1);
@@ -120,39 +122,93 @@ class PlayState extends FlxState {
 	 * @param	teamSlots	A Monster array from the target BattleScene
 	 * @return				The Monster that will be targeted 
 	 */
-	private function getMonsterTarget(TeamSlots:Array<Monster>, SceneType:String = "A"):Monster {
-		/* Targeting Logic
-		* 
-		* Roll 1...8
-		* Slot 1: 1-4
-		* Slot 2: 5-6
-		* Slot 3: 7
-		* Slot 4: 8
-		* 
-		* If target is dead/petrified, reroll until valid
-		*/
-		
-		// Notes to tomorrow...
-		// 1 slot : A 			  = 1
-		// 4 slots: A      B,  CD = 4, 2, 1
-		// 8 slots: AB , CDE, FGH = 4, 2, 1
-		// 9 slots: ABC, DEF, GHI = 4, 2, 1
-		
+	private function getMonsterTarget(TeamSlots:Array<Monster>, SceneType:String):Monster {
+		/*
+		 * What's going on here?
+		 * Each scene can have different types, which have different slots
+		 * Slots have different odds on being selected based on their position
+		 * 
+		 * i.e. type "A": Slots ABC are 2x more likely to be targeted than DEF
+		 * Slots DEF are also 2x more likely to be targeted than GHI 
+		 * 
+		 * If an invalid slot it selected, roll again until a valid one is chosen
+		 */
 		// Error checkin'
 		if (TeamSlots.length <= 0 || TeamSlots == [] || TeamSlots == null) return null;
 		if (["A", "B", "C", "D"].indexOf(SceneType.toUpperCase()) == -1) return null;
 		
 		var targetSlot:Int;
-		while(true) {
-			var targetRoll:Int = FlxG.random.int(1, 8);
-			
-			if (targetRoll <= 4) targetSlot = 0;
-			else if (targetRoll <= 6) targetSlot = 1;
-			else if (targetRoll == 7) targetSlot = 2;
-			else targetSlot = 3;
-			
-			if (TeamSlots[targetSlot] != null) return TeamSlots[targetSlot];
+		var loopPanic:Int = 1000; // This check is here just in case I missed something below
+		
+		switch(SceneType) {
+			case "A": // 9 slots: ABC, DEF, GHI = 4, 2, 1 (21)
+				while (true) {
+					loopPanic--;
+					if (loopPanic <= 0) {
+						FlxG.log.warn("LoopPanic count reached, backing out");
+						return null;
+					}
+					
+					var targetRoll:Int = FlxG.random.int(1, 21);
+					
+					if (targetRoll == 21) targetSlot = 8;
+					else if (targetRoll == 20) targetSlot = 7;
+					else if (targetRoll == 19) targetSlot = 6;
+					else if (targetRoll >= 17) targetSlot = 5;
+					else if (targetRoll >= 15) targetSlot = 4;
+					else if (targetRoll >= 13) targetSlot = 3;
+					else if (targetRoll >= 9) targetSlot = 2;
+					else if (targetRoll >= 5) targetSlot = 1;
+					else targetSlot = 0;
+					
+					if (TeamSlots[targetSlot] != null) return TeamSlots[targetSlot];
+				}
+			case "B": // 8 slots: AB, CDE, FGH = 4, 2, 1 (17)
+				while (true) {
+					loopPanic--;
+					if (loopPanic <= 0) {
+						FlxG.log.warn("LoopPanic count reached, backing out");
+						return null;
+					}
+					
+					var targetRoll:Int = FlxG.random.int(1, 17);
+					
+					if (targetRoll == 17) targetSlot = 7;
+					else if (targetRoll == 16) targetSlot = 6;
+					else if (targetRoll == 15) targetSlot = 5;
+					else if (targetRoll >= 13) targetSlot = 4;
+					else if (targetRoll >= 11) targetSlot = 3;
+					else if (targetRoll >= 9) targetSlot = 2;
+					else if (targetRoll >= 5) targetSlot = 1;
+					else targetSlot = 0;
+					
+					if (TeamSlots[targetSlot] != null) return TeamSlots[targetSlot];
+				}
+			case "C": // 4 slots: A, B, CD = 4, 2, 1 (8)
+				while (true) {
+					loopPanic--;
+					if (loopPanic <= 0) {
+						FlxG.log.warn("LoopPanic count reached, backing out");
+						return null;
+					}
+					
+					var targetRoll:Int = FlxG.random.int(1, 8);
+					
+					if (targetRoll <= 4) targetSlot = 0;
+					else if (targetRoll <= 6) targetSlot = 1;
+					else if (targetRoll == 7) targetSlot = 2;
+					else targetSlot = 3;
+					
+					if (TeamSlots[targetSlot] != null) return TeamSlots[targetSlot];
+				}
+			case "D": // Only one possible target
+				targetSlot = 0;
+				return TeamSlots[0];
+			default:
+				// Necessary?
 		}
+		
+		return null;
 	}
 	
 	/**
@@ -194,7 +250,7 @@ class PlayState extends FlxState {
 		// This case isn't really able to occur, since enemies do not have access to abilities that cause confusion, but alas
 		if (monster.checkForStatus(Status.Confused)) {
 			// In this case, the monster will target itself or an ally with "FIRE"
-			targetQueue.push(getMonsterTarget(activeScene.getMonsters()));
+			targetQueue.push(getMonsterTarget(activeScene.getMonsters(), activeScene.sceneType));
 			return { actionType: ActionType.Spell, actionName: "FIRE" };
 		}
 		
@@ -202,7 +258,7 @@ class PlayState extends FlxState {
 		switch(action.actionType) {
 			case ActionType.Attack:
 				// Grab a single, random target from the target scene
-				targetQueue.push(getMonsterTarget(targetScene.getMonsters()));
+				targetQueue.push(getMonsterTarget(targetScene.getMonsters(), targetScene.sceneType));
 			case ActionType.Spell, ActionType.Skill:
 				var skillSpell:SkillSpell = SkillSpellManager.getSkillSpellByName(action.actionName);
 				if (skillSpell == null) {
@@ -216,10 +272,10 @@ class PlayState extends FlxState {
 						targetQueue.push(monster);
 					case "Single Enemy", "Single Target":
 						// Grab a single, random target from the target scene
-						targetQueue.push(getMonsterTarget(targetScene.getMonsters()));
+						targetQueue.push(getMonsterTarget(targetScene.getMonsters(), targetScene.sceneType));
 					case "Single Ally":
 						// Grab a single, random target from the active scene
-						targetQueue.push(getMonsterTarget(activeScene.getMonsters()));
+						targetQueue.push(getMonsterTarget(activeScene.getMonsters(), activeScene.sceneType));
 					case "All Enemies", "All Targets":
 						var monsters:Array<Monster> = targetScene.getMonsters();
 						for (monster in monsters) {
