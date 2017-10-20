@@ -137,10 +137,10 @@ class PlayState extends FlxState {
 		if (["A", "B", "C", "D"].indexOf(SceneType.toUpperCase()) == -1) return null;
 		
 		var targetSlot:Int;
-		var loopPanic:Int = 1000; // This check is here just in case I missed something below
+		var loopPanic:Int = 10000; // This check is here just in case I missed something below
 		
 		switch(SceneType) {
-			case "A": // 9 slots: ABC, DEF, GHI = 4, 2, 1 (21)
+			case "A": // 9 slots: 678, 345, 012 = 4, 2, 1 (21)
 				while (true) {
 					loopPanic--;
 					if (loopPanic <= 0) {
@@ -150,19 +150,19 @@ class PlayState extends FlxState {
 					
 					var targetRoll:Int = FlxG.random.int(1, 21);
 					
-					if (targetRoll == 21) targetSlot = 8;
-					else if (targetRoll == 20) targetSlot = 7;
-					else if (targetRoll == 19) targetSlot = 6;
-					else if (targetRoll >= 17) targetSlot = 5;
+					if (targetRoll == 21) targetSlot = 0;
+					else if (targetRoll == 20) targetSlot = 1;
+					else if (targetRoll == 19) targetSlot = 2;
+					else if (targetRoll >= 17) targetSlot = 3;
 					else if (targetRoll >= 15) targetSlot = 4;
-					else if (targetRoll >= 13) targetSlot = 3;
-					else if (targetRoll >= 9) targetSlot = 2;
-					else if (targetRoll >= 5) targetSlot = 1;
-					else targetSlot = 0;
+					else if (targetRoll >= 13) targetSlot = 5;
+					else if (targetRoll >= 9) targetSlot = 6;
+					else if (targetRoll >= 5) targetSlot = 7;
+					else targetSlot = 8;
 					
 					if (TeamSlots[targetSlot] != null) return TeamSlots[targetSlot];
 				}
-			case "B": // 8 slots: AB, CDE, FGH = 4, 2, 1 (17)
+			case "B": // 8 slots: 567, 234, 01 = 4, 2, 1 (17)
 				while (true) {
 					loopPanic--;
 					if (loopPanic <= 0) {
@@ -172,18 +172,18 @@ class PlayState extends FlxState {
 					
 					var targetRoll:Int = FlxG.random.int(1, 17);
 					
-					if (targetRoll == 17) targetSlot = 7;
-					else if (targetRoll == 16) targetSlot = 6;
-					else if (targetRoll == 15) targetSlot = 5;
-					else if (targetRoll >= 13) targetSlot = 4;
-					else if (targetRoll >= 11) targetSlot = 3;
-					else if (targetRoll >= 9) targetSlot = 2;
-					else if (targetRoll >= 5) targetSlot = 1;
-					else targetSlot = 0;
+					if (targetRoll == 17) targetSlot = 0;
+					else if (targetRoll == 16) targetSlot = 1;
+					else if (targetRoll == 15) targetSlot = 2;
+					else if (targetRoll >= 13) targetSlot = 3;
+					else if (targetRoll >= 11) targetSlot = 4;
+					else if (targetRoll >= 9) targetSlot = 5;
+					else if (targetRoll >= 5) targetSlot = 6;
+					else targetSlot = 7;
 					
 					if (TeamSlots[targetSlot] != null) return TeamSlots[targetSlot];
 				}
-			case "C": // 4 slots: A, B, CD = 4, 2, 1 (8)
+			case "C": // 4 slots: 3, 2, 01 = 4, 2, 1 (8)
 				while (true) {
 					loopPanic--;
 					if (loopPanic <= 0) {
@@ -193,16 +193,16 @@ class PlayState extends FlxState {
 					
 					var targetRoll:Int = FlxG.random.int(1, 8);
 					
-					if (targetRoll <= 4) targetSlot = 0;
-					else if (targetRoll <= 6) targetSlot = 1;
-					else if (targetRoll == 7) targetSlot = 2;
+					if (targetRoll == 8) targetSlot = 0;
+					else if (targetRoll == 7) targetSlot = 1;
+					else if (targetRoll >= 5) targetSlot = 2;
 					else targetSlot = 3;
 					
 					if (TeamSlots[targetSlot] != null) return TeamSlots[targetSlot];
 				}
 			case "D": // Only one possible target
 				targetSlot = 0;
-				return TeamSlots[0];
+				return TeamSlots[targetSlot];
 			default:
 				// Necessary?
 		}

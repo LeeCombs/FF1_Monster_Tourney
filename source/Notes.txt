@@ -42,3 +42,23 @@ Relevant Bugs {
 	- If the TARGET is resistant to an enemy's weakness, base chance = 0
 	-- Should be resistant to enemy's elemental attack
 }
+
+BattleScene targeting percentages {
+	"A"
+	GHI = ~19%
+	DEF = ~9.5%
+	ABC = ~4.8%
+	
+	"B"
+	FGH  = ~23.5%
+	CDE = ~11.7%
+	AB  = ~5.9%
+	
+	"C"
+	D  = ~50%
+	C  = ~25%
+	AB = ~12.5%
+	
+	"D"
+	A = 100%
+}
