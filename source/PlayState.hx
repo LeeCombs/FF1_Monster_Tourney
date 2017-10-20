@@ -76,8 +76,9 @@ class PlayState extends FlxState {
 		add(resultTextBox);
 		
 		// Add monsters
-		playerOneScene.loadMonsters("B;TYRO,GrNAGA,EVILMAN,BADMAN,WATER,AIR,FrGATOR,PERILISK");
-		playerTwoScene.loadMonsters("A;SENTRY,SENTRY,SENTRY,FrWOLF,FrWOLF,FrWOLF,SORCERER,SORCERER,SORCERER");
+		playerOneScene.loadMonsters("D;CHAOS");
+		playerTwoScene.loadMonsters("B;TYRO,GrNAGA,EVILMAN,BADMAN,WATER,AIR,FrGATOR,PERILISK");
+		// playerTwoScene.loadMonsters("A;SENTRY,SENTRY,SENTRY,FrWOLF,FrWOLF,FrWOLF,SORCERER,SORCERER,SORCERER");
 	}
 	
 	/**
@@ -98,8 +99,12 @@ class PlayState extends FlxState {
 		* Do this 17 times
 		*/
 		var turnOrder:Array<Int> = [];
-		for (i in 0...playerOneScene.length - 1) turnOrder.push(10 + i);
-		for (i in 0...playerTwoScene.length - 1) turnOrder.push(20 + i);
+		if (playerOneScene.sceneType == "D") turnOrder.push(10);
+		else for (i in 0...playerOneScene.length - 1) turnOrder.push(10 + i);
+		
+		if (playerTwoScene.sceneType == "D") turnOrder.push(20);
+		else for (i in 0...playerTwoScene.length - 1) turnOrder.push(20 + i);
+		trace("Turn order: " + turnOrder);
 		
 		// TODO: Should this be adjusted for up to 18 enemies?
 		for (i in 0...17) {
@@ -225,6 +230,7 @@ class PlayState extends FlxState {
 		
 		// Grab the first turn value
 		var turn = turnSchedule.shift();
+		trace("Turn: " + turn);
 		
 		// NOTE: This turn/scene setup logic breaks if turn is not within range. While the scenes
 		// should not allow more than 9 slots, this is something to be aware of if changes are made
@@ -401,6 +407,14 @@ class PlayState extends FlxState {
 				
 				// Spells and Skills show their name on setup, physical attacks dont
 				activeAction = getCurrentAction(actingMonster);
+				
+				// Skip invalid actions
+				if (activeAction == null) {
+					doneSetup = true;
+					return;
+				}
+				
+				// Display skill/spell's action name
 				if (activeAction.actionType == ActionType.Spell || activeAction.actionType == ActionType.Skill) {
 					messageQueue.push([actionTextBox, activeAction.actionName]);
 				}
@@ -414,7 +428,7 @@ class PlayState extends FlxState {
 				if (handleMessageQueue()) return;
 				
 				// No targets? The turn is done
-				if (targetQueue.length <= 0) {
+				if (targetQueue.length <= 0 || activeAction == null) {
 					doneTurn = true;
 					return;
 				}

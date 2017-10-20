@@ -3192,7 +3192,7 @@
    "weaknesses": null,
    "resistances": "[Status,Psn/Stn,Time,Death,Fire,Ice,Lightning,Earth]",
    "spellChance": 64,
-   "spells": "[ICE3,LIT3,SLOW2,CUR4,FIR3,ICE2,FAST,NUKE]",
+   "spells": "[ICE3,LIT3,SLO2,CUR4,FIR3,ICE2,FAST,NUKE]",
    "skillChance": 64,
    "skills": "[CRACK,INFERNO,SWIRL,TORNADO]",
    "gold": 0,

@@ -126,4 +126,4 @@ id,name,hp,attack,accuracy,hits,critical,defense,evasion,magicDefense,morale,sta
 125,KRAKEN2,900,70,114,8,1,70,98,200,255,null,null,'[Aquatic]',null,'[Fire,Earth]',48,'[LIT2,LIT2,LIT2,LIT2,LIT2,LIT2,LIT2,LIT2]',32,'[INK,INK,INK,INK]',1,2000,large
 126,TIAMAT,1000,49,80,4,1,80,72,200,255,null,null,'[Dragon]','[Psn/Stn]','[Fire,Ice,Lightning,Earth]',0,null,64,'[THUNDER,POISON-B,BLIZZARD,BLAZE]',6000,5496,large
 127,TIAMAT2,1100,75,85,4,1,90,90,200,255,null,null,'[Dragon]',null,'[Fire,Ice,Lightning,Earth]',64,'[BANE,ICE2,LIT2,FIR2,BANE,ICE2,LIT2,FIR2]',64,'[THUNDER,POISON-B,BLIZZARD,BLAZE]',1,2000,large
-128,CHAOS,2000,100,200,2,1,100,100,200,255,Paralyze,Status,null,null,'[Status,Psn/Stn,Time,Death,Fire,Ice,Lightning,Earth]',64,'[ICE3,LIT3,SLOW2,CUR4,FIR3,ICE2,FAST,NUKE]',64,'[CRACK,INFERNO,SWIRL,TORNADO]',0,0,large
+128,CHAOS,2000,100,200,2,1,100,100,200,255,Paralyze,Status,null,null,'[Status,Psn/Stn,Time,Death,Fire,Ice,Lightning,Earth]',64,'[ICE3,LIT3,SLO2,CUR4,FIR3,ICE2,FAST,NUKE]',64,'[CRACK,INFERNO,SWIRL,TORNADO]',0,0,large

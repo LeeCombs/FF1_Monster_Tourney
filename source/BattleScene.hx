@@ -41,8 +41,11 @@ class BattleScene extends FlxGroup {
 		// Mirror scene Positions if the scene is flipped
 		if (flipped) {
 			sceneAPositions.reverse();
-			sceneBPositions.reverse();
 			sceneCPositions.reverse();
+			
+			// Move mediums to the right side, and reverse by hand
+			sceneBPositions = [[6, 104], [6, 71], [6, 38], [39, 104], [39, 71], [39, 38], [72, 88], [72, 38]];
+			
 			// Realign scene A x positions to the right
 			for (pos in sceneAPositions) pos[0] += 14;
 		}
@@ -77,10 +80,11 @@ class BattleScene extends FlxGroup {
 		var split = intputString.split(";");
 		var sceneType = split[0];
 		var monsterNames = split[1].split(",");
+		if (flipped) monsterNames.reverse();
 		
 		// Set up the scene and add the monsters
-		// TODO: I believe the monster's aren't being added to the right slots on flip, fix it
 		if (!setSceneType(sceneType)) return false;
+		
 		for (i in 0...monsterNames.length) {
 			var mon = MonsterManager.getMonsterByName(monsterNames[i]);
 			
@@ -88,6 +92,7 @@ class BattleScene extends FlxGroup {
 			if (mon == null) continue;
 			
 			// Attempt to add the monster to the scene. If there's a problem, destroy it and carry on
+			var index = i;
 			if (addMonster(mon, i)) {
 				mon.setScene(this);
 			}

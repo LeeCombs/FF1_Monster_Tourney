@@ -36,6 +36,7 @@ class SceneBuilder extends FlxState {
 	// temp?
 	private var monsterArr:FlxGroup;
 	private var sizeArray:Array<String> = []; 
+	private var infoBox:FlxText;
 	
 	/**
 	 * Initializer
@@ -69,22 +70,16 @@ class SceneBuilder extends FlxState {
 		}
 		add(monsterInputGroup);
 		
+		infoBox = new FlxText(25, 25 + 144);
+		add(infoBox);
+		
 		outputText = new FlxInputText(285, 50, 200, "output shows up here", 8);
 		add(outputText);
 		
 		monsterArr = new FlxGroup();
 		add(monsterArr);
 		
-		// TESTING
 		setupScene("A");
-		monsterInputGroup.members[0].textInput.text = "TYRO";
-		monsterInputGroup.members[1].textInput.text = "GIANT";
-		monsterInputGroup.members[2].textInput.text = "IMP";
-		monsterInputGroup.members[3].textInput.text = "SAHAG";
-		monsterInputGroup.members[4].textInput.text = "WOLF";
-		monsterInputGroup.members[5].textInput.text = "SPECTER";
-		monsterInputGroup.members[6].textInput.text = "MEDUSA";
-		monsterInputGroup.members[7].textInput.text = "VAMPIRE";
 	}
 	
 	/**
@@ -92,20 +87,23 @@ class SceneBuilder extends FlxState {
 	 * 
 	 * @param	sceneSelection
 	 */
-	private function setupScene(sceneSelection:String) {
+	private function setupScene(sceneSelection:String):Bool {
 		// Clear and hide text input and display
 		for (mi in monsterInputGroup.members) mi.kill();
 		for (m in monsterArr) m.destroy();
+		infoBox.text = "";
 		
 		// Clear and update the available text inputs, as well as the displayed scene type
 		switch(sceneSelection) {
 			case "A": // 3x3 Small Grid
+				infoBox.text = "Targeting Percentages\nABC = ~4.8%\nDEF = ~9.5%\nGHI = ~19%";
 				for (i in 0...9) {
 					var mi:MonsterInput = monsterInputGroup.members[i];
 					mi.revive();
 					mi.setSize("small");
 				}
 			case "B": // 2x1 Medium, 2x3 Small
+				infoBox.text = "Targeting Percentages\nAB = ~5.9%\nCDE = ~11.7%\nFGH = ~23.5%";
 				for (i in 0...8) {
 					var mi:MonsterInput = monsterInputGroup.members[i];
 					mi.revive();
@@ -113,17 +111,20 @@ class SceneBuilder extends FlxState {
 					else mi.setSize("medium");
 				}
 			case "C": // 2x2 Medium Grid
+				infoBox.text = "Targeting Percentages\nAB = ~12.5%\nC = ~25%\nD = ~50%";
 				for (i in 0...4) {
 					var mi:MonsterInput = monsterInputGroup.members[i];
 					mi.revive();
 					mi.setSize("medium");
 				}
 			case "D": // 1 Large Slot
+				infoBox.text = "Targeting Percentages\nA = 100%";
 				var mi:MonsterInput = monsterInputGroup.members[0];
 				mi.revive();
 				mi.setSize("large");
 			default:
-				throw "Invalid sceneSelection supplied: " + sceneSelection;
+				FlxG.log.warn("Invalid sceneSelection supplied: " + sceneSelection);
+				return false;
 		}
 		
 		// Set the default text input selection
@@ -132,6 +133,7 @@ class SceneBuilder extends FlxState {
 		// Update scene image
 		scene.loadGraphic("assets/images/BattleScreen_" + sceneSelection + ".png");
 		
+		return true;
 	}
 	
 	/**
@@ -139,20 +141,22 @@ class SceneBuilder extends FlxState {
 	 * 
 	 * @param	ddInput
 	 */
-	private function dropDownHandler(ddInput:String) {
+	private function dropDownHandler(ddInput:String):Void {
 		if (ddInput == "" || ddInput == null) {
-			trace("Invalid ddInput: " + ddInput);
+			FlxG.log.warn("Invalid ddInput: " + ddInput);
 			return;
 		}
 		setupScene(ddInput);
 	}
 	
 	/**
-	 * Returns the string representation of the current scene
+	 * Generates and displays the current scene type and monster layout
+	 * Formatted as "TYPE;NAME,NAME,NAME..."
 	 * 
-	 * @return	String representation of the scene, format: "TYPE;NAME,NAME,NAME..."
+	 * TODO: Would be nice to copy this to the clipboard, or some selectable text
+	 * Currently just displays and outputs the text to console...
 	 */
-	private function generateOutputScene() {
+	private function generateOutputScene():Void {
 		// start the output with the scene's type: A, B, C, or D
 		// iterate over the monsters, and append their name to the string
 		// ensure that empty slots are represented as "null"
