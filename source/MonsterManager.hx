@@ -15,7 +15,7 @@ class MonsterManager {
 		
 		for (mData in monsterData) {
 			// Unsafe casting, converting strings of arrays to arrays of strings
-			mData.name = mData.name; // This is necessary to have getMonsterByName work... it allows mData.name field access 
+			mData.name = mData.name; // This is necessary to have getMonsterByName work... it allows name field access 
 			mData.types = cast(parseStringToArray(mData.types));
 			mData.resistances = cast(parseStringToArray(mData.resistances));
 			mData.weaknesses = cast(parseStringToArray(mData.weaknesses));

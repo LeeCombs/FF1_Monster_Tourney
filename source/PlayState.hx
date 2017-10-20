@@ -81,7 +81,7 @@ class PlayState extends FlxState {
 		
 		// Add monsters
 		playerOneScene.loadMonsters("D;CHAOS");
-		playerTwoScene.loadMonsters("A;EVILMAN,EVILMAN,EVILMAN,EVILMAN,EVILMAN,EVILMAN,EVILMAN,EVILMAN,EVILMAN");
+		playerTwoScene.loadMonsters("B;IronGOL,Sand W,ASTOS,FIGHTER,EVILMAN,SENTRY,GHOST,MAGE");
 	}
 	
 	/**
@@ -358,7 +358,7 @@ class PlayState extends FlxState {
 		}
 		
 		// Check for monster termination
-		if (monster.checkForStatus(Status.Petrified) || monster.checkForStatus(Status.Death) || monster.mData.hp < 0) {
+		if (monster.checkForStatus(Status.Petrified) || monster.checkForStatus(Status.Death) || monster.hp < 0) {
 			messageQueue.push([resultTextBox, "Terminated"]);
 			monster.removeSelf();
 		}
@@ -375,7 +375,7 @@ class PlayState extends FlxState {
 		// Execute the turn logic
 		if (timerDelay > 0) timerDelay--;
 		if (timerDelay <= 0) {
-			timerDelay = 5;
+			timerDelay = 15;
 			
 			if (doneTurn) {
 				// If there's a text box stack, remove top-down, completing the turn once all messages are gone
@@ -408,7 +408,7 @@ class PlayState extends FlxState {
 				turnText.displayText("Turn: " + Std.string(turnCount));
 				
 				do (actingMonster = getCurrentActor()) while (actingMonster == null);
-				messageQueue.push([actorTextBox, actingMonster.mData.name]);
+				messageQueue.push([actorTextBox, actingMonster.name]);
 				
 				// Spells and Skills show their name on setup, physical attacks dont
 				activeAction = getCurrentAction(actingMonster);
@@ -452,7 +452,7 @@ class PlayState extends FlxState {
 				
 				// Ignore the queue and display the target immediately
 				textBoxStack.push(targetTextBox);
-				targetTextBox.displayText(targetMonster.mData.name);
+				targetTextBox.displayText(targetMonster.name);
 				
 				// Deal the action to the target, and handle the results
 				FlxSpriteUtil.flicker(targetMonster, 0.25, 0.025);

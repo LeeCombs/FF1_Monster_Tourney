@@ -97,7 +97,7 @@ class BattleScene extends FlxGroup {
 				mon.setScene(this);
 			}
 			else {
-				FlxG.log.warn("Could not add monster: " + mon.mData.name + ", destroying...");
+				FlxG.log.warn("Could not add monster: " + mon.name + ", destroying...");
 				mon.destroy();
 			}
 		}

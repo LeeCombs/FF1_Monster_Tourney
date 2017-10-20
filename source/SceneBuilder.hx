@@ -172,7 +172,7 @@ class SceneBuilder extends FlxState {
 				if (nameString == null || nameString == "") outputString += ",";
 				else {
 					var monster = MonsterManager.getMonsterByName(nameString);
-					if (monster == null || monster.mData.size != mi.monsterSize) {
+					if (monster == null || monster.size != mi.monsterSize) {
 						mi.textInput.backgroundColor = FlxColor.RED;
 					}
 					else {

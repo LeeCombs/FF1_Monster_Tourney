@@ -17,36 +17,37 @@ enum Debuff {
 	LOCK; LOK2; FEAR; SLOW; SLO2; XFER;
 }
 
-typedef MonsterData = {
-	var id:String;
-	var name:String;
-	var hp:Int;
-	var attack:Int;
-	var accuracy:Int;
-	var hits:Int;
-	var critRate:Int;
-	var defense:Int;
-	var evasion:Int;
-	var magicDefense:Int;
-	var morale:Int;
-	var statusAttack:String;
-	var element:String;
-	var types:Array<String>;
-	var weaknesses:Array<String>;
-	var resistances:Array<String>;
-	var spells:Array<String>;
-	var spellChance:Int;
-	var skills:Array<String>;
-	var skillChance:Int;
-	var gold:Int;
-	var exp:Int;
-	var size:String;
-}
-
 class Monster extends FlxSprite {
 	// Stats
-	public var mData:MonsterData;
+	public var id(default, null):String;
+	public var name(default, null):String;
+	public var hp(default, null):Int;
 	private var hpMax:Int = 0;
+	
+	public var attack(default, null):Int;
+	public var accuracy(default, null):Int;
+	public var hits(default, null):Int;
+	public var critRate(default, null):Int;
+	public var defense(get, null):Int;
+	public var evasion(get, null):Int;
+	public var magicDefense(default, null):Int;
+	public var morale(get, null):Int;
+	
+	public var statusAttack(default, null):String;
+	public var element(default, null):String;
+	
+	public var types(default, null):Array<String>;
+	public var weaknesses(default, null):Array<String>;
+	public var resistances(default, null):Array<String>;
+	
+	private var spells:Array<String>;
+	private var spellChance:Int;
+	private var skills:Array<String>;
+	private var skillChance:Int;
+	
+	public var gold(default, null):Int;
+	public var exp(default, null):Int;
+	public var size(default, null):String;
 	
 	// Trackers for skill and spell use
 	private var skillIndex:Int = 0;
@@ -71,9 +72,32 @@ class Monster extends FlxSprite {
 		if (MData == null) throw "Invalid MData supplied to Monster!";
 		
 		// Make a personal copy of the monster data
-		mData = Reflect.copy(MData);
+		id = MData.id;
+		name = MData.name;
+		hp = MData.hp;
+		hpMax = MData.hp;
+		attack = MData.attack;
+		accuracy = MData.accuracy;
+		hits = MData.hits;
+		critRate = MData.critRate;
+		defense = MData.defense;
+		evasion = MData.evasion;
+		magicDefense = MData.magicDefense;
+		morale = MData.morale;
+		statusAttack = MData.statusAttack;
+		element = MData.element;
+		types = MData.types;
+		weaknesses = MData.weaknesses;
+		resistances = MData.resistances;
+		spells = MData.spells;
+		spellChance = MData.spellChance;
+		skills = MData.skills;
+		skillChance = MData.skillChance;
+		gold = MData.gold;
+		exp = MData.exp;
+		size = MData.size;
 		
-		loadGraphic("assets/images/Monsters/" + mData.name.toUpperCase() + ".png");
+		loadGraphic("assets/images/Monsters/" + name.toUpperCase() + ".png");
 		setFacingFlip(FlxObject.LEFT, true, false);
 	}
 	
@@ -153,8 +177,8 @@ class Monster extends FlxSprite {
 		
 		// TODO - run logic?
 		
-		if (mData.spells != null && mData.spells.length > 0) {
-			if (FlxG.random.int(0, 128) <= mData.spellChance) {
+		if (spells != null && spells.length > 0) {
+			if (FlxG.random.int(0, 128) <= spellChance) {
 				// Check for silence and wasting a turn attempting to cast
 				if (checkForStatus(Status.Silenced)) {
 					statusAction.actionName = "Silenced";
@@ -162,14 +186,14 @@ class Monster extends FlxSprite {
 				}
 				
 				action.actionType = Action.ActionType.Spell;
-				action.actionName = mData.spells[spellIndex++];
-				if (spellIndex >= mData.spells.length) spellIndex = 0;
+				action.actionName = spells[spellIndex++];
+				if (spellIndex >= spells.length) spellIndex = 0;
 				return action;
 			}
 		}
 		
-		if (mData.skills != null && mData.skills.length > 0) {
-			if (FlxG.random.int(0, 128) <= mData.skillChance) {
+		if (skills != null && skills.length > 0) {
+			if (FlxG.random.int(0, 128) <= skillChance) {
 				// Check for silence and wasting a turn attempting to cast
 				if (checkForStatus(Status.Silenced)) {
 					statusAction.actionName = "Silenced";
@@ -177,8 +201,8 @@ class Monster extends FlxSprite {
 				}
 				
 				action.actionType = Action.ActionType.Skill;
-				action.actionName = mData.skills[skillIndex++];
-				if (skillIndex >= mData.skills.length) skillIndex = 0;
+				action.actionName = skills[skillIndex++];
+				if (skillIndex >= skills.length) skillIndex = 0;
 				return action;
 			}
 		}
@@ -201,8 +225,8 @@ class Monster extends FlxSprite {
 	public function damage(value:Int):Void {
 		if (value < 0) return;
 		
-		mData.hp -= value;
-		if (mData.hp <= 0) removeSelf();
+		hp -= value;
+		if (hp <= 0) removeSelf();
 	}
 	
 	/**
@@ -212,16 +236,14 @@ class Monster extends FlxSprite {
 	 */
 	public function heal(value:Int):Void {
 		if (value < 0) return;
-		
-		mData.hp += value;
-		if (mData.hp > hpMax) mData.hp = hpMax;
+		hp += value;
 	}
 	
 	/**
 	 * Set hp to max and remove bad statuses
 	 */
 	public function fullHeal():Void {
-		mData.hp = hpMax;
+		hp = hpMax;
 		statuses = [];
 	}
 	
@@ -237,11 +259,6 @@ class Monster extends FlxSprite {
 	 */
 	public function addBuff(buff:String):Bool {
 		/*
-		* FOG  - +8 defense
-		* FOG2 - +12 defense
-		* INVS - +40 evade
-		* INV2 - +40 evade
-		* RUSE - +80 evade
 		* TMPR - +14 damage
 		* SABR - +16 damage, + <<FIND HIT UP>>
 		* FAST - Doubles hits per round
@@ -276,8 +293,6 @@ class Monster extends FlxSprite {
 	 */
 	public function addDebuff(debuff:String):Bool {
 		/*
-		* LOCK - -20 evade
-		* LOK2 - -20 evade
 		* FEAR - -40 morale
 		* SLOW - Reduce attack # to 1, or counters FAST
 		* SLO2 - Reduce attack # to 1, or counters FAST
@@ -365,6 +380,41 @@ class Monster extends FlxSprite {
 		return false;
 	}
 	
+	///////////////////////
+	// Getters & Setters //
+	///////////////////////
+	
+	public function get_defense() {
+		var totalDefense = defense;
+		for (buff in buffs) {
+			if (buff == FOG) totalDefense += 8;
+			if (buff == FOG2) totalDefense += 12;
+		}
+		return totalDefense;
+	}
+	
+	public function get_evasion() {
+		var totalEvasion = evasion;
+		for (buff in buffs) {
+			if (buff == INVS || buff == INV2) totalEvasion += 40;
+			if (buff == RUSE) totalEvasion += 80;
+		}
+		for (debuff in debuffs) {
+			if (debuff == LOCK || debuff == LOK2) totalEvasion -= 20;
+		}
+		if (totalEvasion < 0) totalEvasion = 0;
+		return totalEvasion;
+	}
+	
+	public function get_morale() {
+		var totalMorale = morale;
+		for (debuff in debuffs) {
+			if (debuff == FEAR) totalMorale -= 40;
+		}
+		if (totalMorale < 0) totalMorale = 0;
+		return totalMorale;
+	}
+	
 	///////////////////
 	// Miscellaneous //
 	///////////////////
@@ -376,8 +426,8 @@ class Monster extends FlxSprite {
 	 * @return
 	 */
 	public function isResistantTo(element:String):Bool {
-		if (mData.resistances == null || mData.resistances.length == 0) return false;
-		if (mData.resistances.indexOf(element) == -1) return false;
+		if (resistances == null || resistances.length == 0) return false;
+		if (resistances.indexOf(element) == -1) return false;
 		return true;
 	}
 	
@@ -388,8 +438,8 @@ class Monster extends FlxSprite {
 	 * @return
 	 */
 	public function isWeakTo(element:String):Bool {
-		if (mData.weaknesses == null || mData.weaknesses.length == 0) return false;
-		if (mData.weaknesses.indexOf(element) == -1) return false;
+		if (weaknesses == null || weaknesses.length == 0) return false;
+		if (weaknesses.indexOf(element) == -1) return false;
 		return true;
 	}
 	
