@@ -76,8 +76,8 @@ class PlayState extends FlxState {
 		add(resultTextBox);
 		
 		// Add monsters
-		playerOneScene.loadMonsters("A;SENTRY,SENTRY,SENTRY,FrWOLF,FrWOLF,FrWOLF,SORCERER,SORCERER,SORCERER");
-		playerTwoScene.loadMonsters("C;TYRO,GrNAGA,PHANTOM,MudGOL");
+		playerOneScene.loadMonsters("B;TYRO,GrNAGA,EVILMAN,BADMAN,WATER,AIR,FrGATOR,PERILISK");
+		playerTwoScene.loadMonsters("A;SENTRY,SENTRY,SENTRY,FrWOLF,FrWOLF,FrWOLF,SORCERER,SORCERER,SORCERER");
 	}
 	
 	/**
@@ -98,8 +98,8 @@ class PlayState extends FlxState {
 		* Do this 17 times
 		*/
 		var turnOrder:Array<Int> = [];
-		for (i in 0...playerOneScene.length) turnOrder.push(10 + i);
-		for (i in 0...playerTwoScene.length) turnOrder.push(20 + i);
+		for (i in 0...playerOneScene.length - 1) turnOrder.push(10 + i);
+		for (i in 0...playerTwoScene.length - 1) turnOrder.push(20 + i);
 		
 		// TODO: Should this be adjusted for up to 18 enemies?
 		for (i in 0...17) {
@@ -117,7 +117,6 @@ class PlayState extends FlxState {
 	
 	/**
 	 * Determine which slot the monster will target
-	 * TODO: This needs to support 1-9 targetable slots, not just 4
 	 * 
 	 * @param	teamSlots	A Monster array from the target BattleScene
 	 * @return				The Monster that will be targeted 
@@ -226,6 +225,13 @@ class PlayState extends FlxState {
 		
 		// Grab the first turn value
 		var turn = turnSchedule.shift();
+		
+		// NOTE: This turn/scene setup logic breaks if turn is not within range. While the scenes
+		// should not allow more than 9 slots, this is something to be aware of if changes are made
+		if (turn < 10 || turn >= 30) {
+			FlxG.log.warn("Invalid turn number found, must be between 10 and 29, found: " + turn);
+			return null;
+		}
 		
 		// Set up the active/target scene, and which monster slot is taking action
 		activeScene = sceneArray[Std.int(turn / 10) - 1];

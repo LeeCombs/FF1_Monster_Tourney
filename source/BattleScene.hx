@@ -78,6 +78,8 @@ class BattleScene extends FlxGroup {
 		var sceneType = split[0];
 		var monsterNames = split[1].split(",");
 		
+		// Set up the scene and add the monsters
+		// TODO: I believe the monster's aren't being added to the right slots on flip, fix it
 		if (!setSceneType(sceneType)) return false;
 		for (i in 0...monsterNames.length) {
 			var mon = MonsterManager.getMonsterByName(monsterNames[i]);
