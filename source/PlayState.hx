@@ -28,12 +28,14 @@ class PlayState extends FlxState {
 	private var actionTextBox:TextBox;	// Top right
 	private var valueTextBox:TextBox;	// Mid right
 	private var resultTextBox:TextBox;	// Bottom box
+	private var roundText:TextBox;
 	private var turnText:TextBox;
 	private var messageQueue:Array<Array<Dynamic>> = [];
 	private var textBoxStack:Array<Dynamic> = [];
 	
 	// Turn logic
 	private var timerDelay:Int = 60;
+	private var roundCount:Int = 0;
 	private var turnCount:Int = 0;
 	private var turnSchedule:Array<Int> = [];
 	private var activeScene:BattleScene;
@@ -62,7 +64,9 @@ class PlayState extends FlxState {
 		sceneArray = [playerOneScene, playerTwoScene];
 		
 		// Text display
-		turnText = new TextBox(0, 0);
+		roundText = new TextBox(0, 0);
+		add(roundText);
+		turnText = new TextBox(100, 0);
 		add(turnText);
 		actorTextBox = new TextBox(25, 195);
 		add(actorTextBox);
@@ -77,8 +81,7 @@ class PlayState extends FlxState {
 		
 		// Add monsters
 		playerOneScene.loadMonsters("D;CHAOS");
-		playerTwoScene.loadMonsters("B;TYRO,GrNAGA,EVILMAN,BADMAN,WATER,AIR,FrGATOR,PERILISK");
-		// playerTwoScene.loadMonsters("A;SENTRY,SENTRY,SENTRY,FrWOLF,FrWOLF,FrWOLF,SORCERER,SORCERER,SORCERER");
+		playerTwoScene.loadMonsters("A;EVILMAN,EVILMAN,EVILMAN,EVILMAN,EVILMAN,EVILMAN,EVILMAN,EVILMAN,EVILMAN");
 	}
 	
 	/**
@@ -224,13 +227,12 @@ class PlayState extends FlxState {
 		// Ensure there's a turn schedule to execute
 		if (turnSchedule.length <= 0) {
 			turnSchedule = getTurnSchedule();
-			turnCount++;
-			turnText.displayText("Turn: " + Std.string(turnCount));
+			roundCount++;
+			roundText.displayText("Round: " + Std.string(roundCount));
 		}
 		
 		// Grab the first turn value
 		var turn = turnSchedule.shift();
-		trace("Turn: " + turn);
 		
 		// NOTE: This turn/scene setup logic breaks if turn is not within range. While the scenes
 		// should not allow more than 9 slots, this is something to be aware of if changes are made
@@ -384,8 +386,8 @@ class PlayState extends FlxState {
 					if (textBoxStack.length == 0) {
 						// Don't progress turns if either scene has no monsters left
 						if (!playerOneScene.checkForMonsters() || !playerTwoScene.checkForMonsters()) {
-							trace("Done");
-							FlxG.sound.playMusic("assets/music/Victory_Fanfare.ogg", 0.1, false);
+							if (activeScene.sceneType == "D") FlxG.sound.playMusic("assets/music/Dead_Music.ogg", 0.1);
+							else FlxG.sound.playMusic("assets/music/Victory_Fanfare.ogg", 0.1, false);
 							timerDelay = 120000;
 							resultTextBox.displayText("Monsters perished");
 						}
@@ -402,6 +404,9 @@ class PlayState extends FlxState {
 			
 			// Setup the turn by getting the actor and it's action
 			if (!doneSetup) {
+				turnCount++;
+				turnText.displayText("Turn: " + Std.string(turnCount));
+				
 				do (actingMonster = getCurrentActor()) while (actingMonster == null);
 				messageQueue.push([actorTextBox, actingMonster.mData.name]);
 				
