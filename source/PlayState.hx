@@ -17,6 +17,9 @@ import haxe.Resource;
 import openfl.Assets;
 
 class PlayState extends FlxState {
+	private var x:Int = 0;
+	private var y:Int = 25;
+	
 	// Battle Scenes
 	private var sceneArray:Array<BattleScene>;
 	private var playerOneScene:BattleScene;
@@ -28,15 +31,11 @@ class PlayState extends FlxState {
 	private var actionTextBox:TextBox;	// Top right
 	private var valueTextBox:TextBox;	// Mid right
 	private var resultTextBox:TextBox;	// Bottom box
-	private var roundText:TextBox;
-	private var turnText:TextBox;
 	private var messageQueue:Array<Array<Dynamic>> = [];
 	private var textBoxStack:Array<Dynamic> = [];
 	
 	// Turn logic
 	private var timerDelay:Int = 60;
-	private var roundCount:Int = 0;
-	private var turnCount:Int = 0;
 	private var turnSchedule:Array<Int> = [];
 	private var activeScene:BattleScene;
 	private var targetScene:BattleScene;
@@ -51,37 +50,57 @@ class PlayState extends FlxState {
 	private var doneApplyAction:Bool = false;
 	private var doneResults:Bool = false;
 	
+	// Info
+	private var infoBox:InfoBox;
+	
 	override public function create():Void {
 		super.create();
 		
 		FlxG.sound.playMusic("assets/music/Battle_Scene.ogg", 0.1);
 		
 		// Battle Scenes
-		playerOneScene = new BattleScene(25, 50);
+		playerOneScene = new BattleScene(x, y);
 		add(playerOneScene);
-		playerTwoScene = new BattleScene(155, 50, true);
+		playerTwoScene = new BattleScene(x + 130, y, true);
 		add(playerTwoScene);
 		sceneArray = [playerOneScene, playerTwoScene];
 		
 		// Text display
-		roundText = new TextBox(0, 0);
-		add(roundText);
-		turnText = new TextBox(100, 0);
-		add(turnText);
-		actorTextBox = new TextBox(25, 195);
+		actorTextBox = new TextBox(x, y + 145);
 		add(actorTextBox);
-		targetTextBox = new TextBox(25, 225);
+		targetTextBox = new TextBox(x, y + 175);
 		add(targetTextBox);
-		actionTextBox = new TextBox(120, 195);
+		actionTextBox = new TextBox(x + 95, y + 145);
 		add(actionTextBox);
-		valueTextBox = new TextBox(120, 225);
+		valueTextBox = new TextBox(x + 95, y + 175);
 		add(valueTextBox);
-		resultTextBox = new TextBox(25, 255, true);
+		resultTextBox = new TextBox(x, y + 205, true);
 		add(resultTextBox);
+		
+		// Info Box
+		infoBox = new InfoBox(x + 275, y);
+		add(infoBox);
 		
 		// Add monsters
 		playerOneScene.loadMonsters("B;PHANTOM,GrNAGA,ASTOS,FIGHTER,MAGE,SORCERER,SORCERER,FIGHTER");
 		playerTwoScene.loadMonsters("B;FrGIANT,FrGIANT,FrWOLF,FrWOLF,FrWOLF,FrWOLF,FrWOLF,FrWOLF");
+		
+		// Testing
+		var sceneOneGold = 0;
+		var sceneOneEXP = 0;
+		for (m in playerOneScene.getMonsters()) {
+			sceneOneGold += m.gold;
+			sceneOneEXP += m.exp;
+		}
+		infoBox.setTeamStats(1, sceneOneGold, sceneOneEXP);
+		var sceneTwoGold = 0;
+		var sceneTwoEXP = 0;
+		for (m in playerTwoScene.getMonsters()) {
+			sceneTwoGold += m.gold;
+			sceneTwoEXP += m.exp;
+		}
+		infoBox.setTeamStats(2, sceneTwoGold, sceneTwoEXP);
+		
 	}
 	
 	/**
@@ -229,8 +248,10 @@ class PlayState extends FlxState {
 		// Ensure there's a turn schedule to execute
 		if (turnSchedule.length <= 0) {
 			turnSchedule = getTurnSchedule();
-			roundCount++;
-			roundText.displayText("Round: " + Std.string(roundCount));
+			
+			// Update the round and turn count displays
+			infoBox.incrementRoundCounter();
+			infoBox.resetTurnCounter();
 		}
 		
 		// Grab the first turn value
@@ -406,8 +427,8 @@ class PlayState extends FlxState {
 			
 			// Setup the turn by getting the actor and it's action
 			if (!doneSetup) {
-				turnCount++;
-				turnText.displayText("Turn: " + Std.string(turnCount));
+				// Increment the turn counter display
+				infoBox.incrementTurnCounter();
 				
 				do (actingMonster = getCurrentActor()) while (actingMonster == null);
 				messageQueue.push([actorTextBox, actingMonster.name]);
