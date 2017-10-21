@@ -24,9 +24,9 @@ class Monster extends FlxSprite {
 	public var hp(default, null):Int;
 	private var hpMax:Int = 0;
 	
-	public var attack(default, null):Int;
-	public var accuracy(default, null):Int;
-	public var hits(default, null):Int;
+	public var attack(get, null):Int;
+	public var accuracy(get, null):Int;
+	public var hits(get, null):Int;
 	public var critRate(default, null):Int;
 	public var defense(get, null):Int;
 	public var evasion(get, null):Int;
@@ -140,9 +140,22 @@ class Monster extends FlxSprite {
 		
 		if (checkForStatus(Status.Asleep)) {
 			// Unless the bug-fix option is selected, monsters always wake up
-			// else if (FlxG.random.int(0, 80) < hpMax) removeStatus(Status.Asleep);
-			removeStatus(Status.Asleep);
-			curedFlag = true;
+			if (Globals.BUG_FIXES) {
+				if (FlxG.random.int(0, 80) < hpMax) {
+					removeStatus(Status.Asleep);
+					statusAction.actionName = "Woke up";
+					curedFlag = true;
+				}
+				else {
+					statusAction.actionName = "Sleeping";
+					statusFlag = true;
+				}
+			}
+			else {
+				removeStatus(Status.Asleep);
+				statusAction.actionName = "Woke up";
+				curedFlag = true;
+			}
 		}
 		
 		if (checkForStatus(Status.Confused)) {
@@ -153,11 +166,7 @@ class Monster extends FlxSprite {
 		}
 		
 		// If either the cured or status flag were flipped, return the StatusEffect result
-		if (curedFlag) {
-			statusAction.actionName = "Cured!";
-			return statusAction;
-		}
-		if (statusFlag) return statusAction;
+		if (curedFlag || statusFlag) return statusAction;
 		
 		// The monster is not under a status that effects it's action, continue regular logic
 		var action:Action = { actionType: null, actionName: "SETME" };
@@ -259,9 +268,6 @@ class Monster extends FlxSprite {
 	 */
 	public function addBuff(buff:String):Bool {
 		/*
-		* TMPR - +14 damage
-		* SABR - +16 damage, + <<FIND HIT UP>>
-		* FAST - Doubles hits per round
 		* WALL - Resist element
 		*/
 		if (buff == null || buff == "") {
@@ -293,9 +299,6 @@ class Monster extends FlxSprite {
 	 */
 	public function addDebuff(debuff:String):Bool {
 		/*
-		* FEAR - -40 morale
-		* SLOW - Reduce attack # to 1, or counters FAST
-		* SLO2 - Reduce attack # to 1, or counters FAST
 		* XFER - Remove Resistance
 		*/
 		if (debuff == null || debuff == "") {
@@ -355,7 +358,7 @@ class Monster extends FlxSprite {
 	 * 
 	 * @param	status
 	 */
-	public function addStatus(status:Status) {
+	public function addStatus(status:Status):Void {
 		// Statuses do not stack, so only apply if necessary
 		if (statuses.indexOf(status) == -1) statuses.push(status);
 	}
@@ -365,7 +368,7 @@ class Monster extends FlxSprite {
 	 * 
 	 * @param	status
 	 */
-	public function removeStatus(status:Status) {
+	public function removeStatus(status:Status):Void {
 		statuses.remove(status);
 	}
 	
@@ -384,6 +387,40 @@ class Monster extends FlxSprite {
 	// Getters & Setters //
 	///////////////////////
 	
+	public function get_attack() {
+		var totalAttack = attack;
+		for (buff in buffs) {
+			if (buff == TMPR) totalAttack += 14;
+			if (buff == SABR) totalAttack += 16;
+		}
+		return totalAttack;
+	}
+	
+	// TODO: Ensure SABR inscreases accuracy by 16
+	public function get_accuracy() {
+		var totalAccuracy = accuracy;
+		for (buff in buffs) {
+			if (buff == SABR) totalAccuracy += 16;
+			// TMPR is normally bugged and increases accuracy as well as attack
+			if (buff == TMPR && !Globals.BUG_FIXES) totalAccuracy += 14;
+		}
+		return totalAccuracy;
+	}
+	
+	public function get_hits() {
+		var totalHits = hits;
+		var hitMult = 1;
+		
+		// Check for FAST/SLOW and update hit multiplier
+		if (checkForBuff(FAST)) hitMult++;
+		if (checkForDebuff(SLOW) || checkForDebuff(SLO2)) hitMult--;
+		
+		totalHits *= hitMult;
+		
+		// Minimum number of hits is 1
+		return totalHits > 0 ? totalHits : 1;
+	}
+	
 	public function get_defense() {
 		var totalDefense = defense;
 		for (buff in buffs) {
@@ -400,7 +437,13 @@ class Monster extends FlxSprite {
 			if (buff == RUSE) totalEvasion += 80;
 		}
 		for (debuff in debuffs) {
-			if (debuff == LOCK || debuff == LOK2) totalEvasion -= 20;
+			if (debuff == LOCK) totalEvasion -= 20;
+			
+			// LOK2 is normally bugged, and actually increases evasion
+			if (debuff == LOK2) {
+				if (Globals.BUG_FIXES) totalEvasion -= 20;
+				else totalEvasion += 20;
+			}
 		}
 		if (totalEvasion < 0) totalEvasion = 0;
 		return totalEvasion;

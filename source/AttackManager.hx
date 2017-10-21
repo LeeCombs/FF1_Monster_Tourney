@@ -18,15 +18,6 @@ class AttackManager {
 	 */
 	public static function attack(attacker:Monster, target:Monster):ActionResult {
 		var hits = attacker.hits;
-		var hitMult:Int = 1;
-		
-		// Check for FAST buff and SLOW debuff
-		if (attacker.checkForBuff(Buff.FAST)) hitMult++;
-		if (attacker.checkForDebuff(Debuff.SLOW)) hitMult--;
-		
-		// Minimum # of hits is 1
-		hits *= hitMult;
-		if (hits < 1) hits = 1;
 		
 		// Calculate damage seperately for each hit
 		// Minimum damage value for each hit is 1
@@ -48,7 +39,7 @@ class AttackManager {
 		
 		if (totalHits == 0) return { message:"", damage:0, hits:0 };
 		var result = { message:"", damage:damageSum, hits:totalHits };
-		if (critFlag) result.message = "Critical Hit!";
+		if (critFlag) result.message = "Critical hit!!";
 		return result;
 	}
 	

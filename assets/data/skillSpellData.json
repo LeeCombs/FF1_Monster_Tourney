@@ -4,6 +4,7 @@
    "name": "CURE",
    "effectivity": "16",
    "accuracy": 0,
+   "element": "",
    "target": "Single Target",
    "effect": "HP Recovery",
    "price": 100,
@@ -14,15 +15,18 @@
    "name": "HARM",
    "effectivity": "20",
    "accuracy": 24,
+   "element": "",
    "target": "All Enemies",
    "effect": "Damage Undead",
-   "price": 100
+   "price": 100,
+   "successMessage": ""
  },
  {
    "id": "03",
    "name": "FOG",
    "effectivity": "8",
    "accuracy": 0,
+   "element": "",
    "target": "Single Ally",
    "effect": "Defense Up",
    "price": 100,
@@ -33,6 +37,7 @@
    "name": "RUSE",
    "effectivity": "80",
    "accuracy": 0,
+   "element": "",
    "target": "Caster",
    "effect": "Evasion Up",
    "price": 100,
@@ -46,7 +51,8 @@
    "element": "Fire",
    "target": "Single Enemy",
    "effect": "Damage",
-   "price": 100
+   "price": 100,
+   "successMessage": ""
  },
  {
    "id": "06",
@@ -64,6 +70,7 @@
    "name": "LOCK",
    "effectivity": "20",
    "accuracy": 64,
+   "element": "",
    "target": "Single Enemy",
    "effect": "Evasion Down",
    "price": 100,
@@ -77,7 +84,19 @@
    "element": "Lightning",
    "target": "Single Enemy",
    "effect": "Damage",
-   "price": 100
+   "price": 100,
+   "successMessage": ""
+ },
+ {
+   "id": "09",
+   "name": "LAMP",
+   "effectivity": "Blind",
+   "accuracy": 0,
+   "element": "",
+   "target": "Single Ally",
+   "effect": "Restore Status",
+   "price": 400,
+   "successMessage": "Sight recovered"
  },
  {
    "id": "0A",
@@ -95,6 +114,7 @@
    "name": "ALIT",
    "effectivity": "Lightning",
    "accuracy": 0,
+   "element": "",
    "target": "All Allies",
    "effect": " Resist Element",
    "price": 400,
@@ -105,6 +125,7 @@
    "name": "INVS",
    "effectivity": "40",
    "accuracy": 0,
+   "element": "",
    "target": "Single Ally",
    "effect": "Evasion Up",
    "price": 400,
@@ -118,7 +139,8 @@
    "element": "Ice",
    "target": "Single Enemy",
    "effect": "Damage",
-   "price": 400
+   "price": 400,
+   "successMessage": ""
  },
  {
    "id": "0E",
@@ -136,6 +158,7 @@
    "name": "TMPR",
    "effectivity": "14",
    "accuracy": 0,
+   "element": "",
    "target": "Single Ally",
    "effect": "Attack/Accuracy Up",
    "price": 400,
@@ -157,6 +180,7 @@
    "name": "CUR2",
    "effectivity": "33",
    "accuracy": 0,
+   "element": "",
    "target": "Single Ally",
    "effect": "HP Recovery",
    "price": 1500,
@@ -167,18 +191,21 @@
    "name": "HRM2",
    "effectivity": "40",
    "accuracy": 24,
+   "element": "",
    "target": "All Enemies",
    "effect": " Damage Undead",
-   "price": 1500
+   "price": 1500,
+   "successMessage": ""
  },
  {
    "id": "13",
    "name": "AFIR",
    "effectivity": "Fire",
    "accuracy": 0,
+   "element": "",
    "target": "All Allies",
    "effect": " Resist Element",
-   "price": 400,
+   "price": 1500,
    "successMessage": "Defend fire"
  },
  {
@@ -186,6 +213,7 @@
    "name": "HEAL",
    "effectivity": "12",
    "accuracy": 0,
+   "element": "",
    "target": "All Allies",
    "effect": "HP Recovery",
    "price": 1500,
@@ -199,7 +227,8 @@
    "element": "Fire",
    "target": "All Enemies",
    "effect": "Damage",
-   "price": 1500
+   "price": 1500,
+   "successMessage": ""
  },
  {
    "id": "16",
@@ -220,13 +249,15 @@
    "element": "Lightning",
    "target": "All Enemies",
    "effect": "Damage",
-   "price": 1500
+   "price": 1500,
+   "successMessage": ""
  },
  {
    "id": "18",
    "name": "LOK2",
    "effectivity": "20",
    "accuracy": 40,
+   "element": "",
    "target": "All Enemies",
    "effect": "Evasion Up",
    "price": 1500,
@@ -237,10 +268,11 @@
    "name": "PURE",
    "effectivity": "Poison",
    "accuracy": 0,
+   "element": "",
    "target": "Single Ally",
    "effect": "Restore Status",
    "price": 4000,
-   "successMessage": "Cured!"
+   "successMessage": "Neutralized"
  },
  {
    "id": "1A",
@@ -258,6 +290,7 @@
    "name": "AICE",
    "effectivity": "Ice",
    "accuracy": 0,
+   "element": "",
    "target": "All Allies",
    "effect": "Resist Element",
    "price": 4000,
@@ -268,16 +301,18 @@
    "name": "AMUT",
    "effectivity": "Silence",
    "accuracy": 0,
+   "element": "",
    "target": "Single Ally",
    "effect": "Restore Status",
    "price": 4000,
-   "successMessage": "Cured!"
+   "successMessage": "Break the silence"
  },
  {
    "id": "1D",
    "name": "SLP2",
    "effectivity": "Sleep",
    "accuracy": 64,
+   "element": "",
    "target": "Single Enemy",
    "effect": "Status Ailment",
    "price": 4000,
@@ -288,6 +323,7 @@
    "name": "FAST",
    "effectivity": "0",
    "accuracy": 0,
+   "element": "",
    "target": "Single Ally",
    "effect": "Hit Multiplier Up",
    "price": 4000,
@@ -312,13 +348,15 @@
    "element": "Ice",
    "target": "All Enemies",
    "effect": "Damage",
-   "price": 4000
+   "price": 4000,
+   "successMessage": ""
  },
  {
    "id": "21",
    "name": "CUR3",
    "effectivity": "66",
    "accuracy": 0,
+   "element": "",
    "target": "Single Ally",
    "effect": "HP Recovery",
    "price": 8000,
@@ -329,24 +367,29 @@
    "name": "LIFE",
    "effectivity": "0",
    "accuracy": 255,
+   "element": "",
    "target": "Single Ally",
    "effect": "None",
-   "price": 8000
+   "price": 8000,
+   "successMessage": ""
  },
  {
    "id": "23",
    "name": "HRM3",
    "effectivity": "60",
    "accuracy": 24,
+   "element": "",
    "target": "All Enemies",
    "effect": "Damage Undead",
-   "price": 8000
+   "price": 8000,
+   "successMessage": ""
  },
  {
    "id": "24",
    "name": "HEL2",
    "effectivity": "48",
    "accuracy": 0,
+   "element": "",
    "target": "All Allies",
    "effect": "HP Recovery",
    "price": 8000,
@@ -360,7 +403,8 @@
    "element": "Fire",
    "target": "All Enemies",
    "effect": "Damage",
-   "price": 8000
+   "price": 8000,
+   "successMessage": ""
  },
  {
    "id": "26",
@@ -378,15 +422,18 @@
    "name": "WARP",
    "effectivity": "0",
    "accuracy": 255,
+   "element": "",
    "target": "All Allies",
    "effect": "Nine",
-   "price": 8000
+   "price": 8000,
+   "successMessage": ""
  },
  {
    "id": "28",
    "name": "SLO2",
    "effectivity": "0",
    "accuracy": 64,
+   "element": "",
    "target": "Single Enemy",
    "effect": "Hit Multiplier Down",
    "price": 8000,
@@ -397,6 +444,7 @@
    "name": "SOFT",
    "effectivity": "0",
    "accuracy": 255,
+   "element": "",
    "target": "Single Ally",
    "effect": "None",
    "price": 20000,
@@ -407,15 +455,18 @@
    "name": "EXIT",
    "effectivity": "0",
    "accuracy": 255,
+   "element": "",
    "target": "All Allies",
    "effect": "None",
-   "price": 20000
+   "price": 20000,
+   "successMessage": ""
  },
  {
    "id": "2B",
    "name": "FOG2",
    "effectivity": "12",
    "accuracy": 0,
+   "element": "",
    "target": "All Allies",
    "effect": "Defense Up",
    "price": 20000,
@@ -426,6 +477,7 @@
    "name": "INV2",
    "effectivity": "40",
    "accuracy": 0,
+   "element": "",
    "target": "All Allies",
    "effect": "Evasion Up",
    "price": 20000,
@@ -439,7 +491,8 @@
    "element": "Lightning",
    "target": "All Enemies",
    "effect": "Damage",
-   "price": 20000
+   "price": 20000,
+   "successMessage": ""
  },
  {
    "id": "2E",
@@ -472,32 +525,36 @@
    "target": "Single Enemies",
    "effect": "300HP Status Ail",
    "price": 20000,
-   "successMessage": "ADD MESSAGE HERE"
+   "successMessage": "Paralyzed"
  },
  {
    "id": "31",
    "name": "CUR4",
    "effectivity": "0",
    "accuracy": 0,
+   "element": "",
    "target": "Single Ally",
    "effect": "Full HP/Stat Rec.",
    "price": 45000,
-   "successMessage": "ADD MESSAGE HERE"
+   "successMessage": "HP max!"
  },
  {
    "id": "32",
    "name": "HRM4",
    "effectivity": "80",
    "accuracy": 48,
+   "element": "",
    "target": "All Enemies",
    "effect": "Damage Undead",
-   "price": 45000
+   "price": 45000,
+   "successMessage": ""
  },
  {
    "id": "33",
    "name": "ARUB",
    "effectivity": "S/P/E",
    "accuracy": 0,
+   "element": "",
    "target": "All Allies",
    "effect": "Resist Element",
    "price": 45000,
@@ -508,9 +565,11 @@
    "name": "HEL3",
    "effectivity": "48",
    "accuracy": 48,
+   "element": "",
    "target": "All Allies",
    "effect": "HP Recovery",
-   "price": 45000
+   "price": 45000,
+   "successMessage": "HP up!"
  },
  {
    "id": "35",
@@ -520,7 +579,8 @@
    "element": "Ice",
    "target": "All Enemies",
    "effect": "Damage",
-   "price": 45000
+   "price": 45000,
+   "successMessage": ""
  },
  {
    "id": "36",
@@ -538,6 +598,7 @@
    "name": "SABR",
    "effectivity": "16",
    "accuracy": 0,
+   "element": "",
    "target": "Caster",
    "effect": "Attack/Accuracy Up",
    "price": 45000,
@@ -559,24 +620,29 @@
    "name": "LIF2",
    "effectivity": "0",
    "accuracy": 255,
+   "element": "",
    "target": "Single Ally",
    "effect": "None",
-   "price": 60000
+   "price": 60000,
+   "successMessage": ""
  },
  {
    "id": "3A",
    "name": "FADE",
    "effectivity": "80",
    "accuracy": 107,
+   "element": "",
    "target": "All Enemies",
    "effect": "Damage",
-   "price": 60000
+   "price": 60000,
+   "successMessage": ""
  },
  {
    "id": "3B",
    "name": "WALL",
    "effectivity": "ALL",
    "accuracy": 0,
+   "element": "",
    "target": "Single Ally",
    "effect": "Resist Element",
    "price": 60000,
@@ -587,6 +653,7 @@
    "name": "XFER",
    "effectivity": "0",
    "accuracy": 107,
+   "element": "",
    "target": "Single Enemy",
    "effect": "Remove Resistance",
    "price": 60000,
@@ -597,9 +664,11 @@
    "name": "NUKE",
    "effectivity": "100",
    "accuracy": 107,
+   "element": "",
    "target": "All Enemies",
    "effect": "Damage",
-   "price": 60000
+   "price": 60000,
+   "successMessage": ""
  },
  {
    "id": "3E",
@@ -639,6 +708,7 @@
    "name": "HEAL[P]",
    "effectivity": "16",
    "accuracy": 0,
+   "element": "",
    "target": "Single Target",
    "effect": "HP Recovery",
    "price": 0,
@@ -649,9 +719,11 @@
    "name": "PURE[P]",
    "effectivity": "Poison",
    "accuracy": 0,
+   "element": "",
    "target": "Single Target",
    "effect": "Status Recovery",
-   "price": 0
+   "price": 0,
+   "successMessage": "Neutralized"
  },
  {
    "id": "43",
@@ -661,7 +733,8 @@
    "element": "Ice",
    "target": "All Targets",
    "effect": "Damage",
-   "price": 0
+   "price": 0,
+   "successMessage": ""
  },
  {
    "id": "44",
@@ -671,7 +744,8 @@
    "element": "Fire",
    "target": "All Targets",
    "effect": "Damage",
-   "price": 0
+   "price": 0,
+   "successMessage": ""
  },
  {
    "id": "45",
@@ -682,7 +756,7 @@
    "target": "Single Target",
    "effect": "Status Ailment",
    "price": 0,
-   "successMessage": "ADD MESSAGE HERE"
+   "successMessage": "Stopped"
  },
  {
    "id": "46",
@@ -714,7 +788,8 @@
    "element": "Fire",
    "target": "All Targets",
    "effect": "Damage",
-   "price": 0
+   "price": 0,
+   "successMessage": ""
  },
  {
    "id": "49",
@@ -743,9 +818,11 @@
    "name": "STARE",
    "effectivity": "17",
    "accuracy": 24,
+   "element": "",
    "target": "Single Target",
    "effect": "Damage",
-   "price": 0
+   "price": 0,
+   "successMessage": ""
  },
  {
    "id": "4C",
@@ -766,7 +843,8 @@
    "element": "Ice",
    "target": "All Targets",
    "effect": "Damage",
-   "price": 0
+   "price": 0,
+   "successMessage": ""
  },
  {
    "id": "4E",
@@ -776,7 +854,8 @@
    "element": "Fire",
    "target": "All Targets",
    "effect": "Damage",
-   "price": 0
+   "price": 0,
+   "successMessage": ""
  },
  {
    "id": "4F",
@@ -786,7 +865,8 @@
    "element": "Fire",
    "target": "All Targets",
    "effect": "Damage",
-   "price": 0
+   "price": 0,
+   "successMessage": ""
  },
  {
    "id": "50",
@@ -796,7 +876,8 @@
    "element": "Fire",
    "target": "All Targets",
    "effect": "Damage",
-   "price": 0
+   "price": 0,
+   "successMessage": ""
  },
  {
    "id": "51",
@@ -814,6 +895,7 @@
    "name": "TRANCE",
    "effectivity": "Paralyze",
    "accuracy": 0,
+   "element": "",
    "target": "All Targets",
    "effect": "Status Ailment",
    "price": 0,
@@ -827,7 +909,8 @@
    "element": "Psn/Stn",
    "target": "All Targets",
    "effect": "Damage",
-   "price": 0
+   "price": 0,
+   "successMessage": ""
  },
  {
    "id": "54",
@@ -837,7 +920,8 @@
    "element": "Lightning",
    "target": "All Targets",
    "effect": "Damage",
-   "price": 0
+   "price": 0,
+   "successMessage": ""
  },
  {
    "id": "55",
@@ -866,9 +950,11 @@
    "name": "NUCLEAR",
    "effectivity": "80",
    "accuracy": 48,
+   "element": "",
    "target": "All Targets",
    "effect": "Damage",
-   "price": 0
+   "price": 0,
+   "successMessage": ""
  },
  {
    "id": "58",
@@ -890,7 +976,7 @@
    "target": "All Targets",
    "effect": "Status Ailment",
    "price": 0,
-   "successMessage": "ADD MESSAGE HERE"
+   "successMessage": "Poisoned"
  },
  {
    "id": "5A",
@@ -908,17 +994,21 @@
    "name": "SWIRL",
    "effectivity": "64",
    "accuracy": 32,
+   "element": "",
    "target": "All Targets",
    "effect": "Damage",
-   "price": 0
+   "price": 0,
+   "successMessage": ""
  },
  {
    "id": "5C",
    "name": "TORNADO",
    "effectivity": "64",
    "accuracy": 32,
+   "element": "",
    "target": "All Targets",
    "effect": "Damage",
-   "price": 0
+   "price": 0,
+   "successMessage": ""
  }
 ]

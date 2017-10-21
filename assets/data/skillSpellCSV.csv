@@ -8,6 +8,7 @@ id,name,effectivity,accuracy,element,target,effect,price,successMessage
 06,SLEP,Sleep,24,Status,All Enemies,Status Ailment,100,Asleep
 07,LOCK,20,64,,Single Enemy,Evasion Down,100,Easy to hit
 08,LIT,10,24,Lightning,Single Enemy,Damage,100,
+09,LAMP,Blind,0,,Single Ally,Restore Status,400,Sight recovered
 
 0A,MUTE,Silence,64,Status,All Enemies,Status Ailment,400,Silenced
 0B,ALIT,Lightning,0,,All Allies, Resist Element,400,Defend lightning
@@ -26,10 +27,10 @@ id,name,effectivity,accuracy,element,target,effect,price,successMessage
 17,LIT2,30,24,Lightning,All Enemies,Damage,1500,
 18,LOK2,20,40,,All Enemies,Evasion Up,1500,Easy to hit
 
-19,PURE,Poison,0,,Single Ally,Restore Status,4000,Cured!
+19,PURE,Poison,0,,Single Ally,Restore Status,4000,Neutralized
 1A,FEAR,40,24,Status,All Enemies,Morale Down,4000,Became terrified
 1B,AICE,Ice,0,,All Allies,Resist Element,4000,Defend cold
-1C,AMUT,Silence,0,,Single Ally,Restore Status,4000,Cured!
+1C,AMUT,Silence,0,,Single Ally,Restore Status,4000,Break the silence
 1D,SLP2,Sleep,64,,Single Enemy,Status Ailment,4000,Alseep
 1E,FAST,0,0,,Single Ally,Hit Multiplier Up,4000,Quick shot
 1F,CONF,Confuse,64,Status,All Enemies,Status Ailment,4000,Confused
@@ -51,12 +52,12 @@ id,name,effectivity,accuracy,element,target,effect,price,successMessage
 2D,LIT3,60,24,Lightning,All Enemies,Damage,20000,
 2E,RUB,Death,24,Death,Single Enemy,Status Ailment,20000,Erased
 2F,QAKE,Death,40,Earth,All Enemies,Status Ailment,20000,Fell into crack
-30,STUN,Paralyze,0,Status,Single Enemies,300HP Status Ail,20000,ADD MESSAGE HERE
+30,STUN,Paralyze,0,Status,Single Enemies,300HP Status Ail,20000,Paralyzed
 
-31,CUR4,0,0,,Single Ally,Full HP/Stat Rec.,45000,ADD MESSAGE HERE
+31,CUR4,0,0,,Single Ally,Full HP/Stat Rec.,45000,HP max!
 32,HRM4,80,48,,All Enemies,Damage Undead,45000,
 33,ARUB,S/P/E,0,,All Allies,Resist Element,45000,Defend Magic
-34,HEL3,48,48,,All Allies,HP Recovery,45000,
+34,HEL3,48,48,,All Allies,HP Recovery,45000,HP up!
 35,ICE3,70,24,Ice,All Enemies,Damage,45000,
 36,BRAK,Petrify,64,Psn/Stn,Single Enemy,Status Ailment,45000,Broken into pieces
 37,SABR,16,0,,Caster,Attack/Accuracy Up,45000,Weapons became enchanted
@@ -71,14 +72,12 @@ id,name,effectivity,accuracy,element,target,effect,price,successMessage
 3F,ZAP!,Death,32,Time,All Enemies,Status Ailment,60000,Exiled to the 4th dimension
 40,XXXX,Death,0,Death,Single Enemy,Status Ailment,60000,Erased
 
-
 41,HEAL[P],16,0,,Single Target,HP Recovery,0,HP up!
-42,PURE[P],Poison,0,,Single Target,Status Recovery,0,
-
+42,PURE[P],Poison,0,,Single Target,Status Recovery,0,Neutralized
 
 43,FROST,24,32,Ice,All Targets,Damage,0,
 44,HEAT,12,32,Fire,All Targets,Damage,0,
-45,GLANCE,Petrify,5,Psn/Stn,Single Target,Status Ailment,0,ADD MESSAGE HERE
+45,GLANCE,Petrify,5,Psn/Stn,Single Target,Status Ailment,0,Stopped
 46,GAZE,Paralyze,0,Status,Single Target,Status Ailment,0,ADD MESSAGE HERE
 47,FLASH,Blind,24,Status,All Targets,Status Ailment,0,Darkness
 48,SCORCH,7,32,Fire,All Targets,Damage,0,
@@ -98,7 +97,7 @@ id,name,effectivity,accuracy,element,target,effect,price,successMessage
 56,SNORTING,Blind,24,Status,Single Target,Status Ailment,0,Darkness
 57,NUCLEAR,80,48,,All Targets,Damage,0,
 58,INK,Blind,24,Status,All Targets,Status Ailment,0,Darkness
-59,STINGER,Poison,0,Psn/Stn,All Targets,Status Ailment,0,ADD MESSAGE HERE
+59,STINGER,Poison,0,Psn/Stn,All Targets,Status Ailment,0,Poisoned
 5A,DAZZLE,Paralyze,32,Status,Single Target,Status Ailment,0,ADD MESSAGE HERE
 5B,SWIRL,64,32,,All Targets,Damage,0,
 5C,TORNADO,64,32,,All Targets,Damage,0,
