@@ -176,11 +176,8 @@ class AttackManager {
 		*/
 		var BC = 100;
 		
-		// NES formula
-		// - If target is resistant to an enemy's weakness, BC = 0
-		// Fixed formula
-		// - If target is resistant to an enemy's attack element, BC = 0
-		if (useOriginalFormula) {
+		// NES BUG: Target checks attacker's weaknesses instead of attacking element
+		if (!Globals.BUG_FIXES) {
 			// Iterate attacker's weaknesses and compare against target's resistances
 			for (weakness in attacker.weaknesses) {
 				if (target.isResistantTo(weakness)) {

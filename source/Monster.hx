@@ -4,6 +4,7 @@ import flixel.FlxG;
 import flixel.FlxObject;
 import flixel.FlxSprite;
 import flixel.system.FlxAssets.FlxGraphicAsset;
+import Action.ActionType;
 
 enum Status {
 	Death; Petrified; Poisoned; Blind; Paralyzed; Asleep; Silenced; Confused;
@@ -116,20 +117,81 @@ class Monster extends FlxSprite {
 	 * @return
 	 */
 	public function getAction():Action {
-		// Check for status effects first, and whethre or not they prevent an action from occuring
+		// Check for status effects first, and whether or not they prevent an action from occuring
+		var sCheck = statusCheck();
+		if (sCheck != null) return sCheck;
+		
+		// The monster is not under a status that effects it's action, continue regular logic
+		var action:Action = { actionType: null, actionName: "SETME" };
+		
+		/* Monster Action Logic
+		* 
+		* Priority: Run, Spell, Skill, Attack
+		* Run if: Morale - 2*[Leader's Level] + (0...50) < 80
+		* Spells? roll 0...128. If equal or less than spell chance, cast spell
+		* - Up to 8 Spells
+		* - Start from 0, continue sequentially
+		* Skills? roll 0...128. If equal or less than skill chance, cast skill
+		* - Up to 4 Skills
+		* - Start from 0, continue sequentially
+		* Regular Attack
+		*/
+		
+		// TODO - run logic?
+		
+		if (spells != null && spells.length > 0) {
+			if (FlxG.random.int(0, 128) <= spellChance) {
+				// Check for silence and wasting a turn attempting to cast
+				if (checkForStatus(Status.Silenced)) {
+					return { actionType: ActionType.StatusEffect, actionName: "Silence" };
+				}
+				
+				action.actionType = Action.ActionType.Spell;
+				action.actionName = spells[spellIndex++];
+				if (spellIndex >= spells.length) spellIndex = 0;
+				return action;
+			}
+		}
+		
+		if (skills != null && skills.length > 0) {
+			if (FlxG.random.int(0, 128) <= skillChance) {
+				// Check for silence and wasting a turn attempting to cast
+				if (checkForStatus(Status.Silenced)) {
+					return { actionType: ActionType.StatusEffect, actionName: "Silence" };
+				}
+				
+				action.actionType = Action.ActionType.Skill;
+				action.actionName = skills[skillIndex++];
+				if (skillIndex >= skills.length) skillIndex = 0;
+				return action;
+			}
+		}
+		
+		// Default attack action
+		action.actionType = Action.ActionType.Attack;
+		action.actionName = "attack";
+		return action;
+	}
+	
+	private function statusCheck():Action {
 		var statusAction:Action = { actionType: Action.ActionType.StatusEffect, actionName: "SETME" };
 		var curedFlag:Bool = false;
 		var statusFlag:Bool = false;
 		
 		if (checkForStatus(Status.Poisoned)) {
 			// If the bug-fix option is selected, damage the monster for 2
-			// Else do nothing
+			// TODO: This needs testing to see what actually happens when a monster dies at this very moment
+			// Maybe just give is death status, ignore it's turn, and hope that gets caught later in the turn?
+			if (Globals.BUG_FIXES) {
+				hp -= 2;
+			}
 		}
 		
 		if (checkForStatus(Status.Paralyzed)) {
 			// 9.8% chance to cure
 			if (FlxG.random.int(0, 1000) < 98) {
 				removeStatus(Status.Paralyzed);
+				statusAction.actionName = "Cured!";
 				curedFlag = true;
 			}
 			else {
@@ -158,68 +220,19 @@ class Monster extends FlxSprite {
 			}
 		}
 		
+		// Confusion shouldn't ever occur, but this is here in case that changes
 		if (checkForStatus(Status.Confused)) {
 			if (FlxG.random.int(0, 100) < 25) {
 				removeStatus(Status.Confused);
+				statusAction.actionName = "Cured!";
 				curedFlag = true;
 			}
 		}
 		
 		// If either the cured or status flag were flipped, return the StatusEffect result
+		// TODO: This check better
 		if (curedFlag || statusFlag) return statusAction;
-		
-		// The monster is not under a status that effects it's action, continue regular logic
-		var action:Action = { actionType: null, actionName: "SETME" };
-		
-		/* Monster Action Logic
-		* 
-		* Priority: Run, Spell, Skill, Attack
-		* Run if: Morale - 2*[Leader's Level] + (0...50) < 80
-		* Spells? roll 0...128. If equal or less than spell chance, cast spell
-		* - Up to 8 Spells
-		* - Start from 0, continue sequentially
-		* Skills? roll 0...128. If equal or less than skill chance, cast skill
-		* - Up to 4 Skills
-		* - Start from 0, continue sequentially
-		* Regular Attack
-		*/
-		
-		// TODO - run logic?
-		
-		if (spells != null && spells.length > 0) {
-			if (FlxG.random.int(0, 128) <= spellChance) {
-				// Check for silence and wasting a turn attempting to cast
-				if (checkForStatus(Status.Silenced)) {
-					statusAction.actionName = "Silenced";
-					return statusAction;
-				}
-				
-				action.actionType = Action.ActionType.Spell;
-				action.actionName = spells[spellIndex++];
-				if (spellIndex >= spells.length) spellIndex = 0;
-				return action;
-			}
-		}
-		
-		if (skills != null && skills.length > 0) {
-			if (FlxG.random.int(0, 128) <= skillChance) {
-				// Check for silence and wasting a turn attempting to cast
-				if (checkForStatus(Status.Silenced)) {
-					statusAction.actionName = "Silenced";
-					return statusAction;
-				}
-				
-				action.actionType = Action.ActionType.Skill;
-				action.actionName = skills[skillIndex++];
-				if (skillIndex >= skills.length) skillIndex = 0;
-				return action;
-			}
-		}
-		
-		// Default attack action
-		action.actionType = Action.ActionType.Attack;
-		action.actionName = "attack";
-		return action;
+		return null;
 	}
 	
 	/////////////////
@@ -415,9 +428,8 @@ class Monster extends FlxSprite {
 		if (checkForBuff(FAST)) hitMult++;
 		if (checkForDebuff(SLOW) || checkForDebuff(SLO2)) hitMult--;
 		
-		totalHits *= hitMult;
-		
 		// Minimum number of hits is 1
+		totalHits *= hitMult;
 		return totalHits > 0 ? totalHits : 1;
 	}
 	

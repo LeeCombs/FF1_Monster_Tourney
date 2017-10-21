@@ -101,7 +101,7 @@ class SkillSpellManager {
 				return successfulResult;
 			
 			// Buffs and Debuffs - Buffs always hit
-			case "Defense Up", "Attack Up", "Hit Multiplier Up", "Attack/Accuracy Up", "Evasion Up":
+			case "Defense Up", "Attack Up", "Hit Multiplier Up", "Attack/Accuracy Up", "Evasion Up", "Resist Element":
 				// FOG, FOG2 - TMPR (fix) - FAST - SABR - RUSE, INVS, INV2
 				buffSkillSpell(skillSpell, target);
 				return successfulResult;
@@ -114,7 +114,7 @@ class SkillSpellManager {
 			// case "Nothing":
 			// case "[Unused]":
 			default:
-				FlxG.log.add("Invalid skillSpell effect: " + skillSpell.effect);
+				FlxG.log.warn("Invalid skillSpell effect: " + skillSpell.effect);
 		}
 		return failedResult;
 	}
@@ -224,6 +224,10 @@ class SkillSpellManager {
 	 */
 	private static function healSkillSpell(skillSpell:SkillSpell, target:Monster):Int {
 		var e:Int = Std.parseInt(skillSpell.effectivity);
+		
+		// NES BUG: HEL2's effectivity is normally double (48) what it should be (24)
+		if (Globals.BUG_FIXES && skillSpell.name == "HEL2") e = 24;
+		
 		var healAmount = FlxG.random.int(e, e * 2);
 		if (healAmount > 255) healAmount = 255;
 		target.heal(healAmount); 

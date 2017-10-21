@@ -80,8 +80,8 @@ class PlayState extends FlxState {
 		add(resultTextBox);
 		
 		// Add monsters
-		playerOneScene.loadMonsters("D;CHAOS");
-		playerTwoScene.loadMonsters("B;IronGOL,Sand W,ASTOS,FIGHTER,EVILMAN,SENTRY,GHOST,MAGE");
+		playerOneScene.loadMonsters("B;PHANTOM,GrNAGA,ASTOS,FIGHTER,MAGE,SORCERER,SORCERER,FIGHTER");
+		playerTwoScene.loadMonsters("B;FrGIANT,FrGIANT,FrWOLF,FrWOLF,FrWOLF,FrWOLF,FrWOLF,FrWOLF");
 	}
 	
 	/**
@@ -90,7 +90,7 @@ class PlayState extends FlxState {
 	 * @return
 	 */
 	private function getTurnSchedule():Array<Int> {
-		/* Turn Order Logic
+		/* NES Turn Order Logic
 		* Every creature (alive, dead, statused) gets a turn
 		* 
 		* Scheduling is done by starting with:
@@ -130,16 +130,18 @@ class PlayState extends FlxState {
 	 * @return				The Monster that will be targeted 
 	 */
 	private function getMonsterTarget(TeamSlots:Array<Monster>, SceneType:String):Monster {
-		/*
-		 * What's going on here?
-		 * Each scene can have different types, which have different slots
-		 * Slots have different odds on being selected based on their position
-		 * 
-		 * i.e. type "A": Slots ABC are 2x more likely to be targeted than DEF
-		 * Slots DEF are also 2x more likely to be targeted than GHI 
-		 * 
-		 * If an invalid slot it selected, roll again until a valid one is chosen
-		 */
+		/* 
+		* What's going on here?
+		* 
+		* Each scene can have different types, which have different slots
+		* Slots have different odds on being selected based on their position
+		* 
+		* i.e. type "A": Slots ABC are 2x more likely to be targeted than DEF
+		* Slots DEF are also 2x more likely to be targeted than GHI 
+		* 
+		* If an invalid slot it selected, roll again until a valid one is chosen
+		*/
+		
 		// Error checkin'
 		if (TeamSlots.length <= 0 || TeamSlots == [] || TeamSlots == null) return null;
 		if (["A", "B", "C", "D"].indexOf(SceneType.toUpperCase()) == -1) return null;
