@@ -98,6 +98,6 @@ id,name,effectivity,accuracy,element,target,effect,price,successMessage
 57,NUCLEAR,80,48,,All Targets,Damage,0,
 58,INK,Blind,24,Status,All Targets,Status Ailment,0,Darkness
 59,STINGER,Poison,0,Psn/Stn,All Targets,Status Ailment,0,Poisoned
-5A,DAZZLE,Paralyze,32,Status,Single Target,Status Ailment,0,ADD MESSAGE HERE
+5A,DAZZLE,Paralyze,32,Status,Single Target,Status Ailment,0,Paralyzed
 5B,SWIRL,64,32,,All Targets,Damage,0,
 5C,TORNADO,64,32,,All Targets,Damage,0,

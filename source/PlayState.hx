@@ -52,6 +52,7 @@ class PlayState extends FlxState {
 	
 	// Info
 	private var infoBox:InfoBox;
+	private var optionsBox:OptionsBox;
 	
 	override public function create():Void {
 		super.create();
@@ -81,6 +82,15 @@ class PlayState extends FlxState {
 		infoBox = new InfoBox(x + 275, y);
 		add(infoBox);
 		
+		// Otions box
+		optionsBox = new OptionsBox(x + 275, y + 100);
+		add(optionsBox);
+		optionsBox.setStartCallback(startBattle);
+		
+		
+		// Log
+		add(new LogManager(300, 200));
+		
 		// Add monsters
 		playerOneScene.loadMonsters("B;PHANTOM,GrNAGA,ASTOS,FIGHTER,MAGE,SORCERER,SORCERER,FIGHTER");
 		playerTwoScene.loadMonsters("B;FrGIANT,FrGIANT,FrWOLF,FrWOLF,FrWOLF,FrWOLF,FrWOLF,FrWOLF");
@@ -101,6 +111,10 @@ class PlayState extends FlxState {
 		}
 		infoBox.setTeamStats(2, sceneTwoGold, sceneTwoEXP);
 		
+	}
+	
+	private function startBattle():Void {
+		// What
 	}
 	
 	/**

@@ -987,7 +987,7 @@
    "target": "Single Target",
    "effect": "Status Ailment",
    "price": 0,
-   "successMessage": "ADD MESSAGE HERE"
+   "successMessage": "Paralyzed"
  },
  {
    "id": "5B",
