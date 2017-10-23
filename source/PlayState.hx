@@ -1,5 +1,8 @@
 package;
 
+import haxe.Json;
+import haxe.Resource;
+import openfl.Assets;
 import flixel.FlxG;
 import flixel.FlxObject;
 import flixel.FlxSprite;
@@ -8,13 +11,11 @@ import flixel.math.FlxPoint;
 import flixel.text.FlxText;
 import flixel.ui.FlxButton;
 import flixel.math.FlxMath;
+import flixel.util.FlxSpriteUtil;
 import Action;
 import Monster.Status;
 import SkillSpellManager.SkillSpell;
-import flixel.util.FlxSpriteUtil;
-import haxe.Json;
-import haxe.Resource;
-import openfl.Assets;
+import LogManager.MessageType;
 
 class PlayState extends FlxState {
 	private var x:Int = 0;
@@ -53,6 +54,7 @@ class PlayState extends FlxState {
 	// Info
 	private var infoBox:InfoBox;
 	private var optionsBox:OptionsBox;
+	private var logManager:LogManager;
 	
 	override public function create():Void {
 		super.create();
@@ -87,9 +89,10 @@ class PlayState extends FlxState {
 		add(optionsBox);
 		optionsBox.setStartCallback(startBattle);
 		
-		
 		// Log
-		add(new LogManager(300, 200));
+		logManager = new LogManager(x + 275, 150);
+		add(logManager);
+		logManager.addEntry("Test Entry", MessageType.System);
 		
 		// Add monsters
 		playerOneScene.loadMonsters("B;PHANTOM,GrNAGA,ASTOS,FIGHTER,MAGE,SORCERER,SORCERER,FIGHTER");
@@ -310,12 +313,14 @@ class PlayState extends FlxState {
 			case ActionType.Attack:
 				// Grab a single, random target from the target scene
 				targetQueue.push(getMonsterTarget(targetScene.getMonsters(), targetScene.sceneType));
+				logManager.addEntry(monster.name + " attacks " + targetQueue[0].name, MessageType.Combat);
 			case ActionType.Spell, ActionType.Skill:
 				var skillSpell:SkillSpell = SkillSpellManager.getSkillSpellByName(action.actionName);
 				if (skillSpell == null) {
 					trace("Invalid spell retrieved: " + skillSpell);
 					return null;
 				}
+				logManager.addEntry(monster.name + " casts " + skillSpell.name, MessageType.Combat);
 				
 				// Build the target queue as dictated by the skillSpell's targetting
 				switch(skillSpell.target) {
@@ -397,6 +402,7 @@ class PlayState extends FlxState {
 		// Check for monster termination
 		if (monster.checkForStatus(Status.Petrified) || monster.checkForStatus(Status.Death) || monster.hp < 0) {
 			messageQueue.push([resultTextBox, "Terminated"]);
+			logManager.addEntry(monster.name + " is Terminated", MessageType.None);
 			monster.removeSelf();
 		}
 	}
