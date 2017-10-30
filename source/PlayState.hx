@@ -93,7 +93,7 @@ class PlayState extends FlxState {
 		optionsBox.setStartCallback(startBattle);
 		
 		// Log
-		logManager = new LogManager(x + 275, 150);
+		logManager = new LogManager(x + 275, 185, 7);
 		add(logManager);
 		
 		// Add monsters

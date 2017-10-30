@@ -14,11 +14,7 @@ enum MessageType {
 }
 
 /**
- * Manages a group of text objects
- * 
- * MYTODO 
- * Add message filters (Combat, system, etc)
- * Think about adding a proper scroll bar (Dynamic)
+ * Manages a group of FlxText objects to display text in a scrollable manner
  */
 class LogManager extends FlxGroup {
 	private var x:Int;
@@ -26,11 +22,10 @@ class LogManager extends FlxGroup {
 	
 	// Text displays
 	private var arrayTracker:Int = 0;
-	private var stringArray:Array<String>;
-	private var colorArray:Array<FlxColor>;
 	private var textGroup:FlxTypedGroup<FlxText>;
 	
-	private var infoLength:Int = 20;
+	private var numOfEntries:Int = 20; // How many events to keep track of
+	private var numOfDisplays:Int = 5; // How many events to display
 	private var infoArray:Array<Array<Dynamic>>; // [[Text, Type],...]
 	
 	// Sprite Objects
@@ -39,15 +34,31 @@ class LogManager extends FlxGroup {
 	private var upButton:FlxButton;
 	private var downButton:FlxButton;
 	
-	override public function new(X:Int = 0, Y:Int = 0, ?NumOfEntries:Int = 5):Void {
+	/**
+	 * Creation Function
+	 * 
+	 * @param	X				X Position
+	 * @param	Y				Y Position
+	 * @param	NumOfEntries	How many log entries to display at a time
+	 * @param	NumOfEntries	How many log entries to keep track of
+	 */
+	override public function new(X:Int = 0, Y:Int = 0, ?NumOfDisplays:Int = 5, ?NumOfEntries:Int = 20):Void {
 		super();
 		
 		x = X;
 		y = Y;
+		numOfEntries = NumOfEntries > 0 ? NumOfEntries : 20; // Ensure there are some number of entries to track
+		numOfDisplays = NumOfDisplays > 0 ? NumOfDisplays : 5; // Ensure there are some number of entries to display
+		
+		// Ensure there aren't more displays than there are entries
+		if (numOfEntries < numOfDisplays) {
+			FlxG.log.warn("Cannot have more text displays than there are entries to track");
+			numOfDisplays = numOfEntries;
+		}
 		
 		// The background sprite
 		bgSprite = new FlxSprite(x, y);
-		bgSprite.makeGraphic(200, NumOfEntries * 10, FlxColor.GRAY.getDarkened(), true);
+		bgSprite.makeGraphic(200, numOfDisplays * 10, FlxColor.GRAY.getDarkened(), true);
 		add(bgSprite);
 		
 		// The scroll bar sprite
@@ -55,32 +66,33 @@ class LogManager extends FlxGroup {
 		scrollbarSprite.makeGraphic(10, 10, FlxColor.BROWN);
 		add(scrollbarSprite);
 		
-		// Initialize and fill the arrays
+		// Initialize and fill the info array
 		infoArray = new Array<Array<Dynamic>>();
-		for (i in 0...infoLength) {
+		for (i in 0...numOfEntries) {
 			infoArray[i] = new Array<Dynamic>();
-			infoArray[i] = ["Default Message", MessageType.None];
+			infoArray[i] = [" ", MessageType.None];
 		}
 		
-		// Create the 10 FlxText objects that will display on screen
+		// Create the FlxText objects that will display on screen
 		textGroup = new FlxTypedGroup<FlxText>();
 		add(textGroup);
 		
-		for (i in 0...NumOfEntries) {
-			var text:FlxText = new FlxText(x + 10, y - 1 + i * 10, 290, "DEFAULT STATEMENT " + i);
+		for (i in 0...numOfDisplays) {
+			var text:FlxText = new FlxText(x + 10, y - 1 + i * 10, 290, " ");
 			text.color = FlxColor.WHITE;
 			textGroup.add(text);
 		}
 		
-		// Add the up and down arrows for scrolling through text
+		// Add the up and down buttons for scrolling through text
 		upButton = new FlxButton(x, y, "", scrollTextUp);
 		upButton.makeGraphic(10, 10);
 		add(upButton);
-		downButton = new FlxButton(x, y + 40, "", scrollTextDown); // TODO: y position math
+		
+		downButton = new FlxButton(x, y + bgSprite.height - 10, "", scrollTextDown);
 		downButton.makeGraphic(10, 10);
 		add(downButton);
 		
-		// Misc
+		// Setup the default empty text
 		newGameText();
 	}
 	
@@ -90,7 +102,7 @@ class LogManager extends FlxGroup {
 	public function newGameText():Void {
 		clearEntries();
 		
-		infoArray[0] = ["This is a logger", MessageType.None];
+		infoArray[0] = ["Press Start to begin!", MessageType.None];
 		
 		updateDisplay();
 	}
@@ -101,16 +113,18 @@ class LogManager extends FlxGroup {
 	 * 
 	 * @param	MessageString	The string to display
 	 * @param	MsgType			The type of message: None, System, Combat, Event
-	 * 
 	 */
 	public function addEntry(MessageString:String, MsgType:MessageType):Void {
+		// Ensure there are at least default values
+		if (MessageString == null) MessageString = " ";
+		if (MsgType == null) MsgType = MessageType.None;
+		
 		// Iterate bottom-up and set each array element to the one above it
 		for (i in 0...19) {
 			infoArray[19 - i] = infoArray[18 - i];
 		} 
 		
 		// Set the first elements
-		if (MsgType == null) MsgType = MessageType.None;
 		infoArray[0] = [MessageString, MsgType];
 		
 		// Set the FlxText objects to display the new text
@@ -133,7 +147,7 @@ class LogManager extends FlxGroup {
 	 */
 	public function updateDisplay():Void {
 		// Iterate through the text objects and update displayed text and color
-		for (i in 0...5) { //numofentries
+		for (i in 0...numOfDisplays) {
 			var flxText:FlxText = textGroup.members[i];
 			flxText.text = infoArray[arrayTracker + i][0];
 			
@@ -144,7 +158,7 @@ class LogManager extends FlxGroup {
 				case MessageType.Combat:
 					flxText.color = FlxColor.PINK;
 				case MessageType.System:
-					flxText.color = FlxColor.GREEN;
+					flxText.color = FlxColor.BLUE.getLightened(0.4);
 				default:
 					FlxG.log.warn('Invalid message type given: $infoArray[arrayTracker + i][1]');
 					flxText.color = FlxColor.WHITE;
@@ -158,7 +172,9 @@ class LogManager extends FlxGroup {
 	private function scrollTextUp():Void {
 		if (arrayTracker > 0) {
 			arrayTracker--;
-			scrollbarSprite.y -= 4; //TODO: Math
+			// Diff is the y position step height between the two scroll buttons
+			var diff = ((y + bgSprite.height - 20) - (y + 10)) / (numOfEntries - numOfDisplays);
+			scrollbarSprite.y = y + 10 + (diff * arrayTracker);
 			updateDisplay();
 		}
 	}
@@ -167,9 +183,11 @@ class LogManager extends FlxGroup {
 	 * Scroll the displayed text down
 	 */
 	private function scrollTextDown():Void {
-		if (arrayTracker < 5) { //numofentry
+		if (arrayTracker < (numOfEntries - numOfDisplays)) {
 			arrayTracker++;
-			scrollbarSprite.y += 4; //TODO: Math
+			// Diff is the y position step height between the two scroll buttons
+			var diff = ((y + bgSprite.height - 20) - (y + 10)) / (numOfEntries - numOfDisplays);
+			scrollbarSprite.y = y + 10 + (diff * arrayTracker);
 			updateDisplay();
 		}
 	}
@@ -178,8 +196,6 @@ class LogManager extends FlxGroup {
 	 * Object clean up
 	 */
 	override public function destroy():Void {
-		stringArray = null;
-		colorArray = null;
 		infoArray = null;
 		textGroup = FlxDestroyUtil.destroy(textGroup);
 		bgSprite = FlxDestroyUtil.destroy(bgSprite);
