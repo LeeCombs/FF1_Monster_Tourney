@@ -59,9 +59,6 @@ class BattleScene extends FlxGroup {
 		sceneBackground.centerOffsets();
 		sceneBackground.loadGraphic("assets/images/BattleBackgrounds/BattleBackground-" + Std.string(FlxG.random.int(1, 16)) + ".png");
 		add(sceneBackground);
-		
-		// TEMP
-		activePositions = sceneCPositions;
 	}
 	
 	/**
@@ -223,6 +220,7 @@ class BattleScene extends FlxGroup {
 	 */
 	public function clearScene():Void {
 		for (monster in monsters) {
+			if (monster == null) continue;
 			monster.destroy();
 			remove(monster);
 			monster = null;

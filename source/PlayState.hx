@@ -37,6 +37,7 @@ class PlayState extends FlxState {
 	
 	// Turn logic
 	private var timerDelay:Int = 60;
+	private var turnSpeed:Int = 15;
 	private var turnSchedule:Array<Int> = [];
 	private var activeScene:BattleScene;
 	private var targetScene:BattleScene;
@@ -88,9 +89,11 @@ class PlayState extends FlxState {
 		add(infoBox);
 		
 		// Otions box
-		optionsBox = new OptionsBox(x + 275, y + 100);
+		optionsBox = new OptionsBox(x + 275, y + 130);
 		add(optionsBox);
-		optionsBox.setStartCallback(startBattle);
+		optionsBox.setStartStopCallback(toggleBattle);
+		optionsBox.setResetCallback(resetBattle);
+		optionsBox.speedCheckBox.callback = toggleSpeed;
 		
 		// Log
 		logManager = new LogManager(x + 275, 185, 7);
@@ -118,11 +121,59 @@ class PlayState extends FlxState {
 		
 	}
 	
-	private function startBattle():Void {
-		// What
-		runBattle = true;
-		logManager.addEntry("Start Battle", MessageType.System);
-		// More
+	private function toggleSpeed():Void {
+		if (turnSpeed == 15) turnSpeed = 1;
+		else turnSpeed = 15;
+	}
+	
+	/**
+	 * Start/Stop the battle
+	 */
+	private function toggleBattle():Void {
+		runBattle = !runBattle;
+		if (runBattle) {
+			logManager.addEntry("Start Battle", MessageType.System);
+			optionsBox.startStopButton.text = "Pause";
+		}
+		else {
+			logManager.addEntry("Pause Battle", MessageType.System);
+			optionsBox.startStopButton.text = "Start";
+		}
+	}
+	
+	/**
+	 * Reset the battle scenes
+	 */
+	private function resetBattle():Void {
+		runBattle = false;
+		logManager.addEntry("Reset Battle", MessageType.System);
+		optionsBox.startStopButton.text = "Start";
+		
+		// Clear and re-set the scenes
+		playerOneScene.clearScene();
+		playerTwoScene.clearScene();
+		playerOneScene.loadMonsters("B;PHANTOM,GrNAGA,ASTOS,FIGHTER,MAGE,SORCERER,SORCERER,FIGHTER");
+		playerTwoScene.loadMonsters("B;WarMECH,FrGIANT,FrWOLF,FrWOLF,FrWOLF,FrWOLF,FrWOLF,FrWOLF");
+		
+		// Clear up the text displays
+		textBoxStack = [];
+		messageQueue = [];
+		actorTextBox.clearText();
+		actionTextBox.clearText();
+		targetTextBox.clearText();
+		valueTextBox.clearText();
+		resultTextBox.clearText();
+		
+		// Set turn logic defaults
+		doneTurn = false;
+		doneSetup = false;
+		doneApplyAction = false;
+		doneResults = false;
+		turnSchedule = [];
+		targetQueue = [];
+		resultQueue = [];
+		infoBox.resetRoundCounter();
+		infoBox.resetTurnCounter();
 	}
 	
 	/**
@@ -425,7 +476,7 @@ class PlayState extends FlxState {
 		// Execute the turn logic
 		if (timerDelay > 0) timerDelay--;
 		if (timerDelay <= 0) {
-			timerDelay = 15;
+			timerDelay = turnSpeed;
 			
 			if (doneTurn) {
 				// If there's a text box stack, remove top-down, completing the turn once all messages are gone
@@ -436,10 +487,12 @@ class PlayState extends FlxState {
 					if (textBoxStack.length == 0) {
 						// Don't progress turns if either scene has no monsters left
 						if (!playerOneScene.checkForMonsters() || !playerTwoScene.checkForMonsters()) {
+							// If a team was fighting CHAOS, play the defeated music. Otherwise fanfare.
 							if (activeScene.sceneType == "D") FlxG.sound.playMusic("assets/music/Dead_Music.ogg", 0.1);
 							else FlxG.sound.playMusic("assets/music/Victory_Fanfare.ogg", 0.1, false);
-							timerDelay = 120000;
+							
 							resultTextBox.displayText("Monsters perished");
+							runBattle = false;
 						}
 					}
 					return;
