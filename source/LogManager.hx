@@ -39,7 +39,7 @@ class LogManager extends FlxGroup {
 	private var upButton:FlxButton;
 	private var downButton:FlxButton;
 	
-	override public function new(X:Int = 0, Y:Int = 0):Void {
+	override public function new(X:Int = 0, Y:Int = 0, ?NumOfEntries:Int = 5):Void {
 		super();
 		
 		x = X;
@@ -47,7 +47,7 @@ class LogManager extends FlxGroup {
 		
 		// The background sprite
 		bgSprite = new FlxSprite(x, y);
-		bgSprite.makeGraphic(200, 100, FlxColor.GRAY.getDarkened(), true);
+		bgSprite.makeGraphic(200, NumOfEntries * 10, FlxColor.GRAY.getDarkened(), true);
 		add(bgSprite);
 		
 		// The scroll bar sprite
@@ -66,7 +66,7 @@ class LogManager extends FlxGroup {
 		textGroup = new FlxTypedGroup<FlxText>();
 		add(textGroup);
 		
-		for (i in 0...10) {
+		for (i in 0...NumOfEntries) {
 			var text:FlxText = new FlxText(x + 10, y - 1 + i * 10, 290, "DEFAULT STATEMENT " + i);
 			text.color = FlxColor.WHITE;
 			textGroup.add(text);
@@ -76,7 +76,7 @@ class LogManager extends FlxGroup {
 		upButton = new FlxButton(x, y, "", scrollTextUp);
 		upButton.makeGraphic(10, 10);
 		add(upButton);
-		downButton = new FlxButton(x, y + 90, "", scrollTextDown);
+		downButton = new FlxButton(x, y + 40, "", scrollTextDown); // TODO: y position math
 		downButton.makeGraphic(10, 10);
 		add(downButton);
 		
@@ -90,9 +90,7 @@ class LogManager extends FlxGroup {
 	public function newGameText():Void {
 		clearEntries();
 		
-		infoArray[0] = ["IMP attacks TYRO", MessageType.Combat];
-		infoArray[1] = ["WOLF is terminated", MessageType.None];
-		infoArray[2] = ["EYE casts XXXX", MessageType.Combat];
+		infoArray[0] = ["This is a logger", MessageType.None];
 		
 		updateDisplay();
 	}
@@ -135,7 +133,7 @@ class LogManager extends FlxGroup {
 	 */
 	public function updateDisplay():Void {
 		// Iterate through the text objects and update displayed text and color
-		for (i in 0...10) {
+		for (i in 0...5) { //numofentries
 			var flxText:FlxText = textGroup.members[i];
 			flxText.text = infoArray[arrayTracker + i][0];
 			
@@ -160,7 +158,7 @@ class LogManager extends FlxGroup {
 	private function scrollTextUp():Void {
 		if (arrayTracker > 0) {
 			arrayTracker--;
-			scrollbarSprite.y -= 7;
+			scrollbarSprite.y -= 4; //TODO: Math
 			updateDisplay();
 		}
 	}
@@ -169,9 +167,9 @@ class LogManager extends FlxGroup {
 	 * Scroll the displayed text down
 	 */
 	private function scrollTextDown():Void {
-		if (arrayTracker < 10) {
+		if (arrayTracker < 5) { //numofentry
 			arrayTracker++;
-			scrollbarSprite.y += 7;
+			scrollbarSprite.y += 4; //TODO: Math
 			updateDisplay();
 		}
 	}

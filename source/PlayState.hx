@@ -56,6 +56,9 @@ class PlayState extends FlxState {
 	private var optionsBox:OptionsBox;
 	private var logManager:LogManager;
 	
+	// temp
+	private var runBattle:Bool = false;
+	
 	override public function create():Void {
 		super.create();
 		
@@ -92,11 +95,10 @@ class PlayState extends FlxState {
 		// Log
 		logManager = new LogManager(x + 275, 150);
 		add(logManager);
-		logManager.addEntry("Test Entry", MessageType.System);
 		
 		// Add monsters
 		playerOneScene.loadMonsters("B;PHANTOM,GrNAGA,ASTOS,FIGHTER,MAGE,SORCERER,SORCERER,FIGHTER");
-		playerTwoScene.loadMonsters("B;FrGIANT,FrGIANT,FrWOLF,FrWOLF,FrWOLF,FrWOLF,FrWOLF,FrWOLF");
+		playerTwoScene.loadMonsters("B;WarMECH,FrGIANT,FrWOLF,FrWOLF,FrWOLF,FrWOLF,FrWOLF,FrWOLF");
 		
 		// Testing
 		var sceneOneGold = 0;
@@ -118,6 +120,9 @@ class PlayState extends FlxState {
 	
 	private function startBattle():Void {
 		// What
+		runBattle = true;
+		logManager.addEntry("Start Battle", MessageType.System);
+		// More
 	}
 	
 	/**
@@ -414,6 +419,8 @@ class PlayState extends FlxState {
 	 */
 	override public function update(elapsed:Float):Void {
 		super.update(elapsed);
+		
+		if (!runBattle) return;
 		
 		// Execute the turn logic
 		if (timerDelay > 0) timerDelay--;
