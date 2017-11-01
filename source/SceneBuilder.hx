@@ -11,6 +11,7 @@ import flixel.group.FlxGroup;
 import flixel.text.FlxText;
 import flixel.ui.FlxButton;
 import flixel.util.FlxColor;
+import flixel.util.FlxDestroyUtil;
 
 class SceneBuilder extends FlxState {
 	
@@ -35,7 +36,6 @@ class SceneBuilder extends FlxState {
 	
 	// temp?
 	private var monsterArr:FlxGroup;
-	private var sizeArray:Array<String> = []; 
 	private var infoBox:FlxText;
 	
 	/**
@@ -64,7 +64,7 @@ class SceneBuilder extends FlxState {
 		// Setup text inputs and generated output string
 		monsterInputGroup = new FlxTypedGroup<MonsterInput>();
 		for (i in 0...9) {
-			var monsterInput:MonsterInput = new MonsterInput(160, 25 + i * 15, ["A", "B", "C", "D", "E", "F", "G", "H", "I"][i]);
+			var monsterInput = new MonsterInput(160, 25 + i * 15, ["A", "B", "C", "D", "E", "F", "G", "H", "I"][i]);
 			monsterInput.kill();
 			monsterInputGroup.add(monsterInput);
 		}
@@ -85,7 +85,7 @@ class SceneBuilder extends FlxState {
 	/**
 	 * Handle tear-down and setup of a specific scene
 	 * 
-	 * @param	sceneSelection
+	 * @param	sceneSelection	Scene Type of "A", "B", "C", or "D"
 	 */
 	private function setupScene(sceneSelection:String):Bool {
 		// Clear and hide text input and display
@@ -178,8 +178,8 @@ class SceneBuilder extends FlxState {
 					else {
 						outputString += nameString;
 						var index = monsterInputGroup.members.indexOf(mi);
-						var x:Int = 0;
-						var y:Int = 0;
+						var x = 0;
+						var y = 0;
 						switch(selectedScene) {
 							case "A":
 								x = 25 + sceneAPositions[index][0];
@@ -194,7 +194,7 @@ class SceneBuilder extends FlxState {
 								x = 25 + sceneDPositions[index][0];
 								y = 25 + sceneDPositions[index][1];
 							default:
-								trace("Invalid scene selected: " + selectedScene);
+								FlxG.log.warn("Invalid scene selected: " + selectedScene);
 								break;
 						}
 						var mon = new FlxSprite(x, y);
@@ -212,6 +212,29 @@ class SceneBuilder extends FlxState {
 		trace(outputString);
 		outputText.text = outputString;
 	}
+	
+	/**
+	 * Object clean up
+	 */
+	override public function destroy():Void {
+		sceneAPositions = [];
+		sceneBPositions = [];
+		sceneCPositions = [];
+		sceneDPositions = [];
+		flxTextArray = [];
+		textInputArray = [];
+		activeTextInputArray = [];
+		
+		scene = FlxDestroyUtil.destroy(scene);
+		sceneSelector = FlxDestroyUtil.destroy(sceneSelector);
+		generateSceneButton = FlxDestroyUtil.destroy(generateSceneButton);
+		outputText = FlxDestroyUtil.destroy(outputText);
+		monsterInputGroup = FlxDestroyUtil.destroy(monsterInputGroup);
+		monsterArr = FlxDestroyUtil.destroy(monsterArr);
+		infoBox = FlxDestroyUtil.destroy(infoBox);
+		
+		super.destroy();
+	}
 
 	/**
 	 * Game logic
@@ -224,13 +247,12 @@ class SceneBuilder extends FlxState {
 		// Note: Key input seems to be busted for my laptop, this must be checked on another pc
 		// Handle up/down selection cycling for monster input fields
 		if (FlxG.keys.justPressed.DOWN) {
-			var index:Int = 0;
+			var index = 0;
 			var activeGroup = [];
 			for (mi in monsterInputGroup.members) {
 				if (mi.alive) activeGroup.push(mi);
 			}
 			for (mi in activeGroup) {
-				trace(mi);
 				if (mi.textInput.hasFocus) {
 					index = activeGroup.indexOf(mi);
 					mi.textInput.hasFocus = false;
@@ -242,13 +264,12 @@ class SceneBuilder extends FlxState {
 			activeGroup[index].textInput.hasFocus = true;
 		}
 		if (FlxG.keys.justPressed.UP) {
-			var index:Int = 0;
+			var index = 0;
 			var activeGroup = [];
 			for (mi in monsterInputGroup.members) {
 				if (mi.alive) activeGroup.push(mi);
 			}
 			for (mi in activeGroup) {
-				trace(mi);
 				if (mi.textInput.hasFocus) {
 					index = activeGroup.indexOf(mi);
 					mi.textInput.hasFocus = false;
