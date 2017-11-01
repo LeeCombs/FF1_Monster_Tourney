@@ -192,7 +192,7 @@ class LogManager extends FlxGroup {
 	 * Object clean up
 	 */
 	override public function destroy():Void {
-		infoArray = null;
+		infoArray = [];
 		textGroup = FlxDestroyUtil.destroy(textGroup);
 		bgSprite = FlxDestroyUtil.destroy(bgSprite);
 		upButton = FlxDestroyUtil.destroy(upButton);

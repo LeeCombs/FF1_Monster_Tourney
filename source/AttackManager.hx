@@ -63,7 +63,7 @@ class AttackManager {
 		}
 		
 		// If target is asleep or paralyzed, A = A*5/4
-		if (target.checkForStatus(Status.Asleep) || target.checkForStatus(Status.Paralyzed)) {
+		if (target.checkForStatus(Status.ASLEEP) || target.checkForStatus(Status.PARALYZED)) {
 			atk = Std.int(atk * 5 / 4);
 		}
 		
@@ -89,8 +89,8 @@ class AttackManager {
 	public static function checkForHit(attacker:Monster, target:Monster):Bool {
 		// Base Chance to Hit
 		var BC = 168;
-		if (attacker.checkForStatus(Status.Blind)) BC -= 40;
-		if (target.checkForStatus(Status.Blind)) BC += 40;
+		if (attacker.checkForStatus(Status.BLIND)) BC -= 40;
+		if (target.checkForStatus(Status.BLIND)) BC += 40;
 		
 		// If target is weak to the attack, BC += 40
 		// NES bug ignores this addition
@@ -105,7 +105,7 @@ class AttackManager {
 			// - Chance = (BC + H) - E
 			// -- (BC + H) is capped at 255
 			// - If target is asleep/paralyzed, Chance = BC
-			if (target.checkForStatus(Status.Asleep) || target.checkForStatus(Status.Paralyzed)) {
+			if (target.checkForStatus(Status.ASLEEP) || target.checkForStatus(Status.PARALYZED)) {
 				chanceToHit = BC;
 			}
 			else {
@@ -120,7 +120,7 @@ class AttackManager {
 			// - If target asleep/paralyzed: Chance = BC + H
 			chanceToHit = BC + attacker.accuracy;
 			// Subtract evasion if the target is neither asleep nor paralyzed
-			if (!target.checkForStatus(Status.Asleep) && !target.checkForStatus(Status.Paralyzed)) {
+			if (!target.checkForStatus(Status.ASLEEP) && !target.checkForStatus(Status.PARALYZED)) {
 				chanceToHit =- target.evasion;
 			}
 		}

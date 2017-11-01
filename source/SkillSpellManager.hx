@@ -154,19 +154,19 @@ class SkillSpellManager {
 		switch(skillSpell.name.toUpperCase()) {
 			case "STUN":
 				if (target.hp <= 300 && !target.isResistantTo(skillSpell.element)) {
-					target.addStatus(Monster.Status.Paralyzed);
+					target.addStatus(Monster.Status.PARALYZED);
 					return true;
 				}
 				return false;
 			case "BLND":
 				if (target.hp <= 300 && !target.isResistantTo(skillSpell.element)) {
-					target.addStatus(Monster.Status.Blind);
+					target.addStatus(Monster.Status.BLIND);
 					return true;
 				}
 				return false;
 			case "XXXX":
 				if (target.hp <= 300 && !target.isResistantTo(skillSpell.element)) {
-					target.addStatus(Monster.Status.Death);
+					target.addStatus(Monster.Status.DEATH);
 					return true;
 				}
 				return false;
@@ -176,19 +176,19 @@ class SkillSpellManager {
 		if (checkForHit(skillSpell, target)) {
 			switch(skillSpell.effectivity.toUpperCase()) {
 				case "DEATH":
-					target.addStatus(Monster.Status.Death);
+					target.addStatus(Monster.Status.DEATH);
 				case "PARALYZE":
-					target.addStatus(Monster.Status.Paralyzed);
+					target.addStatus(Monster.Status.PARALYZED);
 				case "PETRIFY":
-					target.addStatus(Monster.Status.Petrified);
+					target.addStatus(Monster.Status.PETRIFIED);
 				case "BLIND":
-					target.addStatus(Monster.Status.Blind);
+					target.addStatus(Monster.Status.BLIND);
 				case "SLEEP":
-					target.addStatus(Monster.Status.Asleep);
+					target.addStatus(Monster.Status.ASLEEP);
 				case "CONFUSE":
-					target.addStatus(Monster.Status.Confused);
+					target.addStatus(Monster.Status.CONFUSED);
 				case "SILENCE":
-					target.addStatus(Monster.Status.Silenced);
+					target.addStatus(Monster.Status.SILENCED);
 			}
 			return true;
 		}
@@ -207,11 +207,11 @@ class SkillSpellManager {
 	private static function restoreStatus(skillSpell:SkillSpell, target:Monster):Void {
 		switch(skillSpell.name.toUpperCase()) {
 			case "AMUT":
-				target.removeStatus(Monster.Status.Silenced);
+				target.removeStatus(Monster.Status.SILENCED);
 			case "PURE":
-				target.removeStatus(Monster.Status.Poisoned);
+				target.removeStatus(Monster.Status.POISONED);
 			case "LAMP":
-				target.removeStatus(Monster.Status.Blind);
+				target.removeStatus(Monster.Status.BLIND);
 		}
 	}
 	

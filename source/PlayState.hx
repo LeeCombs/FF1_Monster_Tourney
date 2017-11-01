@@ -358,7 +358,7 @@ class PlayState extends FlxState {
 		// Get the monster's action and build targetQueue
 		
 		// This case isn't really able to occur, since enemies do not have access to abilities that cause confusion, but alas
-		if (monster.checkForStatus(Status.Confused)) {
+		if (monster.checkForStatus(Status.CONFUSED)) {
 			// In this case, the monster will target itself or an ally with "FIRE"
 			targetQueue.push(getMonsterTarget(activeScene.getMonsters(), activeScene.sceneType));
 			return { actionType: ActionType.SPELL, actionName: "FIRE" };
@@ -456,7 +456,7 @@ class PlayState extends FlxState {
 		}
 		
 		// Check for monster termination
-		if (monster.checkForStatus(Status.Petrified) || monster.checkForStatus(Status.Death) || monster.hp < 0) {
+		if (monster.checkForStatus(Status.PETRIFIED) || monster.checkForStatus(Status.DEATH) || monster.hp < 0) {
 			messageQueue.push([resultTextBox, "Terminated"]);
 			logManager.addEntry(monster.name + " is Terminated", MessageType.NONE);
 			monster.removeSelf();

@@ -7,7 +7,7 @@ import flixel.system.FlxAssets.FlxGraphicAsset;
 import Action.ActionType;
 
 enum Status {
-	Death; Petrified; Poisoned; Blind; Paralyzed; Asleep; Silenced; Confused;
+	DEATH; PETRIFIED; POISONED; BLIND; PARALYZED; ASLEEP; SILENCED; CONFUSED;
 }
 
 enum Buff {
@@ -23,7 +23,7 @@ class Monster extends FlxSprite {
 	public var id(default, null):String;
 	public var name(default, null):String;
 	public var hp(default, null):Int;
-	private var hpMax:Int = 0;
+	private var hpMax = 0;
 	
 	public var attack(get, null):Int;
 	public var accuracy(get, null):Int;
@@ -51,8 +51,8 @@ class Monster extends FlxSprite {
 	public var size(default, null):String;
 	
 	// Trackers for skill and spell use
-	private var skillIndex:Int = 0;
-	private var spellIndex:Int = 0;
+	private var skillIndex = 0;
+	private var spellIndex = 0;
 	
 	// In-battle effects
 	private var statuses:Array<Status> = [];
@@ -65,38 +65,41 @@ class Monster extends FlxSprite {
 	/**
 	 * Constructor
 	 * 
-	 * @param	MData	json-formatted data
+	 * @param	monData	json-formatted data
 	 */
-	public function new(MData:Dynamic) {
+	public function new(monData:Dynamic):Void {
 		super();
 		
-		if (MData == null) throw "Invalid MData supplied to Monster!";
+		if (monData == null) {
+			FlxG.log.warn("Invalid MData supplied to Monster!");
+			return;
+		}
 		
 		// Make a personal copy of the monster data
-		id = MData.id;
-		name = MData.name;
-		hp = MData.hp;
-		hpMax = MData.hp;
-		attack = MData.attack;
-		accuracy = MData.accuracy;
-		hits = MData.hits;
-		critRate = MData.critRate;
-		defense = MData.defense;
-		evasion = MData.evasion;
-		magicDefense = MData.magicDefense;
-		morale = MData.morale;
-		statusAttack = MData.statusAttack;
-		element = MData.element;
-		types = MData.types;
-		weaknesses = MData.weaknesses;
-		resistances = MData.resistances;
-		spells = MData.spells;
-		spellChance = MData.spellChance;
-		skills = MData.skills;
-		skillChance = MData.skillChance;
-		gold = MData.gold;
-		exp = MData.exp;
-		size = MData.size;
+		id = monData.id;
+		name = monData.name;
+		hp = monData.hp;
+		hpMax = monData.hp;
+		attack = monData.attack;
+		accuracy = monData.accuracy;
+		hits = monData.hits;
+		critRate = monData.critRate;
+		defense = monData.defense;
+		evasion = monData.evasion;
+		magicDefense = monData.magicDefense;
+		morale = monData.morale;
+		statusAttack = monData.statusAttack;
+		element = monData.element;
+		types = monData.types;
+		weaknesses = monData.weaknesses;
+		resistances = monData.resistances;
+		spells = monData.spells;
+		spellChance = monData.spellChance;
+		skills = monData.skills;
+		skillChance = monData.skillChance;
+		gold = monData.gold;
+		exp = monData.exp;
+		size = monData.size;
 		
 		loadGraphic("assets/images/Monsters/" + name.toUpperCase() + ".png");
 		setFacingFlip(FlxObject.LEFT, true, false);
@@ -105,10 +108,10 @@ class Monster extends FlxSprite {
 	/**
 	 * Set up scene reference
 	 * 
-	 * @param	Scene
+	 * @param	scene
 	 */
-	public function setScene(Scene:BattleScene) {
-		scene = Scene;
+	public function setScene(scene:BattleScene) {
+		this.scene = scene;
 	}
 	
 	/**
@@ -124,25 +127,26 @@ class Monster extends FlxSprite {
 		// The monster is not under a status that effects it's action, continue regular logic
 		var action:Action = { actionType: null, actionName: "SETME" };
 		
-		/* Monster Action Logic
-		* 
-		* Priority: Run, Spell, Skill, Attack
-		* Run if: Morale - 2*[Leader's Level] + (0...50) < 80
-		* Spells? roll 0...128. If equal or less than spell chance, cast spell
-		* - Up to 8 Spells
-		* - Start from 0, continue sequentially
-		* Skills? roll 0...128. If equal or less than skill chance, cast skill
-		* - Up to 4 Skills
-		* - Start from 0, continue sequentially
-		* Regular Attack
-		*/
+		/**
+		 * Monster Action Logic
+		 * 
+		 * Priority: Run, Spell, Skill, Attack
+		 * Run if: Morale - 2*[Leader's Level] + (0...50) < 80
+		 * Spells? roll 0...128. If equal or less than spell chance, cast spell
+		 * - Up to 8 Spells
+		 * - Start from 0, continue sequentially
+		 * Skills? roll 0...128. If equal or less than skill chance, cast skill
+		 * - Up to 4 Skills
+		 * - Start from 0, continue sequentially
+		 * Regular Attack
+		 */
 		
 		// TODO - run logic?
 		
 		if (spells != null && spells.length > 0) {
 			if (FlxG.random.int(0, 128) <= spellChance) {
 				// Check for silence and wasting a turn attempting to cast
-				if (checkForStatus(Status.Silenced)) {
+				if (checkForStatus(Status.SILENCED)) {
 					return { actionType: ActionType.STATUS_EFFECT, actionName: "Silence" };
 				}
 				
@@ -156,7 +160,7 @@ class Monster extends FlxSprite {
 		if (skills != null && skills.length > 0) {
 			if (FlxG.random.int(0, 128) <= skillChance) {
 				// Check for silence and wasting a turn attempting to cast
-				if (checkForStatus(Status.Silenced)) {
+				if (checkForStatus(Status.SILENCED)) {
 					return { actionType: ActionType.STATUS_EFFECT, actionName: "Silence" };
 				}
 				
@@ -175,10 +179,10 @@ class Monster extends FlxSprite {
 	
 	private function statusCheck():Action {
 		var statusAction:Action = { actionType: Action.ActionType.STATUS_EFFECT, actionName: "SETME" };
-		var curedFlag:Bool = false;
-		var statusFlag:Bool = false;
+		var curedFlag = false;
+		var statusFlag = false;
 		
-		if (checkForStatus(Status.Poisoned)) {
+		if (checkForStatus(Status.POISONED)) {
 			// If the bug-fix option is selected, damage the monster for 2
 			// TODO: This needs testing to see what actually happens when a monster dies at this very moment
 			// Maybe just give is death status, ignore it's turn, and hope that gets caught later in the turn?
@@ -187,10 +191,10 @@ class Monster extends FlxSprite {
 			}
 		}
 		
-		if (checkForStatus(Status.Paralyzed)) {
+		if (checkForStatus(Status.PARALYZED)) {
 			// 9.8% chance to cure
 			if (FlxG.random.int(0, 1000) < 98) {
-				removeStatus(Status.Paralyzed);
+				removeStatus(Status.PARALYZED);
 				statusAction.actionName = "Cured!";
 				curedFlag = true;
 			}
@@ -200,11 +204,11 @@ class Monster extends FlxSprite {
 			}
 		}
 		
-		if (checkForStatus(Status.Asleep)) {
+		if (checkForStatus(Status.ASLEEP)) {
 			// Unless the bug-fix option is selected, monsters always wake up
 			if (Globals.BUG_FIXES) {
 				if (FlxG.random.int(0, 80) < hpMax) {
-					removeStatus(Status.Asleep);
+					removeStatus(Status.ASLEEP);
 					statusAction.actionName = "Woke up";
 					curedFlag = true;
 				}
@@ -214,16 +218,16 @@ class Monster extends FlxSprite {
 				}
 			}
 			else {
-				removeStatus(Status.Asleep);
+				removeStatus(Status.ASLEEP);
 				statusAction.actionName = "Woke up";
 				curedFlag = true;
 			}
 		}
 		
 		// Confusion shouldn't ever occur, but this is here in case that changes
-		if (checkForStatus(Status.Confused)) {
+		if (checkForStatus(Status.CONFUSED)) {
 			if (FlxG.random.int(0, 100) < 25) {
-				removeStatus(Status.Confused);
+				removeStatus(Status.CONFUSED);
 				statusAction.actionName = "Cured!";
 				curedFlag = true;
 			}
@@ -284,7 +288,7 @@ class Monster extends FlxSprite {
 		* WALL - Resist element
 		*/
 		if (buff == null || buff == "") {
-			trace("Invalid buff supplied: " + buff);
+			FlxG.log.warn("Invalid buff supplied: " + buff);
 			return false;
 		}
 		
@@ -315,7 +319,7 @@ class Monster extends FlxSprite {
 		* XFER - Remove Resistance
 		*/
 		if (debuff == null || debuff == "") {
-			trace("Invalid debuff supplied: " + debuff);
+			FlxG.log.warn("Invalid debuff supplied: " + debuff);
 			return false;
 		}
 		
@@ -409,7 +413,6 @@ class Monster extends FlxSprite {
 		return totalAttack;
 	}
 	
-	// TODO: Ensure SABR inscreases accuracy by 16
 	public function get_accuracy() {
 		var totalAccuracy = accuracy;
 		for (buff in buffs) {
@@ -481,6 +484,7 @@ class Monster extends FlxSprite {
 	 * @return
 	 */
 	public function isResistantTo(element:String):Bool {
+		if (element == null || element == "") return false;
 		if (resistances == null || resistances.length == 0) return false;
 		if (resistances.indexOf(element) == -1) return false;
 		return true;
@@ -493,6 +497,7 @@ class Monster extends FlxSprite {
 	 * @return
 	 */
 	public function isWeakTo(element:String):Bool {
+		if (element == null || element == "") return false;
 		if (weaknesses == null || weaknesses.length == 0) return false;
 		if (weaknesses.indexOf(element) == -1) return false;
 		return true;
@@ -509,6 +514,14 @@ class Monster extends FlxSprite {
 	 * Object clean up
 	 */
 	override public function destroy() {
+		types = [];
+		resistances = [];
+		weaknesses = [];
+		spells = [];
+		skills = [];
+		statuses = [];
+		buffs = [];
+		debuffs = [];
 		super.destroy();
 	}
 }

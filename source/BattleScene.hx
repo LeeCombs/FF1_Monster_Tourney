@@ -265,15 +265,15 @@ class BattleScene extends FlxGroup {
 		scene = FlxDestroyUtil.destroy(scene);
 		sceneBackground = FlxDestroyUtil.destroy(sceneBackground);
 		
-		activePositions = null;
-		sceneAPositions = null;
-		sceneBPositions = null;
-		sceneCPositions = null;
-		sceneDPositions = null;
+		activePositions = [];
+		sceneAPositions = [];
+		sceneBPositions = [];
+		sceneCPositions = [];
+		sceneDPositions = [];
 		for (monster in monsters) {
 			monster = FlxDestroyUtil.destroy(monster);
 		}
-		monsters = null;
+		monsters = [];
 		
 		super.destroy();
 	}
