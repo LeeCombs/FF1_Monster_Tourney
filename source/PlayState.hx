@@ -121,6 +121,9 @@ class PlayState extends FlxState {
 		
 	}
 	
+	/**
+	 * Toggle speed between 1 and 15
+	 */
 	private function toggleSpeed():Void {
 		if (turnSpeed == 15) turnSpeed = 1;
 		else turnSpeed = 15;
@@ -182,17 +185,19 @@ class PlayState extends FlxState {
 	 * @return
 	 */
 	private function getTurnSchedule():Array<Int> {
-		/* NES Turn Order Logic
-		* Every creature (alive, dead, statused) gets a turn
-		* 
-		* Scheduling is done by starting with:
-		* 00 01 02 03 04 05 06 07 08 80 81 82 83
-		* 00-08 Represent Enemies
-		* 80-83 Represent PCs
-		* 
-		* Pick two random numbers 0...12, and swap numbers at those positions
-		* Do this 17 times
-		*/
+		/**
+		 *  NES Turn Order Logic
+		 * Every creature (alive, dead, statused) gets a turn
+		 * 
+		 * Scheduling is done by starting with:
+		 * 00 01 02 03 04 05 06 07 08 80 81 82 83
+		 * 00-08 Represent Enemies
+		 * 80-83 Represent PCs
+		 * 
+		 * Pick two random numbers 0...12, and swap numbers at those positions
+		 * Do this 17 times
+		 */
+		
 		var turnOrder:Array<Int> = [];
 		if (playerOneScene.sceneType == "D") turnOrder.push(10);
 		else for (i in 0...playerOneScene.length - 1) turnOrder.push(10 + i);
@@ -204,8 +209,8 @@ class PlayState extends FlxState {
 		// TODO: Should this be adjusted for up to 18 enemies?
 		for (i in 0...17) {
 			// Get the two indexs to swap, then swap them
-			var posOne:Int = FlxG.random.int(0, turnOrder.length - 1);
-			var posTwo:Int = FlxG.random.int(0, turnOrder.length - 1);
+			var posOne = FlxG.random.int(0, turnOrder.length - 1);
+			var posTwo = FlxG.random.int(0, turnOrder.length - 1);
 			
 			var tempVal:Int = turnOrder[posOne];
 			turnOrder[posOne] = turnOrder[posTwo];
@@ -221,27 +226,33 @@ class PlayState extends FlxState {
 	 * @param	teamSlots	A Monster array from the target BattleScene
 	 * @return				The Monster that will be targeted 
 	 */
-	private function getMonsterTarget(TeamSlots:Array<Monster>, SceneType:String):Monster {
-		/* 
-		* What's going on here?
-		* 
-		* Each scene can have different types, which have different slots
-		* Slots have different odds on being selected based on their position
-		* 
-		* i.e. type "A": Slots ABC are 2x more likely to be targeted than DEF
-		* Slots DEF are also 2x more likely to be targeted than GHI 
-		* 
-		* If an invalid slot it selected, roll again until a valid one is chosen
-		*/
+	private function getMonsterTarget(teamSlots:Array<Monster>, sceneType:String):Monster {
+		/** 
+		 * What's going on here?
+		 * 
+		 * Each scene can have different types, which have different slots
+		 * Slots have different odds on being selected based on their position
+		 * 
+		 * i.e. type "A": Slots ABC are 2x more likely to be targeted than DEF
+		 * Slots DEF are also 2x more likely to be targeted than GHI 
+		 * 
+		 * If an invalid slot it selected, roll again until a valid one is chosen
+		 */
 		
 		// Error checkin'
-		if (TeamSlots.length <= 0 || TeamSlots == [] || TeamSlots == null) return null;
-		if (["A", "B", "C", "D"].indexOf(SceneType.toUpperCase()) == -1) return null;
+		if (teamSlots.length <= 0 || teamSlots == [] || teamSlots == null) {
+			FlxG.log.warn("Invalid TeamSlots: " + teamSlots);
+			return null;
+		}
+		if (["A", "B", "C", "D"].indexOf(sceneType.toUpperCase()) == -1) {
+			FlxG.log.warn("Invalid SceneType. Must be A, B, C, or D. Found: " + sceneType);
+			return null;
+		}
 		
 		var targetSlot:Int;
-		var loopPanic:Int = 10000; // This check is here just in case I missed something below
+		var loopPanic = 10000; // This check is here just in case I missed something below
 		
-		switch(SceneType) {
+		switch(sceneType) {
 			case "A": // 9 slots: 678, 345, 012 = 4, 2, 1 (21)
 				while (true) {
 					loopPanic--;
@@ -262,7 +273,7 @@ class PlayState extends FlxState {
 					else if (targetRoll >= 5) targetSlot = 7;
 					else targetSlot = 8;
 					
-					if (TeamSlots[targetSlot] != null) return TeamSlots[targetSlot];
+					if (teamSlots[targetSlot] != null) return teamSlots[targetSlot];
 				}
 			case "B": // 8 slots: 567, 234, 01 = 4, 2, 1 (17)
 				while (true) {
@@ -283,7 +294,7 @@ class PlayState extends FlxState {
 					else if (targetRoll >= 5) targetSlot = 6;
 					else targetSlot = 7;
 					
-					if (TeamSlots[targetSlot] != null) return TeamSlots[targetSlot];
+					if (teamSlots[targetSlot] != null) return teamSlots[targetSlot];
 				}
 			case "C": // 4 slots: 3, 2, 01 = 4, 2, 1 (8)
 				while (true) {
@@ -300,11 +311,11 @@ class PlayState extends FlxState {
 					else if (targetRoll >= 5) targetSlot = 2;
 					else targetSlot = 3;
 					
-					if (TeamSlots[targetSlot] != null) return TeamSlots[targetSlot];
+					if (teamSlots[targetSlot] != null) return teamSlots[targetSlot];
 				}
 			case "D": // Only one possible target
 				targetSlot = 0;
-				return TeamSlots[targetSlot];
+				return teamSlots[targetSlot];
 			default:
 				// Necessary?
 		}
@@ -340,7 +351,7 @@ class PlayState extends FlxState {
 		// Set up the active/target scene, and which monster slot is taking action
 		activeScene = sceneArray[Std.int(turn / 10) - 1];
 		targetScene = sceneArray[(Std.int(turn / 10)) % 2];
-		var slotNum:Int = turn % 10;
+		var slotNum = turn % 10;
 		
 		// Grab the active monster
 		var monstersArray:Array<Monster> = activeScene.getMonsters();
@@ -355,6 +366,10 @@ class PlayState extends FlxState {
 	 * @return	The Action to execute
 	 */
 	private function getCurrentAction(monster:Monster):Action {
+		if (monster == null) {
+			FlxG.log.warn("Invalid monster supplied!");
+			return null;
+		}
 		// Get the monster's action and build targetQueue
 		
 		// This case isn't really able to occur, since enemies do not have access to abilities that cause confusion, but alas
@@ -373,7 +388,7 @@ class PlayState extends FlxState {
 			case ActionType.SPELL, ActionType.SKILL:
 				var skillSpell:SkillSpell = SkillSpellManager.getSkillSpellByName(action.actionName);
 				if (skillSpell == null) {
-					trace("Invalid spell retrieved: " + skillSpell);
+					FlxG.log.warn("Invalid spell retrieved: " + skillSpell);
 					return null;
 				}
 				logManager.addEntry(monster.name + " casts " + skillSpell.name, MessageType.COMBAT);
@@ -399,13 +414,13 @@ class PlayState extends FlxState {
 							if (monster != null) targetQueue.push(monster);
 						}
 					default:
-						trace("Invalid spell target: " + skillSpell.target);
+						FlxG.log.warn("Invalid spell target: " + skillSpell.target);
 				}
 			case ActionType.STATUS_EFFECT:
 				// What am I doing...
 				messageQueue.push([resultTextBox, action.actionName]);
 			default:
-				trace("Invalid actionType: " + action.actionType);
+				FlxG.log.warn("Invalid actionType: " + action.actionType);
 		}
 		
 		return action;
