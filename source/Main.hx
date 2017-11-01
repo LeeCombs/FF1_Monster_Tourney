@@ -21,7 +21,7 @@ class Main extends Sprite {
 		SkillSpellManager.loadData();
 		
 		super();
-		addChild(new FlxGame(640, 360, SceneBuilder));
-		// addChild(new FlxGame(640, 360, PlayState));
+		// addChild(new FlxGame(640, 360, SceneBuilder));
+		addChild(new FlxGame(640, 360, PlayState));
 	}
 }

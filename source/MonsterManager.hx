@@ -31,6 +31,11 @@ class MonsterManager {
 	 * @return				The Monster object of the given name, null if not found
 	 */
 	public static function getMonsterByName(monsterName:String):Monster {
+		if (monsterName == null || monsterName == "") {
+			FlxG.log.warn("Invalid monsterName");
+			return null;
+		}
+		
 		for (mData in monsterData) {
 			if (mData.name == monsterName) {
 				return new Monster(mData);

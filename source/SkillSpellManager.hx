@@ -35,8 +35,11 @@ class SkillSpellManager {
 	 * @return
 	 */
 	public static function getSkillSpellByName(skillSpellName:String):SkillSpell {
-		trace("getSkillSpellByName: " + skillSpellName);
-		var returnSkillSpell = null;
+		if (skillSpellName == null || skillSpellName == "") {
+			FlxG.log.warn("Invalid skillSpellName supplied");
+			return null;
+		}
+		
 		for (s in skillSpellData) {
 			if (s.name == skillSpellName) {
 				return s;
@@ -54,6 +57,12 @@ class SkillSpellManager {
 	 */
 	public static function castSpell(skillSpell:SkillSpell, target:Monster):ActionResult {
 		var failedResult:ActionResult = { message:"Ineffective", damage:0, hits:0 };
+		
+		if (skillSpell == null || target == null) {
+			FlxG.log.warn("Invalid skillSpell or target supplied");
+			return failedResult;
+		}
+		
 		var successfulResult:ActionResult = { message:skillSpell.successMessage, damage:0, hits:0 };
 		if (successfulResult.message == null) successfulResult.message = "";
 		
@@ -127,6 +136,11 @@ class SkillSpellManager {
 	 * @return	Damage amount
 	 */
 	private static function damageSkillSpell(skillSpell:SkillSpell, target:Monster):Int {
+		if (skillSpell == null || target == null) {
+			FlxG.log.warn("Invalid skillSpell or target supplied");
+			return -1;
+		}
+		
 		var e:Int = Std.parseInt(skillSpell.effectivity);
 		
 		// Check for resistances/weaknesses. Half for resist, 1.5x for weak.
@@ -146,9 +160,14 @@ class SkillSpellManager {
 	 * 
 	 * @param	skillSpell
 	 * @param	target
-	 * @return	True: Success, False: Miss
+	 * @return	Whether the status spell was successful or not
 	 */
 	private static function statusSkillSpell(skillSpell:SkillSpell, target:Monster):Bool {
+		if (skillSpell == null || target == null) {
+			FlxG.log.warn("Invalid skillSpell or target supplied");
+			return false;
+		}
+		
 		// 300HP Exceptions (STUN, BLND, XXXX) always hit if target HP is <= 300
 		// and is not resistant to the element, otherwise is always misses
 		switch(skillSpell.name.toUpperCase()) {
@@ -175,20 +194,16 @@ class SkillSpellManager {
 		// Check for a hit, then apply the status as necessary
 		if (checkForHit(skillSpell, target)) {
 			switch(skillSpell.effectivity.toUpperCase()) {
-				case "DEATH":
-					target.addStatus(Monster.Status.DEATH);
-				case "PARALYZE":
-					target.addStatus(Monster.Status.PARALYZED);
-				case "PETRIFY":
-					target.addStatus(Monster.Status.PETRIFIED);
-				case "BLIND":
-					target.addStatus(Monster.Status.BLIND);
-				case "SLEEP":
-					target.addStatus(Monster.Status.ASLEEP);
-				case "CONFUSE":
-					target.addStatus(Monster.Status.CONFUSED);
-				case "SILENCE":
-					target.addStatus(Monster.Status.SILENCED);
+				case "DEATH": 	 target.addStatus(Monster.Status.DEATH);
+				case "PARALYZE": target.addStatus(Monster.Status.PARALYZED);
+				case "PETRIFY":  target.addStatus(Monster.Status.PETRIFIED);
+				case "BLIND": 	 target.addStatus(Monster.Status.BLIND);
+				case "SLEEP": 	 target.addStatus(Monster.Status.ASLEEP);
+				case "CONFUSE":  target.addStatus(Monster.Status.CONFUSED);
+				case "SILENCE":  target.addStatus(Monster.Status.SILENCED);
+			default: 
+				FlxG.log.warn("Invalid skillSpell effectivity: " + skillSpell.effectivity);
+				return false;
 			}
 			return true;
 		}
@@ -205,13 +220,16 @@ class SkillSpellManager {
 	 * @param	target
 	 */
 	private static function restoreStatus(skillSpell:SkillSpell, target:Monster):Void {
+		if (skillSpell == null || target == null) {
+			FlxG.log.warn("Invalid skillSpell or target supplied");
+			return;
+		}
+		
 		switch(skillSpell.name.toUpperCase()) {
-			case "AMUT":
-				target.removeStatus(Monster.Status.SILENCED);
-			case "PURE":
-				target.removeStatus(Monster.Status.POISONED);
-			case "LAMP":
-				target.removeStatus(Monster.Status.BLIND);
+			case "AMUT": target.removeStatus(Monster.Status.SILENCED);
+			case "PURE": target.removeStatus(Monster.Status.POISONED);
+			case "LAMP": target.removeStatus(Monster.Status.BLIND);
+			default: FlxG.log.warn("Invalid skillSpell supplied: " + skillSpell.name);
 		}
 	}
 	
@@ -223,6 +241,11 @@ class SkillSpellManager {
 	 * @return	Heal amount
 	 */
 	private static function healSkillSpell(skillSpell:SkillSpell, target:Monster):Int {
+		if (skillSpell == null || target == null) {
+			FlxG.log.warn("Invalid skillSpell or target supplied");
+			return -1;
+		}
+		
 		var e:Int = Std.parseInt(skillSpell.effectivity);
 		
 		// NES BUG: HEL2's effectivity is normally double (48) what it should be (24)
@@ -241,6 +264,11 @@ class SkillSpellManager {
 	 * @param	target
 	 */
 	private static function buffSkillSpell(skillSpell:SkillSpell, target:Monster):Bool {
+		if (skillSpell == null || target == null) {
+			FlxG.log.warn("Invalid skillSpell or target supplied");
+			return false;
+		}
+		
 		return target.addBuff(skillSpell.name);
 	}
 	
@@ -251,9 +279,15 @@ class SkillSpellManager {
 	 * @param	target
 	 */
 	private static function debuffSkillSpell(skillSpell:SkillSpell, target:Monster):Bool {
+		if (skillSpell == null || target == null) {
+			FlxG.log.warn("Invalid skillSpell or target supplied");
+			return false;
+		}
+		
 		if (checkForHit(skillSpell, target)) {
 			return target.addDebuff(skillSpell.name);
 		}
+		
 		return false;
 	}
 	
@@ -263,6 +297,11 @@ class SkillSpellManager {
 	 * @param	target
 	 */
 	private static function fullHeal(target:Monster):Void {
+		if (target == null) {
+			FlxG.log.warn("Invalid target monster supplied");
+			return;
+		}
+		
 		target.fullHeal();
 	}
 	
@@ -271,23 +310,23 @@ class SkillSpellManager {
 	 * 
 	 * @param	skillSpell
 	 * @param	target
-	 * @return	True: Hit, False: Miss
+	 * @return	Whether the spell successfully hits or not
 	 */
 	private static function checkForHit(skillSpell:SkillSpell, target:Monster):Bool {
-		/*
-		NOTE: Status spells can hit or miss, which is determined by this calculation.
-		Damaging spells always "hit," but may be "resisted," in which case the doubling
-		component of the damage calculation does not occur, and the spell does only
-		half of its potential damage.
-		*/
+		if (skillSpell == null || target == null) {
+			FlxG.log.warn("Invalid skillSpell or target supplied");
+			return false;
+		}
 		
-		// Exceptions
-		// - Positivity effects always hit
-		// -- HP Recovery, Restore Status, Defense Up, Resist Element, Attack Up, Hit Up, Attak/Acc Up, FullHp/StatusRecovery, Evasion Up
-		// - 300HP Threshold Spells (STUN, BLND, XXXX) always hit if not resistant and current HP <= 300, always miss otherwise
+		/**
+		 * NOTE: Status spells can hit or miss, which is determined by this calculation.
+		 * Damaging spells always "hit," but may be "resisted," in which case the doubling
+		 * component of the damage calculation does not occur, and the spell does only
+		 *  half of its potential damage.
+		 */
 		
 		// Base Chance to Hit
-		var BC:Int = 148; // Base Chance
+		var BC = 148; // Base Chance
 		
 		// If the target is both resistant and weak, the BC will be 40
 		if (target.isResistantTo(skillSpell.element)) BC = 0;

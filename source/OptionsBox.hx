@@ -27,6 +27,7 @@ class OptionsBox extends FlxGroup {
 		add(resetButton);
 		
 		speedCheckBox = new FlxUICheckBox(x, y - 20, null, null, "Speed");
+		speedCheckBox.broadcastToFlxUI = false;
 		add(speedCheckBox);
 	}
 	
