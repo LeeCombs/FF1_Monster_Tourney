@@ -11,19 +11,19 @@ class InfoBox extends FlxGroup {
 	private var x:Int;
 	private var y:Int;
 	
-	private var roundCounter:Int = 0;
-	private var turnCounter:Int = 0;
+	private var roundCounter = 0;
+	private var turnCounter = 0;
 	public var roundTextBox:TextBox;
 	public var turnTextBox:TextBox;
 	
 	public var teamOneText:FlxText;
 	public var teamTwoText:FlxText;
 	
-	public function new(X:Int = 0, Y:Int = 0) {
+	public function new(x:Int = 0, y:Int = 0) {
 		super();
 		
-		x = X;
-		y = Y;
+		this.x = x;
+		this.y = y;
 		
 		roundTextBox = new TextBox(x, y);
 		roundTextBox.displayText("Round: 0");

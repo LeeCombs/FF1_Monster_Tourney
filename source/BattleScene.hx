@@ -5,14 +5,15 @@ import flixel.FlxSprite;
 import flixel.group.FlxGroup;
 import flixel.math.FlxPoint;
 import flixel.text.FlxText;
+import flixel.util.FlxDestroyUtil;
 
 class BattleScene extends FlxGroup {
-	public var x:Int;
-	public var y:Int;
+	public var x(default, null):Int;
+	public var y(default, null):Int;
 	private var flipped:Bool;
 	
 	private var scene:FlxSprite;
-	public var sceneType:String;
+	public var sceneType(default, null):String;
 	private var sceneBackground:FlxSprite;
 	
 	private var monsters:Array<Monster> = [null, null, null, null];
@@ -28,26 +29,26 @@ class BattleScene extends FlxGroup {
 	/**
 	 * Initializer
 	 * 
-	 * @param	X
-	 * @param	Y
-	 * @param	Flipped	Whether the scene is facing left or not
+	 * @param	x
+	 * @param	y
+	 * @param	flipped	Whether the scene is facing left or not
 	 */
-	public function new(X:Int, Y:Int, ?Flipped:Bool = false):Void {
+	public function new(x:Int = 0, y:Int = 0, flipped:Bool = false):Void {
 		super();
-		x = X;
-		y = Y;
-		flipped = Flipped;
+		this.x = x;
+		this.y = y;
+		this.flipped = flipped;
 		
 		// Mirror scene Positions if the scene is flipped
 		if (flipped) {
+			// Flip and realign scene A x positions to the right
 			sceneAPositions.reverse();
-			sceneCPositions.reverse();
+			for (pos in sceneAPositions) pos[0] += 14;
 			
 			// Move mediums to the right side, and reverse by hand
 			sceneBPositions = [[6, 104], [6, 71], [6, 38], [39, 104], [39, 71], [39, 38], [72, 88], [72, 38]];
 			
-			// Realign scene A x positions to the right
-			for (pos in sceneAPositions) pos[0] += 14;
+			sceneCPositions.reverse();
 		}
 		
 		// Graphics setup
@@ -64,8 +65,8 @@ class BattleScene extends FlxGroup {
 	/**
 	 * Set the scene and load the monsters of a given string
 	 * 
-	 * @param	input	String in the format of "A;NAME,NAME,NAME,..."
-	 * @return			Whether the load was successful or not
+	 * @param	intputString	String in the format of "A;NAME,NAME,NAME,..."
+	 * @return					Whether the load was successful or not
 	 */
 	public function loadMonsters(intputString:String):Bool {
 		if (intputString == null || intputString == "") {
@@ -105,22 +106,27 @@ class BattleScene extends FlxGroup {
 	/**
 	 * Set the scene's type (A, B, C, D), which will load postitions and monster types
 	 * 
-	 * @param	type	The Scene type to load. Must be "A", "B", "C", or "D"
-	 * @return			Whether or not the change was successful
+	 * @param	sceneType	The Scene type to load. Must be "A", "B", "C", or "D"
+	 * @return				Whether or not the change was successful
 	 */
-	public function setSceneType(SceneType:String):Bool {
+	public function setSceneType(sceneType:String):Bool {
+		if (sceneType == null) {
+			FlxG.log.warn("Invalid sceneType supplied");
+			return false;
+		}
+		
 		// Set scene positions based on supplied type
-		switch(SceneType.toUpperCase()) {
+		switch(sceneType.toUpperCase()) {
 			case "A": activePositions = sceneAPositions;
 			case "B": activePositions = sceneBPositions;
 			case "C": activePositions = sceneCPositions;
 			case "D": activePositions = sceneDPositions;
 			default:
-				FlxG.log.warn("Invalid scene type supplied: " + SceneType);
+				FlxG.log.warn("Invalid scene type supplied: " + sceneType);
 				return false;
 		}
 		
-		sceneType = SceneType;
+		this.sceneType = sceneType;
 		return true;
 	}
 	
@@ -159,26 +165,28 @@ class BattleScene extends FlxGroup {
 	/**
 	 * Return monster at supplied position
 	 * 
-	 * @param	position	Index of monster
-	 * @return				The Monster, Null if invalid
+	 * @param	index	Index of monster
+	 * @return			The Monster, Null if invalid
 	 */
-	public function getMonster(position:Int):Monster {
-		// TODO: This upper position boundary will change depending on the scene type
-		if (position < 0 || position >= activePositions.length) {
-			FlxG.log.warn("A Monster cannot exist out of postion bounds: " + position);
+	public function getMonster(index:Int):Monster {
+		if (index < 0 || index >= activePositions.length) {
+			FlxG.log.warn("A Monster cannot exist out of index bounds: " + index);
 			return null;
 		}
-		return monsters[position];
+		return monsters[index];
 	}
 	
 	/**
-	 * Remove the monster at the supplied position
+	 * Remove a specific monster
 	 * 
-	 * @param	position	Index of monster
-	 * @return	True: Success, False: Error
+	 * @param	monster	The monster to remove
+	 * @return			Whether the removal was successful
 	 */
 	public function removeMonster(monster:Monster):Bool {
-		if (monster == null) return false;
+		if (monster == null) {
+			FlxG.log.warn("Cannot remove null monster");
+			return false;
+		}
 		
 		monsters[monsters.indexOf(monster)] = null; //?
 		remove(monster);
@@ -192,12 +200,15 @@ class BattleScene extends FlxGroup {
 	 * Remove the monster at the supplied position
 	 * 
 	 * @param	position	Index of monster
-	 * @return	True: Success, False: Error
+	 * @return				Whether the removal was successful
 	 */
 	public function removeMonsterByIndex(index:Int):Bool {
-		if (index < 0 || index > 4) return false;
+		if (index < 0 || index > activePositions.length - 1) {
+			FlxG.log.warn("Cannot remove monster outside of index bounds: " + index);
+			return false;
+		}
 		
-		var monster:Monster = getMonster(index);
+		var monster = getMonster(index);
 		monsters[index] = null;
 		monster.destroy();
 		remove(monster);
@@ -245,5 +256,25 @@ class BattleScene extends FlxGroup {
 	 */
 	private function shuffleBackground() {
 		sceneBackground.loadGraphic("assets/images/BattleBackgrounds/BattleBackground-" + Std.string(FlxG.random.int(1, 16)) + ".png");
+	}
+	
+	/**
+	 * Object clean up
+	 */
+	override public function destroy():Void {
+		scene = FlxDestroyUtil.destroy(scene);
+		sceneBackground = FlxDestroyUtil.destroy(sceneBackground);
+		
+		activePositions = null;
+		sceneAPositions = null;
+		sceneBPositions = null;
+		sceneCPositions = null;
+		sceneDPositions = null;
+		for (monster in monsters) {
+			monster = FlxDestroyUtil.destroy(monster);
+		}
+		monsters = null;
+		
+		super.destroy();
 	}
 }
