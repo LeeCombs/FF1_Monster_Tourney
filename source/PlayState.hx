@@ -361,16 +361,16 @@ class PlayState extends FlxState {
 		if (monster.checkForStatus(Status.Confused)) {
 			// In this case, the monster will target itself or an ally with "FIRE"
 			targetQueue.push(getMonsterTarget(activeScene.getMonsters(), activeScene.sceneType));
-			return { actionType: ActionType.Spell, actionName: "FIRE" };
+			return { actionType: ActionType.SPELL, actionName: "FIRE" };
 		}
 		
 		var action:Action = monster.getAction();
 		switch(action.actionType) {
-			case ActionType.Attack:
+			case ActionType.ATTACK:
 				// Grab a single, random target from the target scene
 				targetQueue.push(getMonsterTarget(targetScene.getMonsters(), targetScene.sceneType));
 				logManager.addEntry(monster.name + " attacks " + targetQueue[0].name, MessageType.COMBAT);
-			case ActionType.Spell, ActionType.Skill:
+			case ActionType.SPELL, ActionType.SKILL:
 				var skillSpell:SkillSpell = SkillSpellManager.getSkillSpellByName(action.actionName);
 				if (skillSpell == null) {
 					trace("Invalid spell retrieved: " + skillSpell);
@@ -401,7 +401,7 @@ class PlayState extends FlxState {
 					default:
 						trace("Invalid spell target: " + skillSpell.target);
 				}
-			case ActionType.StatusEffect:
+			case ActionType.STATUS_EFFECT:
 				// What am I doing...
 				messageQueue.push([resultTextBox, action.actionName]);
 			default:
@@ -523,7 +523,7 @@ class PlayState extends FlxState {
 				}
 				
 				// Display skill/spell's action name
-				if (activeAction.actionType == ActionType.Spell || activeAction.actionType == ActionType.Skill) {
+				if (activeAction.actionType == ActionType.SPELL || activeAction.actionType == ActionType.SKILL) {
 					messageQueue.push([actionTextBox, activeAction.actionName]);
 				}
 				
@@ -560,16 +560,16 @@ class PlayState extends FlxState {
 				// Deal the action to the target, and handle the results
 				FlxSpriteUtil.flicker(targetMonster, 0.25, 0.025);
 				switch(activeAction.actionType) {
-					case ActionType.Attack:
+					case ActionType.ATTACK:
 						FlxG.sound.play("assets/sounds/Physical_Hit.ogg");
 						currentResult = AttackManager.attack(actingMonster, targetMonster);
 						handleResult(currentResult, targetMonster, true);
-					case ActionType.Spell, ActionType.Skill:
+					case ActionType.SPELL, ActionType.SKILL:
 						FlxG.sound.play("assets/sounds/Spell_Hit.ogg");
 						var spell:SkillSpell = SkillSpellManager.getSkillSpellByName(activeAction.actionName);
 						currentResult = SkillSpellManager.castSpell(spell, targetMonster);
 						handleResult(currentResult, targetMonster);
-					case ActionType.StatusEffect:
+					case ActionType.STATUS_EFFECT:
 						// Do nothing?
 					default:
 						trace("Invalid actionType: " + activeAction.actionType);

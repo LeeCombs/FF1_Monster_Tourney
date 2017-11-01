@@ -7,7 +7,6 @@ import Monster.Debuff;
 import Monster.Status;
 
 class AttackManager {
-	public static var useOriginalFormula:Bool = true;
 	
 	/**
 	 * Apply an attack attempt from a monster to it's target
@@ -22,9 +21,9 @@ class AttackManager {
 		// Calculate damage seperately for each hit
 		// Minimum damage value for each hit is 1
 		// Total damage from an attack is the sum of all hits
-		var damageSum:Int = 0;
-		var totalHits:Int = 0;
-		var critFlag:Bool = false;
+		var damageSum = 0;
+		var totalHits = 0;
+		var critFlag = false;
 		for (i in 0...hits) {
 			// Get damage for successful hits
 			var crit = checkForCritical(attacker);
@@ -37,7 +36,10 @@ class AttackManager {
 		}
 		target.damage(damageSum);
 		
-		if (totalHits == 0) return { message:"", damage:0, hits:0 };
+		if (totalHits == 0) {
+			return { message:"", damage:0, hits:0 };
+		}
+		
 		var result = { message:"", damage:damageSum, hits:totalHits };
 		if (critFlag) result.message = "Critical hit!!";
 		return result;
@@ -56,7 +58,9 @@ class AttackManager {
 		
 		// If target is weak to an Elemental or Enemy-Type attribute of weap, add +4 to A
 		// NES Bug ignores this addition
-		if (!useOriginalFormula && target.isWeakTo(attacker.element)) atk += 4;
+		if (Globals.BUG_FIXES && target.isWeakTo(attacker.element)) {
+			atk += 4;
+		}
 		
 		// If target is asleep or paralyzed, A = A*5/4
 		if (target.checkForStatus(Status.Asleep) || target.checkForStatus(Status.Paralyzed)) {
@@ -66,8 +70,8 @@ class AttackManager {
 		// Damage = A...2A - D
 		// Critical Damage = (A...2A) + (A...2A - D)
 		// Both (A...2A) is same value
-		var damageRoll:Int = FlxG.random.int(atk, atk * 2);
-		var damage:Int = damageRoll - target.defense;
+		var damageRoll = FlxG.random.int(atk, atk * 2);
+		var damage = damageRoll - target.defense;
 		if (crit) damage += damageRoll;
 		
 		// Minimum damage is 1
@@ -84,27 +88,23 @@ class AttackManager {
 	 */
 	public static function checkForHit(attacker:Monster, target:Monster):Bool {
 		// Base Chance to Hit
-		var BC:Int = 168;
+		var BC = 168;
 		if (attacker.checkForStatus(Status.Blind)) BC -= 40;
 		if (target.checkForStatus(Status.Blind)) BC += 40;
 		
 		// If target is weak to the attack, BC += 40
 		// NES bug ignores this addition
-		if (!useOriginalFormula && target.isWeakTo(attacker.element)) {
+		if (Globals.BUG_FIXES && target.isWeakTo(attacker.element)) {
 			BC += 40;
 		}
 		
 		// Calculating chance to hit...
-		// NES formula
-		// - Chance = (BC + H) - E
-		// -- (BC + H) is capped at 255
-		// - If target is asleep/paralyzed, Chance = BC
-		// Fixed formula
-		// - Chance = BC + H - E
-		// - If target asleep/paralyzed: Chance = BC + H
 		var chanceToHit:Int;
-		if (useOriginalFormula) {
-			// Use NES formula
+		if (!Globals.BUG_FIXES) {
+			// NES formula
+			// - Chance = (BC + H) - E
+			// -- (BC + H) is capped at 255
+			// - If target is asleep/paralyzed, Chance = BC
 			if (target.checkForStatus(Status.Asleep) || target.checkForStatus(Status.Paralyzed)) {
 				chanceToHit = BC;
 			}
@@ -115,7 +115,9 @@ class AttackManager {
 			}
 		}
 		else {
-			// Use fixed formula
+			// Fixed formula
+			// - Chance = BC + H - E
+			// - If target asleep/paralyzed: Chance = BC + H
 			chanceToHit = BC + attacker.accuracy;
 			// Subtract evasion if the target is neither asleep nor paralyzed
 			if (!target.checkForStatus(Status.Asleep) && !target.checkForStatus(Status.Paralyzed)) {
@@ -126,17 +128,17 @@ class AttackManager {
 		// 0 always hits, 200 always misses
 		if (chanceToHit < 0) chanceToHit = 0;
 		var hitRoll = FlxG.random.int(0, 200);
+		
 		if (hitRoll == 200) return false;
 		if (hitRoll <= chanceToHit) return true;
-		
 		return false;
 	}
 	
 	/**
 	 * Check if an attack lands a critical hit
 	 * 
-	 * @param	attacker
-	 * @return	Whether the attack was a critical hit or not
+	 * @param	attacker	Monster who is attacking
+	 * @return				Whether the attack was a critical hit or not
 	 */
 	private static function checkForCritical(attacker:Monster):Bool {
 		// Critical Rate = Weapon Index Number
@@ -145,18 +147,18 @@ class AttackManager {
 		
 		// 0 always hits, 200 always misses
 		var hitRoll = FlxG.random.int(0, 200);
+		
 		if (hitRoll == 200) return false;
 		if (hitRoll <= critRate) return true;
-		
 		return false;
 	}
 	
 	/**
 	 * Check if an attack applies a status effect
 	 * 
-	 * @param	attacker
-	 * @param	target
-	 * @return	Whether the attack applied a status effect or not
+	 * @param	attacker	Monster who is attacking
+	 * @param	target		Monster being targeted by attack
+	 * @return				Whether the attack applied a status effect or not
 	 */
 	public static function statusAttack(attacker:Monster, target:Monster):Bool {
 		/*
@@ -193,6 +195,7 @@ class AttackManager {
 		// Chance to inflict
 		var chanceToHit = BC - target.magicDefense;
 		var hitRoll = FlxG.random.int(0, 200);
+		
 		if (hitRoll <= chanceToHit) return true;
 		return false;
 	}

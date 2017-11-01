@@ -143,10 +143,10 @@ class Monster extends FlxSprite {
 			if (FlxG.random.int(0, 128) <= spellChance) {
 				// Check for silence and wasting a turn attempting to cast
 				if (checkForStatus(Status.Silenced)) {
-					return { actionType: ActionType.StatusEffect, actionName: "Silence" };
+					return { actionType: ActionType.STATUS_EFFECT, actionName: "Silence" };
 				}
 				
-				action.actionType = Action.ActionType.Spell;
+				action.actionType = Action.ActionType.SPELL;
 				action.actionName = spells[spellIndex++];
 				if (spellIndex >= spells.length) spellIndex = 0;
 				return action;
@@ -157,10 +157,10 @@ class Monster extends FlxSprite {
 			if (FlxG.random.int(0, 128) <= skillChance) {
 				// Check for silence and wasting a turn attempting to cast
 				if (checkForStatus(Status.Silenced)) {
-					return { actionType: ActionType.StatusEffect, actionName: "Silence" };
+					return { actionType: ActionType.STATUS_EFFECT, actionName: "Silence" };
 				}
 				
-				action.actionType = Action.ActionType.Skill;
+				action.actionType = Action.ActionType.SKILL;
 				action.actionName = skills[skillIndex++];
 				if (skillIndex >= skills.length) skillIndex = 0;
 				return action;
@@ -168,13 +168,13 @@ class Monster extends FlxSprite {
 		}
 		
 		// Default attack action
-		action.actionType = Action.ActionType.Attack;
+		action.actionType = Action.ActionType.ATTACK;
 		action.actionName = "attack";
 		return action;
 	}
 	
 	private function statusCheck():Action {
-		var statusAction:Action = { actionType: Action.ActionType.StatusEffect, actionName: "SETME" };
+		var statusAction:Action = { actionType: Action.ActionType.STATUS_EFFECT, actionName: "SETME" };
 		var curedFlag:Bool = false;
 		var statusFlag:Bool = false;
 		
