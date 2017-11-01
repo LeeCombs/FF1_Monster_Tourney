@@ -132,11 +132,11 @@ class PlayState extends FlxState {
 	private function toggleBattle():Void {
 		runBattle = !runBattle;
 		if (runBattle) {
-			logManager.addEntry("Start Battle", MessageType.System);
+			logManager.addEntry("Start Battle", MessageType.SYSTEM);
 			optionsBox.startStopButton.text = "Pause";
 		}
 		else {
-			logManager.addEntry("Pause Battle", MessageType.System);
+			logManager.addEntry("Pause Battle", MessageType.SYSTEM);
 			optionsBox.startStopButton.text = "Start";
 		}
 	}
@@ -146,7 +146,7 @@ class PlayState extends FlxState {
 	 */
 	private function resetBattle():Void {
 		runBattle = false;
-		logManager.addEntry("Reset Battle", MessageType.System);
+		logManager.addEntry("Reset Battle", MessageType.SYSTEM);
 		optionsBox.startStopButton.text = "Start";
 		
 		// Clear and re-set the scenes
@@ -369,14 +369,14 @@ class PlayState extends FlxState {
 			case ActionType.Attack:
 				// Grab a single, random target from the target scene
 				targetQueue.push(getMonsterTarget(targetScene.getMonsters(), targetScene.sceneType));
-				logManager.addEntry(monster.name + " attacks " + targetQueue[0].name, MessageType.Combat);
+				logManager.addEntry(monster.name + " attacks " + targetQueue[0].name, MessageType.COMBAT);
 			case ActionType.Spell, ActionType.Skill:
 				var skillSpell:SkillSpell = SkillSpellManager.getSkillSpellByName(action.actionName);
 				if (skillSpell == null) {
 					trace("Invalid spell retrieved: " + skillSpell);
 					return null;
 				}
-				logManager.addEntry(monster.name + " casts " + skillSpell.name, MessageType.Combat);
+				logManager.addEntry(monster.name + " casts " + skillSpell.name, MessageType.COMBAT);
 				
 				// Build the target queue as dictated by the skillSpell's targetting
 				switch(skillSpell.target) {
@@ -458,7 +458,7 @@ class PlayState extends FlxState {
 		// Check for monster termination
 		if (monster.checkForStatus(Status.Petrified) || monster.checkForStatus(Status.Death) || monster.hp < 0) {
 			messageQueue.push([resultTextBox, "Terminated"]);
-			logManager.addEntry(monster.name + " is Terminated", MessageType.None);
+			logManager.addEntry(monster.name + " is Terminated", MessageType.NONE);
 			monster.removeSelf();
 		}
 	}

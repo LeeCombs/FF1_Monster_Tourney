@@ -10,7 +10,9 @@ import flixel.ui.FlxButton;
 import flixel.util.FlxDestroyUtil;
 
 enum MessageType {
-	None; Combat; System;
+	NONE;
+	COMBAT;
+	SYSTEM;
 }
 
 /**
@@ -21,11 +23,10 @@ class LogManager extends FlxGroup {
 	private var y:Int;
 	
 	// Text displays
-	private var arrayTracker:Int = 0;
+	private var arrayTracker = 0;
 	private var textGroup:FlxTypedGroup<FlxText>;
-	
-	private var numOfEntries:Int = 20; // How many events to keep track of
-	private var numOfDisplays:Int = 5; // How many events to display
+	private var numOfEntries = 20; // How many events to keep track of
+	private var numOfDisplays = 5; // How many events to display
 	private var infoArray:Array<Array<Dynamic>>; // [[Text, Type],...]
 	
 	// Sprite Objects
@@ -37,18 +38,18 @@ class LogManager extends FlxGroup {
 	/**
 	 * Creation Function
 	 * 
-	 * @param	X				X Position
-	 * @param	Y				Y Position
-	 * @param	NumOfEntries	How many log entries to display at a time
-	 * @param	NumOfEntries	How many log entries to keep track of
+	 * @param	x
+	 * @param	y
+	 * @param	numOfEntries	How many log entries to display at a time
+	 * @param	numOfEntries	How many log entries to keep track of
 	 */
-	override public function new(X:Int = 0, Y:Int = 0, ?NumOfDisplays:Int = 5, ?NumOfEntries:Int = 20):Void {
+	override public function new(x:Int = 0, y:Int = 0, numOfDisplays:Int = 5, numOfEntries:Int = 20):Void {
 		super();
 		
-		x = X;
-		y = Y;
-		numOfEntries = NumOfEntries > 0 ? NumOfEntries : 20; // Ensure there are some number of entries to track
-		numOfDisplays = NumOfDisplays > 0 ? NumOfDisplays : 5; // Ensure there are some number of entries to display
+		this.x = x;
+		this.y = y;
+		this.numOfEntries = numOfEntries > 0 ? numOfEntries : 20; // Ensure there are some number of entries to track
+		this.numOfDisplays = numOfDisplays > 0 ? numOfDisplays : 5; // Ensure there are some number of entries to display
 		
 		// Ensure there aren't more displays than there are entries
 		if (numOfEntries < numOfDisplays) {
@@ -70,7 +71,7 @@ class LogManager extends FlxGroup {
 		infoArray = new Array<Array<Dynamic>>();
 		for (i in 0...numOfEntries) {
 			infoArray[i] = new Array<Dynamic>();
-			infoArray[i] = [" ", MessageType.None];
+			infoArray[i] = [" ", MessageType.NONE];
 		}
 		
 		// Create the FlxText objects that will display on screen
@@ -78,7 +79,7 @@ class LogManager extends FlxGroup {
 		add(textGroup);
 		
 		for (i in 0...numOfDisplays) {
-			var text:FlxText = new FlxText(x + 10, y - 1 + i * 10, 290, " ");
+			var text = new FlxText(x + 10, y - 1 + i * 10, 290, " ");
 			text.color = FlxColor.WHITE;
 			textGroup.add(text);
 		}
@@ -101,9 +102,7 @@ class LogManager extends FlxGroup {
 	 */
 	public function newGameText():Void {
 		clearEntries();
-		
-		infoArray[0] = ["Press Start to begin!", MessageType.None];
-		
+		infoArray[0] = ["Press Start to begin!", MessageType.NONE];
 		updateDisplay();
 	}
 	
@@ -111,13 +110,13 @@ class LogManager extends FlxGroup {
 	 * Add a string to the textGroup. It will add it to the top and cycle the other text down
 	 * DOES NOT check for valid width, make sure to check each input
 	 * 
-	 * @param	MessageString	The string to display
-	 * @param	MsgType			The type of message: None, System, Combat, Event
+	 * @param	messageString	The string to display
+	 * @param	messageType		The type of message: NONE, SYSTEM, COMBAT, etc.
 	 */
-	public function addEntry(MessageString:String, MsgType:MessageType):Void {
+	public function addEntry(messageString:String, messageType:MessageType):Void {
 		// Ensure there are at least default values
-		if (MessageString == null) MessageString = " ";
-		if (MsgType == null) MsgType = MessageType.None;
+		if (messageString == null) messageString = " ";
+		if (messageType == null) messageType = MessageType.NONE;
 		
 		// Iterate bottom-up and set each array element to the one above it
 		for (i in 0...19) {
@@ -125,7 +124,7 @@ class LogManager extends FlxGroup {
 		} 
 		
 		// Set the first elements
-		infoArray[0] = [MessageString, MsgType];
+		infoArray[0] = [messageString, messageType];
 		
 		// Set the FlxText objects to display the new text
 		updateDisplay();
@@ -137,7 +136,7 @@ class LogManager extends FlxGroup {
 	public function clearEntries():Void {
 		// Set the arrays as defaults and update the display
 		for (i in 0...20) {
-			infoArray[i] = ["", MessageType.None];
+			infoArray[i] = ["", MessageType.NONE];
 		}
 		updateDisplay();
 	}
@@ -153,12 +152,9 @@ class LogManager extends FlxGroup {
 			
 			// Set text color based on Message Type
 			switch(infoArray[arrayTracker + i][1]) {
-				case MessageType.None:
-					flxText.color = FlxColor.WHITE;
-				case MessageType.Combat:
-					flxText.color = FlxColor.PINK;
-				case MessageType.System:
-					flxText.color = FlxColor.BLUE.getLightened(0.4);
+				case MessageType.NONE:   flxText.color = FlxColor.WHITE;
+				case MessageType.COMBAT: flxText.color = FlxColor.PINK;
+				case MessageType.SYSTEM: flxText.color = FlxColor.BLUE.getLightened(0.4);
 				default:
 					FlxG.log.warn('Invalid message type given: $infoArray[arrayTracker + i][1]');
 					flxText.color = FlxColor.WHITE;
@@ -201,6 +197,7 @@ class LogManager extends FlxGroup {
 		bgSprite = FlxDestroyUtil.destroy(bgSprite);
 		upButton = FlxDestroyUtil.destroy(upButton);
 		downButton = FlxDestroyUtil.destroy(downButton);
+		scrollbarSprite = FlxDestroyUtil.destroy(scrollbarSprite);
 		super.destroy();
 	}
 	
