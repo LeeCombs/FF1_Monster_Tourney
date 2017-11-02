@@ -3,11 +3,11 @@
 	their .csv counterparts through http://www.convertcsv.com/csv-to-json.htm
 	
 	If using that site, ensure these options are selected:
-		First row is column names
-		Input CSV Quoting Character is Apostrophe
-		Consider value of NULL in CSV to be null in JSON
-		Do Not output field/value pair if value is empty
-		Recreate nest objects and arrays (Headings use /)
+	-	First row is column names
+	-	Input CSV Quoting Character is Apostrophe
+	-	Consider value of NULL in CSV to be null in JSON
+	-	Do Not output field/value pair if value is empty
+	-	Recreate nest objects and arrays (Headings use /)
 	
 	The types, spells, skills, etc. arrays are in the format of '[0, 1, 2]' and
 	are to be converted into appropriate arrays upon loading the data 

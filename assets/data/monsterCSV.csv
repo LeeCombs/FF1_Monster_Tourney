@@ -80,7 +80,7 @@ id,name,hp,attack,accuracy,hits,critical,defense,evasion,magicDefense,morale,sta
 79,ANKYLO,352,98,88,1,1,48,48,156,144,null,null,null,null,null,0,null,0,null,1,2610,medium
 80,MUMMY,80,30,20,1,1,20,24,60,172,Sleep,Status,'[Undead]','[Fire]','[Status,Psn/Stn,Death,Ice]',0,null,0,null,300,300,small
 81,WzMUMMY,188,43,47,1,1,24,24,95,148,Sleep,Psn/Stn,'[Undead]','[Fire]','[Status,Psn/Stn,Death,Ice]',0,null,0,null,1000,984,small
-82,COCTRICE,50,1,10,1,1,4,72,47,124,Petrifiy,Psn/Stn,null,null,'[Earth]',0,null,0,null,200,186,small
+82,COCTRICE,50,1,10,1,1,4,72,47,124,Petrify,Psn/Stn,null,null,'[Earth]',0,null,0,null,200,186,small
 83,PERILISK,44,20,11,1,1,4,72,45,124,null,null,null,'[Ice]','[Fire,Earth]',0,null,32,'[SQUINT,SQUINT,SQUINT,SQUINT]',500,423,small
 84,WYVERN,212,30,53,1,1,12,96,115,150,Poison,Psn/Stn,'[Dragon]',null,'[Earth]',0,null,0,null,50,1173,medium
 85,WYRM,260,40,65,1,1,22,60,131,150,null,null,'[Dragon]',null,'[Earth]',0,null,0,null,50,1173,medum

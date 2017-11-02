@@ -2036,7 +2036,7 @@
    "evasion": 72,
    "magicDefense": 47,
    "morale": 124,
-   "statusAttack": "Petrifiy",
+   "statusAttack": "Petrify",
    "element": "Psn/Stn",
    "type": null,
    "weaknesses": null,

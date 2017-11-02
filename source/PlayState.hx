@@ -100,8 +100,8 @@ class PlayState extends FlxState {
 		add(logManager);
 		
 		// Add monsters
-		playerOneScene.loadMonsters("B;PHANTOM,GrNAGA,ASTOS,FIGHTER,MAGE,SORCERER,SORCERER,FIGHTER");
-		playerTwoScene.loadMonsters("B;WarMECH,FrGIANT,FrWOLF,FrWOLF,FrWOLF,FrWOLF,FrWOLF,FrWOLF");
+		playerOneScene.loadMonsters("A;COCTRICE,COCTRICE,COCTRICE,COCTRICE,COCTRICE,COCTRICE,COCTRICE,COCTRICE,COCTRICE");
+		playerTwoScene.loadMonsters("A;COCTRICE,COCTRICE,COCTRICE,COCTRICE,COCTRICE,COCTRICE,COCTRICE,COCTRICE,COCTRICE");
 		
 		// Testing
 		var sceneOneGold = 0;

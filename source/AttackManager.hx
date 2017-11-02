@@ -23,7 +23,10 @@ class AttackManager {
 		// Total damage from an attack is the sum of all hits
 		var damageSum = 0;
 		var totalHits = 0;
+		
 		var critFlag = false;
+		var successfulHit = false; // For tracking status-touch effect attempts...
+		
 		for (i in 0...hits) {
 			// Get damage for successful hits
 			var crit = checkForCritical(attacker);
@@ -32,6 +35,21 @@ class AttackManager {
 			if (checkForHit(attacker, target)) {
 				totalHits++;
 				damageSum += getDamage(attacker, target, crit);
+				successfulHit = true;
+				
+				// Upon hits, attempt to apply a status-touch effect, if there is one
+				if (attacker.statusAttack != null && attacker.statusAttack != "") {
+					statusAttack(attacker, target);
+				}
+			}
+			else {
+				// NES Bug. Even on misses, if there's a successful hit previously, attempt to
+				// apply a status-touch effect, if there is one
+				if (!Globals.BUG_FIXES && successfulHit) {
+					if (attacker.statusAttack != null && attacker.statusAttack != "") {
+						statusAttack(attacker, target);
+					}
+				}
 			}
 		}
 		target.damage(damageSum);
@@ -196,7 +214,31 @@ class AttackManager {
 		var chanceToHit = BC - target.magicDefense;
 		var hitRoll = FlxG.random.int(0, 200);
 		
-		if (hitRoll <= chanceToHit) return true;
+		if (hitRoll == 200) return false;
+		if (hitRoll <= chanceToHit) {
+			trace("status hit: " + attacker.statusAttack);
+			trace("hitting: " + target.name);
+			switch(attacker.statusAttack.toUpperCase()) {
+				case "PARALYZE":
+					target.addStatus(Status.PARALYZED);
+				case "POISON":
+					target.addStatus(Status.POISONED);
+				case "BLIND":
+					target.addStatus(Status.BLIND);
+				case "PETRIFY":
+					target.addStatus(Status.PETRIFIED);
+				case "SLEEP":
+					target.addStatus(Status.ASLEEP);
+				case "DEATH":
+					target.addStatus(Status.DEATH);
+				default:
+					FlxG.log.warn("Invalid statusAttack: " + attacker.statusAttack);
+					return false;
+			}
+			return true;
+		}
+		
+		// Miss
 		return false;
 	}
 }
