@@ -9,14 +9,15 @@ You can see it in action here: https://floating-bayou-94012.herokuapp.com/
 Clone the project locally
 
 Supply your own monster sprites, music, and battle sound effects
-* Monster sprites live in the assets/images/Monsters/ directory
+* Monster Sprites in assets/images/Monsters/ 
+* Music in /assets/music/
+* Sound effects in /assets/sounds/
 
 Compile and run
 
 ## Upcoming
 
-* Rework battle logic to follow the original game's flow properly
-* Complete skill logic
-* Add status-touch attacks
-* Flesh out spells and skills
-* Add the ability to create and set monster teams to battle against each other
+SceneBuilder <-> PlayState switching
+Clipboard access for copy/pasting monster team strings
+Bug Fix toggle. Finish applying original NES bugs to monster stats, battle logic
+Cleanup, error checking, etc.
