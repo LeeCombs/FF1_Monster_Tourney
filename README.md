@@ -17,7 +17,7 @@ Compile and run
 
 ## Upcoming
 
-SceneBuilder <-> PlayState switching
-Clipboard access for copy/pasting monster team strings
-Bug Fix toggle. Finish applying original NES bugs to monster stats, battle logic
-Cleanup, error checking, etc.
+* SceneBuilder <-> PlayState switching
+* Clipboard access for copy/pasting monster team strings
+* Bug Fix toggle. Finish applying original NES bugs to monster stats, battle logic
+* Cleanup, error checking, etc.
