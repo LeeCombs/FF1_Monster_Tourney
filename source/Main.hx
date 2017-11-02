@@ -9,13 +9,6 @@ import tests.*;
 
 class Main extends Sprite {
 	public function new() {
-		// Run tests
-		#if debug
-			var r = new TestRunner();
-			r.add(new BattleSceneTest());
-			r.run();
-		#end
-		
 		// Initializer the managers
 		MonsterManager.loadData();
 		SkillSpellManager.loadData();
