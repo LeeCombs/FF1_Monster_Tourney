@@ -93,6 +93,7 @@ class PlayState extends FlxState {
 		add(optionsBox);
 		optionsBox.setStartStopCallback(toggleBattle);
 		optionsBox.setResetCallback(resetBattle);
+		optionsBox.setLoadCallback(loadMonsters);
 		optionsBox.speedCheckBox.callback = toggleSpeed;
 		
 		// Log
@@ -100,8 +101,7 @@ class PlayState extends FlxState {
 		add(logManager);
 		
 		// Add monsters
-		playerOneScene.loadMonsters("A;COCTRICE,COCTRICE,COCTRICE,COCTRICE,COCTRICE,COCTRICE,COCTRICE,COCTRICE,COCTRICE");
-		playerTwoScene.loadMonsters("A;COCTRICE,COCTRICE,COCTRICE,COCTRICE,COCTRICE,COCTRICE,COCTRICE,COCTRICE,COCTRICE");
+		loadMonsters();
 		
 		// Testing
 		var sceneOneGold = 0;
@@ -133,6 +133,7 @@ class PlayState extends FlxState {
 	 * Start/Stop the battle
 	 */
 	private function toggleBattle():Void {
+		if (!playerOneScene.checkForMonsters() || !playerTwoScene.checkForMonsters()) return;
 		runBattle = !runBattle;
 		if (runBattle) {
 			logManager.addEntry("Start Battle", MessageType.SYSTEM);
@@ -142,6 +143,15 @@ class PlayState extends FlxState {
 			logManager.addEntry("Pause Battle", MessageType.SYSTEM);
 			optionsBox.startStopButton.text = "Start";
 		}
+	}
+	
+	/**
+	 * Clear and populate the battle scenes
+	 */
+	private function loadMonsters():Void {
+		resetBattle();
+		playerOneScene.loadMonsters(optionsBox.teamOneInput.text);
+		playerTwoScene.loadMonsters(optionsBox.teamTwoInput.text);
 	}
 	
 	/**
@@ -155,8 +165,6 @@ class PlayState extends FlxState {
 		// Clear and re-set the scenes
 		playerOneScene.clearScene();
 		playerTwoScene.clearScene();
-		playerOneScene.loadMonsters("B;PHANTOM,GrNAGA,ASTOS,FIGHTER,MAGE,SORCERER,SORCERER,FIGHTER");
-		playerTwoScene.loadMonsters("B;WarMECH,FrGIANT,FrWOLF,FrWOLF,FrWOLF,FrWOLF,FrWOLF,FrWOLF");
 		
 		// Clear up the text displays
 		textBoxStack = [];

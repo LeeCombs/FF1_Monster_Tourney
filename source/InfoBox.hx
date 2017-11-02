@@ -33,10 +33,10 @@ class InfoBox extends FlxGroup {
 		turnTextBox.displayText("Turn: 0");
 		add(turnTextBox);
 		
-		teamOneText = new FlxText(x, y + 50, 0, "Team 1\nTotal EXP:  0\nTotal Gold: 0");
+		teamOneText = new FlxText(x, y + 30, 0, "Team 1\nTotal EXP:  0\nTotal Gold: 0");
 		add(teamOneText);
 		
-		teamTwoText = new FlxText(x + 100, y + 50, 0, "Team 2\nTotal EXP:  0\nTotal Gold: 0");
+		teamTwoText = new FlxText(x + 100, y + 30, 0, "Team 2\nTotal EXP:  0\nTotal Gold: 0");
 		add(teamTwoText);
 	}
 	
