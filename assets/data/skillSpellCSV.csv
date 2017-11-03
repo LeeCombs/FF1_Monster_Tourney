@@ -15,7 +15,7 @@ id,name,effectivity,accuracy,element,target,effect,price,successMessage
 0C,INVS,40,0,,Single Ally,Evasion Up,400,Easy to dodge
 0D,ICE,20,24,Ice,Single Enemy,Damage,400,
 0E,DARK,Blind,24,Status,All Enemies,Status Ailment,400,Darkness
-0F,TMPR,14,0,,Single Ally,Attack/Accuracy Up,400,Weapons Stronger
+0F,TMPR,14,0,,Single Ally,Attack/Accuracy Up,400,Weapons stronger
 10,SLOW,0,64,Status,All Enemies,Hit Multiplier Down,400,Lost intelligence
 
 11,CUR2,33,0,,Single Ally,HP Recovery,1500,HP up!
@@ -41,7 +41,7 @@ id,name,effectivity,accuracy,element,target,effect,price,successMessage
 23,HRM3,60,24,,All Enemies,Damage Undead,8000,
 24,HEL2,48,0,,All Allies,HP Recovery,8000,HP up!
 25,FIR3,50,24,Fire,All Enemies,Damage,8000,
-26,BANE,Death,40,Psn/Stn,All Enemies,Status Ailment,8000,Poison Smoke
+26,BANE,Death,40,Psn/Stn,All Enemies,Status Ailment,8000,Poison smoke
 27,WARP,0,255,,All Allies,Nine,8000,
 28,SLO2,0,64,,Single Enemy,Hit Multiplier Down,8000,Lost intelligence
 
@@ -68,7 +68,7 @@ id,name,effectivity,accuracy,element,target,effect,price,successMessage
 3B,WALL,ALL,0,,Single Ally,Resist Element,60000,Defend all
 3C,XFER,0,107,,Single Enemy,Remove Resistance,60000,Defenseless
 3D,NUKE,100,107,,All Enemies,Damage,60000,
-3E,STOP,Paralyze,48,Time,All Enemies,Status Ailment,60000,Time Stopped
+3E,STOP,Paralyze,48,Time,All Enemies,Status Ailment,60000,Time stopped
 3F,ZAP!,Death,32,Time,All Enemies,Status Ailment,60000,Exiled to the 4th dimension
 40,XXXX,Death,0,Death,Single Enemy,Status Ailment,60000,Erased
 
@@ -78,7 +78,7 @@ id,name,effectivity,accuracy,element,target,effect,price,successMessage
 43,FROST,24,32,Ice,All Targets,Damage,0,
 44,HEAT,12,32,Fire,All Targets,Damage,0,
 45,GLANCE,Petrify,5,Psn/Stn,Single Target,Status Ailment,0,Stopped
-46,GAZE,Paralyze,0,Status,Single Target,Status Ailment,0,ADD MESSAGE HERE
+46,GAZE,Paralyze,0,Status,Single Target,Status Ailment,0,Paralyzed
 47,FLASH,Blind,24,Status,All Targets,Status Ailment,0,Darkness
 48,SCORCH,7,32,Fire,All Targets,Damage,0,
 49,CRACK,Death,16,Earth,All Targets,Status Ailment,0,Slain...
@@ -89,8 +89,8 @@ id,name,effectivity,accuracy,element,target,effect,price,successMessage
 4E,BLAZE,64,32,Fire,All Targets,Damage,0,
 4F,INFERNO,96,32,Fire,All Targets,Damage,0,
 50,CREMATE,24,32,Fire,All Targets,Damage,0,
-51,POISON,Petrify,5,Psn/Stn,All Targets,Status Ailment,0,ADD MESSAGE HERE
-52,TRANCE,Paralyze,0,,All Targets,Status Ailment,0,ADD MESSAGE HERE
+51,POISON,Petrify,5,Psn/Stn,All Targets,Status Ailment,0,Stopped
+52,TRANCE,Paralyze,0,,All Targets,Status Ailment,0,Paralyzed
 53,POISON-B,68,32,Psn/Stn,All Targets,Damage,0,
 54,THUNDER,76,32,Lightning,All Targets,Damage,0,
 55,TOXIC,Death,0,Death,All Targets,Status Ailment,0,Slain...

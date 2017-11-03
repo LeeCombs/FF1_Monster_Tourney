@@ -162,7 +162,7 @@
    "target": "Single Ally",
    "effect": "Attack/Accuracy Up",
    "price": 400,
-   "successMessage": "Weapons Stronger"
+   "successMessage": "Weapons stronger"
  },
  {
    "id": "10",
@@ -415,7 +415,7 @@
    "target": "All Enemies",
    "effect": "Status Ailment",
    "price": 8000,
-   "successMessage": "Poison Smoke"
+   "successMessage": "Poison smoke"
  },
  {
    "id": "27",
@@ -679,7 +679,7 @@
    "target": "All Enemies",
    "effect": "Status Ailment",
    "price": 60000,
-   "successMessage": "Time Stopped"
+   "successMessage": "Time stopped"
  },
  {
    "id": "3F",
@@ -767,7 +767,7 @@
    "target": "Single Target",
    "effect": "Status Ailment",
    "price": 0,
-   "successMessage": "ADD MESSAGE HERE"
+   "successMessage": "Paralyzed"
  },
  {
    "id": "47",
@@ -888,7 +888,7 @@
    "target": "All Targets",
    "effect": "Status Ailment",
    "price": 0,
-   "successMessage": "ADD MESSAGE HERE"
+   "successMessage": "Stopped"
  },
  {
    "id": "52",
@@ -899,7 +899,7 @@
    "target": "All Targets",
    "effect": "Status Ailment",
    "price": 0,
-   "successMessage": "ADD MESSAGE HERE"
+   "successMessage": "Paralyzed"
  },
  {
    "id": "53",
