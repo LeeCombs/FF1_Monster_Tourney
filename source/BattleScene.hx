@@ -90,7 +90,6 @@ class BattleScene extends FlxGroup {
 			if (mon == null) continue;
 			
 			// Attempt to add the monster to the scene. If there's a problem, destroy it and carry on
-			var index = i;
 			if (addMonster(mon, i)) {
 				mon.setScene(this);
 			}

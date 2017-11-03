@@ -102,23 +102,6 @@ class PlayState extends FlxState {
 		
 		// Add monsters
 		loadMonsters();
-		
-		// Testing
-		var sceneOneGold = 0;
-		var sceneOneEXP = 0;
-		for (m in playerOneScene.getMonsters()) {
-			sceneOneGold += m.gold;
-			sceneOneEXP += m.exp;
-		}
-		infoBox.setTeamStats(1, sceneOneGold, sceneOneEXP);
-		var sceneTwoGold = 0;
-		var sceneTwoEXP = 0;
-		for (m in playerTwoScene.getMonsters()) {
-			sceneTwoGold += m.gold;
-			sceneTwoEXP += m.exp;
-		}
-		infoBox.setTeamStats(2, sceneTwoGold, sceneTwoEXP);
-		
 	}
 	
 	/**
@@ -152,6 +135,24 @@ class PlayState extends FlxState {
 		resetBattle();
 		playerOneScene.loadMonsters(optionsBox.teamOneInput.text);
 		playerTwoScene.loadMonsters(optionsBox.teamTwoInput.text);
+		
+		// TODO: Temp. Clean this up
+		var sceneOneGold = 0;
+		var sceneOneEXP = 0;
+		for (m in playerOneScene.getMonsters()) {
+			if (m == null) continue;
+			sceneOneGold += m.gold;
+			sceneOneEXP += m.exp;
+		}
+		infoBox.setTeamStats(1, sceneOneGold, sceneOneEXP);
+		var sceneTwoGold = 0;
+		var sceneTwoEXP = 0;
+		for (m in playerTwoScene.getMonsters()) {
+			if (m == null) continue;
+			sceneTwoGold += m.gold;
+			sceneTwoEXP += m.exp;
+		}
+		infoBox.setTeamStats(2, sceneTwoGold, sceneTwoEXP);
 	}
 	
 	/**

@@ -91,13 +91,16 @@ class Monster extends FlxSprite {
 		statusAttack = monData.statusAttack;
 		element = monData.element;
 		types = monData.types;
+		if (types == null) types = [];
 		weaknesses = monData.weaknesses;
 		if (weaknesses == null) weaknesses = [];
 		resistances = monData.resistances;
 		if (resistances == null) resistances = [];
 		spells = monData.spells;
+		if (spells == null) spells = [];
 		spellChance = monData.spellChance;
 		skills = monData.skills;
+		if (skills == null) skills = [];
 		skillChance = monData.skillChance;
 		gold = monData.gold;
 		exp = monData.exp;
