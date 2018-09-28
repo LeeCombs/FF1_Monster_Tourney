@@ -640,7 +640,7 @@
  {
    "id": "3B",
    "name": "WALL",
-   "effectivity": "ALL",
+   "effectivity": "WALL",
    "accuracy": 0,
    "element": "",
    "target": "Single Ally",
